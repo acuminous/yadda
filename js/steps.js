@@ -1,6 +1,6 @@
-var stepHolder = new StepHolder();
+var steps = new StepHolder();
 
-stepHolder.addStep("Stand up", function() {
+steps.addStep("Stand up", function() {
 	console.log("Stand up");
 })
 

@@ -14,7 +14,18 @@
  * limitations under the License.
  */
 
-StepHolder = function(stepFactory) {
+Yadda = function(stepHolder) {
+
+    this.stepHolder = stepHolder
+
+    this.yadda = function(steps) {
+        for (var i = 0; i < steps.length; i++) {
+            stepHolder.runStep(steps[i]);
+        }
+    }
+}
+
+StepHolder = function() {
     this.steps = {};
 
     this.addStep = function(template, callable, ctx) {
@@ -116,7 +127,7 @@ Step = function(template, callable, ctx) {
 
     this.bind = function(callable, scope) {
         return function() {
-            return callable.apply(scope, arguments);
+            return callable.apply(scope, arguments[0]);
         }
     };
 
