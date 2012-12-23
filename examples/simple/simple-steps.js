@@ -8,6 +8,10 @@ steps.addStep("Stand up", function() {
 	document.write("<li>Sit down</li>");
 })
 
+.addStep("Sing \\(quietly\\)", function() {
+	document.write("<li>Sing (quietly)</li>");
+})
+
 .addStep("Stand up (\\d+) times", function(number) {
 	for (var i = 1; i <= number; i++) {
 		document.write("<li>Stand up " + i + "</li>");
@@ -37,4 +41,5 @@ steps.addStep("Stand up", function() {
 		document.write("<li>Sing " + i + "</li>");
 	}
 })
+
 ;
