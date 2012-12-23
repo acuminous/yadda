@@ -48,6 +48,16 @@ YaddaUtil = {
 Steps = function() {
     this.steps = {};
 
+    this.importSteps = function(steps) {
+
+        for (var key in steps.steps) {
+            var candidateStep = steps.steps[key];
+            this.addStep(candidateStep.template, candidateStep.callable, candidateStep.ctx);
+        };
+
+        return this;
+    };
+
     this.addStep = function(template, callable, ctx) {
         
         if (YaddaUtil.isArray(template)) {

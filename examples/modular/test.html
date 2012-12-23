@@ -1,0 +1,21 @@
+<html>
+	<head>
+		<script src="../../src/js/yadda.js"></script>
+		<script src="./beer-steps.js"></script>
+		<script src="./food-steps.js"></script>
+		<script type="text/javascript">
+
+var steps = new Steps();
+steps.importSteps(beerSteps)
+	 .importSteps(foodSteps);
+
+new Yadda(steps).yadda().yadda().yadda([
+	"Drink beer",
+	"and eat food"
+]);
+		</script>
+	</head>
+	<body>
+				
+	</body>
+</html>
