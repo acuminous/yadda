@@ -30,7 +30,7 @@ steps.addStep("When I open Google's (.+) search page", function(locale) {
 })
 
 .addStep("(?:then|and) (\\d+) or more results were returned", function(number) {
-    casper.test.assertEval(function() {
+    casper.test.assertEval(function(number) {
         return __utils__.findAll('h3.r').length >= number;
-    }, 'google search retrieves ' + number + ' or more results');		
+    }, 'google search retrieves ' + number + ' or more results', [number]);		
 });
