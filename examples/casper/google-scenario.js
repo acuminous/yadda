@@ -9,7 +9,7 @@ casper.yadda([
 	"and the search form exists",
 
 	"When I search for foo",
-	"then the title is foo - Recherche Google",
+	"then the title is foo - Google Search",
 	"and the search for foo was made",
 	"and 10 or more results were returned"
 ]);
