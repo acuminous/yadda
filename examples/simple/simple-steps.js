@@ -1,6 +1,6 @@
-var steps = new Steps();
+var steps = new Steps()
 
-steps.addStep("Stand up", function() {
+.addStep("Stand up", function() {
 	document.write("<li>Stand up</li>");
 })
 

@@ -1,12 +1,12 @@
+require('../../src/js/yadda');
+
 exports.create = function create() {
 	return steps;
 }
 
-require('../../src/js/yadda');
+steps = new Steps()
 
-steps = new Steps();
-
-steps.addStep("When I open Google's (.+) search page", function(locale) {
+.addStep("When I open Google's (.+) search page", function(locale) {
 	casper.open("http://www.google." + locale + "/");
 })
 
