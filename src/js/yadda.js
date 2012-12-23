@@ -14,23 +14,43 @@
  * limitations under the License.
  */
 
-Yadda = function(stepHolder) {
+Yadda = function(steps) {
 
-    this.stepHolder = stepHolder
+    this.steps = steps;
+    this.yadda = this;
 
-    this.yadda = function(steps) {
-        for (var i = 0; i < steps.length; i++) {
-            stepHolder.runStep(steps[i]);
-        }
+    this.prime = function(steps) {
+        this.steps = steps
+    }
+
+    this.yadda = function(text) {
+        if (text == undefined) {
+            return this;
+        } else if (YaddaUtil.isArray(text)) {
+            for (var i = 0; i < text.length; i++) {
+                this.yadda(text[i]);
+            }
+        } else {
+            steps.runStep(text);
+        }        
     }
 }
 
-StepHolder = function() {
+YaddaUtil = {
+    isArray: function(obj) {
+        return (obj.constructor.toString().indexOf("Array") != -1)
+    },
+    toArray: function(obj) {
+        return Array.prototype.slice.call(obj);
+    }     
+}
+
+Steps = function() {
     this.steps = {};
 
     this.addStep = function(template, callable, ctx) {
         
-        if (this.isArray(template)) {
+        if (YaddaUtil.isArray(template)) {
             return this.addSteps(template, callable, ctx);
         }
 
@@ -86,10 +106,6 @@ StepHolder = function() {
             throw 'Undefined step [' + text + ']';
         }
         return step.run(text);
-    };
-
-    this.isArray = function(obj) {
-        return (obj.constructor.toString().indexOf("Array") != -1)
     };
 };
 
