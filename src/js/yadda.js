@@ -16,7 +16,7 @@
 
 Yadda = function(steps) {
 
-    this.steps = steps;
+    this.steps = steps ? steps : new Steps();
     this.yadda = this;
 
     this.prime = function(steps) {
@@ -58,6 +58,18 @@ Steps = function() {
         return this;
     };
 
+    this.given = function(template, callable, ctx) {
+        return this.addStep("(?:[Gg]iven|[Aa]nd|[Bb]ut) " + template, callable, ctx);
+    };
+
+    this.when = function(template, callable, ctx) {
+        return this.addStep("(?:[Ww]hen|[Aa]nd|[Bb]ut) " + template, callable, ctx);
+    };
+
+    this.then = function(template, callable, ctx) {
+        return this.addStep("(?:[Tt]hen|[Aa]nd|[Bb]ut) " + template, callable, ctx);
+    };
+
     this.addStep = function(template, callable, ctx) {
         
         if (YaddaUtil.isArray(template)) {
@@ -82,12 +94,12 @@ Steps = function() {
         }      
 
         return this;  
-    }
+    };
 
     this.findStep = function(text) {
         var highScore = -1;
         var bestMatch;
-        var conflictingStep;
+        var alternativeMatch;
 
         for (var template in this.steps) {
 
@@ -97,14 +109,14 @@ Steps = function() {
             if (candidateScore > highScore) {
                 highScore = candidateScore;
                 bestMatch = candidateStep;
-                conflictingStep = undefined;
+                alternativeMatch = undefined;
             } else if (candidateScore == highScore) {
-                conflictingStep = candidateStep;
+                alternativeMatch = candidateStep;
             }
         }
 
-        if (bestMatch && conflictingStep) {
-           throw '[' + bestMatch.template + '] conflicts with [' + conflictingStep.template + '] for [' + text + ']';
+        if (bestMatch && alternativeMatch) {
+           throw 'Unable to determine which of [' + bestMatch.template + '] or [' + alternativeMatch.template + '] is more likely for [' + text + ']';
         }
 
         return bestMatch;
@@ -130,11 +142,12 @@ Step = function(template, callable, ctx) {
 
     this.init = function() {
         this.createScoringTemplate();
+        this.ctx['_step'] = this;
         return this;
     };
 
     this.createScoringTemplate = function() {
-        this.scoringTemplate = this.template.replace(this.allRegExGroups, '');
+        this.scoringTemplate = this.template.replace(/[^\w\s]/g, '');
     }
 
     this.score = function(text) {
