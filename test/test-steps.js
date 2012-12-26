@@ -5,7 +5,7 @@ var steps = new Steps()
 	shared.yadda = new Yadda();	
 })
 
-.when("(?:Dirk adds|adds) a (?:new test|test) step, '(.+)'", function(template) {
+.when("(?:Dirk adds|adds) (?:a|another) test step, '(.+)'", function(template) {
 	shared.executions[template] = 0;
 	shared.yadda.steps.addStep(template, function() {
 		shared.executions[template]++;
