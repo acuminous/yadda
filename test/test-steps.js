@@ -6,14 +6,15 @@ var steps = new Steps()
 })
 
 .when("(?:Dirk adds|adds) (?:a|another) test step, '(.+)'", function(template) {
-	shared.executions[template] = 0;
+	shared.executions[template] = [];
 	shared.yadda.steps.addStep(template, function() {
-		shared.executions[template]++;
+		var executions = shared.executions[template];
+		executions[executions.length] = arguments;
 	});
 })
 
 .then("(?:Dirk|he) is prevented from adding a conflicting test step, '(.+)'", function(template) {
-	var existing = shared.yadda.steps.findStep(template);
+	var existing = shared.yadda.steps.steps[template];
 	try {		
 		shared.yadda.steps.addStep(template, function() {});
 	 	throw "Conflicting step was not reported";
@@ -26,9 +27,8 @@ var steps = new Steps()
 	shared.yadda.steps.runStep(text);
 })
 
-.then("'(.+)' is executed (\\d) time(?:s)?", function(text, number) {
-	var step = shared.yadda.steps.findStep(text);
-	ok(shared.executions[step.template] == number);
+.then("'(.+)' is executed (\\d) time(?:s)?", function(template, number) {
+	ok(shared.executions[template].length == number);
 })
 
 .then("(?:Dirk|he) is prevented from running an ambiguous test step, '(.+)'", function(text) {
@@ -38,4 +38,14 @@ var steps = new Steps()
 	} catch (e) {
 		ok(e.match("Unable to determine which of .+ or .+ is more likely for \\[" + text + "]"));
 	}
+})
+
+.then ("'(.+)' is invoked with arguments (\\d+) and (\\d+)", function(template, arg1, arg2) {
+	var executions = shared.executions[template];
+	ok(executions.length > 0);
+
+	var lastExecution = executions[executions.length - 1];
+	ok(lastExecution.length == 2);
+	ok(lastExecution[0] == arg1);
+	ok(lastExecution[1] == arg2);
 })

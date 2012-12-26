@@ -9,6 +9,15 @@ test('Developer runs a test step', function() {
     ])
 });
 
+test('Developer uses regex groups to define test step arguments', function() {
+	yadda.yadda([
+		"Given a new Yadda instance",
+		"when Dirk adds a test step, 'count up to (\\d+) and down to (\\d+)'",
+		"and runs 'count up to 10 and down to 5'",
+		"then 'count up to (\\d+) and down to (\\d+)' is invoked with arguments 10 and 5"
+	])
+})
+
 test('Developer adds a conflicting literal test step', function() {
 	yadda.yadda([
 		"Given a new Yadda instance",
@@ -45,5 +54,3 @@ test('Developer runs a test step with an ambiguous template, where a best match 
 		"then 'Given pirate (.+) old parrot has green feathers' is executed 1 time"
 	])
 });
-
-// Literals
