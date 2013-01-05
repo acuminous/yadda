@@ -11,7 +11,6 @@ exports.create = function create(steps) {
 	    	}
 	    } else {
 	    	this.then(function() {
-				console.log(text);
 				steps.runStep(text);
 			});
 	    }
