@@ -4,7 +4,7 @@ var steps = new Steps()
 	wall = new Wall(bottles);
 })
 
-.when("one green bottle should accidentally fall", function(i) {	
+.when("one green bottle should accidentally fall", function() {	
     wall.dropBottle();
 })
 
