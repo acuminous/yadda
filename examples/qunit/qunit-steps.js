@@ -22,7 +22,7 @@ var steps = new Steps()
 })
 
 .then("an insufficient bottles error is raised", function() {
-    ok(error == "Insufficient bottlesx");
+    ok(error == "Insufficient bottles");
 })
 
 .then("Donnie Darko receives a visit from a very scary rabbit", function() {
