@@ -18,7 +18,7 @@ test('Developer uses regex groups to define test step arguments', function() {
 	])
 });
 
-test('Developer adds variables to the execution context', function() {
+test('Developer adds a scenario scoped variable to the execution context', function() {
 	yadda.yadda([
 		"Expect the execution context to contain a variable 'name' with value 'Fred'",
 		"and the execution context to still contain a variable 'name' with value 'Fred'"
