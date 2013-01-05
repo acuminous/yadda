@@ -1,6 +1,6 @@
-exports.create = function create(steps) {
+exports.create = function create(steps, incoming_casper) {
 
-	var casper = require('casper').create();
+	var casper = incoming_casper ? incoming_casper : require('casper').create();
 
 	casper.yadda = function(text) {
 		if (text == undefined) {
