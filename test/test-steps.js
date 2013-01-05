@@ -5,6 +5,12 @@ var steps = new Steps()
 	shared.yadda = new Yadda();	
 })
 
+.given('a new Yadda instance with step options (.+)', function(optionsString) {
+	var options = JSON.parse(optionsString.replace(/'/g,'"'));
+	var steps = new Steps(options);
+	shared.yadda = new Yadda(steps);	
+})
+
 .when("(?:Dirk adds|adds) (?:a|another) test step, '(.+)'", function(template) {
 	shared.executions[template] = [];
 	shared.yadda.steps.addStep(template, function() {
@@ -40,6 +46,15 @@ var steps = new Steps()
 	}
 })
 
+.then("'(.+)' is invoked with argument (\\d+)", function(template, arg1) {
+	var executions = shared.executions[template];
+	ok(executions.length > 0);
+
+	var lastExecution = executions[executions.length - 1];
+	ok(lastExecution.length == 1);
+	ok(lastExecution[0] == arg1);
+})
+
 .then("'(.+)' is invoked with arguments (\\d+) and (\\d+)", function(template, arg1, arg2) {
 	var executions = shared.executions[template];
 	ok(executions.length > 0);
@@ -48,6 +63,17 @@ var steps = new Steps()
 	ok(lastExecution.length == 2);
 	ok(lastExecution[0] == arg1);
 	ok(lastExecution[1] == arg2);
+})
+
+.then("'(.+)' is invoked with arguments (\\d+), (\\d+) and (\\d+)", function(template, arg1, arg2, arg3) {
+	var executions = shared.executions[template];
+	ok(executions.length > 0);
+
+	var lastExecution = executions[executions.length - 1];
+	ok(lastExecution.length == 3);
+	ok(lastExecution[0] == arg1);
+	ok(lastExecution[1] == arg2);
+	ok(lastExecution[2] == arg3);
 })
 
 .then("the execution context (?:to|to still) contain a variable '(.+)' with value '(.+)'", function(key, value) {

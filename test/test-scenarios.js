@@ -18,6 +18,38 @@ test('Developer uses regex groups to define test step arguments', function() {
 	])
 });
 
+test('Developer uses placeholders to define test step arguments', function() {
+	yadda.yadda([
+		"Given a new Yadda instance with step options {'prefix': '$'}",
+		"when Dirk adds a test step, 'count up to $upper and down to $lower'",
+		"and runs 'count up to 10 and down to 5'",
+		"then 'count up to $upper and down to $lower' is invoked with arguments 10 and 5",
+
+		"when Dirk adds a test step, '\$number is the magic number'",
+		"and runs '10 is the magic number'",
+		"then '$number is the magic number' is invoked with argument 10"
+	])
+});
+
+test('Developer escapes placeholder prefix', function() {
+	yadda.yadda([
+		"Given a new Yadda instance with step options {'prefix': '$'}",
+		"when Dirk adds a test step, '\\$$amount1 plus \\$$amount2 is \\$$total'",
+		"and runs '$10 plus $10 is $20'",
+		"then '\\$$amount1 plus \\$$amount2 is \\$$total' is invoked with arguments 10, 10 and 20"
+	])
+});
+
+
+test('Developer uses an alternative prefix to idenfify placeholders', function() {
+	yadda.yadda([
+		"Given a new Yadda instance with step options {'prefix': '&'}",
+		"when Dirk adds a test step, 'count up to &upper and down to &lower'",
+		"and runs 'count up to 10 and down to 5'",
+		"then 'count up to &upper and down to &lower' is invoked with arguments 10 and 5"
+	])
+});
+
 test('Developer adds a scenario scoped variable to the execution context', function() {
 	yadda.yadda([
 		"Expect the execution context to contain a variable 'name' with value 'Fred'",

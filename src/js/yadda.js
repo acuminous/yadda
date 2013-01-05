@@ -41,10 +41,15 @@ YaddaUtil = {
     },
     toArray: function(obj) {
         return Array.prototype.slice.call(obj);
+    },
+    escapeRegex: function(text) {
+        return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
     }     
 }
 
-Steps = function() {
+Steps = function(options) {
+
+    this.options = options ? options : {};
     this.steps = {};
 
     this.importSteps = function(steps) {
@@ -75,6 +80,11 @@ Steps = function() {
             return this.addSteps(template, callable, stepContext);
         }
 
+        if (this.options.prefix) {
+            template = this.subsitutePlaceholdersWithWildcards(template);
+            console.log(template);
+        }
+
         var candidateStep = new Step(template, callable, stepContext).init();
         var conflictingStep = this.steps[candidateStep.template];
 
@@ -93,6 +103,12 @@ Steps = function() {
         }      
 
         return this;  
+    };
+
+    this.subsitutePlaceholdersWithWildcards = function(template) {
+        var escapedPrefix = YaddaUtil.escapeRegex(this.options.prefix);
+        var allPlaceholders = new RegExp('(^|[^\\\\])' + escapedPrefix + '[^ ]+', 'g');
+        return template.replace(allPlaceholders, '$1(.+)');
     };
 
     this.findStep = function(text) {
