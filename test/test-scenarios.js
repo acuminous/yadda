@@ -16,7 +16,14 @@ test('Developer uses regex groups to define test step arguments', function() {
 		"and runs 'count up to 10 and down to 5'",
 		"then 'count up to (\\d+) and down to (\\d+)' is invoked with arguments 10 and 5"
 	])
-})
+});
+
+test('Developer adds variables to the execution context', function() {
+	yadda.yadda([
+		"Expect the execution context to contain a variable 'name' with value 'Fred'",
+		"and the execution context to still contain a variable 'name' with value 'Fred'"
+	], {name: 'Fred'})
+});
 
 test('Developer adds a conflicting literal test step', function() {
 	yadda.yadda([
@@ -34,7 +41,7 @@ test('Developer adds a conflicting regex test step', function() {
 	])
 });
 
-test('Developer attempts to runs a test step with an ambiguous template, where a best match cannot be determined', function() {
+test('Developer attempts to run a test step with an ambiguous template, where a best match cannot be determined', function() {
 	yadda.yadda([
 		"Given a new Yadda instance",
 		"when Dirk adds a test step, 'Blah (.+) blah'",
@@ -49,8 +56,11 @@ test('Developer runs a test step with an ambiguous template, where a best match 
 		"when Dirk adds a test step, 'Given pirate (.+) parrot has green feathers'",
 		"and adds another test step, 'Given pirate (.+) old parrot has green feathers'",
 		"and runs 'Given pirate Rob\'s parrot has green feathers'",
+		"then 'Given pirate (.+) parrot has green feathers' is executed 1 time",
+		"but 'Given pirate (.+) old parrot has green feathers' is executed 0 times",
+
+		"when Dirk runs 'Given pirate Rob\'s old parrot has green feathers' is run'",
 		"then 'Given pirate (.+) parrot has green feathers' is executed 1 time",		
-		"but when Dirk runs 'Given pirate Rob\'s old parrot has green feathers' is run'",
-		"then 'Given pirate (.+) old parrot has green feathers' is executed 1 time"
+		"and 'Given pirate (.+) old parrot has green feathers' is executed 1 time"
 	])
 });

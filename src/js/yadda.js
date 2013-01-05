@@ -23,15 +23,15 @@ Yadda = function(steps) {
         this.steps = steps
     }
 
-    this.yadda = function(text) {
+    this.yadda = function(text, executionCtx) {
         if (text == undefined) {
             return this;
         } else if (YaddaUtil.isArray(text)) {
             for (var i = 0; i < text.length; i++) {
-                this.yadda(text[i]);
+                this.yadda(text[i], executionCtx);
             }
         } else {
-            steps.runStep(text);
+            steps.runStep(text, executionCtx);
         }        
     }
 }
@@ -52,31 +52,31 @@ Steps = function() {
 
         for (var key in steps.steps) {
             var candidateStep = steps.steps[key];
-            this.addStep(candidateStep.template, candidateStep.callable, candidateStep.ctx);
+            this.addStep(candidateStep.template, candidateStep.callable, candidateStep.stepContext);
         };
 
         return this;
     };
 
-    this.given = function(template, callable, ctx) {
-        return this.addStep("(?:[Gg]iven|[Aa]nd|[Bb]ut) " + template, callable, ctx);
+    this.given = function(template, callable, stepContext) {
+        return this.addStep("(?:[Gg]iven|[Aa]nd|[Bb]ut) " + template, callable, stepContext);
     };
 
-    this.when = function(template, callable, ctx) {
-        return this.addStep("(?:[Ww]hen|[Aa]nd|[Bb]ut) " + template, callable, ctx);
+    this.when = function(template, callable, stepContext) {
+        return this.addStep("(?:[Ww]hen|[Aa]nd|[Bb]ut) " + template, callable, stepContext);
     };
 
-    this.then = function(template, callable, ctx) {
-        return this.addStep("(?:[Tt]hen|[Aa]nd|[Bb]ut) " + template, callable, ctx);
+    this.then = function(template, callable, stepContext) {
+        return this.addStep("(?:[Tt]hen|[Ee]xpect|[Aa]nd|[Bb]ut) " + template, callable, stepContext);
     };
-
-    this.addStep = function(template, callable, ctx) {
+    
+    this.addStep = function(template, callable, stepContext) {
         
         if (YaddaUtil.isArray(template)) {
-            return this.addSteps(template, callable, ctx);
+            return this.addSteps(template, callable, stepContext);
         }
 
-        var candidateStep = new Step(template, callable, ctx).init();
+        var candidateStep = new Step(template, callable, stepContext).init();
         var conflictingStep = this.steps[candidateStep.template];
 
         if (conflictingStep) {
@@ -88,9 +88,9 @@ Steps = function() {
         return this;
     };
 
-    this.addSteps = function(templates, callable, ctx) {
+    this.addSteps = function(templates, callable, stepContext) {
         for (var i = 0; i < templates.length; i++) {
-            this.addStep(templates[i], callable, ctx);
+            this.addStep(templates[i], callable, stepContext);
         }      
 
         return this;  
@@ -122,18 +122,18 @@ Steps = function() {
         return bestMatch;
     };
 
-    this.runStep = function(text) {
+    this.runStep = function(text, executionCtx) {
         var step = this.findStep(text);
         if (!step) {
             throw 'Undefined step [' + text + ']';
         }
-        return step.run(text);
+        return step.run(text, executionCtx);
     };
 };
 
-Step = function(template, callable, ctx) {
+Step = function(template, callable, stepCtx) {
 
-    this.ctx = ctx ? ctx : {};
+    this.stepCtx = stepCtx ? stepCtx : {};
     this.allRegExGroups = new RegExp('\\([^\\)]+\\)', 'g');
     this.template = template;
     this.callable = callable;
@@ -142,7 +142,7 @@ Step = function(template, callable, ctx) {
 
     this.init = function() {
         this.createScoringTemplate();
-        this.ctx['_step'] = this;
+        this.stepCtx['_step'] = this;
         return this;
     };
 
@@ -159,9 +159,18 @@ Step = function(template, callable, ctx) {
         return score;
     };
 
-    this.run = function(text) {
+    this.run = function(text, executionCtx) {
         this.parseArguments(text);
-        this.bind(this.callable, this.ctx)(this.parsedArguments);
+        var ctx = {};
+        for (key in this.stepContext) {
+            var entry = this.stepContext[key];
+            ctx[key] = entry;
+        }
+        for (key in executionCtx) {
+            var entry = executionCtx[key]
+            ctx[key] = entry;
+        }
+        this.bind(this.callable, ctx)(this.parsedArguments);
     };
 
     this.bind = function(callable, scope) {

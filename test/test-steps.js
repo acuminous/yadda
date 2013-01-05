@@ -40,7 +40,7 @@ var steps = new Steps()
 	}
 })
 
-.then ("'(.+)' is invoked with arguments (\\d+) and (\\d+)", function(template, arg1, arg2) {
+.then("'(.+)' is invoked with arguments (\\d+) and (\\d+)", function(template, arg1, arg2) {
 	var executions = shared.executions[template];
 	ok(executions.length > 0);
 
@@ -48,4 +48,9 @@ var steps = new Steps()
 	ok(lastExecution.length == 2);
 	ok(lastExecution[0] == arg1);
 	ok(lastExecution[1] == arg2);
+})
+
+.then("the execution context (?:to|to still) contain a variable '(.+)' with value '(.+)'", function(key, value) {
+	ok(this[key] != undefined);
+	ok(this[key] == value);
 })
