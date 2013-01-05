@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>QUnit Example</title>
+	<link rel="stylesheet" href="./lib/qunit-1.10.0.css">
+	<script src="../../src/js/yadda.js"></script>
+	<script src="./lib/qunit-1.10.0.js"></script>	
+	<script src="./qunit-steps.js"></script>
+	<script type="text/javascript">
+
+test("A bottle falls from the wall", function() {
+	new Yadda(steps).yadda([
+		"Given 100 green bottles are standing on the wall",
+		"when one green bottle should accidentally fall",
+		"then there are 99 green bottles standing on the wall"
+	]);
+});
+
+test("There are insufficient bottles to fall from the wall", function() {
+	new Yadda(steps).yadda([
+		"Given 0 green bottles are standing on the wall",
+		"when one too many green bottles should accidentally fall",
+		"then an insufficient bottles error is raised",
+		"and Donnie Darko receives a visit from a very scary rabbit"		
+	]);
+});
+
+	</script>
+</head>
+<body>
+  <div id="qunit"></div>
+</body>
+</html>
