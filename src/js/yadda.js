@@ -17,7 +17,6 @@
 Yadda = function(steps) {
 
     this.steps = steps ? steps : new Steps();
-    this.yadda = this;
 
     this.prime = function(steps) {
         this.steps = steps
