@@ -11,6 +11,7 @@ exports.create = function create(steps, incoming_casper) {
 	    	}
 	    } else {
 	    	this.then(function() {
+	    		casper.test.info(text);
 				steps.runStep(text);
 			});
 	    }
