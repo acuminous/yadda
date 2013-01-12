@@ -6,7 +6,7 @@ Yadda is BDD library for javascript. It integrates with other javascript testing
 
 ### Step 1 - Pick your testing framework (e.g. QUnit)
 
-```js
+```html
 <html>
     <head>
         <link rel="stylesheet" href="./lib/qunit.css">
@@ -25,7 +25,7 @@ Yadda is BDD library for javascript. It integrates with other javascript testing
 
 ### Step 2 - Implement your test using yadda
 
-```js
+```html
 <html>
     <head>
         <link rel="stylesheet" href="./lib/qunit.css">
@@ -51,7 +51,7 @@ Yadda is BDD library for javascript. It integrates with other javascript testing
 
 ### Step 3 - Implement the test steps
 
-```js
+```html
 <html>
     <head>
         <link rel="stylesheet" href="./lib/qunit.css">
