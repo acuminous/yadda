@@ -19,6 +19,15 @@ var steps = new Steps()
 	});
 })
 
+.when("(?:Dirk adds|adds) (?:a|another) test step, /(.+)/", function(template) {
+	var regex = new RegExp(template);
+	shared.executions[template] = [];
+	shared.yadda.steps.addStep(regex, function() {
+		var executions = shared.executions[template];
+		executions[executions.length] = arguments;
+	});
+})
+
 .then("(?:Dirk|he) is prevented from adding a conflicting test step, '(.+)'", function(template) {
 	var existing = shared.yadda.steps.steps[template];
 	try {		

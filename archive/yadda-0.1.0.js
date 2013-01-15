@@ -36,6 +36,9 @@ Yadda = function(steps) {
 }
 
 YaddaUtil = {
+    isRegExp: function(obj) {
+        return (obj.constructor.toString().indexOf("RegExp") != -1)
+    },
     isArray: function(obj) {
         return (obj.constructor.toString().indexOf("Array") != -1)
     },
@@ -78,11 +81,12 @@ Steps = function(options) {
         
         if (YaddaUtil.isArray(template)) {
             return this.addSteps(template, callable, stepContext);
+        } else if (YaddaUtil.isRegExp(template)) {
+            template = template.toString().slice(1, -1);
         }
 
         if (this.options.prefix) {
             template = this.subsitutePlaceholdersWithWildcards(template);
-            console.log(template);
         }
 
         var candidateStep = new Step(template, callable, stepContext).init();

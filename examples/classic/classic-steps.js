@@ -1,4 +1,11 @@
-var steps = new Steps()
+var dictionary = new Yadda.Dictionary()
+    .define('Given', /(?:[Gg]iven|[Aa]nd|[Bb]ut) /)
+
+
+var library = new Yadda.Library()
+    .define(/\$Given a wall with (\d+)) bottles/, function() {
+
+    })
 
 .given("that I like repetitive, mechanical test specifications", function() {
 	document.write("<li>Mmmm, mechanical</li>");

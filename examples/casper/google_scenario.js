@@ -1,5 +1,9 @@
-var steps = require('./google-steps').create();
-var casper = require('../../src/js/yadda-casper').create(steps);
+require('../../src/js/yadda-0.2.0');
+
+var google_library = require('./google_library').create();
+var yadda = new Yadda(google_library);
+
+var casper = require('../../src/js/yadda-casper').create(yadda);
 
 casper.start();
 

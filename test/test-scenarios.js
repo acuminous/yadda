@@ -1,6 +1,6 @@
 var yadda = new Yadda(steps);
 
-test('Developer runs a test step', function() {
+test('Developer runs a test step that is defined as a string', function() {
 	yadda.yadda([
 	    "Given a new Yadda instance",
 	    "when Dirk adds a test step, 'Blah blah blah'",
@@ -8,6 +8,15 @@ test('Developer runs a test step', function() {
 	    "then 'Blah blah blah' is executed 1 time"
     ])
 });
+
+test('Developer runs a test step that is defined as a regex', function() {
+	yadda.yadda([
+		"Given a new Yadda instance",
+		"when Dirk adds a test step, /Blah blah blah/",
+		"and runs 'Blah blah blah'",
+		"then 'Blah blah blah' is executed 1 time"
+	])
+})
 
 test('Developer uses regex groups to define test step arguments', function() {
 	yadda.yadda([

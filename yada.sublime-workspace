@@ -7,19 +7,94 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "src/js/yadda-0.1.js",
+			"settings":
+			{
+				"buffer_size": 4136,
+				"line_ending": "Unix",
+				"name": "yadda-0.1.js"
+			}
+		},
+		{
+			"file": "test/catalog_tests.js",
+			"settings":
+			{
+				"buffer_size": 2138,
+				"line_ending": "Unix",
+				"name": "catalog_tests.js"
+			}
+		},
+		{
+			"file": "test/step_template_tests.js",
+			"settings":
+			{
+				"buffer_size": 226,
+				"line_ending": "Unix",
+				"name": "step_template_tests.js"
+			}
+		},
+		{
+			"file": "src/js/yadda.js",
+			"settings":
+			{
+				"buffer_size": 7968,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "test/step_tests.js",
+			"settings":
+			{
+				"buffer_size": 806,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "testem.json",
+			"settings":
+			{
+				"buffer_size": 179,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 0.0,
+		"height": 392.0,
 		"selected_items":
 		[
+			[
+				"M",
+				"Markdown Preview: preview in Browser"
+			],
+			[
+				"Mark",
+				"Markdown Preview: preview in Browser"
+			],
+			[
+				"markdo",
+				"Markdown Preview: open Markdown Cheat sheet"
+			],
+			[
+				"Markd",
+				"Markdown Preview: preview in Browser"
+			],
+			[
+				"Markdown",
+				"Markdown Preview: preview in Sublime Text"
+			],
+			[
+				"Markdo",
+				"Markdown Preview: preview in Browser"
+			]
 		],
-		"width": 0.0
+		"width": 575.0
 	},
 	"console":
 	{
-		"height": 0.0
+		"height": 139.0
 	},
 	"distraction_free":
 	{
@@ -32,6 +107,34 @@
 	},
 	"file_history":
 	[
+		"/Users/steve/Projects/yadda/yadda/test/step_tests.js",
+		"/Users/steve/Projects/yadda/yadda/testem.json",
+		"/Users/steve/Projects/yadda/yadda/qunitrunner.html",
+		"/Users/steve/Projects/yadda/yadda/README.md",
+		"/Users/steve/Library/Application Support/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/Users/steve/Library/Application Support/Sublime Text 2/Packages/Markdown Preview/MarkdownPreview.sublime-settings",
+		"/Users/steve/Projects/yadda/yadda/examples/qunit/qunit-steps.js",
+		"/Users/steve/Projects/yadda/yadda/test/test-scenarios.js",
+		"/Users/steve/Projects/yadda/yadda/test/test-steps.js",
+		"/Users/steve/Projects/yadda/yadda/src/js/yadda.js",
+		"/Users/steve/Projects/yadda/yadda/examples/simple/simple-steps.js",
+		"/Users/steve/Projects/yadda/yadda/examples/simple/test.html",
+		"/Users/steve/Library/Application Support/Sublime Text 2/Packages/Markdown Preview/sample.md",
+		"/Users/steve/Projects/yadda/yadda/examples/placeholders/test.html",
+		"/Users/steve/Projects/yadda/yadda/examples/placeholders/placeholders-steps.js",
+		"/Users/steve/Projects/yadda/yadda/examples/qunit/test.html",
+		"/Users/steve/Library/Application Support/Sublime Text 2/Packages/User/Distraction Free.sublime-settings",
+		"/Users/steve/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/Users/steve/Library/Application Support/Sublime Text 2/Packages/User/HTML.sublime-settings",
+		"/Users/steve/Projects/yadda/yadda/examples/modular/test.html",
+		"/Users/steve/Projects/yadda/yadda/examples/classic/test.html",
+		"/Users/steve/Projects/yadda/yadda/src/js/yadda-casper.js",
+		"/Users/steve/Projects/yadda/yadda/test/step-scenarios.js",
+		"/Users/steve/Projects/yadda/yadda/examples/classic/classic-steps.js",
+		"/Users/steve/Projects/yadda/yadda/examples/modular/beer-steps.js",
+		"/Users/steve/Projects/yadda/yadda/examples/modular/food-steps.js",
+		"/Users/steve/Projects/yadda/yadda/test/tests.js",
+		"/Users/steve/Projects/yadda/yadda/test/testem.json",
 		"/Users/steve/Projects/simon/simon/js/test.js"
 	],
 	"find":
@@ -43,6 +146,7 @@
 		"height": 0.0,
 		"where_history":
 		[
+			""
 		]
 	},
 	"find_state":
@@ -50,6 +154,33 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"Yadda.Catalog",
+			"find_candidates",
+			".run",
+			"candidates",
+			".equals",
+			"ident",
+			"create_ste",
+			".step",
+			"\"",
+			"match",
+			"toArray",
+			"RegEx",
+			"isArray",
+			"console.log",
+			"markdown",
+			"console.",
+			"console.log",
+			"Developer attempts to runs a ",
+			"attempts",
+			"ctx",
+			"conflicts",
+			"addStep",
+			"match",
+			"addStep",
+			"template",
+			"allReg",
+			"create",
 			"console.log",
 			"prefix",
 			"console.log",
@@ -73,6 +204,9 @@
 		"regex": false,
 		"replace_history":
 		[
+			"Yadda.TemplateCatalog",
+			"find_all_candidates",
+			"'"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -83,8 +217,176 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "src/js/yadda-0.1.js",
+					"settings":
+					{
+						"buffer_size": 4136,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								912,
+								912
+							]
+						],
+						"settings":
+						{
+							"auto_name": "yadda-0.1.js",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "test/catalog_tests.js",
+					"settings":
+					{
+						"buffer_size": 2138,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1548,
+								1548
+							]
+						],
+						"settings":
+						{
+							"auto_name": "catalog_tests.js",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 336.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "test/step_template_tests.js",
+					"settings":
+					{
+						"buffer_size": 226,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								126,
+								126
+							]
+						],
+						"settings":
+						{
+							"auto_name": "step_template_tests.js",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/js/yadda.js",
+					"settings":
+					{
+						"buffer_size": 7968,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3256,
+								3256
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 765.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "test/step_tests.js",
+					"settings":
+					{
+						"buffer_size": 806,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								546,
+								546
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "testem.json",
+					"settings":
+					{
+						"buffer_size": 179,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								172,
+								172
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -121,7 +423,7 @@
 	"menu_visible": true,
 	"replace":
 	{
-		"height": 0.0
+		"height": 64.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -144,6 +446,6 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 150.0,
+	"side_bar_width": 195.0,
 	"status_bar_visible": true
 }

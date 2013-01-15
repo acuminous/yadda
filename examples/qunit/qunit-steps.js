@@ -1,4 +1,4 @@
-var steps = new Steps()
+var library = new Library();
 
 .given("(\\d+) green bottles are standing on the wall", function(bottles) {
 	wall = new Wall(bottles);

@@ -1,8 +1,7 @@
 {
     "framework": "qunit",
     "src_files": [
-	    "src/js/yadda.js",
-	    "test/test-steps.js",
-	    "test/test-scenarios.js"
+	    "src/js/yadda-0.2.0.js",
+        "test/*_tests.js"
   	]
 }
