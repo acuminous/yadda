@@ -199,6 +199,8 @@ Yadda.Competition = function(step, macros) {
 
     this.results = [];
 
+    var by_score = function(r1, r2) { return r2.score.beats(r1.score); };
+
     this.clear_winner = function() {
         if (this.number_of_competitors() == 0) throw 'Undefined Step: [' + step + ']';
         if (this.joint_first_place()) throw 'Ambiguous Step: [' + step + ']';
@@ -220,11 +222,7 @@ Yadda.Competition = function(step, macros) {
     this.rank = function(step, macros) {
         this.results = macros.collect(function(macro) {
             return { macro: macro, score: new Yadda.LevenshteinDistanceScore(step, macro.levenshtein_signature()) }
-        }).sort( this.by_score );
-    };
-
-    this.by_score = function(r1, r2) {
-        return r2.score.beats(r1.score);
+        }).sort( by_score );
     };
 
     this.rank(step, Yadda.Util.ensure_array(macros));
