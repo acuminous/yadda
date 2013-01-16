@@ -2,6 +2,7 @@
     "framework": "qunit",
     "src_files": [
 	    "src/js/yadda-0.2.0.js",
+        "src/js/yadda-0.2.0-localisation.js",
         "test/*_tests.js"
   	]
 }

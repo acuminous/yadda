@@ -66,16 +66,25 @@ Yadda.Library = function(dictionary) {
     this.dictionary = dictionary ? dictionary : new Yadda.Dictionary();
     this.macros = Yadda.Util.ensure_array([]);
 
-    this.define = function(signature, fn, ctx) {
-        if (this.get_macro(signature)) throw 'Duplicate macro: [' + signature + ']';
-        this.macros.push(new Yadda.Macro(signature, this.dictionary.expand(signature), fn, ctx));
-        return this;
+    var _this = this;
+
+    this.define = function(signatures, fn, ctx) {
+        Yadda.Util.ensure_array(signatures).each(function(signature) {
+            _this.define_macro(signature, fn, ctx);
+        });
+        return this;        
     };
 
-    this.get_macro = function(signature) {
-        return this.macros.find(function(other_macro) {
+    this.define_macro = function(signature, fn, ctx) {
+        if (this.get_macro(signature)) throw 'Duplicate macro: [' + signature + ']';
+        this.macros.push(new Yadda.Macro(signature, this.dictionary.expand(signature), fn, ctx));
+    }
+
+    this.get_macro = function(signature) {        
+        var found = this.macros.find(function(other_macro) {
             return other_macro.is_identified_by(signature);
         });
+        return found;
     };
 
     this.find_compatible_macros = function(step) {
@@ -386,7 +395,6 @@ Yadda.RegularExpression = function(pattern_or_regexp) {
 
     this.init(pattern_or_regexp);
 };
-
 
 // Utility functions
 Yadda.Util = {
