@@ -86,12 +86,12 @@ Yadda.Library = function(dictionary) {
 };
 
 // Understands a step
-Yadda.Macro = function(signature, signature_pattern, code, ctx) {    
+Yadda.Macro = function(signature, signature_pattern, fn, ctx) {    
     
-    this.init = function(signature, signature_pattern, code, ctx) {
+    this.init = function(signature, signature_pattern, fn, ctx) {
         this.signature = this.normalise(signature);
         this.signature_pattern = new Yadda.RegularExpression(signature_pattern);
-        this.code = code;
+        this.fn = fn;
         this.environment = new Yadda.Environment(ctx);
     }
 
@@ -106,7 +106,7 @@ Yadda.Macro = function(signature, signature_pattern, code, ctx) {
     this.interpret = function(step, ctx) {    
         var args = this.signature_pattern.groups(step);
         var env = this.environment.merge(ctx);
-        var fn = Yadda.Util.bind(env.ctx, this.code);
+        var fn = Yadda.Util.bind(env.ctx, this.fn);
         return fn(args);
     };
 
@@ -122,7 +122,7 @@ Yadda.Macro = function(signature, signature_pattern, code, ctx) {
         return this.signature;
     };
 
-    this.init(signature, signature_pattern, code, ctx)
+    this.init(signature, signature_pattern, fn, ctx)
 };
 
 // Understands definitions of terms
