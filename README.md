@@ -13,7 +13,7 @@ Yadda is BDD library for javascript. It integrates with other javascript testing
         <script src="./lib/qunit.js"></script>   
         <script>
             test("100 green bottles", function() {
-                // TODO 
+                // TODO - Write the test
             });
         </script>
     </head>
@@ -30,15 +30,14 @@ Yadda is BDD library for javascript. It integrates with other javascript testing
     <head>
         <link rel="stylesheet" href="./lib/qunit.css">
         <script src="./lib/qunit.js"></script>   
-        <script src="./lib/yadda.js"></script>
+        <script src="./lib/yadda-0.2.0.js"></script>
+        <script src="./lib/yadda-0.2.0-localisation.js"></script>
         <script>
-            var steps = new Steps();
-            var yadda = new Yadda(steps);
             test("100 green bottles", function() {
-                yadda.yadda([
-                    "given that there are 100 green bottles sitting on the wall",
-                    "when 1 bottle accidentally falls",
-                    "then there should be 99 green bottles sitting on the wall"
+                new Yadda.yadda(/* TODO - Create the step library */).yadda([
+                    "Given 100 green bottles are standing on the wall",
+                    "when 1 green bottle accidentally falls",
+                    "then there are 99 green bottles standing on the wall"
                 ]);
             });
         </script>
@@ -56,28 +55,27 @@ Yadda is BDD library for javascript. It integrates with other javascript testing
     <head>
         <link rel="stylesheet" href="./lib/qunit.css">
         <script src="./lib/qunit.js"></script>   
-        <script src="./lib/yadda.js"></script>
+        <script src="./lib/yadda-0.2.0.js"></script>
+        <script src="./lib/yadda-0.2.0-localisation.js"></script>
         <script>
-
-            var steps = new Steps();
-            steps.given("(\\d+) green bottles are standing on the wall", function(initial) { 
-                numBottles = initial;
-            });
-            steps.when("(\\d+) green bottle should accidentally fall", function(falling) { 
-                numBottles = numBottles - falling;
-            });
-            steps.then("there are (\\d+) green bottles standing on the wall", function(remaining) { 
-                ok(remaining == count);
-            });
-
-            var yadda = new Yadda(steps);
+           var library = new Yadda.Library.English()
+                .given("$NUM green bottles are standing on the wall", function(number) {
+                    wall = new Wall(number);
+                })                
+                .when("$NUM green bottle accidentally falls", function(number) { 
+                    wall.fall(number);
+                })
+                .then("there are $NUM green bottles standing on the wall", function(number) {
+                    equal(number, wall.bottles);
+                });
+                
             test("100 green bottles", function() {
-                yadda.yadda([
-                    "given that there are 100 green bottles sitting on the wall",
-                    "when 1 bottle accidentally falls",
-                    "then there should be 99 green bottles sitting on the wall"
+                new Yadda.yadda(library).yadda([
+                    "Given 100 green bottles are standing on the wall",
+                    "when 1 green bottle accidentally falls",
+                    "then there are 99 green bottles standing on the wall"
                 ]);
-            });
+            });                
         </script>
     </head>
     <body>
@@ -85,3 +83,50 @@ Yadda is BDD library for javascript. It integrates with other javascript testing
     </body>
 </html>
 ```
+
+## 0.2.0 Release Notes
+
+### Breaking API Changes
+
+In previous version you invoked yadda with 
+```js
+    new Yadda(steps).yadda("some scenario");
+```
+The equivalent syntax in 0.2.0 is
+```js
+    new Yadda().yadda(library).yadda("some scenario");
+```
+Where library is an instance of Yadda.Library or Yadda.Library.English if you want the given/when/then helper methods;
+```js
+    steps.addStep('some text', function() {
+        // Some code    
+    })
+```
+has been replaced with 
+```js
+    library.define('some text', function() {
+       // Some code
+    })
+```
+
+### New Features
+The concept of a dictionary has been added to expand $terms embedded in step signatures. By defaut a $term expands to a wildcard group, i.e. (.+) but now you can define your own expansions, e.g.
+
+```js
+    var dictionary = new Yadda.Dictionary()
+        .define('gender', '(male|female)')
+        .define('speciaility', '(cardio|elderly|gastro)');
+
+    var library = new Yadda.Library.English(dictionary)
+        .given('a $gender, $speciality patient called $name', function() { // TODO });
+```
+will expand to "(?:[Gg]iven|[Aa]nd|[Ww]ith]|[Bb]ut) a (male|female), (cardio|elderly|gastro) patient called (.+)"
+and therefore match "Given a male, cardiovascular patient called Steve"
+
+You can also specify step signatures using true regexs (which is handy if they contain lots of backslash characters)
+```js
+    var library = new Yadda.Library.English(dictionary)
+        .given(/(\d+) (\w+) bottles standing on a wall/, function() { // TODO });
+```
+
+

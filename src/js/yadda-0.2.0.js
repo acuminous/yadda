@@ -14,28 +14,33 @@
  * limitations under the License.
  */
 
-// Provides a recursive interface, i.e. new Yadda().yadda().yadda() interface to the Yadda Interpreter
-Yadda = function(libraries, ctx) {
+Yadda = {}
 
-    this.libraries = libraries;
+// Provides a recursive interface, i.e. new Yadda().yadda().yadda() interface to the Yadda Interpreter
+Yadda.yadda = function(libraries, ctx) {
+
+    this.libraries = Yadda.Util.ensure_array(libraries);
     this.ctx = ctx;
+
+    this.requires = function(libraries) {
+        this.libraries.push_all(libraries);
+        return this;
+    };
 
     this.yadda = function(script) {
         if (script == undefined) return this;
         new Yadda.Interpreter(this.libraries).interpret(script, this.ctx);
     }
+
+    this.toString = function() {
+        "Yadda 0.2.0 Copyright 2010 Acuminous Ltd / Energized Work Ltd";
+    }    
 }
 
 // Understands a scenario
 Yadda.Interpreter = function(libraries) {
 
     this.libraries = Yadda.Util.ensure_array(libraries);
-    _this = this;
-
-    this.requires = function(libraries) {
-        this.libraries.push_all(libraries);
-        return this;
-    };
 
     this.interpret = function(scenario, ctx) {
         Yadda.Util.ensure_array(scenario).each(function(step) { 
@@ -58,6 +63,8 @@ Yadda.Interpreter = function(libraries) {
         })
         return compatible_macros;        
     };
+
+    var _this = this;    
 }
 
 // Understands how to index macros
@@ -66,10 +73,8 @@ Yadda.Library = function(dictionary) {
     this.dictionary = dictionary ? dictionary : new Yadda.Dictionary();
     this.macros = Yadda.Util.ensure_array([]);
 
-    var _this = this;
-
     this.define = function(signatures, fn, ctx) {
-        Yadda.Util.ensure_array(signatures).each(function(signature) {
+        Yadda.Util.ensure_array(signatures).each(function(signature) {            
             _this.define_macro(signature, fn, ctx);
         });
         return this;        
@@ -91,7 +96,9 @@ Yadda.Library = function(dictionary) {
         return this.macros.find_all(function(macro) {
             return macro.can_interpret(step);
         });
-    }; 
+    };
+
+    var _this = this;    
 };
 
 // Understands a step
@@ -140,7 +147,6 @@ Yadda.Dictionary = function(prefix) {
     this.prefix = prefix ? prefix : '$';
     this.terms = {};
     this.term_pattern = new Yadda.RegularExpression(new RegExp('(?:^|[^\\\\])\\' + this.prefix + '(\\w+)', 'g'));    
-    _this = this;
 
     this.define = function(term, definition) {
         if (this.exists(term)) throw 'Duplicate definition: [' + term + ']';
@@ -163,12 +169,16 @@ Yadda.Dictionary = function(prefix) {
     };
 
     this.expand_sub_terms = function(term, already_expanding) {
-        return this.term_pattern.groups(term).each(function(sub_term) {
+        return this.get_sub_terms(term).each(function(sub_term) {
             if (already_expanding.in_array(sub_term)) throw 'Circular Definition: \[' + already_expanding.join(', ') + '\]'; 
             var sub_term_definition = _this.expand_sub_term(sub_term, already_expanding);
             return term = term.replace(_this.prefix + sub_term, sub_term_definition);                                
         });
     };
+
+    this.get_sub_terms = function(term) {
+        return this.term_pattern.groups(term);
+    }
 
     this.expand_sub_term = function(sub_term, already_expanding) {
         var definition = this.terms[sub_term] ? this.terms[sub_term] : '(.+)';
@@ -181,7 +191,9 @@ Yadda.Dictionary = function(prefix) {
 
     this.is_expandable = function(definition) {  
         return this.term_pattern.test(definition);
-    };    
+    };  
+
+    var _this = this;
 };
 
 

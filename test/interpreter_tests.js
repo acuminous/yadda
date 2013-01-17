@@ -38,21 +38,6 @@ test('Interpreter can utilise macros from different libraries', function() {
     equal(executions, 2);
 });
 
-test('Interpreter can require different libraries', function() {
-
-    var executions = 0;
-
-    var library_1 = new Yadda.Library().define('Blah blah blah', function() { executions++; });
-    var library_2 = new Yadda.Library().define('Whatever', function() { executions++; });
-
-    new Yadda.Interpreter().requires([library_1, library_2]).interpret([
-        'Blah blah blah',
-        'Whatever'
-    ]);
-
-    equal(executions, 2);
-});
-
 test('Interpreter uses expanded terms to discern macros', function() {
 
     var patient_name;

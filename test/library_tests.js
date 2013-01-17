@@ -99,9 +99,9 @@ test('Library can be localised', function() {
         }        
     }
     
-    assert_localisation(givens, '/(?:[Gg]iven|[Ww]ith|[Aa]nd) a wall with (\\d+) bottles/');
-    assert_localisation(whens, '/(?:[Ww]hen|[Aa]nd) (\\d+) bottle(?:s)? accidentally falls/');
-    assert_localisation(thens, '/(?:[Tt]hen|[Ee]xpect|[Aa]nd) there are (\\d+) bottles left/');
+    assert_localisation(givens, '/(?:[Gg]iven|[Ww]ith|[Aa]nd|[Bb]ut) a wall with (\\d+) bottles/');
+    assert_localisation(whens, '/(?:[Ww]hen|[Aa]nd|[Bb]ut) (\\d+) bottle(?:s)? accidentally falls/');
+    assert_localisation(thens, '/(?:[Tt]hen|[Ee]xpect|[Aa]nd|[Bb]ut) there are (\\d+) bottles left/');
 });
 
 test('Library localision supports aliased macros', function() {

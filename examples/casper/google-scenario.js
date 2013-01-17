@@ -1,9 +1,9 @@
 require('../../src/js/yadda-0.2.0');
+require('../../src/js/yadda-0.2.0-localisation');
 
-var google_library = require('./google_library').create();
-var yadda = new Yadda(google_library);
-
-var casper = require('../../src/js/yadda-casper').create(yadda);
+var library = require('./google-library').create();
+var yadda = new Yadda.yadda(library);
+var casper = require('../../src/js/yadda-0.2.0-casper').create(new Yadda.yadda(library));
 
 casper.start();
 
