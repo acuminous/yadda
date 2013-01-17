@@ -118,11 +118,13 @@ Furthermore
 ```
 has been replaced with 
 ```js
-    library.define('some text', function() { // Where 'some text' can also be an array
+    library.define('some text', function() {
+        // Some code    
     })
 ```
-
 ### New Features
+
+#### Term Dictionary
 The concept of a dictionary has been added to expand $terms embedded in step signatures. By defaut a $term expands to a wildcard group, i.e. (.+) but now you can define your own expansions, e.g.
 
 ```js
@@ -139,10 +141,9 @@ will expand to
 ```
 and therefore match "Given a male, cardiovascular patient called Steve"
 
-You can also specify step signatures using true regexs (which is handy if they contain lots of backslash characters)
+#### Step Signatures can be RegEx objects
+You can now specify step signatures using true regexs (which is handy if they contain lots of backslash characters)
 ```js
     var library = new Yadda.Library.English(dictionary)
         .given(/(\d+) (\w+) bottles standing on a wall/, function() { /* TODO */ });
 ```
-
-
