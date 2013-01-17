@@ -96,7 +96,7 @@ The equivalent syntax in 0.2.0 is
 ```js
     new Yadda().yadda(library).yadda("some scenario");
 ```
-Where library is an instance of Yadda.Library or Yadda.Library.English if you want the given/when/then helper methods;
+Where library is an instance of Yadda.Library (or Yadda.Library.English if you want the given/when/then helper methods)
 ```js
     steps.addStep('some text', function() {
         // Some code    
