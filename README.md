@@ -141,8 +141,8 @@ will expand to
 ```
 and therefore match "Given a female, elderly patient called Carol"
 
-#### Step Signatures can be RegEx objects
-You can now specify step signatures using true regexs (which is handy if they contain lots of backslash characters)
+#### Step Signatures as RegEx objects
+You can now specify step signatures using true RegExp (which is handy if they contain lots of backslash characters)
 ```js
     var library = new Yadda.Library.English(dictionary)
         .given(/(\d+) (\w+) bottles standing on a wall/, function() { /* TODO */ });
