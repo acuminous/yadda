@@ -98,13 +98,21 @@ The equivalent syntax in 0.2.0 is
 ```
 Where library is an instance of Yadda.Library (or Yadda.Library.English if you want the given/when/then helper methods)
 ```js
+    steps.importSteps(steps)
+```
+has been replaced with
+```js
+    library.requires(libraries) // where libraries can be a single library or an array
+```
+and
+```js
     steps.addStep('some text', function() {
         // Some code    
     })
 ```
 has been replaced with 
 ```js
-    library.define('some text', function() {
+    library.define('some text', function() { // Where 'some text' can also be an array ['some text'] in case you want to specify aliases
        // Some code
     })
 ```
