@@ -112,8 +112,7 @@ and
 ```
 has been replaced with 
 ```js
-    library.define('some text', function() { // Where 'some text' can also be an array ['some text'] in case you want to specify aliases
-       // Some code
+    library.define('some text', function() { // Where 'some text' can also be an array
     })
 ```
 
