@@ -139,7 +139,7 @@ will expand to
 ```js
 "(?:[Gg]iven|[Aa]nd|[Ww]ith]|[Bb]ut) a (male|female), (cardio|elderly|gastro) patient called (.+)"
 ```
-and therefore match "Given a male, cardiovascular patient called Steve"
+and therefore match "Given a female, elderly patient called Carol"
 
 #### Step Signatures can be RegEx objects
 You can now specify step signatures using true regexs (which is handy if they contain lots of backslash characters)
