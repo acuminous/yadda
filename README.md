@@ -120,7 +120,10 @@ The concept of a dictionary has been added to expand $terms embedded in step sig
     var library = new Yadda.Library.English(dictionary)
         .given('a $gender, $speciality patient called $name', function() { // TODO });
 ```
-will expand to "(?:[Gg]iven|[Aa]nd|[Ww]ith]|[Bb]ut) a (male|female), (cardio|elderly|gastro) patient called (.+)"
+will expand to 
+```js
+"(?:[Gg]iven|[Aa]nd|[Ww]ith]|[Bb]ut) a (male|female), (cardio|elderly|gastro) patient called (.+)"
+```
 and therefore match "Given a male, cardiovascular patient called Steve"
 
 You can also specify step signatures using true regexs (which is handy if they contain lots of backslash characters)
