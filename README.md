@@ -97,14 +97,20 @@ The equivalent syntax in 0.2.0 is
     new Yadda().yadda(library).yadda("some scenario");
 ```
 Where library is an instance of Yadda.Library (or Yadda.Library.English if you want the given/when/then helper methods)
+Combining Steps / Libraries
 ```js
     steps.importSteps(steps)
 ```
 has been replaced with
 ```js
-    library.requires(libraries) // where libraries can be a single library or an array
+    new Yadda().yadda(libraries) // where libraries can be a single library or an array
 ```
-and
+alternatively you can do
+```js
+    var yadda = new Yadda().yadda();
+    yadda.requires(libraries); // where libraries can be a single library or an array
+```
+Furthermore
 ```js
     steps.addStep('some text', function() {
         // Some code    
