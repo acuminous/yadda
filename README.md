@@ -125,7 +125,7 @@ The concept of a dictionary has been added to expand $terms embedded in step sig
         .define('speciaility', '(cardio|elderly|gastro)');
 
     var library = new Yadda.Library.English(dictionary)
-        .given('a $gender, $speciality patient called $name', function() { // TODO });
+        .given('a $gender, $speciality patient called $name', function() { /* TODO */ });
 ```
 will expand to 
 ```js
@@ -136,7 +136,7 @@ and therefore match "Given a male, cardiovascular patient called Steve"
 You can also specify step signatures using true regexs (which is handy if they contain lots of backslash characters)
 ```js
     var library = new Yadda.Library.English(dictionary)
-        .given(/(\d+) (\w+) bottles standing on a wall/, function() { // TODO });
+        .given(/(\d+) (\w+) bottles standing on a wall/, function() { /* TODO */ });
 ```
 
 
