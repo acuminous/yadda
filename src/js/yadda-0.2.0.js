@@ -149,9 +149,9 @@ Yadda.Dictionary = function(prefix) {
         return this;
     };
 
-    var normalise = function(definition) {
-        return definition.toString().replace(/^\/|\/$/g, '');
-    }
+    this.is_defined = function(term) {
+        return terms[term];
+    };    
 
     this.expand = function(term, already_expanding) {
         var already_expanding = Yadda.Util.ensure_array(already_expanding);
@@ -176,9 +176,9 @@ Yadda.Dictionary = function(prefix) {
         return is_expandable(definition) ? _this.expand(definition, already_expanding.concat(sub_term)) : definition;
     }
 
-    this.is_defined = function(term) {
-        return terms[term];
-    };
+    var normalise = function(definition) {
+        return definition.toString().replace(/^\/|\/$/g, '');
+    }
 
     var is_expandable = function(definition) {  
         return term_pattern.test(definition);
