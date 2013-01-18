@@ -34,10 +34,11 @@ test('Library expands macro signature using specified dictionary', function() {
     var library = new Yadda.Library(dictionary)
         .define('Given a $gender, $speciality patient called $name', NO_OP);
 
-    equal(
-        library.get_macro('Given a $gender, $speciality patient called $name').signature_pattern.source,
-        'Given a (male|female), (cardiovascular|elderly care) patient called (.+)'
-    );
+    var macro = library.get_macro('Given a $gender, $speciality patient called $name');
+    ok(macro.can_interpret('Given a male, cardiovascular patient called Bob'));
+    ok(macro.can_interpret('Given a female, elderly care patient called Carol'));        
+    ok(!macro.can_interpret('Given a ugly, angry patient called Max'));        
+
 })
 
 test('Library reports duplicate macros', function() {

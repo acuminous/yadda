@@ -19,17 +19,16 @@ Yadda = {}
 // Provides a recursive interface, i.e. new Yadda().yadda().yadda() interface to the Yadda Interpreter
 Yadda.yadda = function(libraries, ctx) {
 
-    this.libraries = Yadda.Util.ensure_array(libraries);
-    this.ctx = ctx;
+    var libraries = Yadda.Util.ensure_array(libraries);
 
     this.requires = function(libraries) {
-        this.libraries.push_all(libraries);
+        libraries.push_all(libraries);
         return this;
     };
 
     this.yadda = function(script) {
         if (script == undefined) return this;
-        new Yadda.Interpreter(this.libraries).interpret(script, this.ctx);
+        new Yadda.Interpreter(libraries).interpret(script, ctx);
     }
 
     this.toString = function() {
@@ -40,7 +39,8 @@ Yadda.yadda = function(libraries, ctx) {
 // Understands a scenario
 Yadda.Interpreter = function(libraries) {
 
-    this.libraries = Yadda.Util.ensure_array(libraries);
+    var libraries = Yadda.Util.ensure_array(libraries);
+    var _this = this;
 
     this.interpret = function(scenario, ctx) {
         Yadda.Util.ensure_array(scenario).each(function(step) { 
@@ -49,88 +49,82 @@ Yadda.Interpreter = function(libraries) {
     };   
 
     this.interpret_step = function(step, ctx) {
-        this.competing_macros(step).clear_winner().interpret(step, ctx);
+        competing_macros(step).clear_winner().interpret(step, ctx);
     };
 
-    this.competing_macros = function(step) {
-        return new Yadda.Competition(step, this.compatible_macros(step));
+    var competing_macros = function(step) {
+        return new Yadda.Competition(step, compatible_macros(step));
     };
 
-    this.compatible_macros = function(step) {
-        var compatible_macros = [];
-        this.libraries.each(function(library) {
-            compatible_macros = compatible_macros.concat(library.find_compatible_macros(step));
-        })
-        return compatible_macros;        
+    var compatible_macros = function(step) {
+        return libraries.inject([], function(macros, library) {
+            return macros.concat(library.find_compatible_macros(step));
+        });
     };
-
-    var _this = this;    
 }
 
 // Understands how to index macros
 Yadda.Library = function(dictionary) {
 
-    this.dictionary = dictionary ? dictionary : new Yadda.Dictionary();
-    this.macros = Yadda.Util.ensure_array([]);
+    var dictionary = dictionary ? dictionary : new Yadda.Dictionary();
+    var macros = Yadda.Util.ensure_array([]);
+    var _this = this;    
 
     this.define = function(signatures, fn, ctx) {
         Yadda.Util.ensure_array(signatures).each(function(signature) {            
-            _this.define_macro(signature, fn, ctx);
+            define_macro(signature, fn, ctx);
         });
         return this;        
     };
 
-    this.define_macro = function(signature, fn, ctx) {
-        if (this.get_macro(signature)) throw 'Duplicate macro: [' + signature + ']';
-        this.macros.push(new Yadda.Macro(signature, this.dictionary.expand(signature), fn, ctx));
+    var define_macro = function(signature, fn, ctx) {
+        if (_this.get_macro(signature)) throw 'Duplicate macro: [' + signature + ']';
+        macros.push(new Yadda.Macro(signature, dictionary.expand(signature), fn, ctx));
     }
 
     this.get_macro = function(signature) {        
-        var found = this.macros.find(function(other_macro) {
+        return macros.find(function(other_macro) {
             return other_macro.is_identified_by(signature);
         });
-        return found;
     };
 
     this.find_compatible_macros = function(step) {
-        return this.macros.find_all(function(macro) {
+        return macros.find_all(function(macro) {
             return macro.can_interpret(step);
         });
     };
-
-    var _this = this;    
 };
 
 // Understands a step
 Yadda.Macro = function(signature, signature_pattern, fn, ctx) {    
     
-    this.init = function(signature, signature_pattern, fn, ctx) {
-        this.signature = this.normalise(signature);
-        this.signature_pattern = new Yadda.RegularExpression(signature_pattern);
-        this.fn = fn;
-        this.environment = new Yadda.Environment(ctx);
+    var _this = this;
+    var environment = new Yadda.Environment(ctx);
+    var signature_pattern = new Yadda.RegularExpression(signature_pattern);
+
+    var init = function(signature, signature_pattern) {
+        _this.signature = normalise(signature);
     }
 
     this.is_identified_by = function(other_signature) {
-        return this.signature == this.normalise(other_signature);        
+        return this.signature == normalise(other_signature);        
     }; 
 
     this.can_interpret = function(step) {
-        return this.signature_pattern.test(step);
+        return signature_pattern.test(step);
     };  
 
     this.interpret = function(step, ctx) {    
-        var args = this.signature_pattern.groups(step);
-        var env = this.environment.merge(ctx);
-        var fn = Yadda.Util.bind(env.ctx, this.fn);
-        return fn(args);
+        var args = signature_pattern.groups(step);
+        var env = environment.merge(ctx);
+        return Yadda.Util.bind(env.ctx, fn)(args);
     };
 
     this.levenshtein_signature = function() {
-        return this.signature_pattern.undress();            
+        return signature_pattern.undress();            
     };
 
-    this.normalise = function(signature) {
+    var normalise = function(signature) {
         return new RegExp(signature).toString();
     }
 
@@ -138,176 +132,168 @@ Yadda.Macro = function(signature, signature_pattern, fn, ctx) {
         return this.signature;
     };
 
-    this.init(signature, signature_pattern, fn, ctx)
+    init(signature, signature_pattern)
 };
 
-// Understands definitions of terms
+// Understands definitions of termsxx
 Yadda.Dictionary = function(prefix) {
 
-    this.prefix = prefix ? prefix : '$';
-    this.terms = {};
-    this.term_pattern = new Yadda.RegularExpression(new RegExp('(?:^|[^\\\\])\\' + this.prefix + '(\\w+)', 'g'));    
+    var prefix = prefix ? prefix : '$';
+    var terms = {};
+    var term_pattern = new Yadda.RegularExpression(new RegExp('(?:^|[^\\\\])\\' + prefix + '(\\w+)', 'g')); 
+    var _this = this;       
 
     this.define = function(term, definition) {
         if (this.exists(term)) throw 'Duplicate definition: [' + term + ']';
-        this.terms[term] = this.normalise(definition);
+        terms[term] = normalise(definition);
         return this;
     };
 
     this.exists = function(term) {
-        return this.terms[term];
+        return terms[term];
     };
 
-    this.normalise = function(definition) {
+    var normalise = function(definition) {
         return definition.toString().replace(/^\/|\/$/g, '');
     }
 
     this.expand = function(term, already_expanding) {
         var already_expanding = Yadda.Util.ensure_array(already_expanding);
-        if (!this.is_expandable(term)) return term;
-        return this.expand_sub_terms(term, already_expanding);
+        if (!is_expandable(term)) return term;
+        return expand_sub_terms(term, already_expanding);
     };
 
-    this.expand_sub_terms = function(term, already_expanding) {
-        return this.get_sub_terms(term).each(function(sub_term) {
+    var expand_sub_terms = function(term, already_expanding) {
+        return get_sub_terms(term).each(function(sub_term) {
             if (already_expanding.in_array(sub_term)) throw 'Circular Definition: \[' + already_expanding.join(', ') + '\]'; 
-            var sub_term_definition = _this.expand_sub_term(sub_term, already_expanding);
-            return term = term.replace(_this.prefix + sub_term, sub_term_definition);                                
+            var sub_term_definition = expand_sub_term(sub_term, already_expanding);
+            return term = term.replace(prefix + sub_term, sub_term_definition);
         });
     };
 
-    this.get_sub_terms = function(term) {
-        return this.term_pattern.groups(term);
+    var get_sub_terms = function(term) {
+        return term_pattern.groups(term);
     }
 
-    this.expand_sub_term = function(sub_term, already_expanding) {
-        var definition = this.terms[sub_term] ? this.terms[sub_term] : '(.+)';
-        return this.is_expandable(definition) ? this.expand(definition, already_expanding.concat(sub_term)) : definition;
+    var expand_sub_term = function(sub_term, already_expanding) {
+        var definition = terms[sub_term] ? terms[sub_term] : '(.+)';
+        return is_expandable(definition) ? _this.expand(definition, already_expanding.concat(sub_term)) : definition;
     }
 
     this.is_defined = function(term) {
-        return this.terms[term];
+        return terms[term];
     };
 
-    this.is_expandable = function(definition) {  
-        return this.term_pattern.test(definition);
+    var is_expandable = function(definition) {  
+        return term_pattern.test(definition);
     };  
-
-    var _this = this;
 };
 
 
 // Understands a macros execution context
 Yadda.Environment = function(ctx) {
+
     this.ctx = ctx ? ctx : {};
 
     this.merge = function(other_ctx) {
-        var merged_ctx = {};
-        this.merge_ctx(merged_ctx, other_ctx);
-        this.merge_ctx(merged_ctx, this.ctx);
-        return new Yadda.Environment(merged_ctx);
+        return new Yadda.Environment().merge_ctx(other_ctx).merge_ctx(this.ctx);
     }
 
-    this.merge_ctx = function(ctx1, ctx2) {
-        for (var key in ctx2) {
-            ctx1[key] = ctx2[key];            
-        }; 
+    this.merge_ctx = function(other_ctx) {
+        for (var key in other_ctx) { this.ctx[key] = other_ctx[key] }; 
+        return this;
     }
 }
 
 // Understands appropriateness of macros
 Yadda.Competition = function(step, macros) {
 
-    this.results = [];
-
-    var by_score = function(r1, r2) { return r2.score.beats(r1.score); };
+    var results = [];
+    var by_ascending_score = function(a, b) { return b.score.beats(a.score); };
+    var FIRST_PLACE = 0;
+    var SECOND_PLACE = 1;
 
     this.clear_winner = function() {
-        if (this.number_of_competitors() == 0) throw 'Undefined Step: [' + step + ']';
-        if (this.joint_first_place()) throw 'Ambiguous Step: [' + step + ']';
+        if (number_of_competitors() == 0) throw 'Undefined Step: [' + step + ']';
+        if (joint_first_place()) throw 'Ambiguous Step: [' + step + ']';
         return this.winner() 
     };   
 
-    this.number_of_competitors = function() {
-        return this.results.length;
+    var number_of_competitors = function() {
+        return results.length;
     };
 
-    this.joint_first_place = function() {
-        return (this.number_of_competitors() > 1) && this.results[0].score.equals(this.results[1].score); 
+    var joint_first_place = function() {
+        return (number_of_competitors() > 1) && results[FIRST_PLACE].score.equals(results[SECOND_PLACE].score); 
     };
 
     this.winner = function() {
-        return this.results[0].macro;
+        return results[FIRST_PLACE].macro;
     };
 
-    this.rank = function(step, macros) {
-        this.results = macros.collect(function(macro) {
+    var rank = function(step, macros) {
+        results = macros.collect(function(macro) {
             return { macro: macro, score: new Yadda.LevenshteinDistanceScore(step, macro.levenshtein_signature()) }
-        }).sort( by_score );
+        }).sort( by_ascending_score );
     };
 
-    this.rank(step, Yadda.Util.ensure_array(macros));
+    rank(step, Yadda.Util.ensure_array(macros));
 };
 
 // Understands similarity of two strings
 Yadda.LevenshteinDistanceScore = function(s1, s2) {
-    
-    this.s1 = s1;
-    this.s2 = s2;
-    this.distanceTable;
+
     this.value;
-    this.type = 'LevenshteinDistanceScore';
+    this.type = 'LevenshteinDistanceScore';    
+    var distanceTable;
+    var _this = this;
 
-    this.initDistanceTable = function() {
+    var initDistanceTable = function() {
 
-        var x = this.s1.length;
-        var y = this.s2.length;
+        var x = s1.length;
+        var y = s2.length;
 
-        this.distanceTable = new Array(x + 1);
+        distantce_table = new Array(x + 1);
 
         for (i = 0; i <= x; i++) {
-            this.distanceTable[i] = new Array(y + 1);
+            distantce_table[i] = new Array(y + 1);
         }
 
         for (var i = 0; i <= x; i++) {
             for (var j = 0; j <= y; j++) {
-                this.distanceTable[i][j] = 0;
+                distantce_table[i][j] = 0;
             }
         }
 
         for (var i = 0; i <= x; i++) {
-            this.distanceTable[i][0] = i;
+            distantce_table[i][0] = i;
         }
 
         for (var j = 0; j <= y; j++) {
-            this.distanceTable[0][j] = j;
+            distantce_table[0][j] = j;
         }
     };
 
-    this.score = function() {
+    var score = function() {
 
-        if (this.s1 == this.s2) {
-            return 0;
-        }
+        if (s1 == s2) return 0;
 
-        var s1Length = this.s1.length;
-        var s2Length = this.s2.length;
+        var s1_length = s1.length;
+        var s2_length = s2.length;
 
-        for (var j = 0; j < s2Length; j++) {
-            for (var i = 0; i < s1Length; i++) {
-                if (this.s1[i] == this.s2[j]) {
-                    this.distanceTable[i+1][j+1] = this.distanceTable[i][j];
+        for (var j = 0; j < s2_length; j++) {
+            for (var i = 0; i < s1_length; i++) {
+                if (s1[i] == s2[j]) {
+                    distantce_table[i+1][j+1] = distantce_table[i][j];
                 } else {
-                    var deletion = this.distanceTable[i][j+1] + 1;
-                    var insertion = this.distanceTable[i+1][j] + 1;
-                    var substitution = this.distanceTable[i][j] + 1;
-
-                    this.distanceTable[i+1][j+1] = Math.min(substitution, deletion, insertion)
+                    var deletion = distantce_table[i][j+1] + 1;
+                    var insertion = distantce_table[i+1][j] + 1;
+                    var substitution = distantce_table[i][j] + 1;
+                    distantce_table[i+1][j+1] = Math.min(substitution, deletion, insertion)
                 }
             }
         }
-
-        this.value = this.distanceTable[s1Length][s2Length];
+        _this.value = distantce_table[s1_length][s2_length];
     };
 
     this.beats = function(other) {
@@ -319,12 +305,8 @@ Yadda.LevenshteinDistanceScore = function(s1, s2) {
         return (this.type == other.type && this.value == other.value);
     }   
 
-    this.toString = function() {
-        return "Levenshtein Distance = " + this.value
-    }
-
-    this.initDistanceTable();
-    this.score();
+    initDistanceTable();
+    score();
 };
 
 // Wrapper for JavaScript Regular Expressions
@@ -335,77 +317,46 @@ Yadda.RegularExpression = function(pattern_or_regexp) {
     var repetitions_pattern = /(^|[^\\\\])\{.*?\}/g;
     var regex_aliases_pattern = /(^|[^\\\\])\\./g;
     var non_word_tokens_pattern = /[^\w\s]/g;
-
-    this.init = function(pattern_or_regexp) {
-        this.regexp = this.ensure_regexp(pattern_or_regexp);
-        this.source = this.regexp.source;
-    };
-
-    this.ensure_regexp = function(pattern_or_regexp) {
-        return new RegExp(pattern_or_regexp);
-    };
+    var regexp = new RegExp(pattern_or_regexp);
 
     this.test = function(text) {
-        var result = this.regexp.test(text);
+        var result = regexp.test(text);
         this.reset();        
         return result;
-    };
+    };  
 
     this.groups = function(text) {
         var results = Yadda.Util.ensure_array([]);
-        this.each_group(text, function() {
-            results.push(Array.prototype.slice.call(arguments, 0))
-        });
-        return results;
-    };   
-
-    this.each_match = function(text, fn) {
-        while (match = this.regexp.exec(text)) {
-            fn(match[0])
+        var match = regexp.exec(text);
+        while (match) {
+            var groups = match.slice(1, match.length);
+            results.push(Array.prototype.slice.call(groups, 0))
+            match = regexp.global && regexp.exec(text)
         }
         this.reset();
-    };
-
-    this.each_group = function(text, fn) {
-
-        var match = this.regexp.exec(text);
-
-        if (this.regexp.global) {
-            while (match) {
-                var groups = match.slice(1, match.length);
-                fn.apply(undefined, groups);
-                match = this.regexp.exec(text)
-            }
-            this.reset();
-        } else if (match) {
-            var groups = match.splice(1, match.length - 1);
-            fn.apply(undefined, groups);
-        }
-
+        return results;        
     };   
 
-    this.equals = function(other) {
-        return this.toString() == other.toString();
+    this.reset = function() {
+        regexp.lastIndex = 0;
+        return this;
     };
 
     this.undress = function() {
-        return this.source.replace(groups_pattern, '$1')
-                          .replace(sets_pattern, '$1')
-                          .replace(repetitions_pattern, '$1')
-                          .replace(regex_aliases_pattern, '$1')
-                          .replace(non_word_tokens_pattern, '');
-    };
+        return regexp.source.replace(groups_pattern, '$1')
+                            .replace(sets_pattern, '$1')
+                            .replace(repetitions_pattern, '$1')
+                            .replace(regex_aliases_pattern, '$1')
+                            .replace(non_word_tokens_pattern, '');
+    };    
 
-    this.reset = function() {
-        this.regexp.lastIndex = 0;
-        return this;
-    }
+    this.equals = function(other) {
+        return this.toString() == other.toString();
+    };    
 
     this.toString = function() {
-        return "/" + this.source + "/";
+        return "/" + regexp.source + "/";
     };
-
-    this.init(pattern_or_regexp);
 };
 
 // Utility functions
@@ -416,6 +367,7 @@ Yadda.Util = {
         array.in_array = this.curry(array, this.in_array, array);
         array.each = this.curry(array, this.each, array);
         array.collect = this.curry(array, this.collect, array);
+        array.inject = this.curry(array, this.inject, array);
         array.push_all = this.curry(array, this.push_all, array);
         array.find_all = this.curry(array, this.find_all, array);
         array.find = this.curry(array, this.find, array);
@@ -450,6 +402,14 @@ Yadda.Util = {
             results.push(fn(items[i]));
         }
         return results;
+    },
+
+    inject: function(items, default_value, fn) {
+        var result = default_value;
+        for (var i = 0; i < items.length; i++) {
+            result = fn(result, items[i]);            
+        }
+        return result;
     },
 
     push_all: function(items, more_items) {
