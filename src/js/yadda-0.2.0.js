@@ -144,13 +144,9 @@ Yadda.Dictionary = function(prefix) {
     var _this = this;       
 
     this.define = function(term, definition) {
-        if (this.exists(term)) throw 'Duplicate definition: [' + term + ']';
+        if (this.is_defined(term)) throw 'Duplicate definition: [' + term + ']';
         terms[term] = normalise(definition);
         return this;
-    };
-
-    this.exists = function(term) {
-        return terms[term];
     };
 
     var normalise = function(definition) {
@@ -196,10 +192,10 @@ Yadda.Environment = function(ctx) {
     this.ctx = ctx ? ctx : {};
 
     this.merge = function(other_ctx) {
-        return new Yadda.Environment().merge_ctx(other_ctx).merge_ctx(this.ctx);
+        return new Yadda.Environment()._merge_ctx(other_ctx)._merge_ctx(this.ctx);
     }
 
-    this.merge_ctx = function(other_ctx) {
+    this._merge_ctx = function(other_ctx) {
         for (var key in other_ctx) { this.ctx[key] = other_ctx[key] }; 
         return this;
     }
