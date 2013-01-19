@@ -96,7 +96,7 @@ The equivalent syntax in 0.2.0 is
 ```js
     new Yadda().yadda(library).yadda(["some scenario"]);
 ```
-Where library is an instance of Yadda.Library (or Yadda.Library.English if you want the given/when/then helper methods)
+Where library is an instance of Yadda.Library
 Combining Steps / Libraries
 ```js
     steps.importSteps(steps)
@@ -122,6 +122,27 @@ has been replaced with
         // Some code    
     })
 ```
+Prior version of yadda provided helper methods for given, when and then, e.g.
+```js
+    new Steps()
+        .given('a (\\d+) green bottles', function() {
+            // TODO
+        }).when('(\\d+) falls', function() {
+            // TODO
+        }).then('there are (\\d+) green bottles', function() {
+            // TODO
+        });
+These methods are no longer available by default, but you can add them by including yadda-0.2.0-localisations.js and creating your libraries as instances of Yadda.Library.English, e.g.
+```js
+    var library = new Yadda.Library.English();
+    library.given('a (\\d+) green bottles', function() {
+        // TODO
+    }).when('(\\d+) falls', function() {
+        // TODO
+    }).then('there are (\\d+) green bottles', function() {
+        // TODO
+    }); 
+```
 ### New Features
 
 #### Term Dictionary
@@ -142,10 +163,27 @@ will expand to
 and therefore match "Given a female, elderly patient called Carol"
 
 #### Step Signatures as RegEx objects
-You can now specify step signatures using true RegExp (which is handy if they contain lots of backslash characters)
+You can now specify step signatures using true RegExp (which is handy if they contain lots of backslash characters). This means that
 ```js
-    var library = new Yadda.Library.English(dictionary)
-        .given(/(\d+) (\w+) bottles standing on a wall/, function() { /* TODO */ });
+    var library = new Yadda.Library.English();
+    library.given('a (\\d+) green bottles', function() {
+        // TODO
+    }).when('(\\d+) falls', function() {
+        // TODO
+    }).then('there are (\\d+) green bottles', function() {
+        // TODO
+    }); 
+```
+can be rewritten as 
+```js
+    var library = new Yadda.Library.English();
+    library.given(/a (\d+) green bottles/, function() {
+        // TODO
+    }).when(/(\d+) falls/, function() {
+        // TODO
+    }).then(/there are (\d+) green bottles/, function() {
+        // TODO
+    }); 
 ```
 #### Before and After callbacks
 It is often useful to run some code before and/or after each scenario. Yadda supports this with before and after callbacks. e.g.
