@@ -178,7 +178,7 @@ var library = new Yadda.Library.English()
 #### Before and After callbacks
 It is often useful to run some code before and/or after each scenario. Yadda supports this with before and after callbacks. e.g.
 ```js
-var yadda = new Yadda.yadda(patient_lib)
+var yadda = new Yadda.yadda(libraries)
     .before(function() {
         // some code
     })
