@@ -111,28 +111,19 @@ alternatively you can do
     yadda.requires(libraries); // where libraries can be a single library or an array
 ```
 #### Defining Steps
+Previously you defined steps using the addStep method, or a given, when, then helper method, e.g.
 ```js
     steps.addStep('some text', function() {
         // Some code    
     })
 ```
-has been replaced with 
+Step.addStep has been replaced with Library.define
 ```js
     library.define('some text', function() {
         // Some code    
     })
 ```
-Prior version of yadda provided helper methods for given, when and then, e.g.
-```js
-    new Steps()
-        .given('a (\\d+) green bottles', function() {
-            // TODO
-        }).when('(\\d+) falls', function() {
-            // TODO
-        }).then('there are (\\d+) green bottles', function() {
-            // TODO
-        });
-These methods are no longer available by default, but you can add them by including yadda-0.2.0-localisations.js and creating your libraries as instances of Yadda.Library.English, e.g.
+and the helper methods are no longer available by default, but you can add them by including yadda-0.2.0-localisations.js and creating your libraries as instances of Yadda.Library.English, e.g.
 ```js
     var library = new Yadda.Library.English();
     library.given('a (\\d+) green bottles', function() {
