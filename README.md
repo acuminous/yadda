@@ -158,22 +158,22 @@ You can now specify step signatures using true RegExp (which is handy if they co
 ```js
     var library = new Yadda.Library.English();
     library.given('a (\\d+) green bottles', function() {
-        // TODO
+        // some code
     }).when('(\\d+) falls', function() {
-        // TODO
+        // some code
     }).then('there are (\\d+) green bottles', function() {
-        // TODO
+        // some code
     }); 
 ```
 can be rewritten as 
 ```js
     var library = new Yadda.Library.English();
     library.given(/a (\d+) green bottles/, function() {
-        // TODO
+        // some code
     }).when(/(\d+) falls/, function() {
-        // TODO
+        // some code
     }).then(/there are (\d+) green bottles/, function() {
-        // TODO
+        // some code
     }); 
 ```
 #### Before and After callbacks
@@ -181,9 +181,9 @@ It is often useful to run some code before and/or after each scenario. Yadda sup
 ```js
     var yadda = new Yadda.yadda(patient_lib)
         .before(function() {
-            // TODO
+            // some code
         })
         .after(function() {
-            // TODO
+            // some code
         });
 ```
