@@ -20,6 +20,8 @@ Yadda = {}
 Yadda.yadda = function(libraries, ctx) {
 
     var libraries = Yadda.Util.ensure_array(libraries);
+    var before = function() {};
+    var after = function() {};
 
     this.requires = function(libraries) {
         libraries.push_all(libraries);
@@ -28,7 +30,19 @@ Yadda.yadda = function(libraries, ctx) {
 
     this.yadda = function(script) {
         if (script == undefined) return this;
+        before();
         new Yadda.Interpreter(libraries).interpret(script, ctx);
+        after();
+    }
+
+    this.before = function(fn) {
+        before = fn;
+        return this;
+    }
+
+    this.after = function(fn) {
+        after = fn;
+        return this;
     }
 
     this.toString = function() {
