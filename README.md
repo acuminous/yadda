@@ -166,14 +166,14 @@ and therefore match "Given a female, elderly patient called Carol"
 #### Step Signatures as RegEx objects
 You can now specify step signatures using true RegExp (which is handy if they contain lots of backslash characters).
 ```js
-var library = new Yadda.Library.English();
-library.given(/a (\d+) green bottles/, function() {
-    // some code
-}).when(/(\d+) falls/, function() {
-    // some code
-}).then(/there are (\d+) green bottles/, function() {
-    // some code
-}); 
+var library = new Yadda.Library.English()
+    .given(/a (\d+) green bottles/, function() {
+        // some code
+    }).when(/(\d+) falls/, function() {
+        // some code
+    }).then(/there are (\d+) green bottles/, function() {
+        // some code
+    }); 
 ```
 #### Before and After callbacks
 It is often useful to run some code before and/or after each scenario. Yadda supports this with before and after callbacks. e.g.
