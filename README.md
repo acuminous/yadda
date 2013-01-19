@@ -147,7 +147,7 @@ You can now specify step signatures using true RegExp (which is handy if they co
     var library = new Yadda.Library.English(dictionary)
         .given(/(\d+) (\w+) bottles standing on a wall/, function() { /* TODO */ });
 ```
-### Before and After callbacks
+#### Before and After callbacks
 It is often useful to run some code before and/or after each scenario. Yadda supports this with before and after callbacks. e.g.
 ```js
     var yadda = new Yadda.yadda(patient_lib)
