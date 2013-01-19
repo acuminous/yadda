@@ -94,21 +94,31 @@ In previous version you invoked yadda with
 ```
 The equivalent syntax in 0.2.0 is
 ```js
-    new Yadda().yadda(library).yadda(["some scenario"]);
+    new Yadda.yadda(library).yadda(["some scenario"]);
 ```
 where library is an instance of Yadda.Library
 #### Combining Steps / Libraries
 ```js
-    steps.importSteps(steps)
+    var steps = new Steps();
+    steps.importSteps(other_steps);
+    var yadda = new Yadda(steps);
 ```
-has been replaced with
+Now you pass yadda an array of libraries instead of a single merged one
 ```js
-    new Yadda().yadda(libraries) // where libraries can be a single library or an array
+    var lib1 = new Yadda.Library();
+    var lib2 = new Yadda.Library();
+    var yadda = new Yadda().yadda([lib1, lib2]);
 ```
 alternatively you can do
 ```js
-    var yadda = new Yadda().yadda();
-    yadda.requires(libraries); // where libraries can be a single library or an array
+    var yadda = new Yadda.yadda();
+    yadda.requires(lib1);
+    yadda.requires(lib2);
+```
+or
+```js
+    var yadda = new Yadda.yadda();
+    yadda.requires([lib1, lib2]);
 ```
 #### Defining Steps
 Previously you defined steps using the addStep method, or a given, when, then helper method, e.g.
@@ -123,16 +133,16 @@ Step.addStep has been replaced with Library.define
         // Some code    
     })
 ```
-and the helper methods are no longer available by default, but you can add them by including yadda-0.2.0-localisation.js and creating your libraries as instances of Yadda.Library.English, e.g.
+and the helper methods are no longer available by default, but you can restore them by including yadda-0.2.0-localisation.js and creating your libraries as instances of Yadda.Library.English, e.g.
 ```js
-    var library = new Yadda.Library.English();
-    library.given('a (\\d+) green bottles', function() {
-        // TODO
-    }).when('(\\d+) falls', function() {
-        // TODO
-    }).then('there are (\\d+) green bottles', function() {
-        // TODO
-    }); 
+    var library = new Yadda.Library.English()
+        .given('a (\\d+) green bottles', function() {
+            // TODO
+        }).when('(\\d+) falls', function() {
+            // TODO
+        }).then('there are (\\d+) green bottles', function() {
+            // TODO
+        }); 
 ```
 ### New Features
 
