@@ -110,7 +110,7 @@ alternatively you can do
     var yadda = new Yadda().yadda();
     yadda.requires(libraries); // where libraries can be a single library or an array
 ```
-Furthermore
+#### Defining Steps
 ```js
     steps.addStep('some text', function() {
         // Some code    
