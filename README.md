@@ -96,8 +96,8 @@ The equivalent syntax in 0.2.0 is
 ```js
     new Yadda().yadda(library).yadda(["some scenario"]);
 ```
-Where library is an instance of Yadda.Library
-Combining Steps / Libraries
+where library is an instance of Yadda.Library
+#### Combining Steps / Libraries
 ```js
     steps.importSteps(steps)
 ```
