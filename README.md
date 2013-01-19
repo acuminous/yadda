@@ -133,7 +133,7 @@ Step.addStep has been replaced with Library.define
         // Some code    
     })
 ```
-and the helper methods are no longer available by default, but you can restore them by including yadda-0.2.0-localisation.js and creating your libraries as instances of Yadda.Library.English, e.g.
+The helper methods are no longer available by default, but you can restore them by including yadda-0.2.0-localisation.js and creating your libraries as instances of Yadda.Library.English, e.g.
 ```js
     var library = new Yadda.Library.English()
         .given('a (\\d+) green bottles', function() {
