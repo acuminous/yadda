@@ -19,20 +19,20 @@ Yadda = {}
 // Provides a recursive interface, i.e. new Yadda().yadda().yadda() interface to the Yadda Interpreter
 Yadda.yadda = function(libraries, ctx) {
 
-    var libraries = Yadda.Util.ensure_array(libraries);
+    this.interpreter = new Yadda.Interpreter(libraries);
     var before = function() {};
     var after = function() {};
 
     this.requires = function(libraries) {
-        libraries.push_all(libraries);
+        this.interpreter.requires(libraries);
         return this;
     };
 
     this.yadda = function(script) {
         if (script == undefined) return this;
-        before();
-        new Yadda.Interpreter(libraries).interpret(script, ctx);
-        after();
+        before(ctx);
+        this.interpreter.interpret(script, ctx);
+        after(ctx);
     }
 
     this.before = function(fn) {
@@ -56,17 +56,22 @@ Yadda.Interpreter = function(libraries) {
     var libraries = Yadda.Util.ensure_array(libraries);
     var _this = this;
 
+    this.requires = function(libraries) {
+        libraries.push_all(libraries);
+        return this;
+    };
+
     this.interpret = function(scenario, ctx) {
         Yadda.Util.ensure_array(scenario).each(function(step) { 
             _this.interpret_step(step, ctx);
         });
-    };   
-
-    this.interpret_step = function(step, ctx) {
-        competing_macros(step).clear_winner().interpret(step, ctx);
     };
 
-    var competing_macros = function(step) {
+    this.interpret_step = function(step, ctx) {
+        this.competing_macros(step).clear_winner().interpret(step, ctx);
+    };  
+
+    this.competing_macros = function(step) {
         return new Yadda.Competition(step, compatible_macros(step));
     };
 
