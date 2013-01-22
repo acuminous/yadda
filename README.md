@@ -128,24 +128,24 @@ yadda.requires([lib1, lib2]);
 Previously you defined steps using the addStep method, or a given, when, then helper method, e.g.
 ```js
 steps.addStep('some text', function() {
-    // Some code    
+    // some code    
 })
 ```
 Step.addStep has been replaced with Library.define
 ```js
 library.define('some text', function() {
-    // Some code    
+    // some code    
 })
 ```
 The helper methods are no longer available by default, but you can restore them by including yadda-0.2.1-localisation.js and creating your libraries as instances of Yadda.Library.English, e.g.
 ```js
 var library = new Yadda.Library.English()
     .given('a (\\d+) green bottles', function() {
-        // Some code
+        // some code
     }).when('(\\d+) falls', function() {
-        // Some code
+        // some code
     }).then('there are (\\d+) green bottles', function() {
-        // Some code
+        // some code
     }); 
 ```
 ### New Features
