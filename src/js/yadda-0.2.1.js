@@ -20,6 +20,7 @@ Yadda = {}
 Yadda.yadda = function(libraries, ctx) {
 
     this.interpreter = new Yadda.Interpreter(libraries);
+    var environment = new Yadda.Environment(ctx);
     var before = function() {};
     var after = function() {};
 
@@ -28,11 +29,12 @@ Yadda.yadda = function(libraries, ctx) {
         return this;
     };
 
-    this.yadda = function(script) {
+    this.yadda = function(script, ctx) {
         if (script == undefined) return this;
-        before(ctx);
-        this.interpreter.interpret(script, ctx);
-        after(ctx);
+        var env = environment.merge(ctx);
+        Yadda.Util.bind(env.ctx, before)();
+        this.interpreter.interpret(script, env.ctx);
+        Yadda.Util.bind(env.ctx, after)();
     }
 
     this.before = function(fn) {
@@ -208,16 +210,25 @@ Yadda.Dictionary = function(prefix) {
 // Understands a macros execution context
 Yadda.Environment = function(ctx) {
 
-    this.ctx = ctx ? ctx : {};
+    this.ctx = {};
+    this._merge_on = 'ctx';
 
-    this.merge = function(other_ctx) {
-        return new Yadda.Environment()._merge_ctx(other_ctx)._merge_ctx(this.ctx);
+    this.merge = function(other) {
+        other = get_item_to_merge(other);
+        return new Yadda.Environment(this.ctx)._merge(other);
     }
 
-    this._merge_ctx = function(other_ctx) {
+    var get_item_to_merge = function(other) {
+        if (!other) return {};
+        return other._merge_on ? other[other._merge_on] : other;
+    }
+
+    this._merge = function(other_ctx) {
         for (var key in other_ctx) { this.ctx[key] = other_ctx[key] }; 
         return this;
     }
+
+    this._merge(ctx);
 }
 
 // Understands appropriateness of macros
@@ -465,7 +476,8 @@ Yadda.Util = {
 
     bind: function(ctx, fn) {
         return function() {
-            return fn.apply(ctx, arguments[0][0]);
+            var args = arguments.length > 0 ? arguments[0] : [];
+            return fn.apply(ctx, args[0]);
         };
     }    
 }
