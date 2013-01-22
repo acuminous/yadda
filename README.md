@@ -92,7 +92,7 @@ On the plus side Yadda's syntax is more flexible (but not necessarily better) th
 
 ### Breaking API Changes
 
-In previous version you invoked yadda with 
+In Yadda 0.1.0 you invoked yadda with 
 ```js
 new Yadda(steps).yadda(["some scenario"]);
 ```
