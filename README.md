@@ -141,11 +141,11 @@ The helper methods are no longer available by default, but you can restore them 
 ```js
 var library = new Yadda.Library.English()
     .given('a (\\d+) green bottles', function() {
-        // TODO
+        // Some code
     }).when('(\\d+) falls', function() {
-        // TODO
+        // Some code
     }).then('there are (\\d+) green bottles', function() {
-        // TODO
+        // Some code
     }); 
 ```
 ### New Features
