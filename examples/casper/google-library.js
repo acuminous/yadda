@@ -1,4 +1,4 @@
-exports.create = function create() {
+exports.create = function() {
 	return library;
 }
 

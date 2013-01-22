@@ -1,8 +1,7 @@
-exports.create = function create() {
+exports.create = function() {
     return library;
 }
 
-var dictionary = new Yadda.Dictionary()
 var dictionary = new Yadda.Dictionary()
     .define('NUM', /(\d+)/)
     .define('ANOTHER', /(1)/)
