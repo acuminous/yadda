@@ -1,6 +1,10 @@
 # Yadda
 
-Yadda is BDD library for javascript. It integrates with other javascript testing frameworks such as QUnit and CasperJS.
+Yadda brings BDD style testing to other javascript test frameworks such as [QUnit](http://qunitjs.com), [Nodeunit](https://github.com/caolan/nodeunit) and [CasperJS](http://casperjs.org). 
+
+Yadda scenarios are written as arrays of strings, which while *less* readable than the feature file approach taken by [Cucumber](http://github.com/cucumber/cucumber-js), means we are not dependent on [node](http://node.js). Yadda's syntax is more flexible (but not necessarily better) than Gherkin and it's step management is smarter at avoiding / resolving conflicts.
+
+The clumsiness of writing scenarios as arrays can be partially mitigated with [CoffeeScript](http://coffeescript.org)), and offers an alternative (we think preferable) approach to a fluid api (see [Chai](http://chaijs.com)) or an annectdotal one such as that favoured by [Jasmine](http://pivotal.github.com/jasmine) (which is also made better with [Coffee](http://coffeescriptcookbook.com/chapters/testing/testing_with_jasmine)!).
 
 ## Usage
 
@@ -30,8 +34,8 @@ Yadda is BDD library for javascript. It integrates with other javascript testing
     <head>
         <link rel="stylesheet" href="./lib/qunit.css">
         <script src="./lib/qunit.js"></script>   
-        <script src="./lib/yadda-0.2.0.js"></script>
-        <script src="./lib/yadda-0.2.0-localisation.js"></script>
+        <script src="./lib/yadda-0.2.1.js"></script>
+        <script src="./lib/yadda-0.2.1-localisation.js"></script>
         <script>
             test("100 green bottles", function() {
                 new Yadda.yadda(/* TODO - Create the step library */).yadda([
@@ -55,8 +59,8 @@ Yadda is BDD library for javascript. It integrates with other javascript testing
     <head>
         <link rel="stylesheet" href="./lib/qunit.css">
         <script src="./lib/qunit.js"></script>   
-        <script src="./lib/yadda-0.2.0.js"></script>
-        <script src="./lib/yadda-0.2.0-localisation.js"></script>
+        <script src="./lib/yadda-0.2.1.js"></script>
+        <script src="./lib/yadda-0.2.1-localisation.js"></script>
         <script>
            var library = new Yadda.Library.English()
                 .given("$NUM green bottles are standing on the wall", function(number) {
@@ -84,7 +88,7 @@ Yadda is BDD library for javascript. It integrates with other javascript testing
 </html>
 ```
 
-## 0.2.0 Release Notes
+## 0.2.1 Release Notes
 
 ### Breaking API Changes
 
@@ -92,7 +96,7 @@ In previous version you invoked yadda with
 ```js
 new Yadda(steps).yadda(["some scenario"]);
 ```
-The equivalent syntax in 0.2.0 is
+The equivalent syntax in 0.2.1 is
 ```js
 new Yadda.yadda(library).yadda(["some scenario"]);
 ```
@@ -133,7 +137,7 @@ library.define('some text', function() {
     // Some code    
 })
 ```
-The helper methods are no longer available by default, but you can restore them by including yadda-0.2.0-localisation.js and creating your libraries as instances of Yadda.Library.English, e.g.
+The helper methods are no longer available by default, but you can restore them by including yadda-0.2.1-localisation.js and creating your libraries as instances of Yadda.Library.English, e.g.
 ```js
 var library = new Yadda.Library.English()
     .given('a (\\d+) green bottles', function() {
