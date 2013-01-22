@@ -1,8 +1,8 @@
 {
     "framework": "qunit",
     "src_files": [
-	    "src/js/yadda-0.2.0.js",
-        "src/js/yadda-0.2.0-localisation.js",
+	    "src/js/yadda-0.2.1.js",
+        "src/js/yadda-0.2.1-localisation.js",
         "test/**/*.js"
   	]
 }

@@ -48,7 +48,7 @@ Yadda.yadda = function(libraries, ctx) {
     }
 
     this.toString = function() {
-        "Yadda 0.2.0 Copyright 2010 Acuminous Ltd / Energized Work Ltd";
+        "Yadda 0.2.1 Copyright 2010 Acuminous Ltd / Energized Work Ltd";
     }    
 }
 
