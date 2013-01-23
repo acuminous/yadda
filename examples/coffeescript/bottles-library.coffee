@@ -9,7 +9,7 @@ dictionary = new Yadda.Dictionary()
 library = new Yadda.Library.English(dictionary)
 
 .given "$NUM green bottles are standing on the wall", (number_of_bottles) ->
-	wall = new Wall number_of_bottles
+    wall = new Wall number_of_bottles
 
 .when "$NUM green bottle accidentally falls", (number_of_falling_bottles) ->
     wall.fall number_of_falling_bottles

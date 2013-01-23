@@ -90,10 +90,12 @@ Yadda's syntax is also more flexible (but not necessarily better) than Gherkin a
 
 ## 0.2.1 Release Notes
 
-- Added an example demonstrating CoffeeScript.
-- Added an example demonstrating Nodeunit integration.
-- Added context attribute to Yadda.Interpreter.interpret
+- Added a CoffeeScript example
+- Added a Nodeunit example
+- Added a Mocha example
+- Added a new context variable to the interpret method. See Nodeunit example for usage.
 - Ensured that Yadda.after is called even if an error occurs
+- Fixed distance_table typo
 
 ## 0.2.0 Release Notes
 

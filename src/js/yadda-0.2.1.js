@@ -274,7 +274,7 @@ Yadda.LevenshteinDistanceScore = function(s1, s2) {
 
     this.value;
     this.type = 'LevenshteinDistanceScore';    
-    var distanceTable;
+    var distance_table;
     var _this = this;
 
     var initDistanceTable = function() {
@@ -282,24 +282,24 @@ Yadda.LevenshteinDistanceScore = function(s1, s2) {
         var x = s1.length;
         var y = s2.length;
 
-        distantce_table = new Array(x + 1);
+        distance_table = new Array(x + 1);
 
         for (i = 0; i <= x; i++) {
-            distantce_table[i] = new Array(y + 1);
+            distance_table[i] = new Array(y + 1);
         }
 
         for (var i = 0; i <= x; i++) {
             for (var j = 0; j <= y; j++) {
-                distantce_table[i][j] = 0;
+                distance_table[i][j] = 0;
             }
         }
 
         for (var i = 0; i <= x; i++) {
-            distantce_table[i][0] = i;
+            distance_table[i][0] = i;
         }
 
         for (var j = 0; j <= y; j++) {
-            distantce_table[0][j] = j;
+            distance_table[0][j] = j;
         }
     };
 
@@ -313,16 +313,16 @@ Yadda.LevenshteinDistanceScore = function(s1, s2) {
         for (var j = 0; j < s2_length; j++) {
             for (var i = 0; i < s1_length; i++) {
                 if (s1[i] == s2[j]) {
-                    distantce_table[i+1][j+1] = distantce_table[i][j];
+                    distance_table[i+1][j+1] = distance_table[i][j];
                 } else {
-                    var deletion = distantce_table[i][j+1] + 1;
-                    var insertion = distantce_table[i+1][j] + 1;
-                    var substitution = distantce_table[i][j] + 1;
-                    distantce_table[i+1][j+1] = Math.min(substitution, deletion, insertion)
+                    var deletion = distance_table[i][j+1] + 1;
+                    var insertion = distance_table[i+1][j] + 1;
+                    var substitution = distance_table[i][j] + 1;
+                    distance_table[i+1][j+1] = Math.min(substitution, deletion, insertion)
                 }
             }
         }
-        _this.value = distantce_table[s1_length][s2_length];
+        _this.value = distance_table[s1_length][s2_length];
     };
 
     this.beats = function(other) {
