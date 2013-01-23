@@ -19,11 +19,9 @@ library = new Yadda.Library.English(dictionary)
     wall.fall 1
     return
 
-
 .when "bounces back", -> 
     wall.returned 1 
     return
-
 
 .given "a loud bang", ->
     return # no op
@@ -31,7 +29,6 @@ library = new Yadda.Library.English(dictionary)
 .then "there (?:are|are still) $NUM green bottles standing on the wall", (number_of_bottles) ->
     this.equal number_of_bottles, wall.bottles
     return
-
 
 Wall = (bottles) ->
     this.bottles = bottles

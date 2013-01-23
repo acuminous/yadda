@@ -33,23 +33,26 @@ Yadda.yadda = function(libraries, ctx) {
         if (script == undefined) return this;
         var env = environment.merge(ctx);
         Yadda.Util.bind(env.ctx, before)();
-        this.interpreter.interpret(script, env.ctx);
-        Yadda.Util.bind(env.ctx, after)();
-    }
+        try {
+            this.interpreter.interpret(script, env.ctx);
+        } finally {
+            Yadda.Util.bind(env.ctx, after)();
+        }
+    };
 
     this.before = function(fn) {
         before = fn;
         return this;
-    }
+    };
 
     this.after = function(fn) {
         after = fn;
         return this;
-    }
+    };
 
     this.toString = function() {
         "Yadda 0.2.1 Copyright 2010 Acuminous Ltd / Energized Work Ltd";
-    }    
+    };   
 }
 
 // Understands a scenario

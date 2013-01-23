@@ -1,10 +1,10 @@
 # Yadda
 
-Yadda brings BDD style testing to other javascript test frameworks such as [QUnit](http://qunitjs.com), [Nodeunit](https://github.com/caolan/nodeunit) and [CasperJS](http://casperjs.org). With Yadda, test scenarios are written as arrays of strings, which while less readable than the feature file approach taken by [Cucumber](http://github.com/cucumber/cucumber-js), means we are not dependent on [node](http://node.js). 
+Yadda brings BDD style testing to other javascript test frameworks such as [QUnit](http://qunitjs.com), [Nodeunit](https://github.com/caolan/nodeunit) and [CasperJS](http://casperjs.org). With Yadda, test scenarios are written as arrays of strings, which, while less readable than the feature file approach taken by [Cucumber](http://github.com/cucumber/cucumber-js) means we are not dependent on [node](http://node.js). 
 
-The clumsiness of writing scenarios as arrays can be partially mitigated with [CoffeeScript](http://coffeescript.org), and offers an alternative (we think preferable) approach to a fluid api (see [Chai](http://chaijs.com)) or an anectdotal one such as that favoured by [Jasmine](http://pivotal.github.com/jasmine) (again improved with [CoffeeScript](http://coffeescriptcookbook.com/chapters/testing/testing_with_jasmine)).
+The clumsiness of writing scenarios as arrays can be partially mitigated with [CoffeeScript](http://coffeescript.org), and offers an alternative (we find preferable) approach to a fluid api (see [Chai](http://chaijs.com)) or an anectdotal one such as that favoured by [Jasmine](http://pivotal.github.com/jasmine) (again improved with [CoffeeScript](http://coffeescriptcookbook.com/chapters/testing/testing_with_jasmine)).
 
-On the plus side Yadda's syntax is more flexible (but not necessarily better) than Gherkin and it's step management is good at avoiding / resolving conflicts too.
+Yadda's syntax is also more flexible (but not necessarily better) than Gherkin and it's step management is good at avoiding / resolving conflicts too.
 
 ## Usage
 
@@ -89,6 +89,13 @@ On the plus side Yadda's syntax is more flexible (but not necessarily better) th
 ```
 
 ## 0.2.1 Release Notes
+
+- Added an example demonstrating CoffeeScript.
+- Added an example demonstrating Nodeunit integration.
+- Added context attribute to Yadda.Interpreter.interpret
+- Ensured that Yadda.after is called even if an error occurs
+
+## 0.2.0 Release Notes
 
 ### Breaking API Changes
 
