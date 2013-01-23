@@ -25,7 +25,7 @@ test('Macro can interpret a line of text', function() {
     same(execution.ctx, {a: 1, b: 2}, "The step code was not run in the correct context");
 });
 
-test('Macro provides a levenshtein signature', function() {
+test('Macro provides a signature that can be used to compare levenshtein distance', function() {
 
     Yadda.Util.each([
         /the quick brown fox/,

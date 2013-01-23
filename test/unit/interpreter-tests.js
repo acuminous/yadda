@@ -1,7 +1,6 @@
 test('Interpreter can interpret a single line script', function() {
 
     var executions = 0;
-
     var library = new Yadda.Library().define('Blah blah blah', function() { executions++; });
 
     new Yadda.Interpreter(library).interpret('Blah blah blah');
@@ -12,7 +11,6 @@ test('Interpreter can interpret a single line script', function() {
 test('Interpreter can interpret a multiline script', function() {
 
     var executions = 0;
-
     var library = new Yadda.Library().define('Blah blah blah', function() { executions++; });
 
     new Yadda.Interpreter(library).interpret([
@@ -66,5 +64,4 @@ test('Interpreter reports undefined steps', function() {
     raises(function() {
         interpreter.interpret('Blah blah blah');
     }, /Undefined Step: \[Blah blah blah\]/);
-
 });

@@ -12,32 +12,28 @@ library = new Yadda.Library.English(dictionary)
     wall = new Wall number_of_bottles
 
 .when "$NUM green bottle accidentally falls", (number_of_falling_bottles) ->
-    wall.fall number_of_falling_bottles
-    return
+    wall.lose number_of_falling_bottles
 
 .when "another green bottle accidentally falls", -> 
-    wall.fall 1
-    return
+    wall.lose 1
 
 .when "bounces back", -> 
-    wall.returned 1 
-    return
+    wall.add 1 
 
 .given "a loud bang", ->
-    return # no op
+    return
 
 .then "there (?:are|are still) $NUM green bottles standing on the wall", (number_of_bottles) ->
     this.equal number_of_bottles, wall.bottles
-    return
 
 Wall = (bottles) ->
     this.bottles = bottles
 
-    this.fall = (n) ->
+    this.lose = (n) ->
         this.bottles -= n
         return
 
-    this.returned = () ->
+    this.add = () ->
         this.bottles++
         return
 

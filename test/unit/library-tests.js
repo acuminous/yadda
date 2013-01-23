@@ -1,9 +1,8 @@
 var NO_OP = function() {};
 
 test('Library can hold String mapped macros', function() {
-    var library = new Yadda.Library();
-    
-    library.define('foo', NO_OP);
+    var library = new Yadda.Library()
+        .define('foo', NO_OP);
 
     ok(library.get_macro('foo'), 'Macro should have been defined');
     ok(library.get_macro(/foo/), 'Macro should have been defined');
@@ -92,18 +91,18 @@ test('Library can be localised', function() {
         'Expect there are 99 bottles left',
         'expect there are 99 bottles left'
     ];
-
-    var assert_localisation = function(statements, signature) {
-        for (var i = 0; i < statements.length; i++) {   
-            equal(library.find_compatible_macros(statements[i]).length, 1, statements[i]);
-            equal(library.find_compatible_macros(statements[i])[0].signature, signature, statements[i]);
-        }        
-    }
     
-    assert_localisation(givens, '/(?:[Gg]iven|[Ww]ith|[Aa]nd|[Bb]ut) a wall with (\\d+) bottles/');
-    assert_localisation(whens, '/(?:[Ww]hen|[Aa]nd|[Bb]ut) (\\d+) bottle(?:s)? accidentally falls/');
-    assert_localisation(thens, '/(?:[Tt]hen|[Ee]xpect|[Aa]nd|[Bb]ut) there are (\\d+) bottles left/');
+    assert_localisation(library, givens, '/(?:[Gg]iven|[Ww]ith|[Aa]nd|[Bb]ut) a wall with (\\d+) bottles/');
+    assert_localisation(library, whens, '/(?:[Ww]hen|[Aa]nd|[Bb]ut) (\\d+) bottle(?:s)? accidentally falls/');
+    assert_localisation(library, thens, '/(?:[Tt]hen|[Ee]xpect|[Aa]nd|[Bb]ut) there are (\\d+) bottles left/');
 });
+
+var assert_localisation = function(library, statements, signature) {
+    for (var i = 0; i < statements.length; i++) {   
+        equal(library.find_compatible_macros(statements[i]).length, 1, statements[i]);
+        equal(library.find_compatible_macros(statements[i])[0].signature, signature, statements[i]);
+    }        
+}
 
 test('Library localision supports aliased macros', function() {
 
