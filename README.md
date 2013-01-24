@@ -170,7 +170,7 @@ Regular expressions can get pretty ugly, so it's often preferable to relax the r
 
 ```js
 var library = new Yadda.Library.English()
-    library.given(/$NUM green bottles standing on the wall/, function(n) {
+    .given(/$NUM green bottles standing on the wall/, function(n) {
         // some code
     }); 
 ```
