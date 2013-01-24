@@ -129,9 +129,7 @@ new Yadda.yadda(library).yadda([
     "then there are 99 green bottles standing on the wall"
 ]);
 ```
-### Defining Steps
-
-#### Step Anatomy
+### Step Anatomy
 A step is made up of a regular expression, a function and context. 
 
 ```js
