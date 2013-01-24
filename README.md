@@ -87,6 +87,137 @@ Yadda's syntax is also more flexible (but not necessarily better) than Gherkin a
     </body>
 </html>
 ```
+## Supported Libraries
+Yadda works with QUnit, Nodeunit, Mocha and CasperJS. See the examples for details.
+
+## Features
+
+### Flexible syntax
+It's common for BDD libraries to limit syntax to precondition (given) steps, action (when) steps and assertion (then) steps. Yadda doesn't. This allows for more freedom of expression. e.g.
+```js
+var library = new Yadda.Library()
+    .define("$NUM green bottle(?:s){0,1} standing on the wall", function(number) { 
+        // some code
+    })                
+    .define("if $NUM green bottle(?:s){0,1} should accendentally fall", function(number) { 
+        // some code
+    })
+    .define("there are $NUM green bottle(?:s){0,1} standing on the wall", function(number) {
+        // some code
+    });
+new Yadda.yadda(library).yadda([
+    "100 green bottles standing on the wall",
+    "if 1 green bottle should accidentally fall",
+    "there are 99 green bottles standing on the wall"
+]);
+```
+However we think that Given/When/Then (along with And/But/With) is a good starting point, so we recommend including yadda-0.2.1-localisation.js and using Yadda.Library.English instead of the vanilla Yadda.Library. This adds 'given', 'when', 'then', 'and', 'but' and 'with' helper methods, enabling you to define your steps as follows...
+```js
+var library = new Yadda.Library()
+    .given("$NUM green bottle(?:s){0,1} standing on the wall", function(number) { 
+        // some code
+    })                
+    .when("$NUM green bottle(?:s){0,1} should accendentally fall", function(number) { 
+        // some code
+    })
+    .then("there are $NUM green bottle(?:s){0,1} standing on the wall", function(number) {
+        // some code
+    });
+new Yadda.yadda(library).yadda([
+    "Given 100 green bottles standing on the wall",
+    "when 1 green bottle should accidentally fall",
+    "then there are 99 green bottles standing on the wall"
+]);
+```
+### Defining Steps
+
+#### Step Anatomy
+A step is made up of a regular expression, a function and context. 
+
+```js
+    var ctx = { assert: assert };
+    library.given('^(\\d+) green bottle(?:s){0,1} standing on the wall$', function(n) {
+       wall = new Wall(n);
+       this.assert.equals(wall.bottles, n);
+    }, ctx);
+```
+
+#### Regular Expressions
+The regular expression is used to identify which steps are compatible with the input text, and to provide arguments to the function (e.g. number of bottles). You can specify step signatures using true RegExp, which is handy if they contain lots of backslash characters. e.g.
+```js
+var library = new Yadda.Library.English()
+    library.given(/^(\d+) green bottle(?:s){0,1} standing on the wall$/, function(n) {
+        // some code
+    }); 
+```
+
+#### Functions
+The function is the code you want to execute for a specific line of text. If you don't specify a function then a no-op function will be used.
+
+#### Contexts
+The context will be bound with the function before it is executed and provides a non global way to share state between steps, or pass in define time variables such as an assertion library. The context is also optional.
+
+It can be a chore to add a context to every step, so a common context can be specified at the interpreter and scenario levels too...
+```js
+ // Shared between all scenarios
+new Yadda.yadda(library, ctx);
+
+// Shared between all steps in this scenario
+new Yadda.yadda(library).yadda(["scenario"], ctx);
+```
+If you specify multiple contexts they will be merged before executing the step.
+
+#### Terms
+Regular expressions can get pretty ugly, so it's often preferable to relax the regex and use a $term variable which will be replaced with a wildcard i.e. '(.+)'.
+
+```js
+var library = new Yadda.Library.English()
+    library.given(/$NUM green bottles standing on the wall/, function(n) {
+        // some code
+    }); 
+```
+
+#### Term Dictionary
+Using $term variables can relax the regular expression too much and cause clashes between steps. Yadda 0.2.0 provides greater control over the expansion through use of a dictionary, e.g.
+
+```js
+var dictionary = new Yadda.Dictionary()
+    .define('gender', '(male|female)')
+    .define('speciaility', '(cardio|elderly|gastro)');
+
+var library = new Yadda.Library.English(dictionary)
+    .given('a $gender, $speciality patient called $name', function(gender, speciality, name) { /* some code */ });
+```
+will expand to 
+```js
+"(?:[Gg]iven|[Aa]nd|[Ww]ith]|[Bb]ut) a (male|female), (cardio|elderly|gastro) patient called (.+)"
+```
+and therefore match "Given a female, elderly patient called Carol". The expansions can also contain $terms so
+```js
+var dictionary = new Yadda.Dictionary()
+    .define('address_line_1', '$number $street')
+    .define('number', /(\d+)/)
+    .define('street', /(\w+)/);
+
+var library = new Yadda.Library.English(dictionary)
+    .given('a street address of $address_line_1', function(number, street) { /* some code */ });   
+```
+will expand to
+```js
+"(?:[Gg]iven|[Aa]nd|[Ww]ith]|[Bb]ut) a street address of (\d+) (\w+)"
+```
+
+#### Before and After callbacks
+It is often useful to run some code before and/or after each scenario. Yadda supports this with before and after callbacks. e.g.
+```js
+var yadda = new Yadda.yadda(libraries)
+    .before(function() {
+        // some code
+    })
+    .after(function() {
+        // some code
+    });
+```
 
 ## 0.2.1 Release Notes
 
@@ -156,46 +287,4 @@ var library = new Yadda.Library.English()
     }).then('there are (\\d+) green bottles', function() {
         // some code
     }); 
-```
-### New Features
-
-#### Term Dictionary
-The concept of a dictionary has been added to expand $terms embedded in step signatures. By defaut a $term expands to a wildcard group, i.e. (.+) but now you can define your own expansions, e.g.
-
-```js
-var dictionary = new Yadda.Dictionary()
-    .define('gender', '(male|female)')
-    .define('speciaility', '(cardio|elderly|gastro)');
-
-var library = new Yadda.Library.English(dictionary)
-    .given('a $gender, $speciality patient called $name', function() { /* TODO */ });
-```
-will expand to 
-```js
-"(?:[Gg]iven|[Aa]nd|[Ww]ith]|[Bb]ut) a (male|female), (cardio|elderly|gastro) patient called (.+)"
-```
-and therefore match "Given a female, elderly patient called Carol"
-
-#### Step Signatures as RegEx objects
-You can now specify step signatures using true RegExp (which is handy if they contain lots of backslash characters).
-```js
-var library = new Yadda.Library.English()
-    .given(/a (\d+) green bottles/, function() {
-        // some code
-    }).when(/(\d+) falls/, function() {
-        // some code
-    }).then(/there are (\d+) green bottles/, function() {
-        // some code
-    }); 
-```
-#### Before and After callbacks
-It is often useful to run some code before and/or after each scenario. Yadda supports this with before and after callbacks. e.g.
-```js
-var yadda = new Yadda.yadda(libraries)
-    .before(function() {
-        // some code
-    })
-    .after(function() {
-        // some code
-    });
 ```

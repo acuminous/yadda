@@ -125,6 +125,7 @@ Yadda.Macro = function(signature, signature_pattern, fn, ctx) {
     var _this = this;
     var environment = new Yadda.Environment(ctx);
     var signature_pattern = new Yadda.RegularExpression(signature_pattern);
+    var fn = fn ? fn : function() {};
 
     var init = function(signature, signature_pattern) {
         _this.signature = normalise(signature);
