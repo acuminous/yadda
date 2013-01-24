@@ -207,7 +207,7 @@ One issue you find with BDD libraries, is that two steps might match the same in
 
 1. By using the Levenshtein Distance to determine which step is the best match when clashes occur.
 
-2. By allowing you to define steps in multiple libraries. Grouping steps into libraries not only helps keep a tidy code base, will prevent clashes if you scenario doesn't require the library with the alternative step.
+2. By allowing you to define steps in multiple libraries. Grouping steps into libraries not only helps keep a tidy code base, but also prevents clashes if you scenario doesn't require the library with the alternative step.
 
 2. If you still have problems with clashing, you can use the term dictionary to make your regular expression more specific without affecting the readability of your step.
 
