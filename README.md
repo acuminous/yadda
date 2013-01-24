@@ -2,11 +2,11 @@
 
 Yadda brings BDD style testing to other javascript test frameworks such as [QUnit](http://qunitjs.com), [Nodeunit](https://github.com/caolan/nodeunit) and [CasperJS](http://casperjs.org). With Yadda, test scenarios are written as arrays of strings, which, while less readable than the feature file approach taken by [Cucumber](http://github.com/cucumber/cucumber-js) means we are not dependent on [node](http://node.js). 
 
-The clumsiness of writing scenarios as arrays can be partially mitigated with [CoffeeScript](http://coffeescript.org), and offers an alternative (we find preferable) approach to a fluid api (see [Chai](http://chaijs.com)) or an anectdotal one such as that favoured by [Jasmine](http://pivotal.github.com/jasmine) (again improved with [CoffeeScript](http://coffeescriptcookbook.com/chapters/testing/testing_with_jasmine)).
+The clumsiness of writing scenarios as arrays can be partially mitigated with [CoffeeScript](http://coffeescript.org), and offers an alternative (we find preferable) approach to a fluid api (see [Chai](http://chaijs.com)) or an anectdotal one such as that favoured by [Jasmine](http://pivotal.github.com/jasmine) (also improved with [CoffeeScript](http://coffeescriptcookbook.com/chapters/testing/testing_with_jasmine)).
 
 Yadda's syntax is also more flexible (but not necessarily better) than Gherkin and it's step management is good at avoiding / resolving conflicts too.
 
-## Usage
+## Quick Start
 
 ### Step 1 - Pick your testing framework (e.g. QUnit)
 
@@ -87,12 +87,12 @@ Yadda's syntax is also more flexible (but not necessarily better) than Gherkin a
     </body>
 </html>
 ```
-## Supported Libraries
-Yadda works with QUnit, Nodeunit, Mocha and CasperJS. See the examples for details.
-
 ## Features
 
-### Flexible syntax
+### Supported Libraries
+Yadda works with QUnit, Nodeunit, Mocha and CasperJS. See the examples for details.
+
+### Flexible BDD Syntax
 It's common for BDD libraries to limit syntax to precondition (given) steps, action (when) steps and assertion (then) steps. Yadda doesn't. This allows for more freedom of expression. e.g.
 ```js
 var library = new Yadda.Library()
@@ -141,7 +141,7 @@ library.given('^(\\d+) green bottle(?:s){0,1} standing on the wall$', function(n
 ```
 
 #### Regular Expressions
-The regular expression is used to identify which steps are compatible with the input text, and to provide arguments to the function. You can specify step signatures using true RegExp, which is handy if they contain lots of backslash characters. e.g.
+The regular expression is used to identify which steps are compatible with the input text, and to provide arguments to the function. You can specify step signatures using true RegExp object, which is handy if they contain lots of backslash characters. e.g.
 ```js
 var library = new Yadda.Library.English()
     .given(/^(\d+) green bottle(?:s){0,1} standing on the wall$/, function(n) {
@@ -174,8 +174,6 @@ var library = new Yadda.Library.English()
         // some code
     }); 
 ```
-
-#### Term Dictionary
 Using $term variables can relax the regular expression too much and cause clashes between steps. Yadda 0.2.0 provides greater control over the expansion through use of a dictionary, e.g.
 
 ```js
@@ -204,6 +202,14 @@ will expand to
 ```js
 "(?:[Gg]iven|[Aa]nd|[Ww]ith]|[Bb]ut) a street address of (\d+) (\w+)"
 ```
+#### Step Management
+One issue you find with BDD libraries, is that two steps might match the same input text. Usually this results in an error, and you end up having to add some extra text to one of the steps in order to differentiate it. Yadda attempts to minimise this in three ways.
+
+1. By using the Levenshtein Distance to determine which step is the best match when clashes occur.
+
+2. By allowing you to define steps in multiple libraries. Grouping steps into libraries not only helps keep a tidy code base, will prevent clashes if you scenario doesn't require the library with the alternative step.
+
+2. If you still have problems with clashing, you can use the term dictionary to make your regular expression more specific without affecting the readability of your step.
 
 #### Before and After callbacks
 It is often useful to run some code before and/or after each scenario. Yadda supports this with before and after callbacks. e.g.
