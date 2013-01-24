@@ -133,18 +133,18 @@ new Yadda.yadda(library).yadda([
 A step is made up of a regular expression, a function and context. 
 
 ```js
-    var ctx = { assert: assert };
-    library.given('^(\\d+) green bottle(?:s){0,1} standing on the wall$', function(n) {
-       wall = new Wall(n);
-       this.assert.equals(wall.bottles, n);
-    }, ctx);
+var ctx = { assert: assert };
+library.given('^(\\d+) green bottle(?:s){0,1} standing on the wall$', function(n) {
+   wall = new Wall(n);
+   this.assert.equals(wall.bottles, n);
+}, ctx);
 ```
 
 #### Regular Expressions
 The regular expression is used to identify which steps are compatible with the input text, and to provide arguments to the function (e.g. number of bottles). You can specify step signatures using true RegExp, which is handy if they contain lots of backslash characters. e.g.
 ```js
 var library = new Yadda.Library.English()
-    library.given(/^(\d+) green bottle(?:s){0,1} standing on the wall$/, function(n) {
+    .given(/^(\d+) green bottle(?:s){0,1} standing on the wall$/, function(n) {
         // some code
     }); 
 ```
