@@ -161,7 +161,7 @@ It can be a chore to add a context to every step, so a common context can be spe
 new Yadda.yadda(library, ctx);
 
 // Shared between all steps in this scenario
-new Yadda.yadda(library).yadda(["scenario"], ctx);
+new Yadda.yadda(library).yadda('Some scenario', ctx);
 ```
 If you specify multiple contexts they will be merged before executing the step.
 
@@ -221,6 +221,19 @@ var yadda = new Yadda.yadda(libraries)
     .after(function() {
         // some code
     });
+```
+The .before and .after functions are bound to the context if one is supplied.
+```js
+var yadda = new Yadda.yadda(libraries, {msg1: 'hello'})
+    .before(function() {
+        this.msg1 == 'hello';
+        this.msg2 == 'goodbye';
+    })
+    .after(function() {
+        this.msg1 == 'hello';
+        this.msg2 == 'goodbye';        
+    })
+    .yadda('Some scenario', {msg2: 'goodbye'});
 ```
 
 ## 0.2.1 Release Notes
