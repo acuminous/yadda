@@ -141,7 +141,7 @@ library.given('^(\\d+) green bottle(?:s){0,1} standing on the wall$', function(n
 ```
 
 #### Regular Expressions
-The regular expression is used to identify which steps are compatible with the input text, and to provide arguments to the function (e.g. number of bottles). You can specify step signatures using true RegExp, which is handy if they contain lots of backslash characters. e.g.
+The regular expression is used to identify which steps are compatible with the input text, and to provide arguments to the function. You can specify step signatures using true RegExp, which is handy if they contain lots of backslash characters. e.g.
 ```js
 var library = new Yadda.Library.English()
     .given(/^(\d+) green bottle(?:s){0,1} standing on the wall$/, function(n) {
