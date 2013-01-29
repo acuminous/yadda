@@ -1,3 +1,5 @@
+module('environment');
+
 test("Environment contexts can be merged", function() {
     assert_merge_ctx({a: 1}, undefined, {a: 1});
     assert_merge_ctx({a: 1}, null, {a: 1});

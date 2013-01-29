@@ -1,3 +1,5 @@
+module('hospital');
+
 var yadda = new Yadda.yadda(patient_lib)
     .before(function() {
         hospital = ward = bed = patient = null;

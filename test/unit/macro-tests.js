@@ -1,3 +1,5 @@
+module('macro');
+
 var Execution = function() {    
     this.code = function() {      
         execution.executed = true;        

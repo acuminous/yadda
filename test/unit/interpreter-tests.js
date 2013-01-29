@@ -1,3 +1,5 @@
+module('interpreter');
+
 test('Interpreter can interpret a single line script', function() {
 
     var executions = 0;

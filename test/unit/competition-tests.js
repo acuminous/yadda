@@ -1,3 +1,5 @@
+module('competition');
+
 test("Competition winner is decided by Levenshtein distance", function() {
 
     var best_match = new Yadda.Macro('best', /given 1 (.*) patient/);

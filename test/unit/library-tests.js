@@ -1,8 +1,8 @@
-var NO_OP = function() {};
+module('library');
 
 test('Library can hold String mapped macros', function() {
     var library = new Yadda.Library()
-        .define('foo', NO_OP);
+        .define('foo');
 
     ok(library.get_macro('foo'), 'Macro should have been defined');
     ok(library.get_macro(/foo/), 'Macro should have been defined');
@@ -10,7 +10,7 @@ test('Library can hold String mapped macros', function() {
 
 test('Library can hold RegExp mapped macros', function() {
     var library = new Yadda.Library()
-        .define(/bar/, NO_OP);
+        .define(/bar/);
 
     ok(library.get_macro(/bar/), 'Macro should have been defined');
     ok(library.get_macro('bar'), 'Macro should have been defined');
@@ -18,7 +18,7 @@ test('Library can hold RegExp mapped macros', function() {
 
 test('Library supports aliased macros', function() {
     var library = new Yadda.Library()
-        .define([/bar/, /foo/], NO_OP)
+        .define([/bar/, /foo/])
 
     ok(library.get_macro(/bar/), 'Macro should have been defined');
     ok(library.get_macro(/foo/), 'Macro should have been defined');
@@ -31,7 +31,7 @@ test('Library expands macro signature using specified dictionary', function() {
         .define('speciality', '(cardiovascular|elderly care)');
 
     var library = new Yadda.Library(dictionary)
-        .define('Given a $gender, $speciality patient called $name', NO_OP);
+        .define('Given a $gender, $speciality patient called $name');
 
     var macro = library.get_macro('Given a $gender, $speciality patient called $name');
     ok(macro.can_interpret('Given a male, cardiovascular patient called Bob'));
@@ -43,19 +43,19 @@ test('Library expands macro signature using specified dictionary', function() {
 test('Library reports duplicate macros', function() {
 
     var library = new Yadda.Library()
-        .define(/bar/, NO_OP);    
+        .define(/bar/);    
 
     raises(function() {
-        library.define(/bar/, NO_OP);
+        library.define(/bar/);
     }, 'Duplicate macro: [/blah/]')
 });
 
 test('Library finds all compatible macros', function() {
 
     var library = new Yadda.Library()   
-        .define(/^food$/, NO_OP)
-        .define(/^foo.*$/, NO_OP)
-        .define(/^f.*$/, NO_OP);
+        .define(/^food$/)
+        .define(/^foo.*$/)
+        .define(/^f.*$/);
 
     equal(library.find_compatible_macros('fort').length, 1);
     equal(library.find_compatible_macros('foodie').length, 2);
@@ -65,9 +65,9 @@ test('Library finds all compatible macros', function() {
 test('Library can be localised', function() {
 
     var library = Yadda.Library.English()
-        .given(/^a wall with (\d+) bottles/, NO_OP)
-        .when(/^(\d+) bottle(?:s)? accidentally falls/, NO_OP)
-        .then(/^there are (\d+) bottles left/, NO_OP);
+        .given(/^a wall with (\d+) bottles/)
+        .when(/^(\d+) bottle(?:s)? accidentally falls/)
+        .then(/^there are (\d+) bottles left/);
 
     var givens = [
         'Given a wall with 100 bottles',
@@ -107,9 +107,9 @@ var assert_localisation = function(library, statements, signature) {
 test('Library localision supports aliased macros', function() {
 
     var library = Yadda.Library.English()
-        .given([/^a wall with (\d+) bottles/, /^a wall with (\d+) green bottles/], NO_OP)
-        .when([/^(\d+) bottle(?:s)? accidentally falls/, /^(\d+) green bottle(?:s)? accidentally falls/], NO_OP)
-        .then([/^there are (\d+) bottles left/, /^there are (\d+) green bottles left/], NO_OP);
+        .given([/^a wall with (\d+) bottles/, /^a wall with (\d+) green bottles/])
+        .when([/^(\d+) bottle(?:s)? accidentally falls/, /^(\d+) green bottle(?:s)? accidentally falls/])
+        .then([/^there are (\d+) bottles left/, /^there are (\d+) green bottles left/]);
     
     equal(library.find_compatible_macros('Given a wall with 100 bottles').length, 1);
     equal(library.find_compatible_macros('Given a wall with 100 green bottles').length, 1);

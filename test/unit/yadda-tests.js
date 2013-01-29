@@ -1,3 +1,5 @@
+module('yadda');
+
 test('Yadda interprets scenarios', function() {
     var executions = 0;
     var library = new Yadda.Library().define('foo', function() { executions++ });
