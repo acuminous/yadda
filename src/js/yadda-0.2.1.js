@@ -21,8 +21,9 @@ Yadda.yadda = function(libraries, ctx) {
 
     this.interpreter = new Yadda.Interpreter(libraries);
     var environment = new Yadda.Environment(ctx);
-    var before = function() {};
-    var after = function() {};
+    var before = Yadda.NO_OP;
+    var after = Yadda.NO_OP;
+    var _this = this;    
 
     this.requires = function(libraries) {
         this.interpreter.requires(libraries);
@@ -31,14 +32,17 @@ Yadda.yadda = function(libraries, ctx) {
 
     this.yadda = function(script, ctx) {
         if (script == undefined) return this;
-        var env = environment.merge(ctx);
-        Yadda.Util.bind(env.ctx, before)();
-        try {
-            this.interpreter.interpret(script, env.ctx);
-        } finally {
-            Yadda.Util.bind(env.ctx, after)();
-        }
+        run(script, environment.merge(ctx));        
     };
+
+    var run = function(script, env) {
+        Yadda.invoke(before, env.ctx);
+        try {
+            _this.interpreter.interpret(script, env.ctx);
+        } finally {
+            Yadda.invoke(after, env.ctx);
+        }        
+    }
 
     this.before = function(fn) {
         before = fn;
@@ -58,7 +62,7 @@ Yadda.yadda = function(libraries, ctx) {
 // Understands a scenario
 Yadda.Interpreter = function(libraries) {
 
-    var libraries = Yadda.Util.ensure_array(libraries);
+    var libraries = Yadda.$(libraries);
     var _this = this;
 
     this.requires = function(libraries) {
@@ -67,16 +71,16 @@ Yadda.Interpreter = function(libraries) {
     };
 
     this.interpret = function(scenario, ctx) {
-        Yadda.Util.ensure_array(scenario).each(function(step) { 
+        Yadda.$(scenario).each(function(step) { 
             _this.interpret_step(step, ctx);
         });
     };
 
     this.interpret_step = function(step, ctx) {
-        this.competing_macros(step).clear_winner().interpret(step, ctx);
+        this.rank_macros(step).clear_winner().interpret(step, ctx);
     };  
 
-    this.competing_macros = function(step) {
+    this.rank_macros = function(step) {
         return new Yadda.Competition(step, compatible_macros(step));
     };
 
@@ -90,12 +94,12 @@ Yadda.Interpreter = function(libraries) {
 // Understands how to index macros
 Yadda.Library = function(dictionary) {
 
-    var dictionary = dictionary ? dictionary : new Yadda.Dictionary();
-    var macros = Yadda.Util.ensure_array([]);
+    var dictionary = dictionary || new Yadda.Dictionary();
+    var macros = Yadda.$();
     var _this = this;    
 
     this.define = function(signatures, fn, ctx) {
-        Yadda.Util.ensure_array(signatures).each(function(signature) {            
+        Yadda.$(signatures).each(function(signature) {            
             define_macro(signature, fn, ctx);
         });
         return this;        
@@ -122,10 +126,10 @@ Yadda.Library = function(dictionary) {
 // Understands a step
 Yadda.Macro = function(signature, signature_pattern, fn, ctx) {    
     
-    var _this = this;
     var environment = new Yadda.Environment(ctx);
     var signature_pattern = new Yadda.RegularExpression(signature_pattern);
-    var fn = fn ? fn : function() {};
+    var fn = fn || Yadda.NO_OP;
+    var _this = this;    
 
     var init = function(signature, signature_pattern) {
         _this.signature = normalise(signature);
@@ -140,13 +144,13 @@ Yadda.Macro = function(signature, signature_pattern, fn, ctx) {
     };  
 
     this.interpret = function(step, ctx) {    
-        var args = signature_pattern.groups(step);
         var env = environment.merge(ctx);
-        return Yadda.Util.bind(env.ctx, fn)(args);
+        var args = signature_pattern.groups(step);
+        return Yadda.invoke(fn, env.ctx, args);
     };
 
     this.levenshtein_signature = function() {
-        return signature_pattern.undress();            
+        return signature_pattern.without_expressions();            
     };
 
     var normalise = function(signature) {
@@ -160,10 +164,10 @@ Yadda.Macro = function(signature, signature_pattern, fn, ctx) {
     init(signature, signature_pattern)
 };
 
-// Understands definitions of termsxx
+// Understands definitions of terms
 Yadda.Dictionary = function(prefix) {
 
-    var prefix = prefix ? prefix : '$';
+    var prefix = prefix || '$';
     var terms = {};
     var term_pattern = new Yadda.RegularExpression(new RegExp('(?:^|[^\\\\])\\' + prefix + '(\\w+)', 'g')); 
     var _this = this;       
@@ -179,9 +183,8 @@ Yadda.Dictionary = function(prefix) {
     };    
 
     this.expand = function(term, already_expanding) {
-        var already_expanding = Yadda.Util.ensure_array(already_expanding);
         if (!is_expandable(term)) return term;
-        return expand_sub_terms(term, already_expanding);
+        return expand_sub_terms(term, Yadda.$(already_expanding));
     };
 
     var expand_sub_terms = function(term, already_expanding) {
@@ -197,7 +200,7 @@ Yadda.Dictionary = function(prefix) {
     }
 
     var expand_sub_term = function(sub_term, already_expanding) {
-        var definition = terms[sub_term] ? terms[sub_term] : '(.+)';
+        var definition = terms[sub_term] || '(.+)';
         return is_expandable(definition) ? _this.expand(definition, already_expanding.concat(sub_term)) : definition;
     }
 
@@ -210,7 +213,6 @@ Yadda.Dictionary = function(prefix) {
     };  
 };
 
-
 // Understands a macros execution context
 Yadda.Environment = function(ctx) {
 
@@ -220,22 +222,22 @@ Yadda.Environment = function(ctx) {
     this.merge = function(other) {
         other = get_item_to_merge(other);
         return new Yadda.Environment(this.ctx)._merge(other);
-    }
+    };
 
     var get_item_to_merge = function(other) {
         if (!other) return {};
         return other._merge_on ? other[other._merge_on] : other;
-    }
+    };
 
     this._merge = function(other_ctx) {
         for (var key in other_ctx) { this.ctx[key] = other_ctx[key] }; 
         return this;
-    }
+    };
 
     this._merge(ctx);
-}
+};
 
-// Understands appropriateness of macros
+// Understands appropriateness of macros in relation to a specific step
 Yadda.Competition = function(step, macros) {
 
     var results = [];
@@ -246,7 +248,7 @@ Yadda.Competition = function(step, macros) {
     this.clear_winner = function() {
         if (number_of_competitors() == 0) throw 'Undefined Step: [' + step + ']';
         if (joint_first_place()) throw 'Ambiguous Step: [' + step + ']';
-        return this.winner() 
+        return this.winner();
     };   
 
     var number_of_competitors = function() {
@@ -254,7 +256,8 @@ Yadda.Competition = function(step, macros) {
     };
 
     var joint_first_place = function() {
-        return (number_of_competitors() > 1) && results[FIRST_PLACE].score.equals(results[SECOND_PLACE].score); 
+        return (number_of_competitors() > 1) && 
+            results[FIRST_PLACE].score.equals(results[SECOND_PLACE].score); 
     };
 
     this.winner = function() {
@@ -263,11 +266,14 @@ Yadda.Competition = function(step, macros) {
 
     var rank = function(step, macros) {
         results = macros.collect(function(macro) {
-            return { macro: macro, score: new Yadda.LevenshteinDistanceScore(step, macro.levenshtein_signature()) }
+            return { 
+                macro: macro, 
+                score: new Yadda.LevenshteinDistanceScore(step, macro.levenshtein_signature())
+            }
         }).sort( by_ascending_score );
     };
 
-    rank(step, Yadda.Util.ensure_array(macros));
+    rank(step, Yadda.$(macros));
 };
 
 // Understands similarity of two strings
@@ -278,7 +284,7 @@ Yadda.LevenshteinDistanceScore = function(s1, s2) {
     var distance_table;
     var _this = this;
 
-    var initDistanceTable = function() {
+    var initialise = function() {
 
         var x = s1.length;
         var y = s2.length;
@@ -308,11 +314,8 @@ Yadda.LevenshteinDistanceScore = function(s1, s2) {
 
         if (s1 == s2) return 0;
 
-        var s1_length = s1.length;
-        var s2_length = s2.length;
-
-        for (var j = 0; j < s2_length; j++) {
-            for (var i = 0; i < s1_length; i++) {
+        for (var j = 0; j < s2.length; j++) {
+            for (var i = 0; i < s1.length; i++) {
                 if (s1[i] == s2[j]) {
                     distance_table[i+1][j+1] = distance_table[i][j];
                 } else {
@@ -323,7 +326,7 @@ Yadda.LevenshteinDistanceScore = function(s1, s2) {
                 }
             }
         }
-        _this.value = distance_table[s1_length][s2_length];
+        _this.value = distance_table[s1.length][s2.length];
     };
 
     this.beats = function(other) {
@@ -335,7 +338,7 @@ Yadda.LevenshteinDistanceScore = function(s1, s2) {
         return (this.type == other.type && this.value == other.value);
     }   
 
-    initDistanceTable();
+    initialise();
     score();
 };
 
@@ -356,15 +359,15 @@ Yadda.RegularExpression = function(pattern_or_regexp) {
     };  
 
     this.groups = function(text) {
-        var results = Yadda.Util.ensure_array([]);
+        var results = Yadda.$();
         var match = regexp.exec(text);
-        while (match) {
+        while (match) {            
             var groups = match.slice(1, match.length);
-            results.push(Array.prototype.slice.call(groups, 0))
+            results.push(groups)
             match = regexp.global && regexp.exec(text)
         }
         this.reset();
-        return results;        
+        return results.flatten();        
     };   
 
     this.reset = function() {
@@ -372,7 +375,7 @@ Yadda.RegularExpression = function(pattern_or_regexp) {
         return this;
     };
 
-    this.undress = function() {
+    this.without_expressions = function() {
         return regexp.source.replace(groups_pattern, '$1')
                             .replace(sets_pattern, '$1')
                             .replace(repetitions_pattern, '$1')
@@ -391,12 +394,17 @@ Yadda.RegularExpression = function(pattern_or_regexp) {
 
 // Utility functions
 Yadda.Util = {
+
+    is_array: function(obj) {
+        return Object.prototype.toString.call(obj) === '[object Array]'        
+    },
+
     ensure_array: function(obj) {
         var array = obj ? [].concat(obj) : [];
-        array.ensure_array = this.curry(array, this.ensure_array);
         array.in_array = this.curry(array, this.in_array, array);
         array.each = this.curry(array, this.each, array);
         array.collect = this.curry(array, this.collect, array);
+        array.flatten = this.curry(array, this.flatten, array);
         array.inject = this.curry(array, this.inject, array);
         array.push_all = this.curry(array, this.push_all, array);
         array.find_all = this.curry(array, this.find_all, array);
@@ -414,9 +422,16 @@ Yadda.Util = {
                 break;
             }
         }
-
         return found;
-    },    
+    },
+
+    flatten: function(items) {
+        if (!Yadda.Util.is_array(items)) return [items]; 
+        if (items.length == 0) return [];    
+        var head = Yadda.Util.flatten(items[0]);
+        var tail = Yadda.Util.flatten(items.slice(1));
+        return Yadda.$(head.concat(tail));
+    },
 
     each: function(items, fn) { 
         var result;
@@ -450,7 +465,7 @@ Yadda.Util = {
     },
 
     find_all: function(items, test) {
-        var results = this.ensure_array([]);
+        var results = Yadda.Util.ensure_array();
         for (var i = 0; i < items.length; i++) {
             if (test(items[i])) {
                 results.push(items[i]);
@@ -472,16 +487,24 @@ Yadda.Util = {
 
     curry: function(ctx, fn) {
         var slice = Array.prototype.slice;
-        var args = slice.apply(arguments, [2]);
+        var args = slice.call(arguments, 2);
         return function() {
-            return fn.apply(ctx, args.concat(slice.apply(arguments)));
+            return fn.apply(ctx, args.concat(slice.call(arguments)));
         }
     },
 
-    bind: function(ctx, fn) {
-        return function() {
-            var args = arguments.length > 0 ? arguments[0] : [];
-            return fn.apply(ctx, args[0]);
-        };
+    invoke: function(fn, ctx, args) {
+        return fn.apply(ctx, args);
     }    
-}
+};
+
+Yadda.$ = function(target) {
+    return Yadda.Util.ensure_array(target);
+};
+
+Yadda.invoke = function(fn, ctx, args) {
+    return Yadda.Util.invoke(fn, ctx, args);
+};
+
+Yadda.NO_OP = function() {};
+

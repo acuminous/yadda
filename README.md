@@ -4,7 +4,7 @@ Yadda brings BDD style testing to other javascript test frameworks such as [QUni
 
 The clumsiness of writing scenarios as arrays can be partially mitigated with [CoffeeScript](http://coffeescript.org), and offers an alternative (we find preferable) approach to a fluid api (see [Chai](http://chaijs.com)) or an anectdotal one such as that favoured by [Jasmine](http://pivotal.github.com/jasmine) (also improved with [CoffeeScript](http://coffeescriptcookbook.com/chapters/testing/testing_with_jasmine)).
 
-Yadda's syntax is also more flexible (but not necessarily better) than Gherkin and it's step management is good at avoiding / resolving conflicts too.
+Other points of interest are that Yadda's syntax is more flexible (but not necessarily better) than Gherkin and it's good at avoiding / resolving conflicts too. It also has rudimentary support for sharing state between steps via what we call 'contexts'.
 
 ## Quick Start
 
@@ -152,7 +152,7 @@ var library = new Yadda.Library.English()
 #### Functions
 The function is the code you want to execute for a specific line of text. If you don't specify a function then a no-op function will be used.
 
-#### Contexts
+#### Contexts (Shared State)
 The context will be bound with the function before it is executed and provides a non global way to share state between steps, or pass in define time variables such as an assertion library. The context is also optional.
 
 It can be a chore to add a context to every step, so a common context can be specified at the interpreter and scenario levels too...
