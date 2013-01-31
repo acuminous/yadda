@@ -470,7 +470,7 @@ Yadda.Util = {
             if (test(items[i])) {
                 results.push(items[i]);
             }
-        }
+        };
         return results;
     },
 
