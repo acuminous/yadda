@@ -34,8 +34,8 @@ Other points of interest are that Yadda's syntax is more flexible (but not neces
     <head>
         <link rel="stylesheet" href="./lib/qunit.css">
         <script src="./lib/qunit.js"></script>   
-        <script src="./lib/yadda-0.2.1.js"></script>
-        <script src="./lib/yadda-0.2.1-localisation.js"></script>
+        <script src="./lib/yadda-0.2.2.js"></script>
+        <script src="./lib/yadda-0.2.2-localisation.js"></script>
         <script>
             test("100 green bottles", function() {
                 new Yadda.yadda(/* TODO - Create the step library */).yadda([
@@ -59,8 +59,8 @@ Other points of interest are that Yadda's syntax is more flexible (but not neces
     <head>
         <link rel="stylesheet" href="./lib/qunit.css">
         <script src="./lib/qunit.js"></script>   
-        <script src="./lib/yadda-0.2.1.js"></script>
-        <script src="./lib/yadda-0.2.1-localisation.js"></script>
+        <script src="./lib/yadda-0.2.2.js"></script>
+        <script src="./lib/yadda-0.2.2-localisation.js"></script>
         <script>
            var library = new Yadda.Library.English()
                 .given("$NUM green bottles are standing on the wall", function(number) {
@@ -111,7 +111,7 @@ new Yadda.yadda(library).yadda([
     "there are 99 green bottles standing on the wall"
 ]);
 ```
-However we think that Given/When/Then (along with And/But/With) is a good starting point, so we recommend including yadda-0.2.1-localisation.js and using Yadda.Library.English instead of the vanilla Yadda.Library. This adds 'given', 'when', 'then', 'and', 'but' and 'with' helper methods, enabling you to define your steps as follows...
+However we think that Given/When/Then (along with And/But/With) is a good starting point, so we recommend including yadda-0.2.2-localisation.js and using Yadda.Library.English instead of the vanilla Yadda.Library. This adds 'given', 'when', 'then', 'and', 'but' and 'with' helper methods, enabling you to define your steps as follows...
 ```js
 var library = new Yadda.Library()
     .given("$NUM green bottle(?:s){0,1} standing on the wall", function(number) { 
@@ -236,6 +236,8 @@ var yadda = new Yadda.yadda(libraries, {msg1: 'hello'})
     .yadda('Some scenario', {msg2: 'goodbye'});
 ```
 
+## 0.2.2 Release Notes
+
 ## 0.2.1 Release Notes
 
 - Added a CoffeeScript example
@@ -253,7 +255,7 @@ In Yadda 0.1.0 you invoked yadda with
 ```js
 new Yadda(steps).yadda(["some scenario"]);
 ```
-The equivalent syntax in 0.2.1 is
+The equivalent syntax in 0.2.2 is
 ```js
 new Yadda.yadda(library).yadda(["some scenario"]);
 ```
@@ -294,7 +296,7 @@ library.define('some text', function() {
     // some code    
 })
 ```
-The helper methods are no longer available by default, but you can restore them by including yadda-0.2.1-localisation.js and creating your libraries as instances of Yadda.Library.English, e.g.
+The helper methods are no longer available by default, but you can restore them by including yadda-0.2.2-localisation.js and creating your libraries as instances of Yadda.Library.English, e.g.
 ```js
 var library = new Yadda.Library.English()
     .given('a (\\d+) green bottles', function() {
