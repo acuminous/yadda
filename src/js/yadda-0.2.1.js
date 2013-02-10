@@ -312,7 +312,10 @@ Yadda.LevenshteinDistanceScore = function(s1, s2) {
 
     var score = function() {
 
-        if (s1 == s2) return 0;
+        if (s1 == s2) {
+            _this.value = 0;
+            return;
+        }
 
         for (var j = 0; j < s2.length; j++) {
             for (var i = 0; i < s1.length; i++) {
