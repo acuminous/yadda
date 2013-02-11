@@ -6,7 +6,7 @@ exports.create = function create(yadda, incoming_casper) {
         var _this = this;
         casper.then(function() {
             casper.test.info(step);
-            _this.competing_macros(step).clear_winner().interpret(step, ctx);
+            _this.rank_macros(step).clear_winner().interpret(step, ctx);
         });  
     };
 
