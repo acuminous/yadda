@@ -49,7 +49,7 @@ test('Dictionary reports duplicate definitions', function() {
     }, /Duplicate definition: \[gender\]/);
 });
 
-test('Dictinoary reports cyclic definitions', function() {
+test('Dictionary reports cyclic definitions', function() {
 
     define('direct', '$direct');
     define('indirect', '$intermediary');

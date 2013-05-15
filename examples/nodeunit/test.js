@@ -1,5 +1,5 @@
-require('../../src/js/yadda-0.2.1');
-require('../../src/js/yadda-0.2.1-localisation');
+require('../../src/js/yadda-0.2.2');
+require('../../src/js/yadda-0.2.2-localisation');
 
 var library = require('./bottles-library').create();
 var yadda = new Yadda.yadda(library).after(function() {

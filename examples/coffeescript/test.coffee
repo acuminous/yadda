@@ -1,6 +1,6 @@
 require('coffee-script')
-require('../../src/js/yadda-0.2.1')
-require('../../src/js/yadda-0.2.1-localisation')
+require('../../src/js/yadda-0.2.2')
+require('../../src/js/yadda-0.2.2-localisation')
 
 library = require('./bottles-library').create()
 yadda = new Yadda.yadda(library).after( -> 
