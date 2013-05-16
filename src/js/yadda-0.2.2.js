@@ -16,7 +16,7 @@
 
 Yadda = {}
 
-// Provides a recursive interface, i.e. new Yadda().yadda().yadda() interface to the Yadda Interpreter
+// Provides a repetitive interface, i.e. new Yadda().yadda().yadda() interface to the Yadda Interpreter
 Yadda.yadda = function(libraries, ctx) {
 
     this.interpreter = new Yadda.Interpreter(libraries);
@@ -55,7 +55,7 @@ Yadda.yadda = function(libraries, ctx) {
     };
 
     this.toString = function() {
-        "Yadda 0.2.1 Copyright 2010 Acuminous Ltd / Energized Work Ltd";
+        "Yadda 0.2.2 Copyright 2010 Acuminous Ltd / Energized Work Ltd";
     };   
 }
 
@@ -161,7 +161,7 @@ Yadda.Macro = function(signature, signature_pattern, fn, ctx) {
         return this.signature;
     };
 
-    init(signature, signature_pattern)
+    init(signature, signature_pattern);
 };
 
 // Understands definitions of terms
@@ -312,10 +312,7 @@ Yadda.LevenshteinDistanceScore = function(s1, s2) {
 
     var score = function() {
 
-        if (s1 == s2) {
-            _this.value = 0;
-            return;
-        }
+        if (s1 == s2) return _this.value = 0;
 
         for (var j = 0; j < s2.length; j++) {
             for (var i = 0; i < s1.length; i++) {
@@ -417,15 +414,11 @@ Yadda.Util = {
     },
 
     in_array: function(items, item) {
-
-        var found = false;
         for (var i = 0; i < items.length; i++) {
-            if (items[i] == item) {
-                found = true;
-                break;
+            if (items[i] == item) {                
+                return true;
             }
         }
-        return found;
     },
 
     flatten: function(items) {
