@@ -1,8 +1,20 @@
 # Yadda
 
-Yadda brings BDD style testing to other javascript test frameworks such as [QUnit](http://qunitjs.com), [Nodeunit](https://github.com/caolan/nodeunit) and [CasperJS](http://casperjs.org). With Yadda, test scenarios are written as arrays of strings, which, while less readable than the feature file approach taken by [Cucumber](http://github.com/cucumber/cucumber-js) means we are not dependent on [node](http://node.js). 
+Yadda brings 1st class BDD to JavaScript test frameworks such as [Mocha](http://visionmedia.github.io/mocha/), [QUnit](http://qunitjs.com), [Nodeunit](https://github.com/caolan/nodeunit) and [CasperJS](http://casperjs.org). 
+Since JavaScript has no native file system access, Test scenarios are interpretted from arrays of strings, but how you build the array is up to you.
+Yadda provides a feature file parser which you can use from a [node](http://nodejs.org) based framework through the [fs](http://nodejs.org/api/fs.html) api.
+You could do something similar in a web based framework by requestion the feature files using AJAX. Alternatively you can write them inline.
 
-The clumsiness of writing scenarios as arrays can be partially mitigated with [CoffeeScript](http://coffeescript.org), and offers an alternative (we find preferable) approach to a fluid api (see [Chai](http://chaijs.com)) or an anectdotal one such as that favoured by [Jasmine](http://pivotal.github.com/jasmine) (also improved with [CoffeeScript](http://coffeescriptcookbook.com/chapters/testing/testing_with_jasmine)).
+## Why Yadda
+
+I wrote Yadda because the well known JavaScript BDD libraries such as [Jasmine](http://pivotal.github.com/jasmine),  [Mocha](http://visionmedia.github.io/mocha) and [Vows](http://vowsjs.org)
+merely use an ordinary language (e.g. English) annectdotally, rather than for abstraction. Like comments the text easily becomes out of date.
+No reuse is provided.
+
+
+
+Other than [CucumberJS](https://github.com/cucumber/cucumber-js), the popular javascript BDD frameworks use either
+one such as that favoured by [Jasmine](http://pivotal.github.com/jasmine) (also improved with [CoffeeScript](http://coffeescriptcookbook.com/chapters/testing/testing_with_jasmine)).
 
 Other points of interest are that Yadda's syntax is more flexible (but not necessarily better) than Gherkin and it's good at avoiding / resolving conflicts too. It also has rudimentary support for sharing state between steps via what we call 'contexts'.
 
@@ -61,6 +73,7 @@ Other points of interest are that Yadda's syntax is more flexible (but not neces
         <script src="./lib/qunit.js"></script>   
         <script src="./lib/yadda-0.2.2.js"></script>
         <script src="./lib/yadda-0.2.2-localisation.js"></script>
+        <script src="./lib/wall.js"></script>
         <script>
            var library = new Yadda.Library.English()
                 .given("$NUM green bottles are standing on the wall", function(number) {
