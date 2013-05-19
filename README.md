@@ -17,7 +17,7 @@ prefer it's flexible syntax to Gherkin's.
 
 Since JavaScript has no native file system access and we wanted Yadda to make no assumptions about how it is used, 
 test scenarios are interpreted from arrays of strings. This doesn't mean that you can't use feature files from 
-environments (such as [node](http://nodejs.org)) that support them, just that you must parse the file into an array of 
+environments that support them (e.g. [node](http://nodejs.org)) , just that you must parse the file into an array of 
 steps first. 
 
 ## Quick Start
