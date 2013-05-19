@@ -76,7 +76,6 @@ steps first.
         <script src="./lib/yadda-0.2.2.js"></script>
         <script src="./lib/yadda-0.2.2-localisation.js"></script>
         <script src="./lib/wall.js"></script>
-        <!-- TODO Extract to a separate file -->
         <script>
            var library = new Yadda.Library.English()
                 .given("$NUM green bottles are standing on the wall", function(number) {
