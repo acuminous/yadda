@@ -140,7 +140,12 @@ Indentation is optional as are blank lines.
 </html>
 ```
 ### Step 5 - Use feature files (requires a local web server )
-
+```
+Scenario: 100 green bottles
+   Given 100 green bottles are standing on the wall
+   when 1 green bottle accidentally falls
+   then there are 99 green bottles standing on the wall
+```
 ```html
 <html>
     <head>
