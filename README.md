@@ -259,7 +259,7 @@ var library = new Yadda.Library.English()
         // some code
     }); 
 ```
-Using $term variables can relax the regular expression too much and cause clashes between steps. Yadda 0.2.0 provides greater control over the expansion through use of a dictionary, e.g.
+Using $term variables can relax the regular expression too much and cause clashes between steps. Yadda provides greater control over the expansion through use of a dictionary, e.g.
 
 ```js
 var dictionary = new Yadda.Dictionary()
