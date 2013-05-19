@@ -18,7 +18,21 @@ prefer it's flexible syntax to Gherkin's.
 Since JavaScript has no native file system access and we wanted Yadda to make no assumptions about how it is used, 
 test scenarios are interpreted from arrays of strings. This doesn't mean that you can't use feature files from 
 environments that support them (e.g. [node](http://nodejs.org)), just that you must parse the file into an array of 
-steps first. 
+steps first. We've provided a basic TextParser to do this
+
+The format for a plain text feature file is as follows:
+
+ Scenario: The scenario title
+
+  Some text that matches a step
+  Some more text that matches a step
+ 
+ Scenario: Another scenario title
+ 
+  Yet more text
+  blah blah blah
+ 
+Indentation is optional as are blank lines.
 
 ## Quick Start
 
