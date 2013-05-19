@@ -143,12 +143,14 @@ steps first.
         <script src="./lib/wall-steps.js"></script>
         <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
         <script>
-            test("100 green bottles", function() {
-                $.get('http://localhost/specs/wall_spec.txt', function(data) {
-                    var scenario = new Yadda.parsers.TextParser().parse(data);
-                    new Yadda.yadda(library).yadda(scenario);                    
-                })
-            });                
+            $.get('http://localhost/specs/wall_spec.txt', function(data) {
+                var scenarios = new Yadda.parsers.TextParser().parse(data);        
+                $.each(scenarios, function(scenario) {
+                    test(scenario.title, function() {
+                        new Yadda.yadda(library).yadda(scenario.steps);                    
+                    })
+                });                                
+            });
         </script>
     </head>
     <body>
