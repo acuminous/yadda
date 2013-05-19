@@ -5,7 +5,7 @@ Yadda brings _real_ BDD to JavaScript test frameworks such as [Mocha](http://vis
 By _real_ BDD we mean that the ordinary language (e.g. English) steps are mapped to code, as opposed to merely 
 decorating it. This is important because _decorative_ steps such as those used by 
 [Jasmine](http://pivotal.github.com/jasmine),  [Mocha](http://visionmedia.github.io/mocha) and [Vows](http://vowsjs.org), 
-can easily fall out of date and are a form of duplication. If your code is easily readable you they offer little benefit 
+can fall out of date and are a form of duplication. If your code is easily readable you they offer little benefit 
 beyond some nice reporting.
 
 Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the originary language steps to code. 
