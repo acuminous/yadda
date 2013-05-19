@@ -76,6 +76,7 @@ steps first.
         <script src="./lib/yadda-0.2.2.js"></script>
         <script src="./lib/yadda-0.2.2-localisation.js"></script>
         <script src="./lib/wall.js"></script>
+        <!-- TODO Extract to a separate file -->
         <script>
            var library = new Yadda.Library.English()
                 .given("$NUM green bottles are standing on the wall", function(number) {
@@ -102,6 +103,60 @@ steps first.
     </body>
 </html>
 ```
+
+### Step 4 - Tidy Up
+
+```html
+<html>
+    <head>
+        <link rel="stylesheet" href="./lib/qunit.css">
+        <script src="./lib/qunit.js"></script>   
+        <script src="./lib/yadda-0.2.2.js"></script>
+        <script src="./lib/yadda-0.2.2-localisation.js"></script>
+        <script src="./lib/wall.js"></script>
+        <script src="./lib/wall-steps.js"></script>
+        <script>
+            test("100 green bottles", function() {
+                new Yadda.yadda(library).yadda([
+                    "Given 100 green bottles are standing on the wall",
+                    "when 1 green bottle accidentally falls",
+                    "then there are 99 green bottles standing on the wall"
+                ]);
+            });                
+        </script>
+    </head>
+    <body>
+        <div id="qunit"></div>
+    </body>
+</html>
+```
+### Step 5 - Use feature files (requires a local web server )
+
+```html
+<html>
+    <head>
+        <link rel="stylesheet" href="./lib/qunit.css">
+        <script src="./lib/qunit.js"></script>   
+        <script src="./lib/yadda-0.2.2.js"></script>
+        <script src="./lib/yadda-0.2.2-localisation.js"></script>
+        <script src="./lib/wall.js"></script>
+        <script src="./lib/wall-steps.js"></script>
+        <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+        <script>
+            test("100 green bottles", function() {
+                $.get('http://localhost/specs/wall_spec.txt', function(data) {
+                    var scenario = new Yadda.parsers.TextParser().parse(data);
+                    new Yadda.yadda(library).yadda(scenario);                    
+                })
+            });                
+        </script>
+    </head>
+    <body>
+        <div id="qunit"></div>
+    </body>
+</html>
+```
+
 ## Features
 
 ### Supported Libraries
