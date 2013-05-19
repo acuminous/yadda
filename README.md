@@ -1,22 +1,24 @@
 # Yadda
 
-Yadda brings 1st class BDD to JavaScript test frameworks such as [Mocha](http://visionmedia.github.io/mocha/), [QUnit](http://qunitjs.com), [Nodeunit](https://github.com/caolan/nodeunit) and [CasperJS](http://casperjs.org). 
-Since JavaScript has no native file system access, Test scenarios are interpretted from arrays of strings, but how you build the array is up to you.
-Yadda provides a feature file parser which you can use from a [node](http://nodejs.org) based framework through the [fs](http://nodejs.org/api/fs.html) api.
-You could do something similar in a web based framework by requestion the feature files using AJAX. Alternatively you can write them inline.
+Yadda brings _real_ BDD to JavaScript test frameworks such as [Mocha](http://visionmedia.github.io/mocha/), 
+[QUnit](http://qunitjs.com), [Nodeunit](https://github.com/caolan/nodeunit) and [CasperJS](http://casperjs.org). 
+By _real_ BDD we mean that the ordinary language (e.g. English) steps are mapped to code, as opposed to merely 
+decorating it. This is important because _decorative_ steps such as those used by 
+[Jasmine](http://pivotal.github.com/jasmine),  [Mocha](http://visionmedia.github.io/mocha) and [Vows](http://vowsjs.org), 
+can easily fall out of date and are a form of duplication. If your code is easily readable you they offer little benefit 
+beyond some nice reporting.
 
-## Why Yadda
+Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the originary language steps to code. 
+Not only are the steps less likely to go stale, but they also provide a valuable abstraction layer and encourage re-use. 
+You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-js), but we find Yadda less invasive and 
+prefer it's flexible syntax to Gherkin's.
 
-I wrote Yadda because the well known JavaScript BDD libraries such as [Jasmine](http://pivotal.github.com/jasmine),  [Mocha](http://visionmedia.github.io/mocha) and [Vows](http://vowsjs.org)
-merely use an ordinary language (e.g. English) annectdotally, rather than for abstraction. Like comments the text easily becomes out of date.
-No reuse is provided.
+## Feature Files
 
-
-
-Other than [CucumberJS](https://github.com/cucumber/cucumber-js), the popular javascript BDD frameworks use either
-one such as that favoured by [Jasmine](http://pivotal.github.com/jasmine) (also improved with [CoffeeScript](http://coffeescriptcookbook.com/chapters/testing/testing_with_jasmine)).
-
-Other points of interest are that Yadda's syntax is more flexible (but not necessarily better) than Gherkin and it's good at avoiding / resolving conflicts too. It also has rudimentary support for sharing state between steps via what we call 'contexts'.
+Since JavaScript has no native file system access and we wanted Yadda to make no assumptions about how it is used, 
+test scenarios are interpreted from arrays of strings. This doesn't mean that you can't use feature files from 
+environments (such as [node](http://nodejs.org)) that support them, just that you must parse the file into an array of 
+steps first. 
 
 ## Quick Start
 
