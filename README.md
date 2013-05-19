@@ -253,6 +253,9 @@ var yadda = new Yadda.yadda(libraries, {msg1: 'hello'})
 
 ## 0.2.2 Release Notes
 
+- Added a feature file parser
+- Added a Node example
+
 ## 0.2.1 Release Notes
 
 - Added a CoffeeScript example
