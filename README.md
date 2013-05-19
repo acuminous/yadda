@@ -145,7 +145,7 @@ steps first.
         <script>
             $.get('http://localhost/specs/wall_spec.txt', function(data) {
                 var scenarios = new Yadda.parsers.TextParser().parse(data);        
-                $.each(scenarios, function(scenario) {
+                $.each(scenarios, function(index, scenario) {
                     test(scenario.title, function() {
                         new Yadda.yadda(library).yadda(scenario.steps);                    
                     })
