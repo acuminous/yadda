@@ -21,17 +21,17 @@ environments that support them (e.g. [node](http://nodejs.org)), just that you m
 steps first. We've provided a basic TextParser to do this
 
 The format for a plain text feature file is as follows:
-
- Scenario: The scenario title
+```
+Scenario: The scenario title
 
   Some text that matches a step
   Some more text that matches a step
  
- Scenario: Another scenario title
+Scenario: Another scenario title
  
   Yet more text
   blah blah blah
- 
+``` 
 Indentation is optional as are blank lines.
 
 ## Quick Start
