@@ -21,12 +21,10 @@ environments that support them (e.g. [node](http://nodejs.org)), just that you m
 steps first. We've provided a basic TextParser to do this. If you choose to use it, the format is as follows...
 ```
 Scenario: The scenario title
-
   Some text that matches a step
   Some more text that matches a step
  
 Scenario: Another scenario title
- 
   Yet more text
   blah blah blah
 ``` 
