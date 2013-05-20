@@ -236,7 +236,8 @@ The function is the code you want to execute for a specific line of text. If you
 function will be used, which is Yadda's way of implementing a 'Pending' step.
 
 #### Contexts (Shared State)
-The context will be bound with the function before it is executed and provides a non global way to share state between steps, or pass in define time variables such as an assertion library. The context is also optional.
+The context will be bound with the function before it is executed and provides a non global way to share state between 
+steps, or pass in define time variables such as an assertion library or 'done' function. The context is also optional.
 
 It can be a chore to add a context to every step, so a common context can be specified at the interpreter and scenario levels too...
 ```js
