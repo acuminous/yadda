@@ -1,6 +1,5 @@
 var dictionary = new Yadda.Dictionary()
-    .define('NUM', /(\d+)/)
-    .define('ANOTHER', /(1)/)
+    .define('NUM', /(\d+)/);
 
 var library = new Yadda.Library.English(dictionary)
 
@@ -10,18 +9,6 @@ var library = new Yadda.Library.English(dictionary)
 
 .when("$NUM green bottle accidentally falls", function(number_of_falling_bottles) {	
     wall.fall(number_of_falling_bottles);
-})
-
-.when("another green bottle accidentally falls", function() { 
-    wall.fall(1);
-})
-
-.when("bounces back", function() { 
-    wall.returned(1);
-})
-
-.given("a loud bang", function() {
-    // no op
 })
 
 .then("there (?:are|are still) $NUM green bottles standing on the wall", function(number_of_bottles) {

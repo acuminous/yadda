@@ -1,7 +1,7 @@
 Yadda.Parsers = Yadda.Parsers || {}
 Yadda.Parsers.TextParser = function() {
 
-    var SCENARIO_REGEX = /^Scenario:\s*(.*)$/i;
+    var SCENARIO_REGEX = /^\s*Scenario:\s*(.*)$/i;
     var STEP_REGEX = /^\s*([^\s].*)$/;
     var NON_BLANK_REGEX = /[^\s]/;
 
