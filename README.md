@@ -30,9 +30,10 @@ Scenario: Another scenario title
 ``` 
 Indentation is optional as are blank lines.
 
-## We're On It
- * Yadda are currently it's lack of asynchronous support [workaround](https://github.com/acuminous/yadda/issues/5) curtesy of Stewart Armbrecht
- * It wasn't written as a set of modules
+## What we're working on next
+ * Asynchronous support [workaround](https://github.com/acuminous/yadda/issues/5) curtesy of Stewart Armbrecht
+ * Modularisation
+ * Installation via npm
 
 ## Quick Start
 
