@@ -6,26 +6,38 @@
 	<link rel="stylesheet" href="./lib/qunit-1.10.0.css">
 	<script src="../../src/js/yadda-0.2.2.js"></script>
 	<script src="../../src/js/yadda-0.2.2-localisation.js"></script>
+	<script src="../../src/js/yadda-0.2.2-text-parser.js"></script>
 	<script src="./lib/qunit-1.10.0.js"></script>	
 	<script src="./bottles-library.js"></script>
 	<script type="text/javascript">
 
-test("A bottle falls from the wall", function() {
-	new Yadda.yadda(library).yadda([
-		"Given 100 green bottles are standing on the wall",
-		"when 1 green bottle accidentally falls",
-		"then there are 99 green bottles standing on the wall",
-
-		"when another green bottle accidentally falls",
-		"with a loud bang",
-		"but bounces back",
-		"then there are still 99 green bottles standing on the wall"
-	]);
-});
+	function runTests() {
+		var text = document.getElementById('scenarios').innerText;
+		var scenarios = new Yadda.Parsers.TextParser().parse(text);
+		for (var i = 0; i < scenarios.length; i++) {
+			var scenario = scenarios[i];
+			test(scenario.title, function() {		
+				new Yadda.yadda(library).yadda(scenario.steps);
+			});
+		};
+	};
 
 	</script>
 </head>
-<body>
+<body onLoad="runTests()">
   <div id="qunit"></div>
+  <pre id="scenarios">
+  	Scenario: A bottle falls from the wall
+
+		Given 100 green bottles are standing on the wall
+		when 1 green bottle accidentally falls
+		then there are 99 green bottles standing on the wall
+
+  	Scenario: No bottles are left
+
+		Given 1 green bottles are standing on the wall
+		when 1 green bottle accidentally falls
+		then there are 0 green bottles standing on the wall		
+  </pre>
 </body>
 </html>

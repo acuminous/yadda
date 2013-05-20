@@ -1,28 +1,36 @@
+var fs = require('fs');
+var path = require('path');
+var assert = require("assert")
+
 require('../../src/js/yadda-0.2.2');
 require('../../src/js/yadda-0.2.2-localisation');
+require('../../src/js/yadda-0.2.2-text-parser.js');
 
-var assert = require("assert")
-var library = require('./bottles-library').create();
-var yadda = new Yadda.yadda(library, assert);
+function bySpecification(file) {
+    return file.substr(-9) === '-spec.txt';
+};
+
+function eachScenario(dir, fn) {
+    var parser = new Yadda.Parsers.TextParser();        
+    var scenarios = fs.readdirSync(dir).filter(bySpecification).forEach(function(file) {
+        var text = fs.readFileSync(path.join(dir, file), 'utf8');
+        var scenarios = parser.parse(text);
+        for (var i = 0; i < scenarios.length; i++) {
+            fn(scenarios[i]);
+        };
+    });
+};
 
 describe('Bottles', function() {
-    
-    it('should fall from the wall', function(done) {
-        yadda.yadda([
-            "Given 100 green bottles are standing on the wall",
-            "when 1 green bottle accidentally falls",
-            "then there are 99 green bottles standing on the wall",
-        ]);
-        done();
-    });
+    eachScenario('./spec', function(scenario) {
 
-    it('should bounce back onto wall', function(done) {
-        yadda.yadda([
-            "When another green bottle accidentally falls",
-            "with a loud bang",
-            "but bounces back",
-            "then there are still 99 green bottles standing on the wall"
-        ]);
-        done();
+        var library = require('./bottles-library').create();
+        var yadda = new Yadda.yadda(library).after(function() {
+            this.done();
+        });        
+
+        it(scenario.title, function(done) {
+            yadda.yadda(scenario.steps, { assert: assert, done: done });
+        });
     });
 })
