@@ -231,25 +231,6 @@ var library = new Yadda.Library.English()
     }); 
 ```
 
-#### Functions
-The function is the code you want to execute for a specific line of text. If you don't specify a function then a no-op 
-function will be used, which is Yadda's way of implementing a 'Pending' step.
-
-#### Contexts (Shared State)
-The context will be bound with the function before it is executed and provides a non global way to share state between 
-steps, or pass in define time variables such as an assertion library or 'done' function. The context is also optional.
-
-It can be a chore to add a context to every step, so a common context can be specified at the interpreter and scenario levels too...
-```js
- // Shared between all scenarios
-new Yadda.yadda(library, ctx);
-
-// Shared between all steps in this scenario
-new Yadda.yadda(library).yadda('Some scenario', ctx);
-```
-If you specify multiple contexts they will be merged before executing the step.
-
-#### Terms
 Regular expressions can get pretty ugly, so it's often preferable to relax the regex and use a $term variable which will be replaced with a wildcard i.e. '(.+)'.
 
 ```js
@@ -286,6 +267,25 @@ will expand to
 ```js
 "(?:[Gg]iven|[Aa]nd|[Ww]ith]|[Bb]ut) a street address of (\d+) (\w+)"
 ```
+
+#### Functions
+The function is the code you want to execute for a specific line of text. If you don't specify a function then a no-op 
+function will be used, which is Yadda's way of implementing a 'Pending' step.
+
+#### Contexts (Shared State)
+The context will be bound with the function before it is executed and provides a non global way to share state between 
+steps, or pass in define time variables such as an assertion library or 'done' function. The context is also optional.
+
+It can be a chore to add a context to every step, so a common context can be specified at the interpreter and scenario levels too...
+```js
+ // Shared between all scenarios
+new Yadda.yadda(library, ctx);
+
+// Shared between all steps in this scenario
+new Yadda.yadda(library).yadda('Some scenario', ctx);
+```
+If you specify multiple contexts they will be merged before executing the step.
+
 #### Step Management
 One issue you find with BDD libraries, is that two steps might match the same input text. Usually this results in an error, and you end up having to add some extra text to one of the steps in order to differentiate it. Yadda attempts to minimise this in three ways.
 
