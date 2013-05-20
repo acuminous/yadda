@@ -44,7 +44,8 @@ Indentation is optional as are blank lines.
     <head>
         <link rel="stylesheet" href="./lib/qunit.css">
         <script src="./lib/qunit.js"></script> 
-        <script src="./lib/wall.js"></script> <!-- Library to test -->
+	<!-- Include the library under test -->        
+        <script src="./lib/wall.js"></script>
     </head>
     <body>
         <div id="qunit"></div>        
@@ -59,7 +60,7 @@ Indentation is optional as are blank lines.
     <head>
         <link rel="stylesheet" href="./lib/qunit.css">
         <script src="./lib/qunit.js"></script>  
-        <script src="./lib/wall.js"></script> <!-- Library to test -->        
+        <script src="./lib/wall.js"></script>     
     </head>
     <body>
         <div id="qunit"></div>
