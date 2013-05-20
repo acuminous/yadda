@@ -11,7 +11,7 @@ beyond some nice reporting.
 Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the originary language steps to code. 
 Not only are the steps less likely to go stale, but they also provide a valuable abstraction layer and encourage re-use. 
 You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-js), but we find Yadda less invasive and 
-prefer it's flexible syntax to Gherkin's.
+prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is much smarter too.
 
 ## Feature Files
 
