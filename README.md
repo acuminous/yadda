@@ -8,10 +8,10 @@ decorating it. This is important because decorative steps such as those used by
 can fall out of date and are a form of duplication. If your code is easily readable you they offer little benefit 
 beyond some nice reporting.
 
-Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the originary language steps to code. 
+Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the ordinary language steps to code. 
 Not only are the steps less likely to go stale, but they also provide a valuable abstraction layer and encourage re-use. 
 You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-js), but we find Yadda less invasive and 
-prefer it's flexible syntax to Gherkin's.
+prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is smarter too.
 
 ## Feature Files
 
@@ -30,6 +30,10 @@ Scenario: Another scenario title
 ``` 
 Indentation is optional as are blank lines.
 
+## We're On It
+ * Yadda are currently it's lack of asynchronous support [workaround](https://github.com/acuminous/yadda/issues/5) curtesy of Stewart Armbrecht
+ * It wasn't written as a set of modules
+
 ## Quick Start
 
 ### Step 1 - Pick your testing framework (e.g. QUnit)
@@ -38,137 +42,127 @@ Indentation is optional as are blank lines.
 <html>
     <head>
         <link rel="stylesheet" href="./lib/qunit.css">
-        <script src="./lib/qunit.js"></script>   
-        <script>
-            test("100 green bottles", function() {
-                // TODO - Write the test
-            });
-        </script>
+        <script src="./lib/qunit.js"></script> 
+        <script src="./lib/wall.js"></script> <!-- Library to test -->
     </head>
     <body>
-        <div id="qunit"></div>
+        <div id="qunit"></div>        
     </body>
 </html>
 ```
 
-### Step 2 - Implement your test using yadda
+### Step 2 - Add your scenarios
+
+```html
+<html>
+    <head>
+        <link rel="stylesheet" href="./lib/qunit.css">
+        <script src="./lib/qunit.js"></script>  
+        <script src="./lib/wall.js"></script> <!-- Library to test -->        
+    </head>
+    <body>
+        <div id="qunit"></div>
+        <pre id="scenarios">
+Scenario: A bottle falls from the wall
+
+	Given 100 green bottles are standing on the wall
+	when 1 green bottle accidentally falls
+	then there are 99 green bottles standing on the wall
+
+Scenario: No bottles are left
+
+	Given 1 green bottles are standing on the wall
+	when 1 green bottle accidentally falls
+	then there are 0 green bottles standing on the wall		
+      </pre>        
+    </body>
+</html>
+```
+
+### Step 3 - Implement the scenarios
+```js
+// wall-library.js
+var library = new Yadda.Library.English()
+  .given("$NUM green bottles are standing on the wall", function(number) {
+     wall = new Wall(number);
+  })                
+  .when("$NUM green bottle accidentally falls", function(number) { 
+     wall.fall(number);
+  })
+  .then("there are $NUM green bottles standing on the wall", function(number) {
+     equal(number, wall.bottles);
+  });
+```
+```html
+<html>
+    <head>
+        <link rel="stylesheet" href="./lib/qunit.css">
+        <script src="./lib/qunit.js"></script>  
+        <script src="./lib/wall.js"></script> <!-- Library to test -->        
+        <script src="./lib/yadda-0.2.2.js"></script>
+      	<script src="./lib/yadda-0.2.2-localisation.js"></script>
+      	<script src="./lib/yadda-0.2.2-text-parser.js"></script>
+      	<script src="./lib/wall-library.js"></script>
+    </head>
+    <body>
+        <div id="qunit"></div>
+        <pre id="scenarios">
+Scenario: A bottle falls from the wall
+
+  Given 100 green bottles are standing on the wall
+	when 1 green bottle accidentally falls
+	then there are 99 green bottles standing on the wall
+
+Scenario: No bottles are left
+
+	Given 1 green bottles are standing on the wall
+	when 1 green bottle accidentally falls
+	then there are 0 green bottles standing on the wall		
+      </pre>         
+    </body>
+</html>
+```
+
+### Step 4 - Run the scenarios
 
 ```html
 <html>
     <head>
         <link rel="stylesheet" href="./lib/qunit.css">
         <script src="./lib/qunit.js"></script>   
+        <script src="./lib/wall.js"></script> <!-- Library to test -->        
         <script src="./lib/yadda-0.2.2.js"></script>
         <script src="./lib/yadda-0.2.2-localisation.js"></script>
-        <script>
-            test("100 green bottles", function() {
-                new Yadda.yadda(/* TODO - Create the step library */).yadda([
-                    "Given 100 green bottles are standing on the wall",
-                    "when 1 green bottle accidentally falls",
-                    "then there are 99 green bottles standing on the wall"
-                ]);
-            });
+      	<script src="./lib/yadda-0.2.2-text-parser.js"></script>        
+      	<script src="./lib/wall-library.js"></script>
+      	<script type="text/javascript">                
+          function runTests() {            
+          	var text = document.getElementById('scenarios').innerText;
+          	var scenarios = new Yadda.Parsers.TextParser().parse(text);
+          	for (var i = 0; i < scenarios.length; i++) {
+          		var scenario = scenarios[i];
+          		test(scenario.title, function() {		
+          			new Yadda.yadda(library).yadda(scenario.steps);
+          		});
+          	};
+          };
         </script>
     </head>
-    <body>
+    <body onload="runTests">
         <div id="qunit"></div>
-    </body>
-</html>
-```
+        <pre id="scenarios">
+Scenario: A bottle falls from the wall
 
-### Step 3 - Implement the test steps
+  Given 100 green bottles are standing on the wall
+	when 1 green bottle accidentally falls
+	then there are 99 green bottles standing on the wall
 
-```html
-<html>
-    <head>
-        <link rel="stylesheet" href="./lib/qunit.css">
-        <script src="./lib/qunit.js"></script>   
-        <script src="./lib/yadda-0.2.2.js"></script>
-        <script src="./lib/yadda-0.2.2-localisation.js"></script>
-        <script src="./lib/wall.js"></script>
-        <script>
-           var library = new Yadda.Library.English()
-                .given("$NUM green bottles are standing on the wall", function(number) {
-                    wall = new Wall(number);
-                })                
-                .when("$NUM green bottle accidentally falls", function(number) { 
-                    wall.fall(number);
-                })
-                .then("there are $NUM green bottles standing on the wall", function(number) {
-                    equal(number, wall.bottles);
-                });
-                
-            test("100 green bottles", function() {
-                new Yadda.yadda(library).yadda([
-                    "Given 100 green bottles are standing on the wall",
-                    "when 1 green bottle accidentally falls",
-                    "then there are 99 green bottles standing on the wall"
-                ]);
-            });                
-        </script>
-    </head>
-    <body>
-        <div id="qunit"></div>
-    </body>
-</html>
-```
+Scenario: No bottles are left
 
-### Step 4 - Tidy Up
-
-```html
-<html>
-    <head>
-        <link rel="stylesheet" href="./lib/qunit.css">
-        <script src="./lib/qunit.js"></script>   
-        <script src="./lib/yadda-0.2.2.js"></script>
-        <script src="./lib/yadda-0.2.2-localisation.js"></script>
-        <script src="./lib/wall.js"></script>
-        <script src="./lib/wall-steps.js"></script>
-        <script>
-            test("100 green bottles", function() {
-                new Yadda.yadda(library).yadda([
-                    "Given 100 green bottles are standing on the wall",
-                    "when 1 green bottle accidentally falls",
-                    "then there are 99 green bottles standing on the wall"
-                ]);
-            });                
-        </script>
-    </head>
-    <body>
-        <div id="qunit"></div>
-    </body>
-</html>
-```
-### Step 5 - Use feature files (requires a local web server )
-```
-Scenario: 100 green bottles
-   Given 100 green bottles are standing on the wall
-   when 1 green bottle accidentally falls
-   then there are 99 green bottles standing on the wall
-```
-```html
-<html>
-    <head>
-        <link rel="stylesheet" href="./lib/qunit.css">
-        <script src="./lib/qunit.js"></script>   
-        <script src="./lib/yadda-0.2.2.js"></script>
-        <script src="./lib/yadda-0.2.2-localisation.js"></script>
-        <script src="./lib/wall.js"></script>
-        <script src="./lib/wall-steps.js"></script>
-        <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-        <script>
-            $.get('http://localhost/specs/wall_spec.txt', function(data) {
-                var scenarios = new Yadda.parsers.TextParser().parse(data);        
-                $.each(scenarios, function(index, scenario) {
-                    test(scenario.title, function() {
-                        new Yadda.yadda(library).yadda(scenario.steps);                    
-                    })
-                });                                
-            });
-        </script>
-    </head>
-    <body>
-        <div id="qunit"></div>
+	Given 1 green bottles are standing on the wall
+	when 1 green bottle accidentally falls
+	then there are 0 green bottles standing on the wall		
+      </pre>         
     </body>
 </html>
 ```
