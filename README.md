@@ -286,7 +286,7 @@ new Yadda.yadda(library).yadda('Some scenario', ctx);
 ```
 If you specify multiple contexts they will be merged before executing the step.
 
-#### Step Management
+#### Step Conflicts
 One issue you find with BDD libraries, is that two steps might match the same input text. Usually this results in an error, and you end up having to add some extra text to one of the steps in order to differentiate it. Yadda attempts to minimise this in three ways.
 
 1. By using the Levenshtein Distance to determine which step is the best match when clashes occur.
