@@ -80,7 +80,19 @@ Scenario: No bottles are left
 ```
 
 ### Step 3 - Implement the scenarios
-
+```js
+// wall-library.js
+var library = new Yadda.Library.English()
+  .given("$NUM green bottles are standing on the wall", function(number) {
+     wall = new Wall(number);
+  })                
+  .when("$NUM green bottle accidentally falls", function(number) { 
+     wall.fall(number);
+  })
+  .then("there are $NUM green bottles standing on the wall", function(number) {
+     equal(number, wall.bottles);
+  });
+```
 ```html
 <html>
     <head>
@@ -90,18 +102,7 @@ Scenario: No bottles are left
         <script src="./lib/yadda-0.2.2.js"></script>
       	<script src="./lib/yadda-0.2.2-localisation.js"></script>
       	<script src="./lib/yadda-0.2.2-text-parser.js"></script>
-      	<script type="text/javascript">
-          var library = new Yadda.Library.English()
-            .given("$NUM green bottles are standing on the wall", function(number) {
-                wall = new Wall(number);
-            })                
-            .when("$NUM green bottle accidentally falls", function(number) { 
-                wall.fall(number);
-            })
-            .then("there are $NUM green bottles standing on the wall", function(number) {
-                equal(number, wall.bottles);
-            });
-        </script>
+      	<script src="./lib/wall-library.js"></script>
     </head>
     <body>
         <div id="qunit"></div>
@@ -133,21 +134,9 @@ Scenario: No bottles are left
         <script src="./lib/yadda-0.2.2.js"></script>
         <script src="./lib/yadda-0.2.2-localisation.js"></script>
       	<script src="./lib/yadda-0.2.2-text-parser.js"></script>        
-      	<script type="text/javascript">
-          var library = new Yadda.Library.English()
-            .given("$NUM green bottles are standing on the wall", function(number) {
-                wall = new Wall(number);
-            })                
-            .when("$NUM green bottle accidentally falls", function(number) { 
-                wall.fall(number);
-            })
-            .then("there are $NUM green bottles standing on the wall", function(number) {
-                equal(number, wall.bottles);
-            });
-                
-          function runTests() {
-            var library = new Yadda.Library.English()
-            
+      	<script src="./lib/wall-library.js"></script>
+      	<script type="text/javascript">                
+          function runTests() {            
           	var text = document.getElementById('scenarios').innerText;
           	var scenarios = new Yadda.Parsers.TextParser().parse(text);
           	for (var i = 0; i < scenarios.length; i++) {
