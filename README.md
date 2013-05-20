@@ -293,7 +293,7 @@ One issue you find with BDD libraries, is that two steps might match the same in
 
 2. By allowing you to define steps in multiple libraries. Grouping steps into libraries not only helps keep a tidy code base, but also prevents clashes if you scenario doesn't require the library with the alternative step.
 
-2. If you still have problems with clashing, you can use the term dictionary to make your regular expression more specific without affecting the readability of your step.
+3. If you still have problems with clashing, you can use the term dictionary to make your regular expression more specific without affecting the readability of your step.
 
 #### Before and After callbacks
 It is often useful to run some code before and/or after each scenario. Yadda supports this with before and after callbacks. e.g.
@@ -323,7 +323,7 @@ var yadda = new Yadda.yadda(libraries, {msg1: 'hello'})
 ## 0.2.2 Release Notes
 
 - Added a feature file parser
-- Added a Node example
+- Improved documentation and examples
 
 ## 0.2.1 Release Notes
 
