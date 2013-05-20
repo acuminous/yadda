@@ -232,7 +232,8 @@ var library = new Yadda.Library.English()
 ```
 
 #### Functions
-The function is the code you want to execute for a specific line of text. If you don't specify a function then a no-op function will be used.
+The function is the code you want to execute for a specific line of text. If you don't specify a function then a no-op 
+function will be used, which is Yadda's way of implementing a 'Pending' step.
 
 #### Contexts (Shared State)
 The context will be bound with the function before it is executed and provides a non global way to share state between steps, or pass in define time variables such as an assertion library. The context is also optional.
