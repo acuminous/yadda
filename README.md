@@ -31,7 +31,7 @@ Scenario: Another scenario title
 Indentation is optional as are blank lines.
 
 ## What we're working on next
- * Asynchronous support [workaround](https://github.com/acuminous/yadda/issues/5) curtesy of Stewart Armbrecht
+ * Asynchronous support - see [workaround](https://github.com/acuminous/yadda/issues/5) curtesy of Stewart Armbrecht
  * Modularisation
  * Installation via npm
 
