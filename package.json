@@ -1,0 +1,32 @@
+{
+  "name": "yadda",
+  "version": "0.3.0",
+  "description": "A true BDD framework for JavaScript",
+  "main": "lib/index.js",
+  "devDependencies": {
+    "mocha": "*",
+    "browserify": "*"
+  },
+  "directories": {
+    "example": "examples",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "make test",
+    "browserify": "node ./bin/browserify.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/acuminous/yadda.git"
+  },
+  "keywords": [
+    "BDD",
+    "Jasmine",
+    "Mocha",
+    "Specification by example"
+  ],
+  "author": "Stephen Cresswell",
+  "license": "Apache2",
+  "readmeFilename": "README.md",
+  "gitHead": "4754e8449c4f6d28e6357059287079a44a0dad29"
+}

@@ -1,7 +1,10 @@
-var dictionary = new Yadda.Dictionary()
+var Dictionary = require('Dictionary');
+var Library = require('./localisation/English');
+
+var dictionary = new Dictionary()
     .define('NUM', /(\d+)/);
 
-var library = new Yadda.Library.English(dictionary)
+var library = new Library(dictionary)
 
 .given("$NUM green bottles are standing on the wall", function(number_of_bottles) {
 	wall = new Wall(number_of_bottles);
