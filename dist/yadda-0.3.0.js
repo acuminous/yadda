@@ -1,0 +1,1144 @@
+require=(function(e,t,n){function i(n,s){if(!t[n]){if(!e[n]){var o=typeof require=="function"&&require;if(!s&&o)return o(n,!0);if(r)return r(n,!0);throw new Error("Cannot find module '"+n+"'")}var u=t[n]={exports:{}};e[n][0].call(u.exports,function(t){var r=e[n][1][t];return i(r?r:t)},u,u.exports)}return t[n].exports}var r=typeof require=="function"&&require;for(var s=0;s<n.length;s++)i(n[s]);return i})({1:[function(require,module,exports){
+module.exports = {    
+    Yadda: require('./Yadda'),    
+    Interpreter: require('./Interpreter'),    
+    Library: require('./Library'),    
+    Dictionary: require('./Dictionary'),
+    localisation: require('./localisation/index'),
+    parsers: require('./parsers/index'),
+    plugins: require('./plugins/index')
+};
+
+},{"./Yadda":"Dxsmlr","./Interpreter":"Ddm0G0","./Dictionary":"kjCvZT","./Library":"atJa7m","./localisation/index":"xbtvmv","./parsers/index":"yRFUrn","./plugins/index":"JdtydQ"}],"Yadda":[function(require,module,exports){
+module.exports=require('Dxsmlr');
+},{}],"Dxsmlr":[function(require,module,exports){
+/*
+ * Copyright 2010 Acuminous Ltd / Energized Work Ltd
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+var Interpreter = require('./Interpreter');
+var Environment = require('./Environment');
+var fnUtils = require('./fnUtils');
+
+// Provides a repetitive interface, i.e. new Yadda().yadda().yadda() interface to the Yadda Interpreter
+var Yadda = function(libraries, ctx) {
+
+    this.interpreter = new Interpreter(libraries);
+    var environment = new Environment(ctx);
+    var before = fnUtils.NO_OP;
+    var after = fnUtils.NO_OP;
+    var _this = this;    
+
+    this.requires = function(libraries) {
+        this.interpreter.requires(libraries);
+        return this;
+    };
+
+    this.yadda = function(script, ctx) {
+        if (script == undefined) return this;
+        run(script, environment.merge(ctx));        
+    };
+
+    var run = function(script, env) {
+        fnUtils.invoke(before, env.ctx);
+        try {
+            _this.interpreter.interpret(script, env.ctx);
+        } finally {
+            fnUtils.invoke(after, env.ctx);
+        }        
+    }
+
+    this.before = function(fn) {
+        before = fn;
+        return this;
+    };
+
+    this.after = function(fn) {
+        after = fn;
+        return this;
+    };
+
+    this.toString = function() {
+        "Yadda 0.3.0 Copyright 2010 Acuminous Ltd / Energized Work Ltd";
+    };   
+};
+
+module.exports = Yadda;
+},{"./Interpreter":"Ddm0G0","./fnUtils":2,"./Environment":3}],"Interpreter":[function(require,module,exports){
+module.exports=require('Ddm0G0');
+},{}],"Ddm0G0":[function(require,module,exports){
+/*
+ * Copyright 2010 Acuminous Ltd / Energized Work Ltd
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+var Competition = require('./Competition');
+var $ = require('./Array');
+
+// Understands a scenario
+var Interpreter = function(libraries) {
+
+    var libraries = $(libraries);
+    var _this = this;
+
+    this.requires = function(libraries) {
+        libraries.push_all(libraries);
+        return this;
+    };
+
+    this.interpret = function(scenario, ctx) {
+        $(scenario).each(function(step) { 
+            _this.interpret_step(step, ctx);
+        });
+    };
+
+    this.interpret_step = function(step, ctx) {
+        this.rank_macros(step).clear_winner().interpret(step, ctx);
+    };  
+
+    this.rank_macros = function(step) {
+        return new Competition(step, compatible_macros(step));
+    };
+
+    var compatible_macros = function(step) {
+        return libraries.inject([], function(macros, library) {
+            return macros.concat(library.find_compatible_macros(step));
+        });
+    };
+}
+
+module.exports = Interpreter;
+},{"./Competition":4,"./Array":5}],"Library":[function(require,module,exports){
+module.exports=require('atJa7m');
+},{}],"atJa7m":[function(require,module,exports){
+/*
+ * Copyright 2010 Acuminous Ltd / Energized Work Ltd
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+var Macro = require('./Macro');
+var Dictionary = require('./Dictionary');
+var $ = require('./Array');
+
+// Understands how to index macros
+var Library = function(dictionary) {
+
+    var dictionary = dictionary || new Dictionary();
+    var macros = $();
+    var _this = this;    
+
+    this.define = function(signatures, fn, ctx) {
+        $(signatures).each(function(signature) {            
+            define_macro(signature, fn, ctx);
+        });
+        return this;        
+    };
+
+    var define_macro = function(signature, fn, ctx) {
+        if (_this.get_macro(signature)) throw 'Duplicate macro: [' + signature + ']';
+        macros.push(new Macro(signature, dictionary.expand(signature), fn, ctx));
+    }
+
+    this.get_macro = function(signature) {      
+        return macros.find(function(other_macro) {
+            return other_macro.is_identified_by(signature);
+        });
+    };
+
+    this.find_compatible_macros = function(step) {
+        return macros.find_all(function(macro) {
+            return macro.can_interpret(step);
+        });
+    };
+};
+
+module.exports = Library;
+},{"./Macro":6,"./Dictionary":"kjCvZT","./Array":5}],"Dictionary":[function(require,module,exports){
+module.exports=require('kjCvZT');
+},{}],"kjCvZT":[function(require,module,exports){
+/*
+ * Copyright 2010 Acuminous Ltd / Energized Work Ltd
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+var $ = require('./Array');
+var RegularExpression = require('./RegularExpression');
+
+// Understands definitions of terms
+var Dictionary = function(prefix) {
+
+    var prefix = prefix || '$';
+    var terms = {};
+    var term_pattern = new RegularExpression(new RegExp('(?:^|[^\\\\])\\' + prefix + '(\\w+)', 'g')); 
+    var _this = this;       
+
+    this.define = function(term, definition) {
+        if (this.is_defined(term)) throw 'Duplicate definition: [' + term + ']';
+        terms[term] = normalise(definition);
+        return this;
+    };
+
+    this.is_defined = function(term) {
+        return terms[term];
+    };    
+
+    this.expand = function(term, already_expanding) {
+        if (!is_expandable(term)) return term;
+        return expand_sub_terms(term, $(already_expanding));
+    };
+
+    var expand_sub_terms = function(term, already_expanding) {
+        return get_sub_terms(term).each(function(sub_term) {
+            if (already_expanding.in_array(sub_term)) throw 'Circular Definition: \[' + already_expanding.join(', ') + '\]'; 
+            var sub_term_definition = expand_sub_term(sub_term, already_expanding);
+            return term = term.replace(prefix + sub_term, sub_term_definition);
+        });
+    };
+
+    var get_sub_terms = function(term) {
+        return term_pattern.groups(term);
+    }
+
+    var expand_sub_term = function(sub_term, already_expanding) {
+        var definition = terms[sub_term] || '(.+)';
+        return is_expandable(definition) ? _this.expand(definition, already_expanding.concat(sub_term)) : definition;
+    }
+
+    var normalise = function(definition) {
+        return definition.toString().replace(/^\/|\/$/g, '');
+    }
+
+    var is_expandable = function(definition) {  
+        return term_pattern.test(definition);
+    };  
+};
+
+
+module.exports = Dictionary;
+},{"./Array":5,"./RegularExpression":7}],"localisation":[function(require,module,exports){
+module.exports=require('xbtvmv');
+},{}],"xbtvmv":[function(require,module,exports){
+module.exports = {
+    English: require('./English'),
+    Pirate: require('./Pirate')
+
+}
+},{"./English":8,"./Pirate":9}],"parsers":[function(require,module,exports){
+module.exports=require('yRFUrn');
+},{}],"yRFUrn":[function(require,module,exports){
+module.exports = {
+    TextParser: require('./TextParser')
+}
+},{"./TextParser":10}],"plugins":[function(require,module,exports){
+module.exports=require('JdtydQ');
+},{}],"JdtydQ":[function(require,module,exports){
+module.exports = {
+    casper: require('./CasperPlugin')
+}
+},{"./CasperPlugin":11}],2:[function(require,module,exports){
+/*
+ * Copyright 2010 Acuminous Ltd / Energized Work Ltd
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+module.exports = (function() {
+
+    function curry(ctx, fn) {
+        var slice = Array.prototype.slice;
+        var args = slice.call(arguments, 2);
+        return function() {
+            return fn.apply(ctx, args.concat(slice.call(arguments)));
+        }
+    };
+
+    function invoke(fn, ctx, args) {
+        return fn.apply(ctx, args);
+    } ;
+
+    return {
+        NO_OP: function() {},
+        curry: curry,
+        invoke: invoke
+    };
+
+
+})();
+
+},{}],3:[function(require,module,exports){
+/*
+ * Copyright 2010 Acuminous Ltd / Energized Work Ltd
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// Understands a macros execution context
+var Environment = function(ctx) {
+
+    this.ctx = {};
+    this._merge_on = 'ctx';
+
+    this.merge = function(other) {
+        other = get_item_to_merge(other);
+        return new Environment(this.ctx)._merge(other);
+    };
+
+    var get_item_to_merge = function(other) {
+        if (!other) return {};
+        return other._merge_on ? other[other._merge_on] : other;
+    };
+
+    this._merge = function(other_ctx) {
+        for (var key in other_ctx) { this.ctx[key] = other_ctx[key] }; 
+        return this;
+    };
+
+    this._merge(ctx);
+};
+
+module.exports = Environment;
+},{}],4:[function(require,module,exports){
+/*
+ * Copyright 2010 Acuminous Ltd / Energized Work Ltd
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+var LevenshteinDistanceScore = require('./LevenshteinDistanceScore');
+var $ = require('./Array');
+
+// Understands appropriateness of macros in relation to a specific step
+var Competition = function(step, macros) {
+
+    var results = [];
+    var by_ascending_score = function(a, b) { return b.score.beats(a.score); };
+    var FIRST_PLACE = 0;
+    var SECOND_PLACE = 1;
+
+    this.clear_winner = function() {
+        if (number_of_competitors() == 0) throw 'Undefined Step: [' + step + ']';
+        if (joint_first_place()) throw 'Ambiguous Step: [' + step + ']';
+        return this.winner();
+    };   
+
+    var number_of_competitors = function() {
+        return results.length;
+    };
+
+    var joint_first_place = function() {
+        return (number_of_competitors() > 1) && 
+            results[FIRST_PLACE].score.equals(results[SECOND_PLACE].score); 
+    };
+
+    this.winner = function() {
+        return results[FIRST_PLACE].macro;
+    };
+
+    var rank = function(step, macros) {
+        results = macros.collect(function(macro) {
+            return { 
+                macro: macro, 
+                score: new LevenshteinDistanceScore(step, macro.levenshtein_signature())
+            }
+        }).sort( by_ascending_score );
+    };
+
+    rank(step, $(macros));
+};
+
+module.exports = Competition;
+},{"./LevenshteinDistanceScore":12,"./Array":5}],5:[function(require,module,exports){
+/*
+ * Copyright 2010 Acuminous Ltd / Energized Work Ltd
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+var fnUtils = require('./fnUtils');
+
+module.exports = function(obj) {
+
+    function ensure_array(obj) {
+        var array = obj ? [].concat(obj) : [];
+        array.in_array = fnUtils.curry(array, in_array, array);
+        array.each = fnUtils.curry(array, each, array);
+        array.collect = fnUtils.curry(array, collect, array);
+        array.flatten = fnUtils.curry(array, flatten, array);
+        array.inject = fnUtils.curry(array, inject, array);
+        array.push_all = fnUtils.curry(array, push_all, array);
+        array.find_all = fnUtils.curry(array, find_all, array);
+        array.find = fnUtils.curry(array, find, array);
+        array.naked = fnUtils.curry(array, naked, array);
+        return array;
+    };
+
+    function is_array(obj) {
+        return Object.prototype.toString.call(obj) === '[object Array]'        
+    };
+
+    function in_array(items, item) {
+        for (var i = 0; i < items.length; i++) {
+            if (items[i] == item) {                
+                return true;
+            }
+        }
+    };
+
+    function flatten(items) {
+        if (!is_array(items)) return [items]; 
+        if (items.length == 0) return [];    
+        var head = flatten(items[0]);
+        var tail = flatten(items.slice(1));
+        return ensure_array(head.concat(tail));
+    };
+
+    function each(items, fn) { 
+        var result;
+        for (var i = 0; i < items.length; i++) {
+            result = fn(items[i]);
+        };
+        return result;
+    };
+
+    function collect(items, fn) {
+        var results = [];
+        for (var i = 0; i < items.length; i++) {
+            results.push(fn(items[i]));
+        }
+        return results;
+    };
+
+    function inject(items, default_value, fn) {
+        var result = default_value;
+        for (var i = 0; i < items.length; i++) {
+            result = fn(result, items[i]);            
+        }
+        return result;
+    };
+
+    function push_all(items, more_items) {
+        var more_items = more_items ? [].concat(more_items) : [];
+        for (var i = 0; i < more_items.length; i++) {
+            items.push(more_items[i]);
+        }        
+    };
+
+    function find_all(items, test) {
+        var results = ensure_array();
+        for (var i = 0; i < items.length; i++) {
+            if (test(items[i])) {
+                results.push(items[i]);
+            }
+        };
+        return results;
+    };
+
+    function find(items, test) {        
+        var result;
+        for (var i = 0; i < items.length; i++) {
+            if (test(items[i])) {
+                result = items[i];                
+                break;
+            }
+        };
+        return result;
+    };
+
+    function naked(items) {
+        return [].concat(items);
+    };
+
+    return ensure_array(obj);
+};
+},{"./fnUtils":2}],6:[function(require,module,exports){
+/*
+ * Copyright 2010 Acuminous Ltd / Energized Work Ltd
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ 
+var fnUtils = require('./fnUtils');
+var Environment = require('./Environment');
+var RegularExpression = require('./RegularExpression');
+
+// Understands a step
+var Macro = function(signature, signature_pattern, fn, ctx) {    
+    
+    var environment = new Environment(ctx);
+    var signature_pattern = new RegularExpression(signature_pattern);
+    var fn = fn || fnUtils.NO_OP;
+    var _this = this;    
+
+    var init = function(signature, signature_pattern) {
+        _this.signature = normalise(signature);
+    }
+
+    this.is_identified_by = function(other_signature) {
+        return this.signature == normalise(other_signature);        
+    }; 
+
+    this.can_interpret = function(step) {
+        return signature_pattern.test(step);
+    };  
+
+    this.interpret = function(step, ctx) {    
+        var env = environment.merge(ctx);
+        var args = signature_pattern.groups(step);
+        return fnUtils.invoke(fn, env.ctx, args);
+    };
+
+    this.levenshtein_signature = function() {
+        return signature_pattern.without_expressions();            
+    };
+
+    var normalise = function(signature) {
+        return new RegExp(signature).toString();
+    }
+
+    this.toString = function() {
+        return this.signature;
+    };
+
+    init(signature, signature_pattern);
+};
+
+module.exports = Macro;
+
+},{"./fnUtils":2,"./Environment":3,"./RegularExpression":7}],7:[function(require,module,exports){
+(function(){/*
+ * Copyright 2010 Acuminous Ltd / Energized Work Ltd
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ 
+var $ = require('./Array');
+
+// Wrapper for JavaScript Regular Expressions
+var RegularExpression = function(pattern_or_regexp) {
+
+    var groups_pattern = /(^|[^\\\\])\(.*?\)/g;
+    var sets_pattern = /(^|[^\\\\])\[.*?\]/g;
+    var repetitions_pattern = /(^|[^\\\\])\{.*?\}/g;
+    var regex_aliases_pattern = /(^|[^\\\\])\\./g;
+    var non_word_tokens_pattern = /[^\w\s]/g;
+    var regexp = new RegExp(pattern_or_regexp);
+
+    this.test = function(text) {
+        var result = regexp.test(text);
+        this.reset();        
+        return result;
+    };  
+
+    this.groups = function(text) {
+        var results = $();
+        var match = regexp.exec(text);
+        while (match) {            
+            var groups = match.slice(1, match.length);
+            results.push(groups)
+            match = regexp.global && regexp.exec(text)
+        }
+        this.reset();
+        return results.flatten();        
+    };   
+
+    this.reset = function() {
+        regexp.lastIndex = 0;
+        return this;
+    };
+
+    this.without_expressions = function() {
+        return regexp.source.replace(groups_pattern, '$1')
+                            .replace(sets_pattern, '$1')
+                            .replace(repetitions_pattern, '$1')
+                            .replace(regex_aliases_pattern, '$1')
+                            .replace(non_word_tokens_pattern, '');
+    };    
+
+    this.equals = function(other) {
+        return this.toString() == other.toString();
+    };    
+
+    this.toString = function() {
+        return "/" + regexp.source + "/";
+    };
+};
+
+module.exports = RegularExpression;
+})()
+},{"./Array":5}],8:[function(require,module,exports){
+/*
+ * Copyright 2010 Acuminous Ltd / Energized Work Ltd
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+var Library = require('../Library');
+var $ = require('../Array');
+   
+var English = function(dictionary, library) {
+
+    var library = library ? library : new Library(dictionary);
+
+    library.given = function(signatures, fn, ctx) {
+        return $(signatures).each(function(signature) {
+            var signature = prefix_signature('(?:[Gg]iven|[Ww]ith|[Aa]nd|[Bb]ut) ', signature);
+            return library.define(signature, fn, ctx);
+        });
+    };
+
+    library.when = function(signatures, fn, ctx) {
+        return $(signatures).each(function(signature) {
+            var signature = prefix_signature('(?:[Ww]hen|[Aa]nd|[Bb]ut) ', signature);
+            return library.define(signature, fn, ctx);
+        });
+    };
+
+    library.then = function(signatures, fn, ctx) {
+        return $(signatures).each(function(signature) {
+            var signature = prefix_signature('(?:[Tt]hen|[Ee]xpect|[Aa]nd|[Bb]ut) ', signature);
+            return library.define(signature, fn, ctx);
+        });
+    };
+
+    function prefix_signature(prefix, signature) {
+        var regex_delimiters = new RegExp('^/|/$', 'g');
+        var start_of_signature = new RegExp(/^(?:\^)?/);
+        return signature.toString().replace(regex_delimiters, '').replace(start_of_signature, prefix);
+    };
+
+    return library;
+};
+
+module.exports = English;
+},{"../Array":5,"../Library":"atJa7m"}],10:[function(require,module,exports){
+/*
+ * Copyright 2010 Acuminous Ltd / Energized Work Ltd
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ 
+var $ = require('../Array');
+
+var TextParser = function() {
+
+    var SCENARIO_REGEX = /^\s*Scenario:\s*(.*)$/i;
+    var STEP_REGEX = /^\s*([^\s].*)$/;
+    var NON_BLANK_REGEX = /[^\s]/;
+
+    var current_scenario;
+    var scenarios = [];
+
+    this.parse = function(text) {
+        current_scenario = {};
+        split(text).each(function(line) {
+            parse_line(line);
+        });
+        return scenarios;
+    };
+
+    var split = function(text) {
+        return $(text.split(/\n/)).find_all(non_blanks);
+    };
+
+    var non_blanks = function(text) {
+        return text && NON_BLANK_REGEX.test(text);
+    };
+
+    var parse_line = function(line) {
+        var match;
+        if (match = SCENARIO_REGEX.exec(line)) {
+            current_scenario = { title: match[1], steps: [] };            
+            scenarios.push(current_scenario);
+        } else if (match = STEP_REGEX.exec(line)) {
+            current_scenario.steps.push(match[1]);
+        }
+    }
+};
+
+module.exports = TextParser;
+},{"../Array":5}],12:[function(require,module,exports){
+/*
+ * Copyright 2010 Acuminous Ltd / Energized Work Ltd
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// Understands similarity of two strings
+var LevenshteinDistanceScore = function(s1, s2) {
+
+    this.value;
+    this.type = 'LevenshteinDistanceScore';    
+    var distance_table;
+    var _this = this;
+
+    var initialise = function() {
+
+        var x = s1.length;
+        var y = s2.length;
+
+        distance_table = new Array(x + 1);
+
+        for (i = 0; i <= x; i++) {
+            distance_table[i] = new Array(y + 1);
+        }
+
+        for (var i = 0; i <= x; i++) {
+            for (var j = 0; j <= y; j++) {
+                distance_table[i][j] = 0;
+            }
+        }
+
+        for (var i = 0; i <= x; i++) {
+            distance_table[i][0] = i;
+        }
+
+        for (var j = 0; j <= y; j++) {
+            distance_table[0][j] = j;
+        }
+    };
+
+    var score = function() {
+
+        if (s1 == s2) return _this.value = 0;
+
+        for (var j = 0; j < s2.length; j++) {
+            for (var i = 0; i < s1.length; i++) {
+                if (s1[i] == s2[j]) {
+                    distance_table[i+1][j+1] = distance_table[i][j];
+                } else {
+                    var deletion = distance_table[i][j+1] + 1;
+                    var insertion = distance_table[i+1][j] + 1;
+                    var substitution = distance_table[i][j] + 1;
+                    distance_table[i+1][j+1] = Math.min(substitution, deletion, insertion)
+                }
+            }
+        }
+        _this.value = distance_table[s1.length][s2.length];
+    };
+
+    this.beats = function(other) {
+        return this.value < other.value;
+    } 
+
+    this.equals = function(other) {
+        if (!other) return false;
+        return (this.type == other.type && this.value == other.value);
+    }   
+
+    initialise();
+    score();
+};
+
+module.exports = LevenshteinDistanceScore;
+},{}],9:[function(require,module,exports){
+/*
+ * Copyright 2010 Acuminous Ltd / Energized Work Ltd
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+var Library = require('../Library');
+var localisation = require('../localisation')
+var $ = require('../Array');
+   
+var Pirate = function(dictionary, library) {
+        
+    var library = library ? library : new Library(dictionary);
+
+    library.given = function(signatures, fn, ctx) {
+        return $(signatures).each(function(signature) {
+            var signature = prefix_signature('(?:[Gg]iveth|[Ww]ith|[Aa]nd|[Bb]ut) ', signature);
+            return library.define(signature, fn, ctx);
+        });
+    };
+
+    library.when = function(signatures, fn, ctx) {
+        return $(signatures).each(function(signature) {
+            var signature = localisation.prefix_signature('(?:[Ww]hilst|[Aa]nd|[Bb]ut) ', signature);
+            return library.define(signature, fn, ctx);
+        });
+    };
+
+    library.then = function(signatures, fn, ctx) {
+        return $(signatures).each(function(signature) {
+            var signature = prefix_signature('(?:[Tt]hence|[Dd]emand|[Aa]nd|[Bb]ut) ', signature);
+            return library.define(signature, fn, ctx);
+        });
+    };
+
+    function prefix_signature(prefix, signature) {
+        var regex_delimiters = new RegExp('^/|/$', 'g');
+        var start_of_signature = new RegExp(/^(?:\^)?/);
+        return signature.toString().replace(regex_delimiters, '').replace(start_of_signature, prefix);
+    };
+
+    return library;     
+};
+
+module.exports = Pirate;
+},{"../Library":"atJa7m","../Array":5,"../localisation":"xbtvmv"}],11:[function(require,module,exports){
+module.exports = function(yadda, incoming_casper) {
+
+    this.init = function() {
+
+        var casper = incoming_casper ? incoming_casper : require('casper').create();
+
+        yadda.interpreter.interpret_step = function(step, ctx) {
+            var _this = this;
+            casper.then(function() {
+                casper.test.info(step);
+                _this.rank_macros(step).clear_winner().interpret(step, ctx);            
+            });  
+        };
+
+        casper.yadda = function(script, ctx) {
+            if (script == undefined) return this;
+            yadda.yadda(script, ctx);
+        }
+
+        return casper;
+    };
+};
+
+},{"casper":13}],13:[function(require,module,exports){
+var casper = {};
+
+// ==================================
+// General
+// ==================================
+
+// ==================================
+// Send data or and empty response
+// ==================================
+casper.noop = function (data) {
+  return function (req, res) {
+    res.jsonp(data || {});
+  };
+};
+
+// ==================================
+// Database
+// ==================================
+
+// ==================================
+// Generic database response handler.
+// ==================================
+casper.db = function (req, res, cb) {
+  return function (err, data) {
+    if (err) {
+      return (cb ? cb(err, data) : res.jsonp(500, { error: err.message }));
+    }
+    if (!data) {
+      return (cb ? cb(err, data) : res.jsonp(404, {}));
+    }
+    if ('length' in data && data.length === 0) {
+      return (cb ? cb(err) : res.jsonp(404, []));
+    }
+    if (cb) return cb(err, data);
+    return res.jsonp(data);
+  };
+};
+
+// ==================================
+// Generic model creator
+// ==================================
+casper.create = function (Model, data, allowBody) {
+  return function (req, res) {
+    var raw = new Model(data || (allowBody ? req.body : {}));
+    raw.save(function (err, obj) {
+      if (err) return res.send(500, err);
+      res.send(obj);
+    });
+  };
+};
+
+// ==================================
+// Checks & filters
+// ==================================
+
+casper.check = {};
+
+// ==================================
+// Parameter checking callback
+// Optional checking function. Defaults to truth checking with !
+// ==================================
+casper.check.params = function (param, cb) {
+  return function (req, res, next) {
+    var cbPassed = true;
+    if (cb) cbPassed = cb(param, req.params);
+    if (!cbPassed || typeof req.params[param] === "undefined") {
+      return casper
+               .error
+               .badRequest('Missing ' + param + ' URL parameter.')(req, res);
+    }
+    next();
+  };
+};
+
+// ==================================
+// Body checking.
+// Like above, suports cb checking function.
+// ==================================
+casper.check.body = function (key, cb) {
+  return function (req, res, next) {
+    var cbPassed = true;
+    if (cb) cbPassed = cb(key, req.body);
+    if (!cbPassed || typeof req.body[key] === "undefined") {
+      return casper
+               .error
+               .badRequest('Missing ' + key + ' from body.')(req, res);
+    }
+    next();
+  };
+};
+
+// ==================================
+// Remove
+// ==================================
+
+casper.rm = {};
+
+// ==================================
+// Remove key from req.body
+// ==================================
+casper.rm.body = function (key) {
+  return function (req, res, next) {
+    if (req.body[key]) {
+      delete req.body[key];
+    }
+    next();
+  };
+};
+
+// ==================================
+// Allow
+// ==================================
+
+casper.allow = {};
+
+// ==================================
+// Only allow certain keys on the body
+// ==================================
+
+casper.allow.body = function (keys) {
+  if (typeof keys === 'string') keys = [keys];
+  return function (req, res, next) {
+    // Remove all unwanted keys from the body
+    Object.keys(req.body).forEach(function (key) {
+      if (keys.indexOf(key) === -1) {
+        delete req.body[key];
+      }
+    });
+    next();
+  };
+};
+
+// ==================================
+// Errors
+// ==================================
+
+casper.error = {};
+
+// ==================================
+// 400 Bad Request
+// ==================================
+casper.error.badRequest = function (msg) {
+  return function (req, res) {
+    res.jsonp(400, { error: msg || 'Bad request' });
+  };
+};
+
+// ==================================
+// Logging
+// ==================================
+
+casper.log = {};
+
+// ==================================
+// Log a key from the request
+// ==================================
+casper.log.the = function (key) {
+  return function (req, res, next) {
+    console.log(key, casper.util.atString(req, key));
+    next();
+  };
+};
+
+// ==================================
+// Utils
+// ==================================
+
+casper.util = {};
+
+// ==================================
+// Access object key via string
+// ==================================
+casper.util.atString = function(obj, str, val) {
+  var args = [].slice.call(arguments);
+  str = str.replace(/\[(\w+)\]/g, '.$1')
+           .replace(/^\./, '');
+  var arr = str.split('.'),
+      parent, key;
+  while (arr.length) {
+    key = arr.shift();
+    if (key in obj) {
+      parent = obj;
+      obj = obj[key];
+    } else {
+      return;
+    }
+  }
+  if (args.length > 2) {
+    parent[key] = val;
+  }
+  return obj;
+};
+
+module.exports = casper;
+},{}]},{},[1])
+;

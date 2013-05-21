@@ -1,8 +1,6 @@
-var fs = require('fs');
+// Casper support is currently broken in Yadda 0.3.0. I'm not sure how to get imports working in PhantomJS
 
-var Yadda = require('../../lib/index').Yadda;
-var CasperPlugin = require('../../lib/index').plugins.CasperPlugin;
-var TextParser = require('../../lib/index').parsers.TextParser;
+var fs = require('fs');
 
 function bySpecification(file) {
     return file.substr(-9) === '-spec.txt';
@@ -21,7 +19,7 @@ var yadda = new Yadda(library);
 var casper = new CasperPlugin(yadda).init();
 
 runScenario('./spec/bottles-spec.txt', function(scenario) {
-    casper.start();
+   casper.start();
     casper.test.info(scenario.title);
     casper.yadda(scenario.steps);
     casper.run(function() {

@@ -2,10 +2,11 @@
   "name": "yadda",
   "version": "0.3.0",
   "description": "A true BDD framework for JavaScript",
-  "main": "lib/index.js",
+  "main": "./lib/index.js",
   "devDependencies": {
     "mocha": "*",
-    "browserify": "*"
+    "browserify": "*",
+    "casper": "*"
   },
   "directories": {
     "example": "examples",

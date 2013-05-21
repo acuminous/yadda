@@ -1,5 +1,5 @@
 var Dictionary = require('Dictionary');
-var Library = require('./localisation/English');
+var Library = require('localisation').English;
 
 var dictionary = new Dictionary()
     .define('NUM', /(\d+)/);
