@@ -9,7 +9,7 @@ module.exports = {
     plugins: require('./plugins/index')
 };
 
-},{"./Yadda":"Dxsmlr","./Interpreter":"Ddm0G0","./Dictionary":"kjCvZT","./Library":"atJa7m","./localisation/index":"xbtvmv","./parsers/index":"yRFUrn","./plugins/index":"JdtydQ"}],"Yadda":[function(require,module,exports){
+},{"./Yadda":"Dxsmlr","./Interpreter":"Ddm0G0","./Library":"atJa7m","./localisation/index":"xbtvmv","./Dictionary":"kjCvZT","./parsers/index":"yRFUrn","./plugins/index":"JdtydQ"}],"Yadda":[function(require,module,exports){
 module.exports=require('Dxsmlr');
 },{}],"Dxsmlr":[function(require,module,exports){
 /*
@@ -76,7 +76,8 @@ var Yadda = function(libraries, ctx) {
 };
 
 module.exports = Yadda;
-},{"./Interpreter":"Ddm0G0","./fnUtils":2,"./Environment":3}],"Interpreter":[function(require,module,exports){
+
+},{"./Interpreter":"Ddm0G0","./Environment":2,"./fnUtils":3}],"Interpreter":[function(require,module,exports){
 module.exports=require('Ddm0G0');
 },{}],"Ddm0G0":[function(require,module,exports){
 /*
@@ -278,49 +279,9 @@ module.exports = {
 module.exports=require('JdtydQ');
 },{}],"JdtydQ":[function(require,module,exports){
 module.exports = {
-    casper: require('./CasperPlugin')
+    CasperPlugin: require('./CasperPlugin')
 }
 },{"./CasperPlugin":11}],2:[function(require,module,exports){
-/*
- * Copyright 2010 Acuminous Ltd / Energized Work Ltd
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-module.exports = (function() {
-
-    function curry(ctx, fn) {
-        var slice = Array.prototype.slice;
-        var args = slice.call(arguments, 2);
-        return function() {
-            return fn.apply(ctx, args.concat(slice.call(arguments)));
-        }
-    };
-
-    function invoke(fn, ctx, args) {
-        return fn.apply(ctx, args);
-    } ;
-
-    return {
-        NO_OP: function() {},
-        curry: curry,
-        invoke: invoke
-    };
-
-
-})();
-
-},{}],3:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -362,6 +323,70 @@ var Environment = function(ctx) {
 };
 
 module.exports = Environment;
+},{}],3:[function(require,module,exports){
+/*
+ * Copyright 2010 Acuminous Ltd / Energized Work Ltd
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+module.exports = (function() {
+
+    function curry(ctx, fn) {
+        var slice = Array.prototype.slice;
+        var args = slice.call(arguments, 2);
+        return function() {
+            return fn.apply(ctx, args.concat(slice.call(arguments)));
+        }
+    };
+
+    function invoke(fn, ctx, args) {
+        return fn.apply(ctx, args);
+    } ;
+
+    return {
+        NO_OP: function() {},
+        curry: curry,
+        invoke: invoke
+    };
+
+
+})();
+
+},{}],11:[function(require,module,exports){
+var CasperPlugin = function(yadda, casper) {
+
+    this.init = function() {
+
+        yadda.interpreter.interpret_step = function(step, ctx) {
+            var _this = this;
+            casper.then(function() {
+                casper.test.info(step);
+                _this.rank_macros(step).clear_winner().interpret(step, ctx);            
+            });  
+        };
+
+        casper.yadda = function(script, ctx) {
+            if (script == undefined) return this;
+            yadda.yadda(script, ctx);
+        }
+
+        return casper;
+    };
+};
+
+module.exports = CasperPlugin;
+
 },{}],4:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
@@ -535,7 +560,7 @@ module.exports = function(obj) {
 
     return ensure_array(obj);
 };
-},{"./fnUtils":2}],6:[function(require,module,exports){
+},{"./fnUtils":3}],6:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -599,7 +624,7 @@ var Macro = function(signature, signature_pattern, fn, ctx) {
 
 module.exports = Macro;
 
-},{"./fnUtils":2,"./Environment":3,"./RegularExpression":7}],7:[function(require,module,exports){
+},{"./fnUtils":3,"./Environment":2,"./RegularExpression":7}],7:[function(require,module,exports){
 (function(){/*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -725,7 +750,7 @@ var English = function(dictionary, library) {
 };
 
 module.exports = English;
-},{"../Array":5,"../Library":"atJa7m"}],10:[function(require,module,exports){
+},{"../Library":"atJa7m","../Array":5}],10:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -921,224 +946,5 @@ var Pirate = function(dictionary, library) {
 };
 
 module.exports = Pirate;
-},{"../Library":"atJa7m","../Array":5,"../localisation":"xbtvmv"}],11:[function(require,module,exports){
-module.exports = function(yadda, incoming_casper) {
-
-    this.init = function() {
-
-        var casper = incoming_casper ? incoming_casper : require('casper').create();
-
-        yadda.interpreter.interpret_step = function(step, ctx) {
-            var _this = this;
-            casper.then(function() {
-                casper.test.info(step);
-                _this.rank_macros(step).clear_winner().interpret(step, ctx);            
-            });  
-        };
-
-        casper.yadda = function(script, ctx) {
-            if (script == undefined) return this;
-            yadda.yadda(script, ctx);
-        }
-
-        return casper;
-    };
-};
-
-},{"casper":13}],13:[function(require,module,exports){
-var casper = {};
-
-// ==================================
-// General
-// ==================================
-
-// ==================================
-// Send data or and empty response
-// ==================================
-casper.noop = function (data) {
-  return function (req, res) {
-    res.jsonp(data || {});
-  };
-};
-
-// ==================================
-// Database
-// ==================================
-
-// ==================================
-// Generic database response handler.
-// ==================================
-casper.db = function (req, res, cb) {
-  return function (err, data) {
-    if (err) {
-      return (cb ? cb(err, data) : res.jsonp(500, { error: err.message }));
-    }
-    if (!data) {
-      return (cb ? cb(err, data) : res.jsonp(404, {}));
-    }
-    if ('length' in data && data.length === 0) {
-      return (cb ? cb(err) : res.jsonp(404, []));
-    }
-    if (cb) return cb(err, data);
-    return res.jsonp(data);
-  };
-};
-
-// ==================================
-// Generic model creator
-// ==================================
-casper.create = function (Model, data, allowBody) {
-  return function (req, res) {
-    var raw = new Model(data || (allowBody ? req.body : {}));
-    raw.save(function (err, obj) {
-      if (err) return res.send(500, err);
-      res.send(obj);
-    });
-  };
-};
-
-// ==================================
-// Checks & filters
-// ==================================
-
-casper.check = {};
-
-// ==================================
-// Parameter checking callback
-// Optional checking function. Defaults to truth checking with !
-// ==================================
-casper.check.params = function (param, cb) {
-  return function (req, res, next) {
-    var cbPassed = true;
-    if (cb) cbPassed = cb(param, req.params);
-    if (!cbPassed || typeof req.params[param] === "undefined") {
-      return casper
-               .error
-               .badRequest('Missing ' + param + ' URL parameter.')(req, res);
-    }
-    next();
-  };
-};
-
-// ==================================
-// Body checking.
-// Like above, suports cb checking function.
-// ==================================
-casper.check.body = function (key, cb) {
-  return function (req, res, next) {
-    var cbPassed = true;
-    if (cb) cbPassed = cb(key, req.body);
-    if (!cbPassed || typeof req.body[key] === "undefined") {
-      return casper
-               .error
-               .badRequest('Missing ' + key + ' from body.')(req, res);
-    }
-    next();
-  };
-};
-
-// ==================================
-// Remove
-// ==================================
-
-casper.rm = {};
-
-// ==================================
-// Remove key from req.body
-// ==================================
-casper.rm.body = function (key) {
-  return function (req, res, next) {
-    if (req.body[key]) {
-      delete req.body[key];
-    }
-    next();
-  };
-};
-
-// ==================================
-// Allow
-// ==================================
-
-casper.allow = {};
-
-// ==================================
-// Only allow certain keys on the body
-// ==================================
-
-casper.allow.body = function (keys) {
-  if (typeof keys === 'string') keys = [keys];
-  return function (req, res, next) {
-    // Remove all unwanted keys from the body
-    Object.keys(req.body).forEach(function (key) {
-      if (keys.indexOf(key) === -1) {
-        delete req.body[key];
-      }
-    });
-    next();
-  };
-};
-
-// ==================================
-// Errors
-// ==================================
-
-casper.error = {};
-
-// ==================================
-// 400 Bad Request
-// ==================================
-casper.error.badRequest = function (msg) {
-  return function (req, res) {
-    res.jsonp(400, { error: msg || 'Bad request' });
-  };
-};
-
-// ==================================
-// Logging
-// ==================================
-
-casper.log = {};
-
-// ==================================
-// Log a key from the request
-// ==================================
-casper.log.the = function (key) {
-  return function (req, res, next) {
-    console.log(key, casper.util.atString(req, key));
-    next();
-  };
-};
-
-// ==================================
-// Utils
-// ==================================
-
-casper.util = {};
-
-// ==================================
-// Access object key via string
-// ==================================
-casper.util.atString = function(obj, str, val) {
-  var args = [].slice.call(arguments);
-  str = str.replace(/\[(\w+)\]/g, '.$1')
-           .replace(/^\./, '');
-  var arr = str.split('.'),
-      parent, key;
-  while (arr.length) {
-    key = arr.shift();
-    if (key in obj) {
-      parent = obj;
-      obj = obj[key];
-    } else {
-      return;
-    }
-  }
-  if (args.length > 2) {
-    parent[key] = val;
-  }
-  return obj;
-};
-
-module.exports = casper;
-},{}]},{},[1])
+},{"../Library":"atJa7m","../Array":5,"../localisation":"xbtvmv"}]},{},[1])
 ;

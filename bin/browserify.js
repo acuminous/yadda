@@ -26,5 +26,5 @@ for (name in modules) {
 b.ignore('casper');
 
 b.bundle().pipe(web_bundle);
-b.bundle({standalone: 'yadda'}).pipe(umd_bundle);
+b.bundle({standalone: 'yadda_umd'}).pipe(umd_bundle);
 

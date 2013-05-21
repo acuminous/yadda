@@ -1,5 +1,16 @@
-(function(e){if("function"==typeof bootstrap)bootstrap("yadda",e);else if("object"==typeof exports)module.exports=e();else if("function"==typeof define&&define.amd)define(e);else if("undefined"!=typeof ses){if(!ses.ok())return;ses.makeYadda=e}else"undefined"!=typeof window?window.yadda=e():global.yadda=e()})(function(){var define,ses,bootstrap,module,exports;
-return (function(e,t,n){function i(n,s){if(!t[n]){if(!e[n]){var o=typeof require=="function"&&require;if(!s&&o)return o(n,!0);if(r)return r(n,!0);throw new Error("Cannot find module '"+n+"'")}var u=t[n]={exports:{}};e[n][0].call(u.exports,function(t){var r=e[n][1][t];return i(r?r:t)},u,u.exports)}return t[n].exports}var r=typeof require=="function"&&require;for(var s=0;s<n.length;s++)i(n[s]);return i})({"Yadda":[function(require,module,exports){
+(function(e){if("function"==typeof bootstrap)bootstrap("yadda_umd",e);else if("object"==typeof exports)module.exports=e();else if("function"==typeof define&&define.amd)define(e);else if("undefined"!=typeof ses){if(!ses.ok())return;ses.makeYaddaumd=e}else"undefined"!=typeof window?window.yaddaumd=e():global.yaddaumd=e()})(function(){var define,ses,bootstrap,module,exports;
+return (function(e,t,n){function i(n,s){if(!t[n]){if(!e[n]){var o=typeof require=="function"&&require;if(!s&&o)return o(n,!0);if(r)return r(n,!0);throw new Error("Cannot find module '"+n+"'")}var u=t[n]={exports:{}};e[n][0].call(u.exports,function(t){var r=e[n][1][t];return i(r?r:t)},u,u.exports)}return t[n].exports}var r=typeof require=="function"&&require;for(var s=0;s<n.length;s++)i(n[s]);return i})({1:[function(require,module,exports){
+module.exports = {    
+    Yadda: require('./Yadda'),    
+    Interpreter: require('./Interpreter'),    
+    Library: require('./Library'),    
+    Dictionary: require('./Dictionary'),
+    localisation: require('./localisation/index'),
+    parsers: require('./parsers/index'),
+    plugins: require('./plugins/index')
+};
+
+},{"./Yadda":"Dxsmlr","./Interpreter":"Ddm0G0","./Dictionary":"kjCvZT","./Library":"atJa7m","./localisation/index":"xbtvmv","./parsers/index":"yRFUrn","./plugins/index":"JdtydQ"}],"Yadda":[function(require,module,exports){
 module.exports=require('Dxsmlr');
 },{}],"Dxsmlr":[function(require,module,exports){
 /*
@@ -66,7 +77,8 @@ var Yadda = function(libraries, ctx) {
 };
 
 module.exports = Yadda;
-},{"./Interpreter":"Ddm0G0","./Environment":1,"./fnUtils":2}],"Interpreter":[function(require,module,exports){
+
+},{"./Interpreter":"Ddm0G0","./Environment":2,"./fnUtils":3}],"Interpreter":[function(require,module,exports){
 module.exports=require('Ddm0G0');
 },{}],"Ddm0G0":[function(require,module,exports){
 /*
@@ -121,7 +133,7 @@ var Interpreter = function(libraries) {
 }
 
 module.exports = Interpreter;
-},{"./Competition":3,"./Array":4}],"Library":[function(require,module,exports){
+},{"./Competition":4,"./Array":5}],"Library":[function(require,module,exports){
 module.exports=require('atJa7m');
 },{}],"atJa7m":[function(require,module,exports){
 /*
@@ -177,7 +189,7 @@ var Library = function(dictionary) {
 };
 
 module.exports = Library;
-},{"./Macro":5,"./Dictionary":"kjCvZT","./Array":4}],"Dictionary":[function(require,module,exports){
+},{"./Macro":6,"./Dictionary":"kjCvZT","./Array":5}],"Dictionary":[function(require,module,exports){
 module.exports=require('kjCvZT');
 },{}],"kjCvZT":[function(require,module,exports){
 /*
@@ -250,18 +262,7 @@ var Dictionary = function(prefix) {
 
 
 module.exports = Dictionary;
-},{"./Array":4,"./RegularExpression":6}],7:[function(require,module,exports){
-module.exports = {    
-    Yadda: require('./Yadda'),    
-    Interpreter: require('./Interpreter'),    
-    Library: require('./Library'),    
-    Dictionary: require('./Dictionary'),
-    localisation: require('./localisation/index'),
-    parsers: require('./parsers/index'),
-    plugins: require('./plugins/index')
-};
-
-},{"./Yadda":"Dxsmlr","./Interpreter":"Ddm0G0","./Library":"atJa7m","./Dictionary":"kjCvZT","./localisation/index":"xbtvmv","./parsers/index":"yRFUrn","./plugins/index":"JdtydQ"}],"localisation":[function(require,module,exports){
+},{"./Array":5,"./RegularExpression":7}],"localisation":[function(require,module,exports){
 module.exports=require('xbtvmv');
 },{}],"xbtvmv":[function(require,module,exports){
 module.exports = {
@@ -269,19 +270,19 @@ module.exports = {
     Pirate: require('./Pirate')
 
 }
-},{"./English":8,"./Pirate":9}],"plugins":[function(require,module,exports){
-module.exports=require('JdtydQ');
-},{}],"JdtydQ":[function(require,module,exports){
-module.exports = {
-    casper: require('./CasperPlugin')
-}
-},{"./CasperPlugin":10}],"parsers":[function(require,module,exports){
+},{"./Pirate":8,"./English":9}],"parsers":[function(require,module,exports){
 module.exports=require('yRFUrn');
 },{}],"yRFUrn":[function(require,module,exports){
 module.exports = {
     TextParser: require('./TextParser')
 }
-},{"./TextParser":11}],1:[function(require,module,exports){
+},{"./TextParser":10}],"plugins":[function(require,module,exports){
+module.exports=require('JdtydQ');
+},{}],"JdtydQ":[function(require,module,exports){
+module.exports = {
+    CasperPlugin: require('./CasperPlugin')
+}
+},{"./CasperPlugin":11}],2:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -323,7 +324,7 @@ var Environment = function(ctx) {
 };
 
 module.exports = Environment;
-},{}],2:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -363,7 +364,31 @@ module.exports = (function() {
 
 })();
 
-},{}],3:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
+var CasperPlugin = function(yadda, casper) {
+
+    this.init = function() {
+
+        yadda.interpreter.interpret_step = function(step, ctx) {
+            var _this = this;
+            casper.then(function() {
+                casper.test.info(step);
+                _this.rank_macros(step).clear_winner().interpret(step, ctx);            
+            });  
+        };
+
+        casper.yadda = function(script, ctx) {
+            if (script == undefined) return this;
+            yadda.yadda(script, ctx);
+        }
+
+        return casper;
+    };
+};
+
+module.exports = CasperPlugin;
+
+},{}],4:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -423,7 +448,7 @@ var Competition = function(step, macros) {
 };
 
 module.exports = Competition;
-},{"./LevenshteinDistanceScore":12,"./Array":4}],4:[function(require,module,exports){
+},{"./LevenshteinDistanceScore":12,"./Array":5}],5:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -536,7 +561,7 @@ module.exports = function(obj) {
 
     return ensure_array(obj);
 };
-},{"./fnUtils":2}],5:[function(require,module,exports){
+},{"./fnUtils":3}],6:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -600,7 +625,7 @@ var Macro = function(signature, signature_pattern, fn, ctx) {
 
 module.exports = Macro;
 
-},{"./fnUtils":2,"./Environment":1,"./RegularExpression":6}],6:[function(require,module,exports){
+},{"./fnUtils":3,"./Environment":2,"./RegularExpression":7}],7:[function(require,module,exports){
 (function(){/*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -671,7 +696,7 @@ var RegularExpression = function(pattern_or_regexp) {
 
 module.exports = RegularExpression;
 })()
-},{"./Array":4}],8:[function(require,module,exports){
+},{"./Array":5}],9:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -726,7 +751,7 @@ var English = function(dictionary, library) {
 };
 
 module.exports = English;
-},{"../Library":"atJa7m","../Array":4}],11:[function(require,module,exports){
+},{"../Library":"atJa7m","../Array":5}],10:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -782,7 +807,7 @@ var TextParser = function() {
 };
 
 module.exports = TextParser;
-},{"../Array":4}],12:[function(require,module,exports){
+},{"../Array":5}],12:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -866,7 +891,7 @@ var LevenshteinDistanceScore = function(s1, s2) {
 };
 
 module.exports = LevenshteinDistanceScore;
-},{}],9:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -922,225 +947,6 @@ var Pirate = function(dictionary, library) {
 };
 
 module.exports = Pirate;
-},{"../Library":"atJa7m","../Array":4,"../localisation":"xbtvmv"}],10:[function(require,module,exports){
-module.exports = function(yadda, incoming_casper) {
-
-    this.init = function() {
-
-        var casper = incoming_casper ? incoming_casper : require('casper').create();
-
-        yadda.interpreter.interpret_step = function(step, ctx) {
-            var _this = this;
-            casper.then(function() {
-                casper.test.info(step);
-                _this.rank_macros(step).clear_winner().interpret(step, ctx);            
-            });  
-        };
-
-        casper.yadda = function(script, ctx) {
-            if (script == undefined) return this;
-            yadda.yadda(script, ctx);
-        }
-
-        return casper;
-    };
-};
-
-},{"casper":13}],13:[function(require,module,exports){
-var casper = {};
-
-// ==================================
-// General
-// ==================================
-
-// ==================================
-// Send data or and empty response
-// ==================================
-casper.noop = function (data) {
-  return function (req, res) {
-    res.jsonp(data || {});
-  };
-};
-
-// ==================================
-// Database
-// ==================================
-
-// ==================================
-// Generic database response handler.
-// ==================================
-casper.db = function (req, res, cb) {
-  return function (err, data) {
-    if (err) {
-      return (cb ? cb(err, data) : res.jsonp(500, { error: err.message }));
-    }
-    if (!data) {
-      return (cb ? cb(err, data) : res.jsonp(404, {}));
-    }
-    if ('length' in data && data.length === 0) {
-      return (cb ? cb(err) : res.jsonp(404, []));
-    }
-    if (cb) return cb(err, data);
-    return res.jsonp(data);
-  };
-};
-
-// ==================================
-// Generic model creator
-// ==================================
-casper.create = function (Model, data, allowBody) {
-  return function (req, res) {
-    var raw = new Model(data || (allowBody ? req.body : {}));
-    raw.save(function (err, obj) {
-      if (err) return res.send(500, err);
-      res.send(obj);
-    });
-  };
-};
-
-// ==================================
-// Checks & filters
-// ==================================
-
-casper.check = {};
-
-// ==================================
-// Parameter checking callback
-// Optional checking function. Defaults to truth checking with !
-// ==================================
-casper.check.params = function (param, cb) {
-  return function (req, res, next) {
-    var cbPassed = true;
-    if (cb) cbPassed = cb(param, req.params);
-    if (!cbPassed || typeof req.params[param] === "undefined") {
-      return casper
-               .error
-               .badRequest('Missing ' + param + ' URL parameter.')(req, res);
-    }
-    next();
-  };
-};
-
-// ==================================
-// Body checking.
-// Like above, suports cb checking function.
-// ==================================
-casper.check.body = function (key, cb) {
-  return function (req, res, next) {
-    var cbPassed = true;
-    if (cb) cbPassed = cb(key, req.body);
-    if (!cbPassed || typeof req.body[key] === "undefined") {
-      return casper
-               .error
-               .badRequest('Missing ' + key + ' from body.')(req, res);
-    }
-    next();
-  };
-};
-
-// ==================================
-// Remove
-// ==================================
-
-casper.rm = {};
-
-// ==================================
-// Remove key from req.body
-// ==================================
-casper.rm.body = function (key) {
-  return function (req, res, next) {
-    if (req.body[key]) {
-      delete req.body[key];
-    }
-    next();
-  };
-};
-
-// ==================================
-// Allow
-// ==================================
-
-casper.allow = {};
-
-// ==================================
-// Only allow certain keys on the body
-// ==================================
-
-casper.allow.body = function (keys) {
-  if (typeof keys === 'string') keys = [keys];
-  return function (req, res, next) {
-    // Remove all unwanted keys from the body
-    Object.keys(req.body).forEach(function (key) {
-      if (keys.indexOf(key) === -1) {
-        delete req.body[key];
-      }
-    });
-    next();
-  };
-};
-
-// ==================================
-// Errors
-// ==================================
-
-casper.error = {};
-
-// ==================================
-// 400 Bad Request
-// ==================================
-casper.error.badRequest = function (msg) {
-  return function (req, res) {
-    res.jsonp(400, { error: msg || 'Bad request' });
-  };
-};
-
-// ==================================
-// Logging
-// ==================================
-
-casper.log = {};
-
-// ==================================
-// Log a key from the request
-// ==================================
-casper.log.the = function (key) {
-  return function (req, res, next) {
-    console.log(key, casper.util.atString(req, key));
-    next();
-  };
-};
-
-// ==================================
-// Utils
-// ==================================
-
-casper.util = {};
-
-// ==================================
-// Access object key via string
-// ==================================
-casper.util.atString = function(obj, str, val) {
-  var args = [].slice.call(arguments);
-  str = str.replace(/\[(\w+)\]/g, '.$1')
-           .replace(/^\./, '');
-  var arr = str.split('.'),
-      parent, key;
-  while (arr.length) {
-    key = arr.shift();
-    if (key in obj) {
-      parent = obj;
-      obj = obj[key];
-    } else {
-      return;
-    }
-  }
-  if (args.length > 2) {
-    parent[key] = val;
-  }
-  return obj;
-};
-
-module.exports = casper;
-},{}]},{},[7])(7)
+},{"../Library":"atJa7m","../Array":5,"../localisation":"xbtvmv"}]},{},[1])(1)
 });
 ;

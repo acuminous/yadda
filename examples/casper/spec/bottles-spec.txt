@@ -8,3 +8,14 @@ Scenario: Searching Google
     then the title is foo - Google Search
     and the search for foo was made
     and 10 or more results were returned
+
+Scenario: Searching Google Again
+
+    When I open Google's en search page
+    then the title is foo - Google Search
+    and the search form exists
+
+    When I search for bar
+    then the title is bar - Google Search
+    and the search for bar was made
+    and 10 or more results were returned    

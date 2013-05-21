@@ -1,29 +1,44 @@
-// Casper support is currently broken in Yadda 0.3.0. I'm not sure how to get imports working in PhantomJS
-
 var fs = require('fs');
+var async = require('async');
+var casper = require('casper').create();
+
+// Still looking for an elegant way to require Yadda modules.
+// See https://groups.google.com/forum/?fromgroups#!searchin/casperjs/Yadda/casperjs/ag6ajk5WAag/172BAEV-Xm4J
+function initYadda() {
+    // Using browserify overwrites Casper's require method
+    var oldRequire = require;
+    phantom.injectJs('../../dist/yadda-0.3.0.js');
+    window.Yadda = require('Yadda');
+    window.CasperPlugin = require('plugins').CasperPlugin;
+    window.Library = require('localisation').English;
+    window.TextParser = require('parsers').TextParser;
+    window.Dictionary = require('Dictionary');
+    window.library = require('./google-library').init();
+    window.yadda = new Yadda(library);
+    window.require = oldRequire;
+};
 
 function bySpecification(file) {
     return file.substr(-9) === '-spec.txt';
 };
 
-function runScenario(file, fn) {
+function loadScenarios(file) {
     var parser = new TextParser();        
     var text = fs.read(file);
-    var scenarios = parser.parse(text);
-    if (scenarios.length > 1) throw "Yadda cannot run multiple scenarios using casper";
-    fn(scenarios[0]);
+    return parser.parse(text);
 };
 
-var library = require('./google-library').init();
-var yadda = new Yadda(library);
-var casper = new CasperPlugin(yadda).init();
-
-runScenario('./spec/bottles-spec.txt', function(scenario) {
-   casper.start();
+initYadda();
+casper = new CasperPlugin(yadda, casper).init();
+var scenarios = loadScenarios('./spec/bottles-spec.txt');
+async.eachSeries(scenarios, function(scenario, next) {
+    casper.start();
     casper.test.info(scenario.title);
-    casper.yadda(scenario.steps);
+    casper.yadda(scenario.steps);    
     casper.run(function() {
-        this.test.done(5);
-        this.test.renderResults(true);
+        next();
     });
+}, function(err) {
+    casper.test.done(10);
+    casper.test.renderResults(true);
 });

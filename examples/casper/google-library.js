@@ -1,9 +1,6 @@
-var Library = require('../../lib/localisation/English');
-var Dictionary = require('../../lib/Dictionary');
-
 module.exports.init = function() {
     var dictionary = new Dictionary()
-        .define('LOCALE', /(fr|es)/)
+        .define('LOCALE', /(fr|es|en)/)
         .define('NUM', /(\d+)/);
 
     var library = new Library(dictionary)
