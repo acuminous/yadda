@@ -13,9 +13,9 @@ function initYadda() {
     window.Library = require('localisation').English;
     window.TextParser = require('parsers').TextParser;
     window.Dictionary = require('Dictionary');
-    window.library = require('./google-library').init();
-    window.yadda = new Yadda(library);
     window.require = oldRequire;
+    var library = require('./google-library').init();    
+    return new Yadda(library);
 };
 
 function bySpecification(file) {
@@ -28,7 +28,7 @@ function loadScenarios(file) {
     return parser.parse(text);
 };
 
-initYadda();
+var yadda = initYadda();
 casper = new CasperPlugin(yadda, casper).init();
 var scenarios = loadScenarios('./spec/bottles-spec.txt');
 async.eachSeries(scenarios, function(scenario, next) {
