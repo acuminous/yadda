@@ -15,6 +15,7 @@ prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is smarter
 
 ## Current Version
 **DANGER WILL ROBINSON!!!**
+
 Yadda 0.3.0 is the current verison. It contains breaking API changes from the previous (0.2.2) version. See the release notes for more details
 
 ## Feature Files
