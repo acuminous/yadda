@@ -8,11 +8,11 @@ function initYadda() {
     // Using browserify overwrites Casper's require method
     var oldRequire = require;
     phantom.injectJs('../../dist/yadda-0.3.0.js');
-    window.Yadda = require('Yadda');
-    window.CasperPlugin = require('plugins').CasperPlugin;
-    window.Library = require('localisation').English;
-    window.TextParser = require('parsers').TextParser;
-    window.Dictionary = require('Dictionary');
+    window.Yadda = require('yadda').Yadda;
+    window.CasperPlugin = require('yadda').plugins.CasperPlugin;
+    window.Library = require('yadda').localisation.English;
+    window.TextParser = require('yadda').parsers.TextParser;
+    window.Dictionary = require('yadda').Dictionary;
     window.require = oldRequire;
     var library = require('./google-library').init();    
     return new Yadda(library);

@@ -13,6 +13,10 @@ Not only are the steps less likely to go stale, but they also provide a valuable
 You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-js), but we find Yadda less invasive and 
 prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is smarter too.
 
+## Current Version
+**DANGER WILL ROBINSON!!!**
+Yadda 0.3.0 is the current verison. It contains breaking API changes from the previous (0.2.2) version. See the release notes for more details
+
 ## Feature Files
 
 Since JavaScript has no native file system access and we wanted Yadda to make no assumptions about how it is used, 
@@ -32,10 +36,25 @@ Indentation is optional as are blank lines.
 
 ## What we're working on next
  * Asynchronous support - see [workaround](https://github.com/acuminous/yadda/issues/5) curtesy of Stewart Armbrecht
- * Modularisation
- * Installation via npm
 
-## Quick Start
+## Installation
+
+### Node Environments
+
+```
+npm install yadda
+```
+
+### Browser Environments
+```html
+<html>
+    <head>
+        <script src="./lib/yadda-0.3.0.js"></script>
+    </head>
+    ...
+```
+
+## Writing Yadda Tests
 
 ### Step 1 - Pick your testing framework (e.g. QUnit)
 
@@ -44,7 +63,7 @@ Indentation is optional as are blank lines.
     <head>
         <link rel="stylesheet" href="./lib/qunit.css">
         <script src="./lib/qunit.js"></script> 
-	<!-- Include the library under test -->        
+        <!-- Include the library under test -->        
         <script src="./lib/wall.js"></script>
     </head>
     <body>
@@ -84,7 +103,7 @@ Scenario: No bottles are left
 ### Step 3 - Implement the scenarios
 ```js
 // wall-library.js
-var library = new Yadda.Library.English()
+var library = new require('yadda').localisation.English()
   .given("$NUM green bottles are standing on the wall", function(number) {
      wall = new Wall(number);
   })                
@@ -100,10 +119,8 @@ var library = new Yadda.Library.English()
     <head>
         <link rel="stylesheet" href="./lib/qunit.css">
         <script src="./lib/qunit.js"></script>  
-        <script src="./lib/wall.js"></script> <!-- Library to test -->        
-        <script src="./lib/yadda-0.2.2.js"></script>
-      	<script src="./lib/yadda-0.2.2-localisation.js"></script>
-      	<script src="./lib/yadda-0.2.2-text-parser.js"></script>
+        <script src="./lib/yadda-0.3.0.js"></script>
+        <script src="./lib/wall.js"></script>
       	<script src="./lib/wall-library.js"></script>
     </head>
     <body>
@@ -132,19 +149,21 @@ Scenario: No bottles are left
     <head>
         <link rel="stylesheet" href="./lib/qunit.css">
         <script src="./lib/qunit.js"></script>   
-        <script src="./lib/wall.js"></script> <!-- Library to test -->        
-        <script src="./lib/yadda-0.2.2.js"></script>
-        <script src="./lib/yadda-0.2.2-localisation.js"></script>
-      	<script src="./lib/yadda-0.2.2-text-parser.js"></script>        
+        <script src="./lib/yadda-0.3.0.js"></script>        
+        <script src="./lib/wall.js"></script>
       	<script src="./lib/wall-library.js"></script>
-      	<script type="text/javascript">                
+      	<script type="text/javascript">  
+          var Yadda = require('yadda').Yadda;
+          var TextParser = require('yadda').parsers.TextParser;
+
           function runTests() {            
           	var text = document.getElementById('scenarios').innerText;
-          	var scenarios = new Yadda.Parsers.TextParser().parse(text);
+          	var scenarios = new TextParser().parse(text);
           	for (var i = 0; i < scenarios.length; i++) {
           		var scenario = scenarios[i];
           		test(scenario.title, function() {		
-          			new Yadda.yadda(library).yadda(scenario.steps);
+          			var yadda = new Yadda.yadda(library);
+                yadda.yadda(scenario.steps);
           		});
           	};
           };
@@ -320,77 +339,5 @@ var yadda = new Yadda.yadda(libraries, {msg1: 'hello'})
     .yadda('Some scenario', {msg2: 'goodbye'});
 ```
 
-## 0.2.2 Release Notes
-
-- Added a feature file parser
-- Improved documentation and examples
-
-## 0.2.1 Release Notes
-
-- Added a CoffeeScript example
-- Added a Nodeunit example
-- Added a Mocha example
-- Added a new context variable to the interpret method. See Nodeunit example for usage.
-- Ensured that Yadda.after is called even if an error occurs
-- Fixed distance_table typo
-
-## 0.2.0 Release Notes
-
-### Breaking API Changes
-
-In Yadda 0.1.0 you invoked yadda with 
-```js
-new Yadda(steps).yadda(["some scenario"]);
-```
-The equivalent syntax in 0.2.2 is
-```js
-new Yadda.yadda(library).yadda(["some scenario"]);
-```
-where library is an instance of Yadda.Library
-#### Combining Steps / Libraries
-```js
-var steps = new Steps();
-steps.importSteps(other_steps);
-var yadda = new Yadda(steps);
-```
-Now you pass yadda an array of libraries instead of a single merged one
-```js
-var lib1 = new Yadda.Library();
-var lib2 = new Yadda.Library();
-var yadda = new Yadda().yadda([lib1, lib2]);
-```
-alternatively you can do
-```js
-var yadda = new Yadda.yadda();
-yadda.requires(lib1);
-yadda.requires(lib2);
-```
-or
-```js
-var yadda = new Yadda.yadda();
-yadda.requires([lib1, lib2]);
-```
-#### Defining Steps
-Previously you defined steps using the addStep method, or a given, when, then helper method, e.g.
-```js
-steps.addStep('some text', function() {
-    // some code    
-})
-```
-Step.addStep has been replaced with Library.define
-```js
-library.define('some text', function() {
-    // some code    
-})
-```
-The helper methods are no longer available by default, but you can restore them by including yadda-0.2.2-localisation.js and creating your libraries as instances of Yadda.Library.English, e.g.
-```js
-var library = new Yadda.Library.English()
-    .given('a (\\d+) green bottles', function() {
-        // some code
-    }).when('(\\d+) falls', function() {
-        // some code
-    }).then('there are (\\d+) green bottles', function() {
-        // some code
-    }); 
-```
+In order to make Yadda asynchronous we're considering making it event based, 
+at which point we may drop the before and after callbacks in favour of listeners.

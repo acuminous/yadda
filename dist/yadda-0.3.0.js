@@ -1,4 +1,6 @@
-require=(function(e,t,n){function i(n,s){if(!t[n]){if(!e[n]){var o=typeof require=="function"&&require;if(!s&&o)return o(n,!0);if(r)return r(n,!0);throw new Error("Cannot find module '"+n+"'")}var u=t[n]={exports:{}};e[n][0].call(u.exports,function(t){var r=e[n][1][t];return i(r?r:t)},u,u.exports)}return t[n].exports}var r=typeof require=="function"&&require;for(var s=0;s<n.length;s++)i(n[s]);return i})({1:[function(require,module,exports){
+require=(function(e,t,n){function i(n,s){if(!t[n]){if(!e[n]){var o=typeof require=="function"&&require;if(!s&&o)return o(n,!0);if(r)return r(n,!0);throw new Error("Cannot find module '"+n+"'")}var u=t[n]={exports:{}};e[n][0].call(u.exports,function(t){var r=e[n][1][t];return i(r?r:t)},u,u.exports)}return t[n].exports}var r=typeof require=="function"&&require;for(var s=0;s<n.length;s++)i(n[s]);return i})({"yadda":[function(require,module,exports){
+module.exports=require('gUiUAT');
+},{}],"gUiUAT":[function(require,module,exports){
 module.exports = {    
     Yadda: require('./Yadda'),    
     Interpreter: require('./Interpreter'),    
@@ -9,9 +11,7 @@ module.exports = {
     plugins: require('./plugins/index')
 };
 
-},{"./Yadda":"Dxsmlr","./Interpreter":"Ddm0G0","./Library":"atJa7m","./localisation/index":"xbtvmv","./Dictionary":"kjCvZT","./parsers/index":"yRFUrn","./plugins/index":"JdtydQ"}],"Yadda":[function(require,module,exports){
-module.exports=require('Dxsmlr');
-},{}],"Dxsmlr":[function(require,module,exports){
+},{"./Yadda":1,"./Interpreter":2,"./Library":3,"./Dictionary":4,"./localisation/index":5,"./parsers/index":6,"./plugins/index":7}],1:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -77,9 +77,7 @@ var Yadda = function(libraries, ctx) {
 
 module.exports = Yadda;
 
-},{"./Interpreter":"Ddm0G0","./Environment":2,"./fnUtils":3}],"Interpreter":[function(require,module,exports){
-module.exports=require('Ddm0G0');
-},{}],"Ddm0G0":[function(require,module,exports){
+},{"./Interpreter":2,"./Environment":8,"./fnUtils":9}],2:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -132,9 +130,7 @@ var Interpreter = function(libraries) {
 }
 
 module.exports = Interpreter;
-},{"./Competition":4,"./Array":5}],"Library":[function(require,module,exports){
-module.exports=require('atJa7m');
-},{}],"atJa7m":[function(require,module,exports){
+},{"./Competition":10,"./Array":11}],3:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -188,9 +184,7 @@ var Library = function(dictionary) {
 };
 
 module.exports = Library;
-},{"./Macro":6,"./Dictionary":"kjCvZT","./Array":5}],"Dictionary":[function(require,module,exports){
-module.exports=require('kjCvZT');
-},{}],"kjCvZT":[function(require,module,exports){
+},{"./Dictionary":4,"./Macro":12,"./Array":11}],4:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -261,27 +255,21 @@ var Dictionary = function(prefix) {
 
 
 module.exports = Dictionary;
-},{"./Array":5,"./RegularExpression":7}],"localisation":[function(require,module,exports){
-module.exports=require('xbtvmv');
-},{}],"xbtvmv":[function(require,module,exports){
+},{"./Array":11,"./RegularExpression":13}],6:[function(require,module,exports){
+module.exports = {
+    TextParser: require('./TextParser')
+}
+},{"./TextParser":14}],7:[function(require,module,exports){
+module.exports = {
+    CasperPlugin: require('./CasperPlugin')
+}
+},{"./CasperPlugin":15}],5:[function(require,module,exports){
 module.exports = {
     English: require('./English'),
     Pirate: require('./Pirate')
 
 }
-},{"./English":8,"./Pirate":9}],"parsers":[function(require,module,exports){
-module.exports=require('yRFUrn');
-},{}],"yRFUrn":[function(require,module,exports){
-module.exports = {
-    TextParser: require('./TextParser')
-}
-},{"./TextParser":10}],"plugins":[function(require,module,exports){
-module.exports=require('JdtydQ');
-},{}],"JdtydQ":[function(require,module,exports){
-module.exports = {
-    CasperPlugin: require('./CasperPlugin')
-}
-},{"./CasperPlugin":11}],2:[function(require,module,exports){
+},{"./English":16,"./Pirate":17}],8:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -323,7 +311,7 @@ var Environment = function(ctx) {
 };
 
 module.exports = Environment;
-},{}],3:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -363,7 +351,7 @@ module.exports = (function() {
 
 })();
 
-},{}],11:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 var CasperPlugin = function(yadda, casper) {
 
     this.init = function() {
@@ -387,7 +375,7 @@ var CasperPlugin = function(yadda, casper) {
 
 module.exports = CasperPlugin;
 
-},{}],4:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -447,7 +435,71 @@ var Competition = function(step, macros) {
 };
 
 module.exports = Competition;
-},{"./LevenshteinDistanceScore":12,"./Array":5}],5:[function(require,module,exports){
+},{"./LevenshteinDistanceScore":18,"./Array":11}],12:[function(require,module,exports){
+/*
+ * Copyright 2010 Acuminous Ltd / Energized Work Ltd
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ 
+var fnUtils = require('./fnUtils');
+var Environment = require('./Environment');
+var RegularExpression = require('./RegularExpression');
+
+// Understands a step
+var Macro = function(signature, signature_pattern, fn, ctx) {    
+    
+    var environment = new Environment(ctx);
+    var signature_pattern = new RegularExpression(signature_pattern);
+    var fn = fn || fnUtils.NO_OP;
+    var _this = this;    
+
+    var init = function(signature, signature_pattern) {
+        _this.signature = normalise(signature);
+    }
+
+    this.is_identified_by = function(other_signature) {
+        return this.signature == normalise(other_signature);        
+    }; 
+
+    this.can_interpret = function(step) {
+        return signature_pattern.test(step);
+    };  
+
+    this.interpret = function(step, ctx) {    
+        var env = environment.merge(ctx);
+        var args = signature_pattern.groups(step);
+        return fnUtils.invoke(fn, env.ctx, args);
+    };
+
+    this.levenshtein_signature = function() {
+        return signature_pattern.without_expressions();            
+    };
+
+    var normalise = function(signature) {
+        return new RegExp(signature).toString();
+    }
+
+    this.toString = function() {
+        return this.signature;
+    };
+
+    init(signature, signature_pattern);
+};
+
+module.exports = Macro;
+
+},{"./fnUtils":9,"./Environment":8,"./RegularExpression":13}],11:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -560,71 +612,7 @@ module.exports = function(obj) {
 
     return ensure_array(obj);
 };
-},{"./fnUtils":3}],6:[function(require,module,exports){
-/*
- * Copyright 2010 Acuminous Ltd / Energized Work Ltd
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
- 
-var fnUtils = require('./fnUtils');
-var Environment = require('./Environment');
-var RegularExpression = require('./RegularExpression');
-
-// Understands a step
-var Macro = function(signature, signature_pattern, fn, ctx) {    
-    
-    var environment = new Environment(ctx);
-    var signature_pattern = new RegularExpression(signature_pattern);
-    var fn = fn || fnUtils.NO_OP;
-    var _this = this;    
-
-    var init = function(signature, signature_pattern) {
-        _this.signature = normalise(signature);
-    }
-
-    this.is_identified_by = function(other_signature) {
-        return this.signature == normalise(other_signature);        
-    }; 
-
-    this.can_interpret = function(step) {
-        return signature_pattern.test(step);
-    };  
-
-    this.interpret = function(step, ctx) {    
-        var env = environment.merge(ctx);
-        var args = signature_pattern.groups(step);
-        return fnUtils.invoke(fn, env.ctx, args);
-    };
-
-    this.levenshtein_signature = function() {
-        return signature_pattern.without_expressions();            
-    };
-
-    var normalise = function(signature) {
-        return new RegExp(signature).toString();
-    }
-
-    this.toString = function() {
-        return this.signature;
-    };
-
-    init(signature, signature_pattern);
-};
-
-module.exports = Macro;
-
-},{"./fnUtils":3,"./Environment":2,"./RegularExpression":7}],7:[function(require,module,exports){
+},{"./fnUtils":9}],13:[function(require,module,exports){
 (function(){/*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -695,7 +683,7 @@ var RegularExpression = function(pattern_or_regexp) {
 
 module.exports = RegularExpression;
 })()
-},{"./Array":5}],8:[function(require,module,exports){
+},{"./Array":11}],16:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -750,7 +738,7 @@ var English = function(dictionary, library) {
 };
 
 module.exports = English;
-},{"../Library":"atJa7m","../Array":5}],10:[function(require,module,exports){
+},{"../Library":3,"../Array":11}],14:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -806,7 +794,63 @@ var TextParser = function() {
 };
 
 module.exports = TextParser;
-},{"../Array":5}],12:[function(require,module,exports){
+},{"../Array":11}],17:[function(require,module,exports){
+/*
+ * Copyright 2010 Acuminous Ltd / Energized Work Ltd
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+var Library = require('../Library');
+var localisation = require('../localisation')
+var $ = require('../Array');
+   
+var Pirate = function(dictionary, library) {
+        
+    var library = library ? library : new Library(dictionary);
+
+    library.given = function(signatures, fn, ctx) {
+        return $(signatures).each(function(signature) {
+            var signature = prefix_signature('(?:[Gg]iveth|[Ww]ith|[Aa]nd|[Bb]ut) ', signature);
+            return library.define(signature, fn, ctx);
+        });
+    };
+
+    library.when = function(signatures, fn, ctx) {
+        return $(signatures).each(function(signature) {
+            var signature = localisation.prefix_signature('(?:[Ww]hilst|[Aa]nd|[Bb]ut) ', signature);
+            return library.define(signature, fn, ctx);
+        });
+    };
+
+    library.then = function(signatures, fn, ctx) {
+        return $(signatures).each(function(signature) {
+            var signature = prefix_signature('(?:[Tt]hence|[Dd]emand|[Aa]nd|[Bb]ut) ', signature);
+            return library.define(signature, fn, ctx);
+        });
+    };
+
+    function prefix_signature(prefix, signature) {
+        var regex_delimiters = new RegExp('^/|/$', 'g');
+        var start_of_signature = new RegExp(/^(?:\^)?/);
+        return signature.toString().replace(regex_delimiters, '').replace(start_of_signature, prefix);
+    };
+
+    return library;     
+};
+
+module.exports = Pirate;
+},{"../Library":3,"../Array":11,"../localisation":5}],18:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -890,61 +934,5 @@ var LevenshteinDistanceScore = function(s1, s2) {
 };
 
 module.exports = LevenshteinDistanceScore;
-},{}],9:[function(require,module,exports){
-/*
- * Copyright 2010 Acuminous Ltd / Energized Work Ltd
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-var Library = require('../Library');
-var localisation = require('../localisation')
-var $ = require('../Array');
-   
-var Pirate = function(dictionary, library) {
-        
-    var library = library ? library : new Library(dictionary);
-
-    library.given = function(signatures, fn, ctx) {
-        return $(signatures).each(function(signature) {
-            var signature = prefix_signature('(?:[Gg]iveth|[Ww]ith|[Aa]nd|[Bb]ut) ', signature);
-            return library.define(signature, fn, ctx);
-        });
-    };
-
-    library.when = function(signatures, fn, ctx) {
-        return $(signatures).each(function(signature) {
-            var signature = localisation.prefix_signature('(?:[Ww]hilst|[Aa]nd|[Bb]ut) ', signature);
-            return library.define(signature, fn, ctx);
-        });
-    };
-
-    library.then = function(signatures, fn, ctx) {
-        return $(signatures).each(function(signature) {
-            var signature = prefix_signature('(?:[Tt]hence|[Dd]emand|[Aa]nd|[Bb]ut) ', signature);
-            return library.define(signature, fn, ctx);
-        });
-    };
-
-    function prefix_signature(prefix, signature) {
-        var regex_delimiters = new RegExp('^/|/$', 'g');
-        var start_of_signature = new RegExp(/^(?:\^)?/);
-        return signature.toString().replace(regex_delimiters, '').replace(start_of_signature, prefix);
-    };
-
-    return library;     
-};
-
-module.exports = Pirate;
-},{"../Library":"atJa7m","../Array":5,"../localisation":"xbtvmv"}]},{},[1])
+},{}]},{},["gUiUAT"])
 ;

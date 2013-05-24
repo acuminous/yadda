@@ -15,6 +15,7 @@
   },
   "scripts": {
     "test": "make test",
+    "examples": "./bin/examples.sh",
     "browserify": "node ./bin/browserify.js"
   },
   "repository": {
@@ -23,9 +24,11 @@
   },
   "keywords": [
     "BDD",
-    "Jasmine",
-    "Mocha",
-    "Specification by example"
+    "Specification",
+    "Natural",
+    "Test",
+    "Behaviour",
+    "Driven"
   ],
   "author": "Stephen Cresswell",
   "license": "Apache2",
