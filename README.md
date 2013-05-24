@@ -13,11 +13,6 @@ Not only are the steps less likely to go stale, but they also provide a valuable
 You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-js), but we find Yadda less invasive and 
 prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is smarter too.
 
-## Current Version
-**DANGER WILL ROBINSON!!!**
-
-Yadda 0.3.0 is the current verison. It contains breaking API changes from the previous (0.2.2) version. See the release notes for more details
-
 ## Feature Files
 
 Since JavaScript has no native file system access and we wanted Yadda to make no assumptions about how it is used, 
@@ -34,6 +29,11 @@ Scenario: Another scenario title
   blah blah blah
 ``` 
 Indentation is optional as are blank lines.
+
+## Current Version
+**DANGER WILL ROBINSON!!!**
+
+Yadda 0.3.0 is the current verison. It contains breaking API changes from the previous (0.2.2) version. See the release notes for more details
 
 ## What we're working on next
  * Asynchronous support - see [workaround](https://github.com/acuminous/yadda/issues/5) curtesy of Stewart Armbrecht
