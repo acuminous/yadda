@@ -2,7 +2,7 @@ var fs = require('fs');
 var path = require('path');
 var assert = require("assert")
 
-var Yadda = require('../../lib/Yadda');
+var Yadda = require('../../lib/YaddaAsync');
 var TextParser = require('../../lib/parsers/TextParser');
 
 function bySpecification(file) {
@@ -24,12 +24,10 @@ describe('Bottles', function() {
     eachScenario('./spec', function(scenario) {
 
         var library = require('./bottles-library').init();
-        var yadda = new Yadda(library).after(function() {
-            this.done();
-        });        
+        var yadda = new Yadda(library);        
 
         it(scenario.title, function(done) {
-            yadda.yadda(scenario.steps, { assert: assert, done: done });
+            yadda.yadda(scenario.steps, { assert: assert }, done);
         });
     });
 })

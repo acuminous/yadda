@@ -6,7 +6,6 @@ var Dictionary = require('../lib/index').Dictionary;
 describe('Interpreter', function() {
 
     it('should interpret a single line script', function() {
-
         var executions = 0;
         var library = new Library().define('Blah blah blah', function() { executions++; });
 
@@ -72,5 +71,21 @@ describe('Interpreter', function() {
             interpreter.interpret('Blah blah blah');
         }, /Undefined Step: \[Blah blah blah\]/);
     });
+
+    it('should interpret steps asynchronously', function() {
+        var executions = 0;
+
+        var library = new Library().define('Blah blah blah', function() { 
+            executions++;
+            this.done(); 
+        });
+
+        new Interpreter(library).interpretAsync([
+            'Blah blah blah',
+            'Blah blah blah'
+        ], function() {
+            assert.equal(executions, 2);
+        });
+    });    
 
 })
