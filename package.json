@@ -28,7 +28,11 @@
     "Natural",
     "Test",
     "Behaviour",
-    "Driven"
+    "Driven",
+    "Jasmine",
+    "Mocha",
+    "QUnit",
+    "Nodeunit"
   ],
   "author": "Stephen Cresswell",
   "license": "Apache2",

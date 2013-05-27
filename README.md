@@ -1,12 +1,8 @@
 # Yadda
 
-Yadda brings _true_ BDD to JavaScript test frameworks such as [Mocha](http://visionmedia.github.io/mocha/), 
-[QUnit](http://qunitjs.com), [Nodeunit](https://github.com/caolan/nodeunit) and [CasperJS](http://casperjs.org). 
-By _true_ BDD we mean that the ordinary language (e.g. English) steps are mapped to code, as opposed to merely 
-decorating it. This is important because decorative steps such as those used by 
-[Jasmine](http://pivotal.github.com/jasmine),  [Mocha](http://visionmedia.github.io/mocha) and [Vows](http://vowsjs.org), 
-can fall out of date and are a form of duplication. If your code is easily readable you they offer little benefit 
-beyond some nice reporting.
+Yadda brings _true_ BDD to JavaScript test frameworks such as [Jasmine](http://pivotal.github.io/jasmine/), 
+[Mocha](http://visionmedia.github.io/mocha/), [QUnit](http://qunitjs.com), [Nodeunit](https://github.com/caolan/nodeunit) and [CasperJS](http://casperjs.org). By _true_ BDD we mean that the ordinary language (e.g. English) steps are mapped to code, as opposed to merely decorating it. This is important because decorative steps such as those used by [Jasmine](http://pivotal.github.com/jasmine), [Mocha](http://visionmedia.github.io/mocha) and [Vows](http://vowsjs.org), can fall out of date and are a form of duplication. If your code is easily 
+readable you they offer little benefit beyond some nice reporting.
 
 Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the ordinary language steps to code. 
 Not only are the steps less likely to go stale, but they also provide a valuable abstraction layer and encourage re-use. 
@@ -14,7 +10,6 @@ You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-j
 prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is smarter too.
 
 ## Feature Files
-
 Since JavaScript has no native file system access and we wanted Yadda to make no assumptions about how it is used, 
 test scenarios are interpreted from arrays of strings. This doesn't mean that you can't use feature files from 
 environments that support them (e.g. [node](http://nodejs.org)), just that you must parse the file into an array of 
@@ -37,6 +32,7 @@ Yadda 0.4.0 is the current verison. It contains breaking API changes from the pr
 
 ## What we're working on next
  * Event emission
+ * Automatic type conversion
 
 ## Installation
 
