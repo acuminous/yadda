@@ -1,6 +1,5 @@
 var fs = require('fs');
 var path = require('path');
-var assert = require("assert")
 
 var Yadda = require('../../lib/Yadda');
 var TextParser = require('../../lib/parsers/TextParser');
