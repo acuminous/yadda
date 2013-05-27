@@ -33,10 +33,10 @@ Indentation is optional as are blank lines.
 ## Current Version
 **DANGER WILL ROBINSON!!!**
 
-Yadda 0.3.0 is the current verison. It contains breaking API changes from the previous (0.2.2) version. See the release notes for more details
+Yadda 0.4.0 is the current verison. It contains breaking API changes from the previous (0.3.0) version. See the release notes for more details
 
 ## What we're working on next
- * Asynchronous support - see [workaround](https://github.com/acuminous/yadda/issues/5) curtesy of Stewart Armbrecht
+ * Event emission
 
 ## Installation
 
@@ -50,41 +50,24 @@ npm install yadda
 ```html
 <html>
     <head>
-        <script src="./lib/yadda-0.3.0.js"></script>
+        <script src="./lib/yadda-0.4.0.js"></script>
     </head>
     ...
 ```
 
 ## Writing Yadda Tests
 
-### Step 1 - Pick your testing framework (e.g. QUnit)
-
-```html
-<html>
-    <head>
-        <link rel="stylesheet" href="./lib/qunit.css">
-        <script src="./lib/qunit.js"></script> 
-        <!-- Include the library under test -->        
-        <script src="./lib/wall.js"></script>
-    </head>
-    <body>
-        <div id="qunit"></div>        
-    </body>
-</html>
+### Step 1 - Pick your testing framework (e.g. Mocha)
+#### wall-test.js
+```js
+describe('Wall', function() {
+  // TODO write some tests
+})
 ```
 
-### Step 2 - Add your scenarios
-
-```html
-<html>
-    <head>
-        <link rel="stylesheet" href="./lib/qunit.css">
-        <script src="./lib/qunit.js"></script>  
-        <script src="./lib/wall.js"></script>     
-    </head>
-    <body>
-        <div id="qunit"></div>
-        <pre id="scenarios">
+### Step 2 - Write your scenarios
+#### wall-spec.txt
+```
 Scenario: A bottle falls from the wall
 
 	Given 100 green bottles are standing on the wall
@@ -96,103 +79,74 @@ Scenario: No bottles are left
 	Given 1 green bottles are standing on the wall
 	when 1 green bottle accidentally falls
 	then there are 0 green bottles standing on the wall		
-      </pre>        
-    </body>
-</html>
 ```
 
-### Step 3 - Implement the scenarios
+### Step 3 - Implement the scenario steps
+#### wall-library.js
 ```js
-// wall-library.js
-var library = new require('yadda').localisation.English()
-  .given("$NUM green bottles are standing on the wall", function(number) {
-     wall = new Wall(number);
-  })                
-  .when("$NUM green bottle accidentally falls", function(number) { 
-     wall.fall(number);
-  })
-  .then("there are $NUM green bottles standing on the wall", function(number) {
-     equal(number, wall.bottles);
-  });
+var assert = require('assert');
+var Library = require('yadda').localisation.English;
+
+module.exports = (function() {
+  var library = new Library()
+    .given("$NUM green bottles are standing on the wall", function(number, next) {
+       wall = new Wall(number);
+       next();
+    })                
+    .when("$NUM green bottle accidentally falls", function(number, next) { 
+       wall.fall(number);
+       next();
+    })
+    .then("there are $NUM green bottles standing on the wall", function(number, next) {
+       assert.equal(number, wall.bottles);
+       next();
+    });
+})();
 ```
-```html
-<html>
-    <head>
-        <link rel="stylesheet" href="./lib/qunit.css">
-        <script src="./lib/qunit.js"></script>  
-        <script src="./lib/yadda-0.3.0.js"></script>
-        <script src="./lib/wall.js"></script>
-      	<script src="./lib/wall-library.js"></script>
-    </head>
-    <body>
-        <div id="qunit"></div>
-        <pre id="scenarios">
-Scenario: A bottle falls from the wall
+### Step 4 - Run your scenarios
+wall-test.js
+```js
+var fs = require('fs');
+var Yadda = require('yadda').Yadda;
+var TextParser = require('yadda').parsers.TextParser;
 
-  Given 100 green bottles are standing on the wall
-	when 1 green bottle accidentally falls
-	then there are 99 green bottles standing on the wall
+describe('Bottles', function() {     
+    var text = fs.readFileSync('./test/spec/wall-spec.txt', 'utf8');
+    var library = require('./wall-library');
+    var yadda = new Yadda(library);        
+    var scenarios = new TextParser().parse(text);
 
-Scenario: No bottles are left
-
-	Given 1 green bottles are standing on the wall
-	when 1 green bottle accidentally falls
-	then there are 0 green bottles standing on the wall		
-      </pre>         
-    </body>
-</html>
-```
-
-### Step 4 - Run the scenarios
-
-```html
-<html>
-    <head>
-        <link rel="stylesheet" href="./lib/qunit.css">
-        <script src="./lib/qunit.js"></script>   
-        <script src="./lib/yadda-0.3.0.js"></script>        
-        <script src="./lib/wall.js"></script>
-      	<script src="./lib/wall-library.js"></script>
-      	<script type="text/javascript">  
-          var Yadda = require('yadda').Yadda;
-          var TextParser = require('yadda').parsers.TextParser;
-
-          function runTests() {            
-          	var text = document.getElementById('scenarios').innerText;
-          	var scenarios = new TextParser().parse(text);
-          	for (var i = 0; i < scenarios.length; i++) {
-          		var scenario = scenarios[i];
-          		test(scenario.title, function() {		
-          			var yadda = new Yadda.yadda(library);
-                yadda.yadda(scenario.steps);
-          		});
-          	};
-          };
-        </script>
-    </head>
-    <body onload="runTests">
-        <div id="qunit"></div>
-        <pre id="scenarios">
-Scenario: A bottle falls from the wall
-
-  Given 100 green bottles are standing on the wall
-	when 1 green bottle accidentally falls
-	then there are 99 green bottles standing on the wall
-
-Scenario: No bottles are left
-
-	Given 1 green bottles are standing on the wall
-	when 1 green bottle accidentally falls
-	then there are 0 green bottles standing on the wall		
-      </pre>         
-    </body>
-</html>
+    for (var i = 0; i < scenarios.length; i++) {
+      var scenario = scenarios[i];
+      it(scenario.title, function(done) {
+        yadda.yadda(scenario.steps, done);
+      });
+    };
+})
 ```
 
 ## Features
 
 ### Supported Libraries
 Yadda works with QUnit, Nodeunit, Mocha and CasperJS. See the examples for details.
+
+### Synchronous or Asynchronous
+Yadda is designed to work synchronously or asynchronously. If your steps and test framework are synchronous
+you don't need to specify the 'done' callback
+```js
+    var library = new Library()
+      .given("$NUM green bottles are standing on the wall", function(number) {
+         wall = new Wall(number);
+      })                
+      .when("$NUM green bottle accidentally falls", function(number) { 
+         wall.fall(number);
+      })
+      .then("there are $NUM green bottles standing on the wall", function(number) {
+         assert.equal(number, wall.bottles);
+      });
+    ...
+    yadda.yadda(scenario.steps);
+```
 
 ### Flexible BDD Syntax
 It's common for BDD libraries to limit syntax to precondition (given) steps, action (when) steps and assertion (then) steps. Yadda doesn't. This allows for more freedom of expression. e.g.
@@ -302,7 +256,7 @@ It can be a chore to add a context to every step, so a common context can be spe
 new Yadda.yadda(library, ctx);
 
 // Shared between all steps in this scenario
-new Yadda.yadda(library).yadda('Some scenario', ctx);
+new Yadda.yadda(library).yadda('Some scenario', ctx, done);
 ```
 If you specify multiple contexts they will be merged before executing the step.
 
@@ -314,31 +268,3 @@ One issue you find with BDD libraries, is that two steps might match the same in
 2. By allowing you to define steps in multiple libraries. Grouping steps into libraries not only helps keep a tidy code base, but also prevents clashes if you scenario doesn't require the library with the alternative step.
 
 3. If you still have problems with clashing, you can use the term dictionary to make your regular expression more specific without affecting the readability of your step.
-
-#### Before and After callbacks
-It is often useful to run some code before and/or after each scenario. Yadda supports this with before and after callbacks. e.g.
-```js
-var yadda = new Yadda.yadda(libraries)
-    .before(function() {
-        // some code
-    })
-    .after(function() {
-        // some code
-    });
-```
-The .before and .after functions are bound to the context if one is supplied.
-```js
-var yadda = new Yadda.yadda(libraries, {msg1: 'hello'})
-    .before(function() {
-        this.msg1 == 'hello';
-        this.msg2 == 'goodbye';
-    })
-    .after(function() {
-        this.msg1 == 'hello';
-        this.msg2 == 'goodbye';        
-    })
-    .yadda('Some scenario', {msg2: 'goodbye'});
-```
-
-In order to make Yadda asynchronous we're considering making it event based, 
-at which point we may drop the before and after callbacks in favour of listeners.

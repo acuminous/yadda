@@ -2,7 +2,7 @@ var Library = require('../../lib/localisation/English');
 var Dictionary = require('../../lib/Dictionary');
 var assert = require('assert');
 
-module.exports.init = function() {
+module.exports = (function() {
 
     var wall;
 
@@ -34,4 +34,4 @@ module.exports.init = function() {
     }
 
     return library;
-};
+})();

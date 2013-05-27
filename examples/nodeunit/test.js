@@ -20,7 +20,7 @@ function eachScenario(dir, fn) {
 };
 
 eachScenario('./spec', function(scenario) {
-    var library = require('./bottles-library').init();
+    var library = require('./bottles-library');
     var yadda = new Yadda(library);        
     exports[scenario.title] = function(test) {
         yadda.yadda(scenario.steps, { test: test }, test.done);

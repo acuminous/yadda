@@ -1,6 +1,5 @@
 var fs = require('fs');
 var path = require('path');
-var assert = require("assert")
 
 var Yadda = require('../../lib/Yadda');
 var TextParser = require('../../lib/parsers/TextParser');
@@ -23,7 +22,7 @@ function eachScenario(dir, fn) {
 describe('Bottles', function() {
     eachScenario('./spec', function(scenario) {
 
-        var library = require('./bottles-library').init();
+        var library = require('./bottles-library');
         var yadda = new Yadda(library);        
 
         it(scenario.title, function(done) {

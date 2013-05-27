@@ -22,7 +22,7 @@ function eachScenario(dir, fn) {
 
 describe('Bottles', function() {
     eachScenario('./spec', function(scenario) {
-        var library = require('./bottles-library').init();
+        var library = require('./bottles-library');
         var yadda = new Yadda(library);        
 
         it(scenario.title, function() {

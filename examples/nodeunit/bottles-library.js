@@ -1,7 +1,7 @@
 var Library = require('../../lib/localisation/English');
 var Dictionary = require('../../lib/Dictionary');
 
-module.exports.init = function() {
+module.exports = (function() {
 
     var dictionary = new Dictionary()
         .define('NUM', /(\d+)/);
@@ -33,4 +33,4 @@ module.exports.init = function() {
         }
     }
     return library;
-};
+})();
