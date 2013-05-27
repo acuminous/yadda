@@ -1,7 +1,31 @@
 # Release Notes
 
-## Yadda 0.3.0
+## Yadda 0.4.0
+ - Yadda now supports both asynchronous and synchronous usage
+ - Deleted the before and after hook (after cannot be guaranteed to run when asynchronous)
 
+### Breaking API Changes
+#### Removal of before and after hooks
+The before and after hooks have been removed because after cannot be guarneteed to run when yadda 
+is asynchronous. Use your test runner's before and after mechanism instead.
+
+#### Removal of non-object contexts
+You can no longer pass non-object contexts to yadda, i.e. instead of...
+```js
+library.define('blah blah blah') function() {
+    this.assert();
+});
+new Yadda(library).('blah blah blah', test);
+```
+Do...
+```js
+library.define('blah blah blah') function() {
+    this.test.assert();
+});
+new Yadda(library).('blah blah blah', { test: test });
+```
+
+## Yadda 0.3.0
   - Re-implemented as a nodejs module
   - Used browserify for compatability with browser test frameworks like qunit
 
