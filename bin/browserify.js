@@ -9,10 +9,7 @@ var umd_bundle = fs.createWriteStream(path.join(rootpath, 'dist', 'yadda-umd-' +
 var b = browserify();
 b.add('./lib/index.js');
 
-for (name in modules) {
-    b.require('./lib/index.js', { expose: 'yadda' });
-};
-
+b.require('./lib/index.js', { expose: 'yadda' });
 b.ignore('casper');
 
 b.bundle().pipe(web_bundle);
