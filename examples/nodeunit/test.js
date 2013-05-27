@@ -21,10 +21,8 @@ function eachScenario(dir, fn) {
 
 eachScenario('./spec', function(scenario) {
     var library = require('./bottles-library').init();
-    var yadda = new Yadda(library).after(function() {
-        this.done();
-    });        
+    var yadda = new Yadda(library);        
     exports[scenario.title] = function(test) {
-        yadda.yadda(scenario.steps, test);
+        yadda.yadda(scenario.steps, { test: test }, test.done);
     };
 });

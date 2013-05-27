@@ -1,5 +1,6 @@
 var Library = require('../../lib/localisation/English');
 var Dictionary = require('../../lib/Dictionary');
+var assert = require('assert');
 
 module.exports.init = function() {
 
@@ -19,7 +20,7 @@ module.exports.init = function() {
     })
 
     .then("there (?:are|are still) $NUM green bottles standing on the wall", function(number_of_bottles) {
-        this.assert.equal(number_of_bottles, wall.bottles);
+        assert.equal(number_of_bottles, wall.bottles);
     })
 
     var Wall = function(bottles) {

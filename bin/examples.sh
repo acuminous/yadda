@@ -5,8 +5,13 @@ pushd ./examples/casper > /dev/null
 casperjs test.js
 popd
 
-echo Running Mocha Example
-pushd ./examples/mocha > /dev/null
+echo Running Mocha Sync Example
+pushd ./examples/mocha-sync > /dev/null
+mocha test.js
+popd
+
+echo Running Mocha Async Example
+pushd ./examples/mocha-async > /dev/null
 mocha test.js
 popd
 

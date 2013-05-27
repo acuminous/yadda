@@ -75,15 +75,15 @@ describe('Interpreter', function() {
     it('should interpret steps asynchronously', function() {
         var executions = 0;
 
-        var library = new Library().define('Blah blah blah', function() { 
+        var library = new Library().define('Blah blah blah', function(next) { 
             executions++;
-            this.done(); 
+            next(); 
         });
 
-        new Interpreter(library).interpretAsync([
+        new Interpreter(library).interpret([
             'Blah blah blah',
             'Blah blah blah'
-        ], function() {
+        ], {}, function() {
             assert.equal(executions, 2);
         });
     });    

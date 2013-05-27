@@ -6,9 +6,9 @@ describe('Macro', function() {
 
     it('should interpret a line of text', function() {
         var execution = new Execution();
-        var args = [1, 2, 3];    
+        var args = [1, 2, 3, 'callback'];    
 
-        new Macro('Easy', /Easy as (\d), (\d), (\d)/, execution.code, {a: 1}).interpret("Easy as 1, 2, 3", {b: 2});
+        new Macro('Easy', /Easy as (\d), (\d), (\d)/, execution.code, {a: 1}).interpret("Easy as 1, 2, 3", {b: 2}, 'callback');
 
         assert.ok(execution.executed, "The step code was not run");
         assert.equal(execution.args.toString(), args.toString(), "The step code was not passed the correct arguments");    

@@ -22,12 +22,11 @@ function eachScenario(dir, fn) {
 
 describe('Bottles', function() {
     eachScenario('./spec', function(scenario) {
-
         var library = require('./bottles-library').init();
         var yadda = new Yadda(library);        
 
         it(scenario.title, function() {
-            yadda.yadda(scenario.steps, { assert: assert} );
+            yadda.yadda(scenario.steps);
         });
     });
 })
