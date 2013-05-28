@@ -97,7 +97,7 @@ describe('Library', function() {
             'expect there are 99 bottles left'
         ];
         
-        assert_localisation(library, givens, '/(?:[Gg]iven|[Ww]ith|[Aa]nd|[Bb]ut) a wall with (\\d+) bottles/');
+        assert_localisation(library, givens, '/(?:[Gg]iven|[Ww]ith|[Aa]nd|[Bb]ut|[Ee]xcept) a wall with (\\d+) bottles/');
         assert_localisation(library, whens, '/(?:[Ww]hen|[Aa]nd|[Bb]ut) (\\d+) bottle(?:s)? accidentally falls/');
         assert_localisation(library, thens, '/(?:[Tt]hen|[Ee]xpect|[Aa]nd|[Bb]ut) there are (\\d+) bottles left/');
     });

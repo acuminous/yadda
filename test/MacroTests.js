@@ -16,7 +16,6 @@ describe('Macro', function() {
     });
 
     it('should provide a signature that can be used to compare levenshtein distance', function() {
-
         $([
             /the quick brown fox/,
             /the quick.* brown.* fox/,
@@ -28,7 +27,12 @@ describe('Macro', function() {
             assert.equal(new Macro('Quick brown fox', signature).levenshtein_signature(), 'the quick brown fox');
         });
     });
-    
+
+    it('should default to a no operation function', function(done) {
+        new Macro('blah $a', /blah (.*)/).interpret('blah 1', {}, function() {
+            done();
+        });
+    })
 
     function Execution() {   
 
