@@ -34,4 +34,9 @@ describe('TextPaser', function() {
         assert.equal(scenarios[1].title, 'Complex');
     });
 
+    it('should reset scenarios between parses', function() {        
+        assert.equal(parser.parse(simple_scenario).length, 1);
+        assert.equal(parser.parse(simple_scenario).length, 1);
+    });
+
 });

@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.4.2
+ - TextParser no longer maintains state between parses
+
 ## Yadda 0.4.1
  - Stopped pending asynchronous steps hanging the test run
  - Added mocha plugin

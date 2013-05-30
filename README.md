@@ -4,53 +4,31 @@ Yadda brings _true_ BDD to JavaScript test frameworks such as [Jasmine](http://p
 
 Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the ordinary language steps to code. Not only are the steps less likely to go stale, but they also provide a valuable abstraction layer and encourage re-use. You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-js), but we find Yadda less invasive and prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is smarter too.
 
-## Current Version
-**DANGER WILL ROBINSON!!!**
-Yadda 0.4.1 is the current verison. It contains breaking API changes from the previous minor version (0.3.0). See the release notes for more details.
-
-## What we're working on next
- * Event emission
- * Automatic type conversion
-
 ## Installation
+Yadda 0.4.2 is the current verison. It contains breaking API changes from the previous minor version (0.3.0). See the release notes for more details.
+
 ### Node based environments (e.g. Mocha)
 ```
 npm install yadda
 ```
-
 ### Browser based environments (e.g. QUnit)
 ```html
-<html>
-    <head>
-        <script src="./lib/yadda-0.4.1.js"></script>
-    </head>
+<script src="./lib/yadda-0.4.2.js"></script>
 ```
-
 ## Writing Yadda Tests
-### Step 1 - Pick your testing framework (e.g. Mocha)
-#### bottles-test.js
-```js
-var Yadda = requre('yadda').Yadda;
-var feature = ('yadda').plugins.MochaPlugin().feature;
-var library = require('./bottles-library');
-var yadda = new Yadda(library);
-
-feature(yadda, 'Bottles', './spec/bottles-spec.txt');
-```
-
-### Step 2 - Write your scenarios
-#### bottles-spec.txt
+### Step 1 - Write your scenarios
+bottles-spec.txt
 ```
 Scenario: should fall from the wall
 
-	Given 100 green bottles are standing on the wall
-	When 1 green bottle accidentally falls
-	Then there are 99 green bottles standing on the wall	
+   Given 100 green bottles are standing on the wall
+   When 1 green bottle accidentally falls
+   Then there are 99 green bottles standing on the wall	
 ```
 (You aren't restricted to just Given/When/Then. You can use any words you like)
 
-### Step 3 - Implement the scenario steps
-#### bottles-library.js
+### Step 2 - Implement the step library
+bottles-library.js
 ```js
 var assert = require('assert');
 var Library = require('yadda').localisation.English;
@@ -72,7 +50,18 @@ module.exports = (function() {
 })();
 ```
 
-### Step 4 - Run your scenarios
+### Step 3 - Integrate Yadda with your testing framework (e.g. Mocha)
+bottles-test.js
+```js
+var Yadda = requre('yadda').Yadda;
+var feature = ('yadda').plugins.MochaPlugin().feature;
+var library = require('./bottles-library');
+var yadda = new Yadda(library);
+
+feature(yadda, 'Bottles', './bottles-spec.txt');
+```
+
+### Step 4 - Run your tests
 ```
   mocha --reporter spec bottles-test.js
 

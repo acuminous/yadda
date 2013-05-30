@@ -7,7 +7,7 @@ var casper = require('casper').create();
 function initYadda() {
     // Using browserify overwrites Casper's require method
     var oldRequire = require;
-    phantom.injectJs('../../dist/yadda-0.3.0.js');
+    phantom.injectJs('../../dist/yadda-0.4.2.js');
     window.Yadda = require('yadda').Yadda;
     window.CasperPlugin = require('yadda').plugins.CasperPlugin;
     window.Library = require('yadda').localisation.English;
