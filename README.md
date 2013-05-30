@@ -54,7 +54,7 @@ npm install yadda
 ## Writing Yadda Tests
 
 ### Step 1 - Pick your testing framework (e.g. Mocha)
-#### wall-test.js
+#### bottles-test.js
 ```js
 var Yadda = requre('yadda').Yadda;
 var feature = ('yadda').plugins.MochaPlugin().feature;
