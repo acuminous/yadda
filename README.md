@@ -1,33 +1,11 @@
 # Yadda
+Yadda brings _true_ BDD to JavaScript test frameworks such as [Jasmine](http://pivotal.github.io/jasmine/), [Mocha](http://visionmedia.github.io/mocha/), [QUnit](http://qunitjs.com), [Nodeunit](https://github.com/caolan/nodeunit) and [CasperJS](http://casperjs.org). By _true_ BDD we mean that the ordinary language (e.g. English) steps are mapped to code, as opposed to simply decorating it. This is important because just like comments, the decorative steps such as those used by 
+[Jasmine](http://pivotal.github.com/jasmine), [Mocha](http://visionmedia.github.io/mocha) and [Vows](http://vowsjs.org), can fall out of date and are a form of duplication.
 
-Yadda brings _true_ BDD to JavaScript test frameworks such as [Jasmine](http://pivotal.github.io/jasmine/), 
-[Mocha](http://visionmedia.github.io/mocha/), [QUnit](http://qunitjs.com), [Nodeunit](https://github.com/caolan/nodeunit) and [CasperJS](http://casperjs.org). By _true_ BDD we mean that the ordinary language (e.g. English) steps are mapped to code, as opposed to merely decorating it. This is important because decorative steps such as those used by [Jasmine](http://pivotal.github.com/jasmine), [Mocha](http://visionmedia.github.io/mocha) and [Vows](http://vowsjs.org), can fall out of date and are a form of duplication. If your code is easily 
-readable you they offer little benefit beyond some nice reporting.
-
-Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the ordinary language steps to code. 
-Not only are the steps less likely to go stale, but they also provide a valuable abstraction layer and encourage re-use. 
-You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-js), but we find Yadda less invasive and 
-prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is smarter too.
-
-## Feature Files
-Since JavaScript has no native file system access and we wanted Yadda to make no assumptions about how it is used, 
-test scenarios are interpreted from arrays of strings. This doesn't mean that you can't use feature files from 
-environments that support them (e.g. [node](http://nodejs.org)), just that you must parse the file into an array of 
-steps first. We've provided a basic TextParser to do this. If you choose to use it, the format is as follows...
-```
-Scenario: The scenario title
-  Some text that matches a step
-  Some more text that matches a step
- 
-Scenario: Another scenario title
-  Yet more text
-  blah blah blah
-``` 
-Indentation is optional as are blank lines.
+Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the ordinary language steps to code. Not only are the steps less likely to go stale, but they also provide a valuable abstraction layer and encourage re-use. You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-js), but we find Yadda less invasive and prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is smarter too.
 
 ## Current Version
 **DANGER WILL ROBINSON!!!**
-
 Yadda 0.4.1 is the current verison. It contains breaking API changes from the previous minor version (0.3.0). See the release notes for more details.
 
 ## What we're working on next
@@ -35,24 +13,20 @@ Yadda 0.4.1 is the current verison. It contains breaking API changes from the pr
  * Automatic type conversion
 
 ## Installation
-
-### Node Environments
-
+### Node based environments (e.g. Mocha)
 ```
 npm install yadda
 ```
 
-### Browser Environments
+### Browser based environments (e.g. QUnit)
 ```html
 <html>
     <head>
         <script src="./lib/yadda-0.4.1.js"></script>
     </head>
-    ...
 ```
 
 ## Writing Yadda Tests
-
 ### Step 1 - Pick your testing framework (e.g. Mocha)
 #### bottles-test.js
 ```js
@@ -70,9 +44,10 @@ feature(yadda, 'Bottles', './spec/bottles-spec.txt');
 Scenario: should fall from the wall
 
 	Given 100 green bottles are standing on the wall
-	when 1 green bottle accidentally falls
-	then there are 99 green bottles standing on the wall	
+	When 1 green bottle accidentally falls
+	Then there are 99 green bottles standing on the wall	
 ```
+(You aren't restricted to just Given/When/Then. You can use any words you like)
 
 ### Step 3 - Implement the scenario steps
 #### bottles-library.js
@@ -96,6 +71,7 @@ module.exports = (function() {
     });
 })();
 ```
+
 ### Step 4 - Run your scenarios
 ```
   mocha --reporter spec bottles-test.js
@@ -105,13 +81,11 @@ module.exports = (function() {
 ```
 
 ## Features
-
 ### Supported Libraries
-Yadda works with QUnit, Nodeunit, Mocha and CasperJS. See the examples for details.
+Yadda works with Mocha, Jasmine, QUnit, Nodeunit, ZombieJS and CasperJS. See the examples for details.
 
 ### Synchronous or Asynchronous
-Yadda is designed to work synchronously or asynchronously. If your steps and test framework are synchronous
-you don't need to specify the 'done' callback
+Yadda is designed to work synchronously or asynchronously. If your steps and test framework are synchronous you don't need to specify the 'done' callback
 ```js
     var library = new Library()
       .given("$NUM green bottles are standing on the wall", function(number) {
@@ -146,7 +120,7 @@ new Yadda.yadda(library).yadda([
     "there are 99 green bottles standing on the wall"
 ]);
 ```
-However we think that Given/When/Then (along with And/But/With) is a good starting point, so we recommend including yadda-0.2.2-localisation.js and using Yadda.Library.English instead of the vanilla Yadda.Library. This adds 'given', 'when', 'then', 'and', 'but' and 'with' helper methods, enabling you to define your steps as follows...
+However we think that Given/When/Then (along with And/But/With) is a good starting point, so we recommend using Yadda.localisation.English instead of the vanilla Yadda.Library. This adds 'given', 'when', 'then', 'and', 'but' and 'with' helper methods, enabling you to define your steps as follows...
 ```js
 var library = new Yadda.Library()
     .given("$NUM green bottle(?:s){0,1} standing on the wall", function(number) { 
@@ -164,9 +138,10 @@ new Yadda.yadda(library).yadda([
     "then there are 99 green bottles standing on the wall"
 ]);
 ```
-### Step Anatomy
-A step is made up of a regular expression, a function and context. 
+We'd be delighted to accept pull requests for more languages and dialects.
 
+### Step Anatomy
+A step is made up of a regular expression, a function and some context. 
 ```js
 var ctx = { assert: assert };
 library.given('^(\\d+) green bottle(?:s){0,1} standing on the wall$', function(n) {
@@ -183,9 +158,7 @@ var library = new Yadda.Library.English()
         // some code
     }); 
 ```
-
 Regular expressions can get pretty ugly, so it's often preferable to relax the regex and use a $term variable which will be replaced with a wildcard i.e. '(.+)'.
-
 ```js
 var library = new Yadda.Library.English()
     .given(/$NUM green bottles standing on the wall/, function(n) {
@@ -193,7 +166,6 @@ var library = new Yadda.Library.English()
     }); 
 ```
 Using $term variables can relax the regular expression too much and cause clashes between steps. Yadda provides greater control over the expansion through use of a dictionary, e.g.
-
 ```js
 var dictionary = new Yadda.Dictionary()
     .define('gender', '(male|female)')
