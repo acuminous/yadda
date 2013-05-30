@@ -1,5 +1,9 @@
 # Release Notes
 
+## Yadda 0.4.1
+ - Stopped pending asynchronous steps hanging the test run
+ - Added mocha plugin
+
 ## Yadda 0.4.0
  - Yadda now supports both asynchronous and synchronous usage
  - Deleted the before and after hook (after cannot be guaranteed to run when asynchronous)

@@ -1,4 +1,5 @@
-require=(function(e,t,n){function i(n,s){if(!t[n]){if(!e[n]){var o=typeof require=="function"&&require;if(!s&&o)return o(n,!0);if(r)return r(n,!0);throw new Error("Cannot find module '"+n+"'")}var u=t[n]={exports:{}};e[n][0].call(u.exports,function(t){var r=e[n][1][t];return i(r?r:t)},u,u.exports)}return t[n].exports}var r=typeof require=="function"&&require;for(var s=0;s<n.length;s++)i(n[s]);return i})({"yadda":[function(require,module,exports){
+(function(e){if("function"==typeof bootstrap)bootstrap("yadda_umd",e);else if("object"==typeof exports)module.exports=e();else if("function"==typeof define&&define.amd)define(e);else if("undefined"!=typeof ses){if(!ses.ok())return;ses.makeYaddaumd=e}else"undefined"!=typeof window?window.yaddaumd=e():global.yaddaumd=e()})(function(){var define,ses,bootstrap,module,exports;
+return (function(e,t,n){function i(n,s){if(!t[n]){if(!e[n]){var o=typeof require=="function"&&require;if(!s&&o)return o(n,!0);if(r)return r(n,!0);throw new Error("Cannot find module '"+n+"'")}var u=t[n]={exports:{}};e[n][0].call(u.exports,function(t){var r=e[n][1][t];return i(r?r:t)},u,u.exports)}return t[n].exports}var r=typeof require=="function"&&require;for(var s=0;s<n.length;s++)i(n[s]);return i})({"yadda":[function(require,module,exports){
 module.exports=require('gUiUAT');
 },{}],"gUiUAT":[function(require,module,exports){
 module.exports = {    
@@ -58,7 +59,7 @@ var Yadda = function(libraries, ctx) {
     };
 
     this.toString = function() {
-        "Yadda 0.4.0 Copyright 2010 Acuminous Ltd / Energized Work Ltd";
+        "Yadda 0.4.1 Copyright 2010 Acuminous Ltd / Energized Work Ltd";
     };   
 };
 
@@ -261,7 +262,7 @@ module.exports = {
     MochaPlugin: require('./MochaPlugin'),
     JasminePlugin: require('./MochaPlugin')
 }
-},{"./CasperPlugin":17,"./MochaPlugin":18}],8:[function(require,module,exports){
+},{"./MochaPlugin":17,"./CasperPlugin":18}],8:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -363,7 +364,7 @@ module.exports = (function() {
 
 })();
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 var CasperPlugin = function(yadda, casper) {
 
     this.init = function() {
@@ -824,7 +825,7 @@ var TextParser = function() {
 };
 
 module.exports = TextParser;
-},{"../Array":11}],18:[function(require,module,exports){
+},{"../Array":11}],17:[function(require,module,exports){
 var fs = require('fs');
 var TextParser = require('../parsers/TextParser');
 
@@ -1018,5 +1019,6 @@ var Pirate = function(dictionary, library) {
 };
 
 module.exports = Pirate;
-},{"../Library":3,"../Array":11,"../localisation":5}]},{},["gUiUAT"])
+},{"../Library":3,"../Array":11,"../localisation":5}]},{},["gUiUAT"])(gUiUAT)
+});
 ;

@@ -11,7 +11,7 @@ module.exports = {
     plugins: require('./plugins/index')
 };
 
-},{"./Yadda":1,"./Interpreter":2,"./Library":3,"./Dictionary":4,"./localisation/index":5,"./parsers/index":6,"./plugins/index":7}],1:[function(require,module,exports){
+},{"./Yadda":1,"./Library":2,"./Interpreter":3,"./Dictionary":4,"./localisation/index":5,"./parsers/index":6,"./plugins/index":7}],1:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -58,13 +58,67 @@ var Yadda = function(libraries, ctx) {
     };
 
     this.toString = function() {
-        "Yadda 0.4.0 Copyright 2010 Acuminous Ltd / Energized Work Ltd";
+        "Yadda 0.4.1 Copyright 2010 Acuminous Ltd / Energized Work Ltd";
     };   
 };
 
 module.exports = Yadda;
 
-},{"./Interpreter":2,"./Environment":8,"./fn":9}],2:[function(require,module,exports){
+},{"./Interpreter":3,"./Environment":8,"./fn":9}],2:[function(require,module,exports){
+/*
+ * Copyright 2010 Acuminous Ltd / Energized Work Ltd
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+var Macro = require('./Macro');
+var Dictionary = require('./Dictionary');
+var $ = require('./Array');
+
+// Understands how to index macros
+var Library = function(dictionary) {
+
+    var dictionary = dictionary || new Dictionary();
+    var macros = $();
+    var _this = this;    
+
+    this.define = function(signatures, fn, ctx) {
+        $(signatures).each(function(signature) {            
+            define_macro(signature, fn, ctx);
+        });
+        return this;        
+    };
+
+    var define_macro = function(signature, fn, ctx) {
+        if (_this.get_macro(signature)) throw 'Duplicate macro: [' + signature + ']';
+        macros.push(new Macro(signature, dictionary.expand(signature), fn, ctx));
+    }
+
+    this.get_macro = function(signature) {      
+        return macros.find(function(other_macro) {
+            return other_macro.is_identified_by(signature);
+        });
+    };
+
+    this.find_compatible_macros = function(step) {
+        return macros.find_all(function(macro) {
+            return macro.can_interpret(step);
+        });
+    };
+};
+
+module.exports = Library;
+},{"./Macro":10,"./Dictionary":4,"./Array":11}],3:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -120,61 +174,7 @@ var Interpreter = function(libraries) {
 }
 
 module.exports = Interpreter;
-},{"./Competition":10,"./Array":11,"./fn":9}],3:[function(require,module,exports){
-/*
- * Copyright 2010 Acuminous Ltd / Energized Work Ltd
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-var Macro = require('./Macro');
-var Dictionary = require('./Dictionary');
-var $ = require('./Array');
-
-// Understands how to index macros
-var Library = function(dictionary) {
-
-    var dictionary = dictionary || new Dictionary();
-    var macros = $();
-    var _this = this;    
-
-    this.define = function(signatures, fn, ctx) {
-        $(signatures).each(function(signature) {            
-            define_macro(signature, fn, ctx);
-        });
-        return this;        
-    };
-
-    var define_macro = function(signature, fn, ctx) {
-        if (_this.get_macro(signature)) throw 'Duplicate macro: [' + signature + ']';
-        macros.push(new Macro(signature, dictionary.expand(signature), fn, ctx));
-    }
-
-    this.get_macro = function(signature) {      
-        return macros.find(function(other_macro) {
-            return other_macro.is_identified_by(signature);
-        });
-    };
-
-    this.find_compatible_macros = function(step) {
-        return macros.find_all(function(macro) {
-            return macro.can_interpret(step);
-        });
-    };
-};
-
-module.exports = Library;
-},{"./Macro":12,"./Dictionary":4,"./Array":11}],4:[function(require,module,exports){
+},{"./Competition":12,"./Array":11,"./fn":9}],4:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -251,7 +251,7 @@ module.exports = {
     Pirate: require('./Pirate')
 
 }
-},{"./English":14,"./Pirate":15}],6:[function(require,module,exports){
+},{"./Pirate":14,"./English":15}],6:[function(require,module,exports){
 module.exports = {
     TextParser: require('./TextParser')
 }
@@ -406,51 +406,55 @@ module.exports = CasperPlugin;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+ 
+var fn = require('./fn');
+var Environment = require('./Environment');
+var RegularExpression = require('./RegularExpression');
 
-var LevenshteinDistanceScore = require('./LevenshteinDistanceScore');
-var $ = require('./Array');
+// Understands a step
+var Macro = function(signature, signature_pattern, macro, ctx) {    
+    
+    var environment = new Environment(ctx);
+    var signature_pattern = new RegularExpression(signature_pattern);
+    var macro = macro || fn.async_noop;
+    var _this = this;    
 
-// Understands appropriateness of macros in relation to a specific step
-var Competition = function(step, macros) {
+    var init = function(signature, signature_pattern) {
+        _this.signature = normalise(signature);
+    }
 
-    var results = [];
-    var by_ascending_score = function(a, b) { return b.score.beats(a.score); };
-    var FIRST_PLACE = 0;
-    var SECOND_PLACE = 1;
+    this.is_identified_by = function(other_signature) {
+        return this.signature == normalise(other_signature);        
+    }; 
 
-    this.clear_winner = function() {
-        if (number_of_competitors() == 0) throw 'Undefined Step: [' + step + ']';
-        if (joint_first_place()) throw 'Ambiguous Step: [' + step + ']';
-        return this.winner();
-    };   
+    this.can_interpret = function(step) {
+        return signature_pattern.test(step);
+    };  
 
-    var number_of_competitors = function() {
-        return results.length;
+    this.interpret = function(step, ctx, callback) {    
+        var env = environment.merge(ctx);
+        var args = signature_pattern.groups(step).concat(callback); 
+        return fn.invoke(macro, env.ctx, args);
     };
 
-    var joint_first_place = function() {
-        return (number_of_competitors() > 1) && 
-            results[FIRST_PLACE].score.equals(results[SECOND_PLACE].score); 
+    this.levenshtein_signature = function() {
+        return signature_pattern.without_expressions();            
     };
 
-    this.winner = function() {
-        return results[FIRST_PLACE].macro;
+    var normalise = function(signature) {
+        return new RegExp(signature).toString();
+    }
+
+    this.toString = function() {
+        return this.signature;
     };
 
-    var rank = function(step, macros) {
-        results = macros.collect(function(macro) {
-            return { 
-                macro: macro, 
-                score: new LevenshteinDistanceScore(step, macro.levenshtein_signature())
-            }
-        }).sort( by_ascending_score );
-    };
-
-    rank(step, $(macros));
+    init(signature, signature_pattern);
 };
 
-module.exports = Competition;
-},{"./LevenshteinDistanceScore":20,"./Array":11}],11:[function(require,module,exports){
+module.exports = Macro;
+
+},{"./fn":9,"./Environment":8,"./RegularExpression":13}],11:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -594,55 +598,51 @@ module.exports = function(obj) {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
-var fn = require('./fn');
-var Environment = require('./Environment');
-var RegularExpression = require('./RegularExpression');
 
-// Understands a step
-var Macro = function(signature, signature_pattern, macro, ctx) {    
-    
-    var environment = new Environment(ctx);
-    var signature_pattern = new RegularExpression(signature_pattern);
-    var macro = macro || fn.async_noop;
-    var _this = this;    
+var LevenshteinDistanceScore = require('./LevenshteinDistanceScore');
+var $ = require('./Array');
 
-    var init = function(signature, signature_pattern) {
-        _this.signature = normalise(signature);
-    }
+// Understands appropriateness of macros in relation to a specific step
+var Competition = function(step, macros) {
 
-    this.is_identified_by = function(other_signature) {
-        return this.signature == normalise(other_signature);        
-    }; 
+    var results = [];
+    var by_ascending_score = function(a, b) { return b.score.beats(a.score); };
+    var FIRST_PLACE = 0;
+    var SECOND_PLACE = 1;
 
-    this.can_interpret = function(step) {
-        return signature_pattern.test(step);
-    };  
+    this.clear_winner = function() {
+        if (number_of_competitors() == 0) throw 'Undefined Step: [' + step + ']';
+        if (joint_first_place()) throw 'Ambiguous Step: [' + step + ']';
+        return this.winner();
+    };   
 
-    this.interpret = function(step, ctx, callback) {    
-        var env = environment.merge(ctx);
-        var args = signature_pattern.groups(step).concat(callback); 
-        return fn.invoke(macro, env.ctx, args);
+    var number_of_competitors = function() {
+        return results.length;
     };
 
-    this.levenshtein_signature = function() {
-        return signature_pattern.without_expressions();            
+    var joint_first_place = function() {
+        return (number_of_competitors() > 1) && 
+            results[FIRST_PLACE].score.equals(results[SECOND_PLACE].score); 
     };
 
-    var normalise = function(signature) {
-        return new RegExp(signature).toString();
-    }
-
-    this.toString = function() {
-        return this.signature;
+    this.winner = function() {
+        return results[FIRST_PLACE].macro;
     };
 
-    init(signature, signature_pattern);
+    var rank = function(step, macros) {
+        results = macros.collect(function(macro) {
+            return { 
+                macro: macro, 
+                score: new LevenshteinDistanceScore(step, macro.levenshtein_signature())
+            }
+        }).sort( by_ascending_score );
+    };
+
+    rank(step, $(macros));
 };
 
-module.exports = Macro;
-
-},{"./fn":9,"./Environment":8,"./RegularExpression":13}],13:[function(require,module,exports){
+module.exports = Competition;
+},{"./LevenshteinDistanceScore":20,"./Array":11}],13:[function(require,module,exports){
 (function(){/*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -713,7 +713,7 @@ var RegularExpression = function(pattern_or_regexp) {
 
 module.exports = RegularExpression;
 })()
-},{"./Array":11}],14:[function(require,module,exports){
+},{"./Array":11}],15:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -768,7 +768,7 @@ var English = function(dictionary, library) {
 };
 
 module.exports = English;
-},{"../Library":3,"../Array":11}],16:[function(require,module,exports){
+},{"../Library":2,"../Array":11}],16:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -962,7 +962,7 @@ var LevenshteinDistanceScore = function(s1, s2) {
 };
 
 module.exports = LevenshteinDistanceScore;
-},{}],15:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -1018,5 +1018,5 @@ var Pirate = function(dictionary, library) {
 };
 
 module.exports = Pirate;
-},{"../Library":3,"../Array":11,"../localisation":5}]},{},["gUiUAT"])
+},{"../Library":2,"../Array":11,"../localisation":5}]},{},["gUiUAT"])
 ;

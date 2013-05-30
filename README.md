@@ -28,7 +28,7 @@ Indentation is optional as are blank lines.
 ## Current Version
 **DANGER WILL ROBINSON!!!**
 
-Yadda 0.4.0 is the current verison. It contains breaking API changes from the previous (0.3.0) version. See the release notes for more details
+Yadda 0.4.1 is the current verison. It contains breaking API changes from the previous minor version (0.3.0). See the release notes for more details.
 
 ## What we're working on next
  * Event emission
@@ -46,7 +46,7 @@ npm install yadda
 ```html
 <html>
     <head>
-        <script src="./lib/yadda-0.4.0.js"></script>
+        <script src="./lib/yadda-0.4.1.js"></script>
     </head>
     ...
 ```
