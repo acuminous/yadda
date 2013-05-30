@@ -56,29 +56,26 @@ npm install yadda
 ### Step 1 - Pick your testing framework (e.g. Mocha)
 #### wall-test.js
 ```js
-describe('Wall', function() {
-  // TODO write some tests
-})
+var Yadda = requre('yadda').Yadda;
+var feature = ('yadda').plugins.MochaPlugin().feature;
+var library = require('./bottles-library');
+var yadda = new Yadda(library);
+
+feature(yadda, 'Bottles', './spec/bottles-spec.txt');
 ```
 
 ### Step 2 - Write your scenarios
-#### wall-spec.txt
+#### bottles-spec.txt
 ```
-Scenario: A bottle falls from the wall
+Scenario: should fall from the wall
 
 	Given 100 green bottles are standing on the wall
 	when 1 green bottle accidentally falls
-	then there are 99 green bottles standing on the wall
-
-Scenario: No bottles are left
-
-	Given 1 green bottles are standing on the wall
-	when 1 green bottle accidentally falls
-	then there are 0 green bottles standing on the wall		
+	then there are 99 green bottles standing on the wall	
 ```
 
 ### Step 3 - Implement the scenario steps
-#### wall-library.js
+#### bottles-library.js
 ```js
 var assert = require('assert');
 var Library = require('yadda').localisation.English;
@@ -100,25 +97,11 @@ module.exports = (function() {
 })();
 ```
 ### Step 4 - Run your scenarios
-wall-test.js
-```js
-var fs = require('fs');
-var Yadda = require('yadda').Yadda;
-var TextParser = require('yadda').parsers.TextParser;
+```
+  mocha --reporter spec bottles-test.js
 
-describe('Bottles', function() {     
-    var text = fs.readFileSync('./test/spec/wall-spec.txt', 'utf8');
-    var library = require('./wall-library');
-    var yadda = new Yadda(library);        
-    var scenarios = new TextParser().parse(text);
-
-    for (var i = 0; i < scenarios.length; i++) {
-      var scenario = scenarios[i];
-      it(scenario.title, function(done) {
-        yadda.yadda(scenario.steps, done);
-      });
-    };
-})
+  Bottles
+    ✓ should fall from the wall 
 ```
 
 ## Features
