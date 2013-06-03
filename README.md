@@ -49,6 +49,8 @@ module.exports = (function() {
     });
 })();
 ```
+(If your test runner & code are synchronous you can omit the calls to 'next')
+
 
 ### Step 3 - Integrate Yadda with your testing framework (e.g. Mocha)
 bottles-test.js
@@ -72,23 +74,6 @@ feature(yadda, 'Bottles', './bottles-spec.txt');
 ## Features
 ### Supported Libraries
 Yadda works with Mocha, Jasmine, QUnit, Nodeunit, ZombieJS and CasperJS. See the examples for details.
-
-### Synchronous or Asynchronous
-Yadda is designed to work synchronously or asynchronously. If your steps and test framework are synchronous you don't need to specify the 'done' callback
-```js
-    var library = new Library()
-      .given("$NUM green bottles are standing on the wall", function(number) {
-         wall = new Wall(number);
-      })                
-      .when("$NUM green bottle accidentally falls", function(number) { 
-         wall.fall(number);
-      })
-      .then("there are $NUM green bottles standing on the wall", function(number) {
-         assert.equal(number, wall.bottles);
-      });
-    ...
-    yadda.yadda(scenario.steps);
-```
 
 ### Flexible BDD Syntax
 It's common for BDD libraries to limit syntax to precondition (given) steps, action (when) steps and assertion (then) steps. Yadda doesn't. This allows for more freedom of expression. e.g.
