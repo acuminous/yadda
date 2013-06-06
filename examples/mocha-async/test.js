@@ -1,8 +1,9 @@
 // var Yadda = requre('yadda').Yadda;
 var Yadda = require('../../lib/index').Yadda;
-// var feature = ('yadda').plugins.MochaPlugin().feature;
-var feature = require('../../lib/index').plugins.MochaPlugin().feature;
+// var MochaPlugin = ('yadda').plugins.MochaPlugin;
+var MochaPlugin = require('../../lib/index').plugins.MochaPlugin;
 var library = require('./bottles-library');
 var yadda = new Yadda(library);
 
-feature(yadda, 'Bottles', './spec/bottles-spec.txt');
+new MochaPlugin().upgrade(Yadda);
+yadda.mocha('Bottles', './spec/bottles-spec.txt');

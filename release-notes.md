@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.4.3
+ - Changed the MochaPlugin API
+
 ## Yadda 0.4.2
  - TextParser no longer maintains state between parses
 
