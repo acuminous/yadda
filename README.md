@@ -13,7 +13,7 @@ npm install yadda
 ```
 ### Browser based environments (e.g. QUnit)
 ```html
-<script src="./lib/yadda-0.4.2.js"></script>
+<script src="./lib/yadda-0.4.3.js"></script>
 ```
 ## Writing Yadda Tests
 ### Step 1 - Write your scenarios
