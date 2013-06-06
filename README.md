@@ -5,7 +5,7 @@ Yadda brings _true_ BDD to JavaScript test frameworks such as [Jasmine](http://p
 Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the ordinary language steps to code. Not only are the steps less likely to go stale, but they also provide a valuable abstraction layer and encourage re-use. You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-js), but we find Yadda less invasive and prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is smarter too.
 
 ## Installation
-Yadda 0.4.3 is the current verison. It contains breaking API changes to the MochaPlugin. See the release notes for more details.
+Yadda 0.4.4 is the current verison. It contains breaking API changes to the Casper and Mocha plugins. See the release notes for more details.
 
 ### Node based environments (e.g. Mocha)
 ```
@@ -13,7 +13,7 @@ npm install yadda
 ```
 ### Browser based environments (e.g. QUnit)
 ```html
-<script src="./lib/yadda-0.4.3.js"></script>
+<script src="./lib/yadda-0.4.4.js"></script>
 ```
 ## Writing Yadda Tests
 ### Step 1 - Write your scenarios

@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.4.4
+ - Changed the CasperPlugin API
+
 ## Yadda 0.4.3
  - Changed the MochaPlugin API
 
