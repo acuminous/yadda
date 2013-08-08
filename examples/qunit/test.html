@@ -4,8 +4,8 @@
 	<meta charset="utf-8">
 	<title>QUnit Example</title>
 	<link rel="stylesheet" href="./lib/qunit-1.10.0.css">
-	<script src="../../dist/yadda-0.4.4.js"></script>
-	<script src="./lib/qunit-1.10.0.js"></script>	
+	<script src="../../dist/yadda-0.4.5.js"></script>
+	<script src="./lib/qunit-1.10.0.js"></script>
 	<script src="./bottles-library.js"></script>
 	<script type="text/javascript">
 
@@ -17,7 +17,7 @@
 		var scenarios = new TextParser().parse(text);
 		for (var i = 0; i < scenarios.length; i++) {
 			var scenario = scenarios[i];
-			test(scenario.title, function() {		
+			test(scenario.title, function() {
 				new Yadda(library).yadda(scenario.steps);
 			});
 		};
@@ -38,7 +38,7 @@
 
 		Given 1 green bottles are standing on the wall
 		when 1 green bottle accidentally falls
-		then there are 0 green bottles standing on the wall		
+		then there are 0 green bottles standing on the wall
   </pre>
 </body>
 </html>

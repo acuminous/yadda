@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.4.5
+ - fixed scenario parsing on windows bug. See https://github.com/acuminous/yadda/issues/6. Thanks grofit - https://github.com/grofit
+
 ## Yadda 0.4.4
  - Changed the CasperPlugin API
 
@@ -19,7 +22,7 @@
 
 ### Breaking API Changes
 #### Removal of before and after hooks
-The before and after hooks have been removed because after cannot be guarneteed to run when yadda 
+The before and after hooks have been removed because after cannot be guarneteed to run when yadda
 is asynchronous. Use your test runner's before and after mechanism instead.
 
 #### Removal of non-object contexts
@@ -43,8 +46,8 @@ new Yadda(library).('blah blah blah', { test: test });
   - Used browserify for compatability with browser test frameworks like qunit
 
 ### Breaking API Changes
-Yadda has been re-implemented as a nodejs module. This means that the 
-global 'Yadda' prefixed class names are no longer exposed and that 
+Yadda has been re-implemented as a nodejs module. This means that the
+global 'Yadda' prefixed class names are no longer exposed and that
 all Yadda classes must be explicitly 'required'
 
 In a node environment this is straightforward...
@@ -80,7 +83,7 @@ Thanks to browserify it straightforward from a browser environment too...
 </head>
 ```
 
-In a CasperJS environment it's less straightforward. We haven't found how to get casper to 
+In a CasperJS environment it's less straightforward. We haven't found how to get casper to
 understand commonjs or umd node modules and Casper's 'require' function clashes with the one created by browserify. For the moment we're working around this with the following ugly hack...
 ```
 var oldRequire = require;
@@ -88,7 +91,7 @@ phantom.injectJs('../../dist/yadda-0.3.0.js');
 window.Yadda = require('yadda').Yadda;
 window.CasperPlugin = require('yadda').plugins.CasperPlugin;
 window.Library = require('yadda').Library;
-window.require = oldRequire; 
+window.require = oldRequire;
 
 library.given('$NUM bottles of beer', function(n) {
   console.log(n + ' ' + 'bottles of beer');
@@ -114,7 +117,7 @@ casper = new CasperPlugin(yadda, casper).init();
 ## Yadda  0.2.0
 
 ### Breaking API Changes
-In Yadda 0.1.0 you invoked yadda with 
+In Yadda 0.1.0 you invoked yadda with
 ```js
 new Yadda(steps).yadda(["some scenario"]);
 ```
@@ -150,13 +153,13 @@ yadda.requires([lib1, lib2]);
 Previously you defined steps using the addStep method, or a given, when, then helper method, e.g.
 ```js
 steps.addStep('some text', function() {
-    // some code    
+    // some code
 })
 ```
 Step.addStep has been replaced with Library.define
 ```js
 library.define('some text', function() {
-    // some code    
+    // some code
 })
 ```
 The helper methods are no longer available by default, but you can restore them by including yadda-0.2.2-localisation.js and creating your libraries as instances of Yadda.Library.English, e.g.
@@ -168,5 +171,5 @@ var library = new Yadda.Library.English()
         // some code
     }).then('there are (\\d+) green bottles', function() {
         // some code
-    }); 
+    });
 ```

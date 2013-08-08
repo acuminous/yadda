@@ -7,14 +7,14 @@ var casper = require('casper').create();
 (function() {
     // Using browserify overwrites Casper's require method
     var oldRequire = require;
-    phantom.injectJs('../../dist/yadda-0.4.4.js');
-    
+    phantom.injectJs('../../dist/yadda-0.4.5.js');
+
     window.Yadda = require('yadda').Yadda;
     window.Library = require('yadda').localisation.English;
     window.TextParser = require('yadda').parsers.TextParser;
     window.Dictionary = require('yadda').Dictionary;
 
-    var library = require('./google-library').init();    
+    var library = require('./google-library').init();
     var yadda = new Yadda(library);
     require('yadda').plugins.casper(yadda, casper);
 
@@ -26,7 +26,7 @@ function bySpecification(file) {
 };
 
 function loadScenarios(file) {
-    var parser = new TextParser();        
+    var parser = new TextParser();
     var text = fs.read(file);
     return parser.parse(text);
 };
@@ -35,7 +35,7 @@ var scenarios = loadScenarios('./spec/bottles-spec.txt');
 async.eachSeries(scenarios, function(scenario, next) {
     casper.start();
     casper.test.info(scenario.title);
-    casper.yadda(scenario.steps);    
+    casper.yadda(scenario.steps);
     casper.run(function() {
         next();
     });
