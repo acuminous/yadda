@@ -1,7 +1,7 @@
 # Release Notes
 
 ## Yadda 0.4.5
- - fixed scenario parsing on windows bug. See https://github.com/acuminous/yadda/issues/6. Thanks grofit - https://github.com/grofit
+ - Fixed scenario parsing on windows bug. See [Issue 6](https://github.com/acuminous/yadda/issues/6). Thanks [grofit](https://github.com/grofit).
 
 ## Yadda 0.4.4
  - Changed the CasperPlugin API
