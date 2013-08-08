@@ -22,7 +22,7 @@
 
 ### Breaking API Changes
 #### Removal of before and after hooks
-The before and after hooks have been removed because after cannot be guarneteed to run when yadda
+The before and after hooks have been removed because after cannot be guaranteed to run when yadda
 is asynchronous. Use your test runner's before and after mechanism instead.
 
 #### Removal of non-object contexts
