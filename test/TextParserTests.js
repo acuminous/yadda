@@ -4,6 +4,8 @@ var TextParser = require('../lib/index').parsers.TextParser;
 describe('TextPaser', function() {
 
     var simple_scenario = ['Scenario: Simple', '   Given A', '   When B', '   Then C'].join('\n');
+    var simple_feature = ['Feature: Tests with feature', 'Scenario: With Feature'].join('\n');
+    var multiple_feature = ['Feature: Tests with 2 features', 'Scenario: For Feature 1', 'Feature: Second feature'].join('\n');
     var complex_scenario = ['Scenario: Complex', '', '  ', '   Given A', '', 'When B', ' ', '   Then C'].join('\n');
     var parser;
 
@@ -39,4 +41,18 @@ describe('TextPaser', function() {
         assert.equal(parser.parse(simple_scenario).length, 1);
     });
 
+    it('should ignore Feature blocks', function() {        
+        var scenarios = parser.parse(simple_feature);
+        assert.equal(scenarios.length, 1);
+        assert.equal(scenarios[0].title, 'With Feature');
+    });
+
+    it('should only allow a single Feature', function() {        
+		var thrownErr;
+		assert.throws(function() {
+        	parser.parse(multiple_feature);
+		},
+		/single Feature/
+		);
+    });
 });
