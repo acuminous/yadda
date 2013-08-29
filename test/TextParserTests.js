@@ -13,7 +13,7 @@ describe('TextPaser', function() {
         parser = new TextParser();
     });
 
-    it('should parse a simple scenario', function() {        
+    it('should parse a simple scenario', function() {
         var scenarios = parser.parse(simple_scenario);
         assert.equal(scenarios.length, 1);
         assert.equal(scenarios[0].title, 'Simple');
@@ -32,27 +32,24 @@ describe('TextPaser', function() {
         var parser = new TextParser();
         var scenarios = parser.parse(simple_scenario + '\n' + complex_scenario);
         assert.equal(scenarios.length, 2);
-        assert.equal(scenarios[0].title, 'Simple');    
+        assert.equal(scenarios[0].title, 'Simple');
         assert.equal(scenarios[1].title, 'Complex');
     });
 
-    it('should reset scenarios between parses', function() {        
+    it('should reset scenarios between parses', function() {
         assert.equal(parser.parse(simple_scenario).length, 1);
         assert.equal(parser.parse(simple_scenario).length, 1);
     });
 
-    it('should ignore Feature blocks', function() {        
+    it('should ignore feature blocks', function() {
         var scenarios = parser.parse(simple_feature);
         assert.equal(scenarios.length, 1);
         assert.equal(scenarios[0].title, 'With Feature');
     });
 
-    it('should only allow a single Feature', function() {        
-		var thrownErr;
-		assert.throws(function() {
-        	parser.parse(multiple_feature);
-		},
-		/single Feature/
-		);
+    it('should only allow a single feature', function() {
+        assert.throws(function() {
+            parser.parse(multiple_feature);
+        }, /single feature/);
     });
 });
