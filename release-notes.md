@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.4.6
+ - Accepted pull request for feature blocks. See [Issue 8](https://github.com/acuminous/yadda/pull/8). Thanks [mrwiggles](https://github.com/mrwiggles).
+
 ## Yadda 0.4.5
  - Fixed scenario parsing on windows bug. See [Issue 6](https://github.com/acuminous/yadda/issues/6). Thanks [grofit](https://github.com/grofit).
 
