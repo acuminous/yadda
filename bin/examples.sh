@@ -2,7 +2,8 @@
 
 echo Running CasperJS Example
 pushd ./examples/casper > /dev/null
-casperjs test.js
+npm install async --prefix ./node_modules
+casperjs test test.js
 popd
 
 echo Running Mocha Sync Example

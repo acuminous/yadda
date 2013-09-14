@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.4.7
+ - The stable version of casperjs is no longer recommended by the casperjs author. It's also problematic to require modules. The latest version of casperjs (installed from master after 13th September 2013) fixes these problems, so I've updated the example to reflect this.
+
 ## Yadda 0.4.6
  - Accepted pull request for feature blocks. See [Issue 8](https://github.com/acuminous/yadda/pull/8). Thanks [mrwiggles](https://github.com/mrwiggles).
 

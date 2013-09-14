@@ -1,25 +1,20 @@
+// The following code requires casper 1.1 after the following commit 
+// https://github.com/n1k0/casperjs/commit/2378537a716a492533a279b8e3bc560ae3deca5a
+
 var fs = require('fs');
 var async = require('async');
 var casper = require('casper').create();
 
-// Still looking for an elegant way to require Yadda modules.
-// See https://groups.google.com/forum/?fromgroups#!searchin/casperjs/Yadda/casperjs/ag6ajk5WAag/172BAEV-Xm4J
-(function() {
-    // Using browserify overwrites Casper's require method
-    var oldRequire = require;
-    phantom.injectJs('../../dist/yadda-0.4.6.js');
+// var Yadda = require('yadda');
+var Yadda = require('../../lib/index.js');
 
-    window.Yadda = require('yadda').Yadda;
-    window.Library = require('yadda').localisation.English;
-    window.TextParser = require('yadda').parsers.TextParser;
-    window.Dictionary = require('yadda').Dictionary;
+var TextParser = Yadda.parsers.TextParser;
+var Dictionary = Yadda.Dictionary;
+var Library = Yadda.localisation.English;
 
-    var library = require('./google-library').init();
-    var yadda = new Yadda(library);
-    require('yadda').plugins.casper(yadda, casper);
-
-    window.require = oldRequire;
-})();
+var library = require('./google-library').init();
+var yadda = new Yadda.Yadda(library);
+Yadda.plugins.casper(yadda, casper);
 
 function bySpecification(file) {
     return file.substr(-9) === '-spec.txt';
@@ -40,6 +35,6 @@ async.eachSeries(scenarios, function(scenario, next) {
         next();
     });
 }, function(err) {
-    casper.test.done(10);
+    casper.test.done();
     casper.test.renderResults(true);
 });
