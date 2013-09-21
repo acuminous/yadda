@@ -13,7 +13,7 @@
 
         function runTests() {
             var text = document.getElementById('scenarios').innerText;
-            var scenarios = new TextParser().parse(text);
+            var scenarios = new TextParser().parse(text).scenarios;
             for (var i = 0; i < scenarios.length; i++) {
                 var scenario = scenarios[i];
                 test(scenario.title, function() {
