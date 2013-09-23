@@ -1,5 +1,13 @@
 # Release Notes
 
+## Yadda 0.5.0
+ - This adds the feature title to the output from the text parser contributed by [akikhtenko](https://github.com/akikhtenko) (thanks). Since this changes the object structure returned by TextParser.parse() if you're using the TextParser directly rather than via the Mocha or Casper plugins, it's a breaking change, but the change is very minor...
+
+```js
+        var scenarios = parser.parse(text); // < 0.5.0
+        var scenarios = parser.parse(text).scenarios; // >= 0.5.0
+```
+
 ## Yadda 0.4.7
  - The stable version of casperjs is no longer recommended by the casperjs author. It's also problematic to require modules. The latest version of casperjs (installed from master after 13th September 2013) fixes these problems, so I've updated the example to reflect this.
 
