@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>QUnit Example</title>
     <link rel="stylesheet" href="./lib/qunit-1.10.0.css">
-    <script src="../../dist/yadda-0.4.7.js"></script>
+    <script src="../../dist/yadda-0.5.0.js"></script>
     <script src="./lib/qunit-1.10.0.js"></script>
     <script src="./bottles-library.js"></script>
     <script type="text/javascript">
@@ -13,7 +13,7 @@
 
         function runTests() {
             var text = document.getElementById('scenarios').innerText;
-            var scenarios = new TextParser().parse(text);
+            var scenarios = new TextParser().parse(text).scenarios;
             for (var i = 0; i < scenarios.length; i++) {
                 var scenario = scenarios[i];
                 test(scenario.title, function() {

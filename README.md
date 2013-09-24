@@ -5,7 +5,12 @@ Yadda brings _true_ BDD to JavaScript test frameworks such as [Jasmine](http://p
 Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the ordinary language steps to code. Not only are the steps less likely to go stale, but they also provide a valuable abstraction layer and encourage re-use. You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-js), but we find Yadda less invasive and prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is smarter too.
 
 ## Installation
-Yadda 0.4.7 is the current verison. It includes an update to the casperjs example that works with the latest version from master.
+Yadda 0.5.0 is the current verison. This adds the feature title to the output from the text parser contributed by [akikhtenko](https://github.com/akikhtenko) (thanks). Since this changes the object structure returned by TextParser.parse() if you're using the TextParser directly rather than via the Mocha or Casper plugins, it's a breaking change, but the change is very minor...
+
+```js
+        var scenarios = parser.parse(text); // < 0.5.0
+        var scenarios = parser.parse(text).scenarios; // >= 0.5.0
+```
 
 ### Node based environments (e.g. Mocha)
 ```
@@ -13,7 +18,7 @@ npm install yadda
 ```
 ### Browser based environments (e.g. QUnit)
 ```html
-<script src="./lib/yadda-0.4.7.js"></script>
+<script src="./lib/yadda-0.5.0.js"></script>
 ```
 ## Writing Yadda Tests
 ### Step 1 - Write your scenarios

@@ -1,3 +1,5 @@
+Feature: Multilingual Google Search
+
 Scenario: Searching Google
 
     When I open Google's fr search page
