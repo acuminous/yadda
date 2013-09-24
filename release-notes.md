@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.5.1
+ - Yadda now emits events, which can be useful for debugging. See the README.md for more details.
+
 ## Yadda 0.5.0
  - This adds the feature title to the output from the text parser contributed by [akikhtenko](https://github.com/akikhtenko) (thanks). Since this changes the object structure returned by TextParser.parse() if you're using the TextParser directly rather than via the Mocha or Casper plugins, it's a breaking change, but the change is very minor...
 

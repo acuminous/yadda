@@ -5,7 +5,9 @@ Yadda brings _true_ BDD to JavaScript test frameworks such as [Jasmine](http://p
 Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the ordinary language steps to code. Not only are the steps less likely to go stale, but they also provide a valuable abstraction layer and encourage re-use. You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-js), but we find Yadda less invasive and prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is smarter too.
 
 ## Installation
-Yadda 0.5.0 is the current verison. This adds the feature title to the output from the text parser contributed by [akikhtenko](https://github.com/akikhtenko) (thanks). Since this changes the object structure returned by TextParser.parse() if you're using the TextParser directly rather than via the Mocha or Casper plugins, it's a breaking change, but the change is very minor...
+Yadda 0.5.1 is the current verison. It is now possible to attach event listeners, which can be useful for debugging.
+
+Please note, 0.5.0 added the feature title to the output from the text parser (thanks to [akikhtenko](https://github.com/akikhtenko)). Since this changes the object structure returned by TextParser.parse() if you're using the TextParser directly rather than via the Mocha or Casper plugins, it's a breaking change, but the change is very minor...
 
 ```js
         var scenarios = parser.parse(text); // < 0.5.0
@@ -18,7 +20,7 @@ npm install yadda
 ```
 ### Browser based environments (e.g. QUnit)
 ```html
-<script src="./lib/yadda-0.5.0.js"></script>
+<script src="./lib/yadda-0.5.1.js"></script>
 ```
 ## Writing Yadda Tests
 ### Step 1 - Write your scenarios
@@ -200,3 +202,32 @@ One issue you find with BDD libraries, is that two steps might match the same in
 2. By allowing you to define steps in multiple libraries. Grouping steps into libraries not only helps keep a tidy code base, but also prevents clashes if you scenario doesn't require the library with the alternative step.
 
 3. If you still have problems with clashing, you can use the term dictionary to make your regular expression more specific without affecting the readability of your step.
+
+#### Events
+Debugging BDD tests is typically harder than debugging unit tests, not least because you usually can't step through a feature file. You can make things a bit easier by adding event listeners, which log the step that is being executed.
+
+```js
+var Yadda = requre('yadda').Yadda;
+var Interpreter = requre('yadda').Interpreter;
+new Yadda(library).on(Interpreter.BEFORE_STEP, function(event) {
+  console.log(event.params.step);
+}).yadda([
+    "100 green bottles standing on the wall..."
+]);
+```
+The following events are available...
+```js
+Event | Event Data
+Interpreter.BEFORE_STEP | { params: { step: '100 green bottles standing on the wall', ctx: { foo: 'bar' } }}
+Interpreter.AFTER_STEP | { params: { step: '100 green bottles standing on the wall', ctx: { foo: 'bar' } }}
+Interpreter.BEFORE_SCENARIO | { params: { scenario: [
+    "Given 100 green bottles standing on the wall",
+    "when 1 green bottle should accidentally fall",
+    "then there are 99 green bottles standing on the wall"
+], ctx: { foo: 'bar' } }}
+Interpreter.AFTER_SCENARIO | { params: { scenario: [
+    "Given 100 green bottles standing on the wall",
+    "when 1 green bottle should accidentally fall",
+    "then there are 99 green bottles standing on the wall"
+], ctx: { foo: 'bar' } }}
+```
