@@ -1,5 +1,6 @@
 var assert = require('./lib/assert');
 var Interpreter = require('../lib/index').Interpreter;
+var EventBus = require('../lib/index').EventBus;
 var Library = require('../lib/index').Library;
 var Dictionary = require('../lib/index').Dictionary;
 
@@ -77,7 +78,7 @@ describe('Interpreter', function() {
 
         var library = new Library().define('Blah blah blah', function(next) { 
             executions++;
-            next(); 
+            next();
         });
 
         new Interpreter(library).interpret([
@@ -88,82 +89,51 @@ describe('Interpreter', function() {
         });
     });  
 
-    it('should notify listeners before interpreting a step', function(done) {
+    it('should notify listeners of interpreter events', function(done) {
         
         var library = new Library().define('Blah blah blah');
         var interpreter = new Interpreter(library);
-        
-        var assert_event = make_assert_event({
-            name: Interpreter.BEFORE_STEP,
-            params: {
-                step: 'Blah blah blah',
-                ctx: { foo: 'bar' }
-            }
-        }, done);
+        var listener = new Listener();
+        EventBus.instance().on(/.*/, listener.listen);
 
-        interpreter.on(Interpreter.BEFORE_STEP, assert_event).interpret('Blah blah blah', { foo: 'bar' });        
-    });
+        interpreter.interpret('Blah blah blah', { foo: 'bar' });
 
+        assert.equal(4, listener.events.length);
 
-    it('should notify listeners after interpreting a step', function(done) {
-        
-        var library = new Library().define('Blah blah blah');
-        var interpreter = new Interpreter(library);
+        assert_event({ 
+            name: Interpreter.BEFORE_SCENARIO, 
+            data: { scenario: 'Blah blah blah', ctx: { foo: 'bar' }}
+        }, listener.events[0]);
 
-        var assert_event = make_assert_event({
-            name: Interpreter.AFTER_STEP,
-            params: {
-                step: 'Blah blah blah',
-                ctx: { foo: 'bar' }
-            },
-            result: undefined
-        }, done);
+        assert_event({
+            name: Interpreter.BEFORE_STEP, 
+            data: { step: 'Blah blah blah', ctx: { foo: 'bar' }} 
+        }, listener.events[1]);
 
-        interpreter.on(Interpreter.AFTER_STEP, assert_event).interpret('Blah blah blah', { foo: 'bar' });        
-    });
+        assert_event({
+            name: Interpreter.AFTER_STEP, 
+            data: { step: 'Blah blah blah', ctx: { foo: 'bar' }} 
+        }, listener.events[2]);
 
-    it('should notify listeners before interpreting a scenario', function(done) {
+        assert_event({
+            name: Interpreter.AFTER_SCENARIO, 
+            data: { scenario: 'Blah blah blah', ctx: { foo: 'bar' }}
+        }, listener.events[3]);
 
-        var library = new Library().define('Blah blah blah');
-        var interpreter = new Interpreter(library);
+        done();
+    });  
 
-        var assert_event = make_assert_event({
-            name: Interpreter.BEFORE_SCENARIO,
-            params: {
-                scenario: 'Blah blah blah',
-                ctx: { foo: 'bar' }
-            }
-        }, done);
-
-        interpreter.on(Interpreter.BEFORE_SCENARIO, assert_event).interpret('Blah blah blah', { foo: 'bar' });  
-
-    });
-
-   it('should notify listeners after interpreting a scenario', function(done) {
-        
-        var library = new Library().define('Blah blah blah');
-        var interpreter = new Interpreter(library);
-
-        var assert_event = make_assert_event({
-            name: Interpreter.AFTER_SCENARIO,
-            params: {
-                scenario: 'Blah blah blah',
-                ctx: { foo: 'bar' }
-            }
-        }, done);
-
-        interpreter.on(Interpreter.AFTER_SCENARIO, assert_event).interpret('Blah blah blah', { foo: 'bar' });        
-    });   
-
-    function make_assert_event(expected, next) {        
-        return function(actual) {
-            assert.ok(actual);
-            assert.equal(expected.name, actual.name);
-            assert.ok(actual.params);
-            for (key in expected.params) {
-                assert.deepEqual(expected.params[key], actual.params[key]);
-            }
-            next();
+    function Listener() {
+        var _this = this;
+        this.events = [];
+        this.listen = function(event) {
+            _this.events.push(event);
         };
-    } 
+    };
+
+    function assert_event(expected, actual) {
+        assert.ok(actual);       
+        assert.equal(expected.name, actual.name);
+        assert.deepEqual(expected.data, actual.data);
+    }; 
 })
