@@ -7,6 +7,7 @@ describe('TextPaser', function() {
     var simple_feature = ['Feature: Tests with feature', 'Scenario: With Feature'].join('\n');
     var multiple_feature = ['Feature: Tests with 2 features', 'Scenario: For Feature 1', 'Feature: Second feature'].join('\n');
     var complex_scenario = ['Scenario: Complex', '', '  ', '   Given A', '', 'When B', ' ', '   Then C'].join('\n');
+    var pending_scenario = ['Pending   Scenario: Simplest', 'Then do nothing'].join('\n');
     var parser;
 
     beforeEach(function(){
@@ -16,8 +17,7 @@ describe('TextPaser', function() {
     it('should parse a simple scenario', function() {
         var scenarios = parser.parse(simple_scenario).scenarios;
         assert.equal(scenarios.length, 1);
-        assert.equal(scenarios[0].title, 'Simple');
-        assert.deepEqual(scenarios[0].steps, ['Given A', 'When B', 'Then C']);
+        assert.deepEqual(scenarios[0], { title: 'Simple', steps: ['Given A', 'When B', 'Then C'] });
     });
 
     it('should parse a complex scenario', function() {
@@ -48,5 +48,10 @@ describe('TextPaser', function() {
         assert.throws(function() {
             parser.parse(multiple_feature);
         }, /single feature/);
+    });
+    
+    it('should parse pending scenario', function() {
+        var scenarios = parser.parse(pending_scenario).scenarios;
+        assert.equal(scenarios[0].pending, true);
     });
 });
