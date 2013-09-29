@@ -318,53 +318,33 @@ module.exports = Environment;
  */
 
 var $ = require('./Array');
+var fn = require('./fn');
+var event_bus = new EventBus();
 
-// Blesses Yadda objects with event handling capabilities
-var EventMixin = function() {
+// A communication channel between event emitters and event listeners
+function EventBus() {
 
-    var event_handlers = $();
+	var event_handlers = $();
+    var _this = this;
 
-    this.bless = function(subject) {
-        subject.on = make_on(subject);
-        subject.emit = make_emit(subject);
-        subject.emit_around = make_emit_around(subject);
-        subject.re_emit = make_re_emit(subject);
-        return subject;
+    this.send = function(event_name, event_data, next) {
+    	if (arguments.length == 1) return this.send(event_name, {});
+    	if (arguments.length == 2 && fn.is_function(event_data)) return this.send(event_name, {}, event_data);    	
+        notify_handlers(event_name, event_data);
+    	next && next();        
+    	return this;
     };
 
-    var make_on = function(subject) {
-        return function(event_pattern, callback) {
-            event_handlers.push({ pattern: event_pattern, callback: callback });
-            return subject;
-        }.bind(subject);
-    };
+ 	this.on = function(event_pattern, callback) {
+        event_handlers.push({ pattern: event_pattern, callback: callback });
+        return this;
+ 	};
 
-    var make_emit = function(subject) {
-        return function(event_name, event_data) {            
-            find_handlers(event_name).each(function(callback) {
-                callback({ name: event_name, params: event_data });
-            })
-        }.bind(subject);
-    };
-
-    var make_emit_around = function(subject) {
-        return function(fn, before, after, event_data,  next) {
-            subject.emit(before, event_data);
-            fn(function() {
-                subject.emit(after, event_data);
-                next && next();            
-            });
-        };
-    };
-
-    var make_re_emit = function(subject) {
-        return function(target, event_pattern) {
-            target.on(event_pattern || /.*/, function(event) {
-                subject.emit(event.name, event.params);
-            });
-            return subject;
-        };
-    };
+ 	var notify_handlers = function(event_name, event_data) {
+		find_handlers(event_name).each(function(callback) {
+            callback({ name: event_name, data: event_data });
+        });
+ 	};
 
     var find_handlers = function(event_name) {
         return event_handlers.find_all(function(handler) {
@@ -372,11 +352,20 @@ var EventMixin = function() {
         }).collect(function(handler) {
             return handler.callback;
         });
-    };
-}
+    }; 	
+};
 
-module.exports = EventMixin;
-},{"./Array":1}],6:[function(require,module,exports){
+function instance() {
+	return event_bus;
+};
+
+module.exports = {
+    instance: instance,
+    ON_SCENARIO: '__ON_SCENARIO__',
+    ON_STEP: '__ON_STEP__',
+    ON_EXECUTE: '__ON_EXECUTE__'
+};
+},{"./Array":1,"./fn":12}],6:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -394,7 +383,7 @@ module.exports = EventMixin;
  */
 
 var Competition = require('./Competition');
-var EventMixin = require('./EventMixin');
+var EventBus = require('./EventBus');
 var $ = require('./Array');
 var fn = require('./fn');
 
@@ -402,6 +391,7 @@ var fn = require('./fn');
 var Interpreter = function(libraries) {
 
     var libraries = $(libraries);
+    var event_bus = EventBus.instance();
     var _this = this;
 
     this.requires = function(libraries) {
@@ -410,26 +400,24 @@ var Interpreter = function(libraries) {
     };
 
     this.interpret = function(scenario, ctx, next) {
+        event_bus.send(EventBus.ON_SCENARIO, { scenario: scenario, ctx: ctx });        
         var iterator = make_step_iterator(ctx, next);
-        emit_scenario_events(scenario, ctx, function(callback) {  
-            $(scenario).eachAsync(iterator, callback);
-        }, next);
+        $(scenario).eachAsync(iterator, next);
     };
 
     var make_step_iterator = function(ctx, next) {
         var iterator = function(step, index, callback) {
-            interpret_step(step, ctx, callback);
+            _this.interpret_step(step, ctx, callback);
         };
         return next ? iterator : fn.asynchronize(null, iterator);        
     };
 
-    var interpret_step = function(step, ctx, next) {
-        emit_step_events(step, ctx, function(callback) {
-            rank_macros(step).clear_winner().interpret(step, ctx, callback);
-        }, next);
+    this.interpret_step = function(step, ctx, next) {
+        event_bus.send(EventBus.ON_STEP, { step: step, ctx: ctx });        
+        _this.rank_macros(step).clear_winner().interpret(step, ctx, next);
     };  
 
-    var rank_macros = function(step) {
+    this.rank_macros = function(step) {
         return new Competition(step, compatible_macros(step));
     };
 
@@ -438,27 +426,10 @@ var Interpreter = function(libraries) {
             return macros.concat(library.find_compatible_macros(step));
         });
     };
-
-    var emit_scenario_events = function(scenario, ctx, fn, next) {
-        var event_data = { scenario: scenario, ctx: ctx };
-        _this.emit_around(fn, Interpreter.BEFORE_SCENARIO, Interpreter.AFTER_SCENARIO, event_data, next);       
-    };
-
-    var emit_step_events = function(step, ctx, fn, next) {
-        var event_data = { step: step, ctx: ctx };        
-        _this.emit_around(fn, Interpreter.BEFORE_STEP, Interpreter.AFTER_STEP, event_data, next);       
-    };
-
-    new EventMixin().bless(this);
 };
 
-Interpreter.BEFORE_STEP = '__BEFORE_STEP__';
-Interpreter.AFTER_STEP = '__AFTER_STEP__';
-Interpreter.BEFORE_SCENARIO = '__BEFORE_SCENARIO__';
-Interpreter.AFTER_SCENARIO = '__AFTER_SCENARIO__';
-
 module.exports = Interpreter;
-},{"./Array":1,"./Competition":2,"./EventMixin":5,"./fn":12}],7:[function(require,module,exports){
+},{"./Array":1,"./Competition":2,"./EventBus":5,"./fn":12}],7:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -616,6 +587,7 @@ module.exports = Library;
 var fn = require('./fn');
 var Environment = require('./Environment');
 var RegularExpression = require('./RegularExpression');
+var EventBus = require('./EventBus');
 
 // Understands a step
 var Macro = function(signature, signature_pattern, macro, ctx) {    
@@ -623,6 +595,7 @@ var Macro = function(signature, signature_pattern, macro, ctx) {
     var environment = new Environment(ctx);
     var signature_pattern = new RegularExpression(signature_pattern);
     var macro = macro || fn.async_noop;
+    var event_bus = EventBus.instance();
     var _this = this;    
 
     var init = function(signature, signature_pattern) {
@@ -637,10 +610,11 @@ var Macro = function(signature, signature_pattern, macro, ctx) {
         return signature_pattern.test(step);
     };  
 
-    this.interpret = function(step, ctx, callback) {    
+    this.interpret = function(step, ctx, next) {   
         var env = environment.merge(ctx);
-        var args = signature_pattern.groups(step).concat(callback); 
-        return fn.invoke(macro, env.ctx, args);
+        var args = signature_pattern.groups(step);
+        event_bus.send(EventBus.ON_EXECUTE, { step: step, ctx: ctx, pattern: signature_pattern.toString(), args: args });
+        fn.invoke(macro, env.ctx, args.concat(next));            
     };
 
     this.levenshtein_signature = function() {
@@ -653,14 +627,14 @@ var Macro = function(signature, signature_pattern, macro, ctx) {
 
     this.toString = function() {
         return this.signature;
-    };
+    };   
 
     init(signature, signature_pattern);
 };
 
 module.exports = Macro;
 
-},{"./Environment":4,"./RegularExpression":10,"./fn":12}],10:[function(require,module,exports){
+},{"./Environment":4,"./EventBus":5,"./RegularExpression":10,"./fn":12}],10:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -749,7 +723,6 @@ module.exports = RegularExpression;
 
 var Interpreter = require('./Interpreter');
 var Environment = require('./Environment');
-var EventMixin = require('./EventMixin');
 var fn = require('./fn');
 
 // Provides a repetitive interface, i.e. new Yadda().yadda().yadda() to the Yadda Interpreter
@@ -782,13 +755,11 @@ var Yadda = function(libraries, ctx) {
     this.toString = function() {
         return "Yadda 0.5.1 Copyright 2010 Acuminous Ltd / Energized Work Ltd";
     };
-
-    new EventMixin().bless(this).re_emit(this.interpreter);
 };
 
 module.exports = Yadda;
 
-},{"./Environment":4,"./EventMixin":5,"./Interpreter":6,"./fn":12}],12:[function(require,module,exports){
+},{"./Environment":4,"./Interpreter":6,"./fn":12}],12:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -850,7 +821,8 @@ module.exports = (function() {
 
 },{}],"W+dgdo":[function(require,module,exports){
 module.exports = {    
-    Yadda: require('./Yadda'),    
+    Yadda: require('./Yadda'),
+    EventBus: require('./EventBus'),
     Interpreter: require('./Interpreter'),    
     Library: require('./Library'),    
     Dictionary: require('./Dictionary'),
@@ -859,7 +831,7 @@ module.exports = {
     plugins: require('./plugins/index')
 };
 
-},{"./Dictionary":3,"./Interpreter":6,"./Library":8,"./Yadda":11,"./localisation/index":16,"./parsers/index":18,"./plugins/index":21}],14:[function(require,module,exports){
+},{"./Dictionary":3,"./EventBus":5,"./Interpreter":6,"./Library":8,"./Yadda":11,"./localisation/index":16,"./parsers/index":18,"./plugins/index":21}],14:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -1047,11 +1019,15 @@ module.exports = {
 },{"./TextParser":17}],19:[function(require,module,exports){
 module.exports = function(yadda, casper) {
 
-    yadda.interpreter.interpret_step = function(step, ctx) {
+    var EventBus = require('yadda').EventBus;
+
+    yadda.interpreter.interpret_step = function(step, ctx, next) {
+
         var _this = this;
         casper.then(function() {
             casper.test.info(step);
-            _this.rank_macros(step).clear_winner().interpret(step, ctx);            
+            EventBus.instance().send(EventBus.ON_STEP, { step: step, ctx: ctx });        
+            _this.rank_macros(step).clear_winner().interpret(step, ctx, next);            
         });  
     };
 
@@ -1060,7 +1036,7 @@ module.exports = function(yadda, casper) {
         yadda.yadda(script, ctx);
     }    
 };
-},{}],20:[function(require,module,exports){
+},{"yadda":"W+dgdo"}],20:[function(require,module,exports){
 var fs = require('fs');
 var TextParser = require('../parsers/TextParser');
 var Yadda = require('../Yadda');
