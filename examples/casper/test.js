@@ -19,12 +19,20 @@ function loadScenarios(file) {
     return parser.parse(text);
 };
 
+function executeSteps(scenario) {
+    if (scenario.pending) {
+        casper.test.pass('Scenario is PENDING');
+        casper.thenBypass(scenario.steps.length);
+    }
+    casper.yadda(scenario.steps);
+};
+
 var feature = loadScenarios('./spec/google-spec.txt');
 casper.test.begin(feature.title, function suite(test) {
     async.eachSeries(feature.scenarios, function(scenario, next) {
         casper.start();
         casper.test.info(scenario.title);
-        casper.yadda(scenario.steps);
+        executeSteps(scenario);
         casper.run(function() {
             next();
         });

@@ -21,3 +21,9 @@ Scenario: Searching Google Again
     then the title is bar - Google Search
     and the search for bar was made
     and 10 or more results were returned    
+
+Pending Scenario: Breaking Google
+
+    Given I navigate to Google main page
+    When I search for 'Prohibited phrase'
+    Then the error details are displayed
