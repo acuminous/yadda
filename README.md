@@ -207,27 +207,16 @@ One issue you find with BDD libraries, is that two steps might match the same in
 Debugging BDD tests is typically harder than debugging unit tests, not least because you usually can't step through a feature file. You can make things a bit easier by adding event listeners, which log the step that is being executed.
 
 ```js
-var Yadda = requre('yadda').Yadda;
-var Interpreter = requre('yadda').Interpreter;
-new Yadda(library).on(Interpreter.BEFORE_STEP, function(event) {
-  console.log(event.params.step);
-}).yadda([
-    "100 green bottles standing on the wall..."
-]);
+var EventBus = require('Yadda').EventBus;
+EventBus.instance().on(EventBus.ON_EXECUTE, function(event) {
+    console.log(event.name, event.data);
+});
+
 ```
 The following events are available...
 ```js
-Event | Event Data
-Interpreter.BEFORE_STEP | { params: { step: '100 green bottles standing on the wall', ctx: { foo: 'bar' } }}
-Interpreter.AFTER_STEP | { params: { step: '100 green bottles standing on the wall', ctx: { foo: 'bar' } }}
-Interpreter.BEFORE_SCENARIO | { params: { scenario: [
-    "Given 100 green bottles standing on the wall",
-    "when 1 green bottle should accidentally fall",
-    "then there are 99 green bottles standing on the wall"
-], ctx: { foo: 'bar' } }}
-Interpreter.AFTER_SCENARIO | { params: { scenario: [
-    "Given 100 green bottles standing on the wall",
-    "when 1 green bottle should accidentally fall",
-    "then there are 99 green bottles standing on the wall"
-], ctx: { foo: 'bar' } }}
+Event | Structure
+EventBus.ON_SCENARIO | { name: '__ON_SCENARIO__', data : {} }
+EventBus.ON_STEP | { name: '__ON_STEP__', data: { }}
+EventBus.ON_EXECUTE | { name: '__ON_EXECUTE__', step:  '' }
 ```

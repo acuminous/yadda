@@ -3,9 +3,7 @@
 
 var fs = require('fs');
 var async = require('async');
-
-// var Yadda = require('yadda');
-var Yadda = require('../../lib/index.js');
+var Yadda = require('yadda');
 
 var TextParser = Yadda.parsers.TextParser;
 var Dictionary = Yadda.Dictionary;

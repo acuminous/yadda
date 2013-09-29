@@ -2,7 +2,10 @@
 
 echo Running CasperJS Example
 pushd ./examples/casper > /dev/null
-npm install async --prefix ./node_modules
+if [ ! -e ./node_modules/async ]; then
+    npm install async --prefix ./node_modules
+fi
+npm link ../..
 casperjs test test.js
 popd
 
@@ -18,5 +21,8 @@ popd
 
 echo Running NodeUnit Example
 pushd ./examples/nodeunit > /dev/null
-nodeunit test.js
+if [ ! -e ./node_modules/nodeunit ]; then
+    npm install nodeunit --prefix ./node_modules
+fi
+node_modules/nodeunit/bin/nodeunit test.js
 popd

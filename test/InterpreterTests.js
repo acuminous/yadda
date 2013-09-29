@@ -94,31 +94,21 @@ describe('Interpreter', function() {
         var library = new Library().define('Blah blah blah');
         var interpreter = new Interpreter(library);
         var listener = new Listener();
-        EventBus.instance().on(/.*/, listener.listen);
+        EventBus.instance().on(/STEP|SCENARIO/, listener.listen);
 
         interpreter.interpret('Blah blah blah', { foo: 'bar' });
 
-        assert.equal(4, listener.events.length);
+        assert.equal(2, listener.events.length);
 
         assert_event({ 
-            name: Interpreter.BEFORE_SCENARIO, 
+            name: EventBus.ON_SCENARIO, 
             data: { scenario: 'Blah blah blah', ctx: { foo: 'bar' }}
         }, listener.events[0]);
 
         assert_event({
-            name: Interpreter.BEFORE_STEP, 
+            name: EventBus.ON_STEP, 
             data: { step: 'Blah blah blah', ctx: { foo: 'bar' }} 
         }, listener.events[1]);
-
-        assert_event({
-            name: Interpreter.AFTER_STEP, 
-            data: { step: 'Blah blah blah', ctx: { foo: 'bar' }} 
-        }, listener.events[2]);
-
-        assert_event({
-            name: Interpreter.AFTER_SCENARIO, 
-            data: { scenario: 'Blah blah blah', ctx: { foo: 'bar' }}
-        }, listener.events[3]);
 
         done();
     });  
