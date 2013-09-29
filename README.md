@@ -214,9 +214,17 @@ EventBus.instance().on(EventBus.ON_EXECUTE, function(event) {
 
 ```
 The following events are available...
-```js
-Event | Structure
-EventBus.ON_SCENARIO | { name: '__ON_SCENARIO__', data : {} }
-EventBus.ON_STEP | { name: '__ON_STEP__', data: { }}
-EventBus.ON_EXECUTE | { name: '__ON_EXECUTE__', step:  '' }
-```
+<table>
+  <tr>
+    <th>Event Name</th><th>Event Data</th>
+  </tr>
+  <tr>
+    <td>ON_SCENARIO</td><td>{ scenario: [ '100 green bottles', 'should 1 green bottle...', ...], ctx: context }</td>
+  </tr>
+  <tr>
+    <td>ON_STEP</td><td>{ step: '100 green bottles...', ctx: context }</td>
+  </tr>
+  <tr>
+    <td>ON_EXECUTE</td><td>{ step: '100 green bottles...', pattern: '/(\d+) green bottles.../', args: ['100'], ctx: context }</td>
+  </tr>  
+</table>
