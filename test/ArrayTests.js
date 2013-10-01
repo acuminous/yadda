@@ -12,7 +12,7 @@ describe('Array', function() {
     it('Should iterate asynchronously', function() {
         var items = [1, 2, 3];
         var iterations = 0;
-        $(items).eachAsync(function(item, index, callback) {
+        $(items).each_async(function(item, index, callback) {
             assert.equal(item, items[iterations]);
             assert.equal(index, iterations);
             iterations++;
