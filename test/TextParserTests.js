@@ -53,10 +53,7 @@ describe('TextPaser', function() {
 
     it('should ignore annotations', function() {
         var feature_annotations = parser.parse(annotated_feature).annotations;
-		assert.equal(feature_annotations.length, 2);
-        assert.equal(feature_annotations[0].key, 'keyword1');
-        assert.equal(feature_annotations[0].value, 'value1');
-        assert.equal(feature_annotations[1].key, 'keyword2');
-        assert.equal(feature_annotations[1].value, 'value2');
+		assert.equal(feature_annotations['keyword1'], 'value1');
+		assert.equal(feature_annotations['keyword2'], 'value2');
     });
 });
