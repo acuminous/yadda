@@ -7,7 +7,7 @@ describe('TextPaser', function() {
     var simple_feature = ['Feature: Tests with feature', 'Scenario: With Feature'].join('\n');
     var multiple_feature = ['Feature: Tests with 2 features', 'Scenario: For Feature 1', 'Feature: Second feature'].join('\n');
     var complex_scenario = ['Scenario: Complex', '', '  ', '   Given A', '', 'When B', ' ', '   Then C'].join('\n');
-    var annotated_scenario = ['@keyword=value', 'Scenario: Annotated', 'Given A', 'When B', 'Then C'].join('\n');
+    var annotated_feature = ['@keyword1=value1', '@keyword2=value2', 'Scenario: Annotated', 'Given A', 'When B', 'Then C'].join('\n');
     var parser;
 
     beforeEach(function(){
@@ -52,9 +52,11 @@ describe('TextPaser', function() {
     });
 
     it('should ignore annotations', function() {
-        var scenarios = parser.parse(annotated_scenario).scenarios;
-        assert.equal(scenarios.length, 1);
-        assert.equal(scenarios[0].title, 'Annotated');
-        assert.deepEqual(scenarios[0].steps, ['Given A', 'When B', 'Then C']);
+        var feature_annotations = parser.parse(annotated_feature).annotations;
+		assert.equal(feature_annotations.length, 2);
+        assert.equal(feature_annotations[0].key, 'keyword1');
+        assert.equal(feature_annotations[0].value, 'value1');
+        assert.equal(feature_annotations[1].key, 'keyword2');
+        assert.equal(feature_annotations[1].value, 'value2');
     });
 });
