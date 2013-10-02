@@ -19,7 +19,7 @@ function loadScenarios(file) {
     return parser.parse(text);
 };
 
-var feature = loadScenarios('./spec/google-spec.txt');
+var feature = loadScenarios('./features/google.feature');
 casper.test.begin(feature.title, function suite(test) {
     async.eachSeries(feature.scenarios, function(scenario, next) {
         casper.start();
