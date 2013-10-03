@@ -5,43 +5,7 @@ Yadda brings _true_ BDD to JavaScript test frameworks such as [Jasmine](http://p
 Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the ordinary language steps to code. Not only are the steps less likely to go stale, but they also provide a valuable abstraction layer and encourage re-use. You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-js), but we find Yadda less invasive and prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is smarter too.
 
 ## Installation
-Yadda 0.6.0 is the current verison, which involves a rewrite of the mocha plugin and therefore breaking API changes...
-
-< 0.6.0
-```js
-var Yadda = requre('yadda').Yadda;
-require('yadda').plugins.mocha();
-var library = require('./bottles-library');
-var yadda = new Yadda(library);
-
-yadda.mocha('Bottles', './spec/bottles-spec.txt');
-```
->= 0.6.0
-```
-var Yadda = require('yadda');
-Yadda.plugins.mocha();
-
-feature('./features/bottles.feature', function(feature) {
-
-    var library = require('./bottles-library');
-    var yadda = new Yadda.Yadda(library);
-
-    scenarios(feature.scenarios, function(scenario, done) {
-        yadda.yadda(scenario.steps, done);
-    });
-});
-```js
-
-Please note, 0.5.0 added the feature title to the output from the text parser (thanks to [akikhtenko](https://github.com/akikhtenko)). Since this changes the object structure returned by TextParser.parse() if you're using the TextParser directly rather than via the Mocha or Casper plugins, it's a breaking change, but the change is very minor...
-
-< 0.5.0
-```js
-        var scenarios = parser.parse(text);
-```
->= 0.5.0
-```js
-        var scenarios = parser.parse(text).scenarios;
-```
+Yadda 0.6.0 is the current verison, which involves a rewrite of the mocha plugin and therefore breaking API changes. See the release notes and examples for more deatils.
 
 ### Node based environments (e.g. Mocha)
 ```
