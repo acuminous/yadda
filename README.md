@@ -5,7 +5,7 @@ Yadda brings _true_ BDD to JavaScript test frameworks such as [Jasmine](http://p
 Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the ordinary language steps to code. Not only are the steps less likely to go stale, but they also provide a valuable abstraction layer and encourage re-use. You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-js), but we find Yadda less invasive and prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is smarter too.
 
 ## Installation
-Yadda 0.5.2 is the current verison, which adds annoations on features.
+Yadda 0.5.2 is the current verison, which adds annoations on features (thanks to [mrwiggles](https://github.com/mrwiggles).
 
 Please note, 0.5.0 added the feature title to the output from the text parser (thanks to [akikhtenko](https://github.com/akikhtenko)). Since this changes the object structure returned by TextParser.parse() if you're using the TextParser directly rather than via the Mocha or Casper plugins, it's a breaking change, but the change is very minor...
 
