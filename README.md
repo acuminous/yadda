@@ -5,7 +5,7 @@ Yadda brings _true_ BDD to JavaScript test frameworks such as [Jasmine](http://p
 Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the ordinary language steps to code. Not only are the steps less likely to go stale, but they also provide a valuable abstraction layer and encourage re-use. You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-js), but we find Yadda less invasive and prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is smarter too.
 
 ## Installation
-Yadda 0.5.1 is the current verison. It is now possible to attach event listeners, which can be useful for debugging.
+Yadda 0.5.2 is the current verison, which adds annoations on features.
 
 Please note, 0.5.0 added the feature title to the output from the text parser (thanks to [akikhtenko](https://github.com/akikhtenko)). Since this changes the object structure returned by TextParser.parse() if you're using the TextParser directly rather than via the Mocha or Casper plugins, it's a breaking change, but the change is very minor...
 
@@ -20,7 +20,7 @@ npm install yadda
 ```
 ### Browser based environments (e.g. QUnit)
 ```html
-<script src="./lib/yadda-0.5.1.js"></script>
+<script src="./lib/yadda-0.5.2.js"></script>
 ```
 ## Writing Yadda Tests
 ### Step 1 - Write your scenarios
@@ -128,6 +128,42 @@ new Yadda.yadda(library).yadda([
 ]);
 ```
 We'd be delighted to accept pull requests for more languages and dialects.
+
+### Feature Descriptions
+You can add an optional feature description at the top of your file to give some context about the scenarios contained within
+bottles-spec.txt
+```
+Feature: As a bystander 
+	I can watch bottles falling from a wall
+	So that I can be mildly amused
+
+Scenario: should fall from the wall
+
+   Given 100 green bottles are standing on the wall
+   When 1 green bottle accidentally falls
+   Then there are 99 green bottles standing on the wall
+```
+
+There can only be a single feature present in a file - it really doesn't make sense to have two, and you will be issued with an error if you try to include more than one
+
+### Annotations
+Annotations can be added to a feature to enable you to do any kind of pre-processing required.  These take the form of key/value pairs and can be added like this:
+
+bottles-spec.txt
+```
+@browser=chrome
+@theme=bottles
+
+Feature: As a bystander
+    I can watch bottles falling from a wall
+    So that I can be mildly amused
+
+Scenario: should fall from the wall
+
+   Given 100 green bottles are standing on the wall
+   When 1 green bottle accidentally falls
+   Then there are 99 green bottles standing on the wall
+```
 
 ### Step Anatomy
 A step is made up of a regular expression, a function and some context.
