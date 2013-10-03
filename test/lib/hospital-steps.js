@@ -7,7 +7,7 @@ var Bed = require('./hospital').Bed;
 
 module.exports.init = function() {
 
-    var hospital, ward, patient, bed = null;    
+    var hospital, ward, patient, bed, he, she = null;    
 
     var library = new Library()
 

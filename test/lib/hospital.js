@@ -41,7 +41,7 @@ var Hospital = function(name) {
 
     this.get_bed = function(number) {
         var bed;
-        for (ward in this.wards) {
+        for (var ward in this.wards) {
             bed = this.wards[ward].get_bed(number);
             if (bed) break;
         }
