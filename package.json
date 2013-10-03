@@ -5,9 +5,7 @@
   "main": "./lib/index.js",
   "devDependencies": {
     "mocha": "*",
-    "browserify": "*",
-    "casper": "*",
-    "nodeunit": "*"
+    "browserify": "*"
   },
   "directories": {
     "example": "examples",

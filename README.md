@@ -24,8 +24,10 @@ npm install yadda
 ```
 ## Writing Yadda Tests
 ### Step 1 - Write your scenarios
-bottles-spec.txt
+bottles.feature
 ```
+Feature: 100 Green Bottles
+
 Scenario: should fall from the wall
 
    Given 100 green bottles are standing on the wall
@@ -62,21 +64,25 @@ module.exports = (function() {
 ### Step 3 - Integrate Yadda with your testing framework (e.g. Mocha)
 bottles-test.js
 ```js
-var Yadda = requre('yadda').Yadda;
-var MochaPlugin = ('yadda').plugins.MochaPlugin;
-var library = require('./bottles-library');
-var yadda = new Yadda(library);
+var Yadda = require('yadda');
+Yadda.plugins.mocha();
 
-new MochaPlugin().upgrade(Yadda);
+feature('./bottles.feature', function(feature) {
 
-yadda.mocha('Bottles', './bottles-spec.txt');
+  var library = require('./bottles-library');
+  var yadda = new Yadda.Yadda(library);
+
+  scenarios(feature.scenarios, function(scenario, done) {
+    yadda.yadda(scenario.steps, done);
+  });
+});
 ```
 
 ### Step 4 - Run your tests
 ```
   mocha --reporter spec bottles-test.js
 
-  Bottles
+  100 Green Bottles
     ✓ should fall from the wall
 ```
 

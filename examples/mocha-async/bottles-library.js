@@ -18,7 +18,7 @@ module.exports = (function() {
 
     .when("$NUM green bottle accidentally falls", function(number_of_falling_bottles, next) {	
         wall.fall(number_of_falling_bottles);
-        next()
+        next();
     })
 
     .then("there (?:are|are still) $NUM green bottles standing on the wall", function(number_of_bottles, next) {

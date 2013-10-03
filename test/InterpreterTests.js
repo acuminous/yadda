@@ -1,46 +1,49 @@
 var assert = require('./lib/assert');
-var Interpreter = require('../lib/index').Interpreter;
-var EventBus = require('../lib/index').EventBus;
-var Library = require('../lib/index').Library;
-var Dictionary = require('../lib/index').Dictionary;
+var Yadda = require('../lib/index');
+var Interpreter = Yadda.Interpreter;
+var EventBus = Yadda.EventBus;
+var Library = Yadda.Library;
+var Dictionary = Yadda.Dictionary;
+var Context = Yadda.Context;
+var Counter = require('./Counter');
 
 describe('Interpreter', function() {
 
     it('should interpret a single line script', function() {
-        var executions = 0;
-        var library = new Library().define('Blah blah blah', function() { executions++; });
+        
+        var counter = new Counter();
+        var library = new Library().define('Blah blah blah', counter.count);
 
         new Interpreter(library).interpret('Blah blah blah');
 
-        assert.equal(executions, 1);
+        assert.equal(counter.total(), 1);
     });
 
     it('should interpret a multiline script', function() {
 
-        var executions = 0;
-        var library = new Library().define('Blah blah blah', function() { executions++; });
+        var counter = new Counter();
+        var library = new Library().define('Blah blah blah', counter.count);
 
         new Interpreter(library).interpret([
             'Blah blah blah',
             'Blah blah blah'
         ]);
 
-        assert.equal(executions, 2);
+        assert.equal(counter.total(), 2);
     });
 
     it('should utilise macros from different libraries', function() {
 
-        var executions = 0;
-
-        var library_1 = new Library().define('Blah blah blah', function() { executions++; });
-        var library_2 = new Library().define('Whatever', function() { executions++; });
+        var counter = new Counter();
+        var library_1 = new Library().define('Blah blah blah', counter.count);
+        var library_2 = new Library().define('Whatever', counter.count);
 
         new Interpreter([library_1, library_2]).interpret([
             'Blah blah blah',
             'Whatever'
         ]);
 
-        assert.equal(executions, 2);
+        assert.equal(counter.total(), 2);
     });
 
     it('should expanded terms to discern macros', function() {
@@ -65,7 +68,6 @@ describe('Interpreter', function() {
     it('should report undefined steps', function() {
 
         var library = new Library();
-
         var interpreter = new Interpreter(library);
 
         assert.raises(function() {
@@ -73,21 +75,34 @@ describe('Interpreter', function() {
         }, /Undefined Step: \[Blah blah blah\]/);
     });
 
-    it('should interpret steps asynchronously', function() {
-        var executions = 0;
+    it('should interpret steps asynchronously', function(done) {
+        
+        var counter = new Counter();
+        var library = new Library().define('Blah blah blah', counter.count);
 
-        var library = new Library().define('Blah blah blah', function(next) { 
-            executions++;
+        new Interpreter(library).interpret([
+            'Blah blah blah',
+            'Blah blah blah'
+        ], {}, function() {
+            assert.equal(counter.total(), 2);
+            done();
+        });
+    });  
+
+    it('should bind the context to the macro', function(done) {
+
+        var context = new Context({foo: 'bar'});
+        var library = new Library().define('Blah blah blah', function(next) {
+            assert.equal(this.foo, 'bar');
             next();
         });
 
         new Interpreter(library).interpret([
             'Blah blah blah',
             'Blah blah blah'
-        ], {}, function() {
-            assert.equal(executions, 2);
-        });
-    });  
+        ], context, done);
+
+    })
 
     it('should notify listeners of interpreter events', function(done) {
         

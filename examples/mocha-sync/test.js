@@ -1,8 +1,12 @@
-// var Yadda = requre('yadda').Yadda;
-var Yadda = require('../../lib/index').Yadda;
-// require('yadda').plugins.mocha({mode: 'sync'});
-require('../../lib/index').plugins.mocha({mode: 'sync'});
-var library = require('./bottles-library');
-var yadda = new Yadda(library);
+var Yadda = require('yadda');
+Yadda.plugins.mocha({ mode: 'sync'});
 
-yadda.mocha('Bottles', './spec/bottles-spec.txt');
+feature('./features/bottles.feature', function(feature) {
+
+    var library = require('./bottles-library');
+    var yadda = new Yadda.Yadda(library);
+
+    scenarios(feature.scenarios, function(scenario) {
+        yadda.yadda(scenario.steps);
+    });
+});

@@ -1,5 +1,6 @@
 var assert = require('assert');   
 var Macro = require('../lib/Macro');
+var Context = require('../lib/Context');
 var EventBus = require('../lib/EventBus');
 var $ = require('../lib/Array');
 var fn = require('../lib/fn');
@@ -10,11 +11,11 @@ describe('Macro', function() {
         var execution = new Execution();
         var args = [1, 2, 3, 'callback'];    
 
-        new Macro('Easy', /Easy as (\d), (\d), (\d)/, execution.code, {a: 1}).interpret("Easy as 1, 2, 3", {b: 2}, fn.noop);
+        new Macro('Easy', /Easy as (\d), (\d), (\d)/, execution.code, {a: 1}).interpret("Easy as 1, 2, 3", new Context({b: 2}), fn.noop);
 
         assert.ok(execution.executed, "The step code was not run");
         assert.deepEqual(execution.args.splice(0, 3), [1, 2, 3]);    
-        assert.deepEqual(execution.ctx, {a: 1, b: 2}, "The step code was not run in the correct context");
+        assert.deepEqual(execution.ctx, {a: 1, b: 2});
     });
 
     it('should provide a signature that can be used to compare levenshtein distance', function() {
@@ -52,7 +53,7 @@ describe('Macro', function() {
         var event = listener.events[0];
         assert.equal(event.name, EventBus.ON_EXECUTE);
         assert.equal(event.data.step, 'Easy as 1, 2, 3');
-        assert.deepEqual(event.data.ctx, {b: 2});
+        assert.deepEqual(event.data.ctx, {a: 1, b: 2});
         assert.equal(event.data.pattern, "/Easy as (\\d), (\\d), (\\d)/");
         assert.deepEqual(event.data.args.slice(), ["1", "2", "3"]);
         done();

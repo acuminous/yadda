@@ -5,7 +5,7 @@ var Yadda = require('../../lib/Yadda');
 var TextParser = require('../../lib/parsers/TextParser');
 
 function bySpecification(file) {
-    return file.substr(-9) === '-spec.txt';
+    return file.substr(-8) === '.feature';
 };
 
 function eachScenario(dir, fn) {
@@ -19,7 +19,7 @@ function eachScenario(dir, fn) {
     });
 };
 
-eachScenario('./spec', function(scenario) {
+eachScenario('./features', function(scenario) {
     var library = require('./bottles-library');
     var yadda = new Yadda(library);        
     exports[scenario.title] = function(test) {
