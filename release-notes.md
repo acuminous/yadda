@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.5.2
+ - Adds annoations to features in feature files. Thanks [mrwiggles](https://github.com/mrwiggles).
+
 ## Yadda 0.5.1
  - Yadda now emits events, which can be useful for debugging. See the README.md for more details.
 
