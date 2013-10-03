@@ -111,7 +111,7 @@ describe('Interpreter', function() {
         var listener = new Listener();
         EventBus.instance().on(/STEP|SCENARIO/, listener.listen);
 
-        interpreter.interpret('Blah blah blah', { foo: 'bar' });
+        interpreter.interpret('Blah blah blah', new Context({ foo: 'bar' }));
 
         assert.equal(2, listener.events.length);
 
