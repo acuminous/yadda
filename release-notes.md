@@ -1,8 +1,33 @@
 # Release Notes
 
 ## Yadda 0.6.0
- - Fix for [Issue #23](https://github.com/acuminous/yadda/issues/23) which prevented the scenario context being shared between steps when using the Mocha plugin. The plugin API was made clearer at the same time, resulting in breaking changes. See the examples for the new format.
+ - Fix for [Issue #23](https://github.com/acuminous/yadda/issues/23) which prevented the scenario context being shared between steps when using the Mocha plugin. The plugin API was made clearer at the same time, which unfortunately necessitated breaking changes. The following demonstrates how to migrate < 0.6 mocha tests to the 0.6 api.
 
+&lt; 0.6.0
+```js
+var Yadda = require('yadda');
+Yadda.plugins.mocha();
+var library = require('./bottles-library');
+var yadda = new Yadda.Yadda(library);
+
+yadda.mocha('Bottles', './spec/bottles-spec.txt');
+```
+&gt;= 0.6.0
+
+```js
+var Yadda = require('yadda');
+Yadda.plugins.mocha();
+
+feature('./features/bottles.feature', function(feature) {
+
+    var library = require('./bottles-library');
+    var yadda = new Yadda.Yadda(library);
+
+    scenarios(feature.scenarios, function(scenario, done) {
+        yadda.yadda(scenario.steps, done);
+    });
+});
+```
 ## Yadda 0.5.2
  - Adds annoations to features in feature files. Thanks [mrwiggles](https://github.com/mrwiggles).
 
