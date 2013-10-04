@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.6.2
+ - This release adds support for annotations on scenarios. Theses were previously only available on features. Support for simple annoations, e.g. @Pending, is also included.
+
 ## Yadda 0.6.1
  - Yadda now throws Error objects instead of Strings. See [Issue #24](https://github.com/acuminous/yadda/issues/24).
 
