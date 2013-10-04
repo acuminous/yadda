@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.6.1
+ - Yadda now throws Error objects instead of Strings. See [Issue #24](https://github.com/acuminous/yadda/issues/24).
+
 ## Yadda 0.6.0
  - Fix for [Issue #23](https://github.com/acuminous/yadda/issues/23) which prevented the scenario context being shared between steps when using the Mocha plugin. The plugin API was made clearer at the same time, which unfortunately necessitated breaking changes. The following demonstrates how to migrate < 0.6 mocha tests to the 0.6 api.
 
