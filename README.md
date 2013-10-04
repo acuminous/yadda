@@ -140,9 +140,9 @@ Scenario: should fall from the wall
 There can only be a single feature present in a file - it really doesn't make sense to have two, and you will be issued with an error if you try to include more than one
 
 ### Annotations
-Annotations can be added to a feature to enable you to do any kind of pre-processing required.  These take the form of key/value pairs and can be added like this:
+Annotations can be added to a feature or scenario to enable you to do any kind of pre-processing required.  These take the form of key/value pairs and can be added like this:
 
-bottles-spec.txt
+bottles.feature
 ```
 @browser=chrome
 @theme=bottles
@@ -151,6 +151,7 @@ Feature: As a bystander
     I can watch bottles falling from a wall
     So that I can be mildly amused
 
+@Pending
 Scenario: should fall from the wall
 
    Given 100 green bottles are standing on the wall
