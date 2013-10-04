@@ -9,6 +9,7 @@ describe('TextPaser', function() {
     var complex_scenario = ['Scenario: Complex', '', '  ', '   Given A', '', 'When B', ' ', '   Then C'].join('\n');
     var annotated_feature = ['@keyword1=value1', '@keyword2=value2', '@keyword3', 'Feature: Annotated', 'Scenario: Simple', 'Given A', 'When B', 'Then C'].join('\n');
     var annotated_scenario = ['Feature: Simple', '@keyword1=value1', '@keyword2=value2', '@keyword3', 'Scenario: Annotated', 'Given A', 'When B', 'Then C'].join('\n');
+    var missing_scenario = ['Given A', 'When B', 'Then C'].join('\n');    
 
 
     var parser;
@@ -53,6 +54,12 @@ describe('TextPaser', function() {
             parser.parse(multiple_feature);
         }, /single feature/);
     });
+
+    it('should report steps with no scenario', function() {
+        assert.throws(function() {
+            parser.parse(missing_scenario);
+        }, /Missing scenario/);
+    });    
 
     it('should parse feature annotations', function() {
         var feature = parser.parse(annotated_feature);
