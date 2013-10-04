@@ -26,6 +26,13 @@ Scenario: should fall from the wall
    Given 100 green bottles are standing on the wall
    When 1 green bottle accidentally falls
    Then there are 99 green bottles standing on the wall
+   
+@Pending
+Scenario: No bottles are left
+
+    Given 1 green bottles are standing on the wall
+    when 1 green bottle accidentally falls
+    then there are 0 green bottles standing on the wall
 ```
 (You aren't restricted to just Given/When/Then. You can use any words you like)
 
@@ -77,6 +84,7 @@ feature('./bottles.feature', function(feature) {
 
   100 Green Bottles
     ✓ should fall from the wall
+    - No bottles are left
 ```
 
 ## Features
@@ -124,11 +132,11 @@ We'd be delighted to accept pull requests for more languages and dialects.
 
 ### Feature Descriptions
 You can add an optional feature description at the top of your file to give some context about the scenarios contained within
-bottles-spec.txt
+bottles.feature
 ```
 Feature: As a bystander 
-	I can watch bottles falling from a wall
-	So that I can be mildly amused
+   I can watch bottles falling from a wall
+   So that I can be mildly amused
 
 Scenario: should fall from the wall
 
@@ -140,12 +148,12 @@ Scenario: should fall from the wall
 There can only be a single feature present in a file - it really doesn't make sense to have two, and you will be issued with an error if you try to include more than one
 
 ### Annotations
-Annotations can be added to a feature or scenario to enable you to do any kind of pre-processing required.  These take the form of key/value pairs and can be added like this:
+Annotations can be added to a feature or scenario to enable you to do any kind of pre-processing required.  These take the form of either single value tags or key/value pairs and can be added like this:
 
 bottles.feature
 ```
-@browser=chrome
-@theme=bottles
+@Browser=chrome
+@Theme=bottles
 
 Feature: As a bystander
     I can watch bottles falling from a wall
