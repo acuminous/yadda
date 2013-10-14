@@ -89,7 +89,7 @@ feature('./bottles.feature', function(feature) {
 
 ## Features
 ### Supported Libraries
-Yadda works with Mocha, Jasmine, QUnit, Nodeunit, ZombieJS and CasperJS. See the examples for details.
+Yadda works with Mocha, Jasmine, QUnit, Nodeunit, ZombieJS, CasperJS and WebDriver. See the examples for details.
 
 ### Flexible BDD Syntax
 It's common for BDD libraries to limit syntax to precondition (given) steps, action (when) steps and assertion (then) steps. Yadda doesn't. This allows for more freedom of expression. e.g.
