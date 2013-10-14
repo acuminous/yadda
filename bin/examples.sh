@@ -18,6 +18,18 @@ fi
 mocha --reporter spec test.js
 popd
 
+echo Running WebDriver Example
+pushd ./examples/webdriver > /dev/null
+mkdir -p node_modules
+if [ ! -e ./node_modules/yadda ]; then
+	ln -sf ../../.. node_modules/yadda
+fi
+if [ ! -e ./node_modules/selenium-webdriver ]; then
+	npm install selenium-webdriver --prefix ./node_modules
+fi
+mocha --reporter spec --timeout 10000 test.js
+popd
+
 echo Running CasperJS Example
 pushd ./examples/casper > /dev/null
 mkdir -p node_modules

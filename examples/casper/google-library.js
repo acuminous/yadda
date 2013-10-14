@@ -1,6 +1,6 @@
 module.exports.init = function() {
     var dictionary = new Dictionary()
-        .define('LOCALE', /(fr|es|en)/)
+        .define('LOCALE', /(fr|es|ie)/)
         .define('NUM', /(\d+)/);
 
     var library = new Library(dictionary)
@@ -10,7 +10,7 @@ module.exports.init = function() {
     })
 
     .then("the title is $TITLE", function(title) {
-    	casper.test.assertTitle(title, 'title is the one expected');
+        casper.test.assertTitle(title, 'Incorrect title - ' + casper.getTitle());
     })
 
     .then("the $ACTION form exists", function(action) {
