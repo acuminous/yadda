@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.6.4
+ - This release adds jasmine examples
+
 ## Yadda 0.6.3
  - This release adds selenium / webdriver examples, based on those created by [mrwiggles](https://github.com/mrwiggles) for [Issue 18](https://github.com/acuminous/yadda/issues/18).
 

@@ -18,6 +18,18 @@ fi
 mocha --reporter spec test.js
 popd
 
+echo Running Jasmine Example
+pushd ./examples/jasmine > /dev/null
+mkdir -p node_modules
+if [ ! -e ./node_modules/yadda ]; then
+    ln -sf ../../.. node_modules/yadda
+fi
+if [ ! -e ./node_modules/jasmine-node ]; then
+    npm install jasmine-node --prefix ./node_modules
+fi
+node_modules/.bin/jasmine-node spec/bottles-spec.js
+popd
+
 echo Running WebDriver Example
 pushd ./examples/webdriver > /dev/null
 mkdir -p node_modules
