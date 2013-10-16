@@ -40,15 +40,14 @@ describe('Library', function() {
 
         var macro = library.get_macro('Given a $gender, $speciality patient called $name');
         assert.ok(macro.can_interpret('Given a male, cardiovascular patient called Bob'));
-        assert.ok(macro.can_interpret('Given a female, elderly care patient called Carol'));        
-        assert.ok(!macro.can_interpret('Given a ugly, angry patient called Max'));        
-
+        assert.ok(macro.can_interpret('Given a female, elderly care patient called Carol'));
+        assert.ok(!macro.can_interpret('Given a ugly, angry patient called Max'));
     })
 
     it('should report duplicate macros', function() {
 
         var library = new English()
-            .define(/bar/);    
+            .define(/bar/);
 
         assert.raises(function() {
             library.define(/bar/);
@@ -57,7 +56,7 @@ describe('Library', function() {
 
     it('should find all compatible macros', function() {
 
-        var library = new Library()   
+        var library = new Library()
             .define(/^food$/)
             .define(/^foo.*$/)
             .define(/^f.*$/);
@@ -96,9 +95,9 @@ describe('Library', function() {
             'Expect there are 99 bottles left',
             'expect there are 99 bottles left'
         ];
-        
+
         assert_localisation(library, givens, '/(?:[Gg]iven|[Ww]ith|[Aa]nd|[Bb]ut|[Ee]xcept) a wall with (\\d+) bottles/');
-        assert_localisation(library, whens, '/(?:[Ww]hen|[Aa]nd|[Bb]ut) (\\d+) bottle(?:s)? accidentally falls/');
+        assert_localisation(library, whens, '/(?:[Ww]hen|[Ii]f|[Aa]nd|[Bb]ut) (\\d+) bottle(?:s)? accidentally falls/');
         assert_localisation(library, thens, '/(?:[Tt]hen|[Ee]xpect|[Aa]nd|[Bb]ut) there are (\\d+) bottles left/');
     });
 
@@ -108,7 +107,7 @@ describe('Library', function() {
             .given([/^a wall with (\d+) bottles/, /^a wall with (\d+) green bottles/])
             .when([/^(\d+) bottle(?:s)? accidentally falls/, /^(\d+) green bottle(?:s)? accidentally falls/])
             .then([/^there are (\d+) bottles left/, /^there are (\d+) green bottles left/]);
-        
+
         assert.equal(library.find_compatible_macros('Given a wall with 100 bottles').length, 1);
         assert.equal(library.find_compatible_macros('Given a wall with 100 green bottles').length, 1);
         assert.equal(library.find_compatible_macros('When 1 bottle accidentally falls').length, 1);
@@ -118,10 +117,10 @@ describe('Library', function() {
     });
 
     function assert_localisation(library, statements, signature) {
-        for (var i = 0; i < statements.length; i++) {   
+        for (var i = 0; i < statements.length; i++) {
             assert.equal(library.find_compatible_macros(statements[i]).length, 1, statements[i]);
             assert.equal(library.find_compatible_macros(statements[i])[0].signature, signature, statements[i]);
-        }        
+        }
     }
 
 });
