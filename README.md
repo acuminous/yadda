@@ -1,5 +1,5 @@
 # Yadda
-Yadda brings _true_ BDD to JavaScript test frameworks such as [Jasmine](http://pivotal.github.io/jasmine/), [Mocha](http://visionmedia.github.io/mocha/), [QUnit](http://qunitjs.com), [Nodeunit](https://github.com/caolan/nodeunit) and [CasperJS](http://casperjs.org). By _true_ BDD we mean that the ordinary language (e.g. English) steps are mapped to code, as opposed to simply decorating it. This is important because just like comments, the decorative steps such as those used by
+Yadda brings _true_ BDD to JavaScript test frameworks such as [Jasmine](http://pivotal.github.io/jasmine/), [Mocha](http://visionmedia.github.io/mocha/), [QUnit](http://qunitjs.com), [Nodeunit](https://github.com/caolan/nodeunit), [WebDriverJs](code.google.com/p/selenium/wiki/WebDriverJs) and [CasperJS](http://casperjs.org). By _true_ BDD we mean that the ordinary language (e.g. English) steps are mapped to code, as opposed to simply decorating it. This is important because just like comments, the decorative steps such as those used by
 [Jasmine](http://pivotal.github.com/jasmine), [Mocha](http://visionmedia.github.io/mocha) and [Vows](http://vowsjs.org), can fall out of date and are a form of duplication.
 
 Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the ordinary language steps to code. Not only are the steps less likely to go stale, but they also provide a valuable abstraction layer and encourage re-use. You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-js), but we find Yadda less invasive and prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is smarter too.
@@ -34,8 +34,6 @@ Scenario: No bottles are left
     when 1 green bottle accidentally falls
     then there are 0 green bottles standing on the wall
 ```
-(You aren't restricted to just Given/When/Then. You can use any words you like)
-
 ### Step 2 - Implement the step library
 bottles-library.js
 ```js
@@ -110,7 +108,7 @@ new Yadda.yadda(library).yadda([
     "there are 99 green bottles standing on the wall"
 ]);
 ```
-However we think that Given/When/Then (along with And/But/With) is a good starting point, so we recommend using Yadda.localisation.English instead of the vanilla Yadda.Library. This adds 'given', 'when', 'then', 'and', 'but' and 'with' helper methods, enabling you to define your steps as follows...
+However we think that Given/When/Then (along with And/But/With/If) is a good starting point, so we recommend using Yadda.localisation.English instead of the vanilla Yadda.Library. This adds 'given', 'when' and 'then' helper methods, enabling you to define your steps as follows...
 ```js
 var library = new Yadda.Library()
     .given("$NUM green bottle(?:s){0,1} standing on the wall", function(number) {
@@ -126,6 +124,14 @@ new Yadda.yadda(library).yadda([
     "Given 100 green bottles standing on the wall",
     "when 1 green bottle should accidentally fall",
     "then there are 99 green bottles standing on the wall"
+]);
+```
+Because the localisatised definitions for 'given', 'when' and 'then' are loose you could also re-write the above scenario as
+```js
+new Yadda.yadda(library).yadda([
+    "given 100 green bottles standing on the wall",
+    "but 1 green bottle should accidentally fall",
+    "expect there are 99 green bottles standing on the wall"
 ]);
 ```
 We'd be delighted to accept pull requests for more languages and dialects.
@@ -145,7 +151,7 @@ Scenario: should fall from the wall
    Then there are 99 green bottles standing on the wall
 ```
 
-There can only be a single feature present in a file - it really doesn't make sense to have two, and you will be issued with an error if you try to include more than one
+There can only be a single feature present in a file - it really doesn't make sense to have two, and you will be issued with an error if you try to include more than one.
 
 ### Annotations
 Annotations can be added to a feature or scenario to enable you to do any kind of pre-processing required.  These take the form of either single value tags or key/value pairs and can be added like this:
@@ -220,18 +226,30 @@ will expand to
 "(?:[Gg]iven|[Aa]nd|[Ww]ith]|[Bb]ut) a street address of (\d+) (\w+)"
 ```
 Dictionaries can also be merged...
-```
-  var shared_dictionary = new Yadda.Dictionary()
-      .define('number', /(\d+1/));
+```js
+var shared_dictionary = new Yadda.Dictionary()
+    .define('number', /(\d+1/));
 
-  var feature_specific_dictionary = new Yadda.Dictionary()
-      .merge(shared_dictionary)
-      .define('speciality', /(cardio|elderly|gastro)/);
+var feature_specific_dictionary = new Yadda.Dictionary()
+    .merge(shared_dictionary)
+    .define('speciality', /(cardio|elderly|gastro)/);
+```
+An alternative way to make your regular expressions more rediable is to alias them. So instead of...
+```js
+    .given('$patient is (?:still )awaiting discharge', function(patient) {
+        // some code
+    });
+```
+You could write
+```js
+    .given(['$patient is awaiting discharge', '$patient is still waiting discharge'], function(patient) {
+        // some code
+    });
 ```
 
 #### Functions
 The function is the code you want to execute for a specific line of text. If you don't specify a function then a no-op
-function will be used, which is Yadda's way of implementing a 'Pending' step.
+function will be used, which is one way of implementing a 'Pending' step.
 
 #### Contexts (Shared State)
 The context will be bound with the function before it is executed and provides a non global way to share state between
