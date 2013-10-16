@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.6.5
+ - Dictionaries can now be merged
+
 ## Yadda 0.6.4
  - This release adds jasmine examples
 

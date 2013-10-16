@@ -3,52 +3,46 @@ var Dictionary = require('../lib/index').Dictionary;
 
 describe('Dictionary', function() {
 
-    var dictionary;
-
-    beforeEach(function() {
-        dictionary = new Dictionary();        
-    })
-
     it('should default to a wild card match', function() {
-        assert_definition('$missing', '(.+)');
+        assert_definition(new Dictionary(), '$missing', '(.+)');
     });
 
     it('should expand simple terms', function() {
+        var dictionary = new Dictionary()
+            .define('gender', '(male|female)')
+            .define('speciality', /(cardiovascular|elderly care)/);
 
-        define('gender', '(male|female)');
-        define('speciality', /(cardiovascular|elderly care)/);
-
-        assert_definition('$gender', '(male|female)');
-        assert_definition('$speciality', '(cardiovascular|elderly care)');
-        assert_definition(
-            'Given a $gender, $speciality patient called $name', 
+        assert_definition(dictionary, '$gender', '(male|female)');
+        assert_definition(dictionary, '$speciality', '(cardiovascular|elderly care)');
+        assert_definition(dictionary,
+            'Given a $gender, $speciality patient called $name',
             'Given a (male|female), (cardiovascular|elderly care) patient called (.+)'
         );
     });
 
     it('should expand complex terms', function() {
+        var dictionary = new Dictionary()
+            .define('address_line_1', '$number $street')
+            .define('number', /(\d+)/)
+            .define('street', /(\w+)/);
 
-        define('address_line_1', '$number $street');
-        define('number', /(\d+)/);
-        define('street', /(\w+)/);
-
-        assert_definition('$address_line_1', '(\\d+) (\\w+)');
+        assert_definition(dictionary, '$address_line_1', '(\\d+) (\\w+)');
     });
 
     it('should report duplicate definitions', function() {
-
-        define('gender', '(male|female)');
+        var dictionary = new Dictionary()
+            .define('gender', '(male|female)');
 
         assert.raises(function() {
-            dictionary.define('gender', 'anything');
+            dictionary.define('gender', 'anything')
         }, /Duplicate definition: \[gender\]/);
     });
 
     it('should report cyclic definitions', function() {
-
-        define('direct', '$direct');
-        define('indirect', '$intermediary');
-        define('intermediary', '$indirect');
+        var dictionary = new Dictionary()
+            .define('direct', '$direct')
+            .define('indirect', '$intermediary')
+            .define('intermediary', '$indirect');
 
         assert.raises(function() {
             dictionary.expand('$direct');
@@ -59,11 +53,40 @@ describe('Dictionary', function() {
         }, /Circular Definition: \[indirect, intermediary\]/);
     });
 
-    function assert_definition(term, expected) {
-        assert.equal(dictionary.expand(term), expected);
-    }
+    it('should merge with another dictionary', function() {
+        var dictionary1 = new Dictionary().define('gender', /(male|female)/);
+        var dictionary2 = new Dictionary().define('speciality', /(cardiovascular|elderly care)/);
+        var dictionary3 = dictionary1.merge(dictionary2);
 
-    function define(term, definition) {
-        dictionary.define(term, definition);    
+        assert_definition(dictionary3, '$gender', '(male|female)');
+        assert_definition(dictionary3, '$speciality', '(cardiovascular|elderly care)');
+    });
+
+    it('should maintain prefix when merging dictionaries', function() {
+        var dictionary1 = new Dictionary(':').define('gender', /(male|female)/);
+        var dictionary2 = new Dictionary(':').merge(dictionary1);
+        assert_definition(dictionary2, ':gender', '(male|female)');
+    })
+
+    it('should not merge dictionaries with different prefixes', function() {
+        var dictionary1 = new Dictionary('$');
+        var dictionary2 = new Dictionary(':');
+
+        assert.raises(function() {
+            dictionary1.merge(dictionary2);
+        }, /Cannot merge dictionaries with different prefixes/);
+    });
+
+    it('should report duplicate definitions in merged dictionaries', function() {
+        var dictionary1 = new Dictionary().define('gender', /(male|female)/);
+        var dictionary2 = new Dictionary().define('gender', /(male|female)/);
+
+        assert.raises(function() {
+            dictionary1.merge(dictionary2);
+        }, /Duplicate definition: \[gender\]/);
+    })
+
+    function assert_definition(dictionary, term, expected) {
+        assert.equal(dictionary.expand(term), expected);
     }
 });

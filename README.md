@@ -5,7 +5,7 @@ Yadda brings _true_ BDD to JavaScript test frameworks such as [Jasmine](http://p
 Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the ordinary language steps to code. Not only are the steps less likely to go stale, but they also provide a valuable abstraction layer and encourage re-use. You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-js), but we find Yadda less invasive and prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is smarter too.
 
 ## Installation
-Yadda 0.6.4 is the current verison. See the release notes and examples for more details.
+Yadda 0.6.5 is the current verison. See the release notes and examples for more details.
 
 ### Node based environments (e.g. Mocha)
 ```
@@ -13,7 +13,7 @@ npm install yadda
 ```
 ### Browser based environments (e.g. QUnit)
 ```html
-<script src="./lib/yadda-0.6.4.js"></script>
+<script src="./lib/yadda-0.6.5.js"></script>
 ```
 ## Writing Yadda Tests
 ### Step 1 - Write your scenarios
@@ -26,7 +26,7 @@ Scenario: should fall from the wall
    Given 100 green bottles are standing on the wall
    When 1 green bottle accidentally falls
    Then there are 99 green bottles standing on the wall
-   
+
 @Pending
 Scenario: No bottles are left
 
@@ -134,7 +134,7 @@ We'd be delighted to accept pull requests for more languages and dialects.
 You can add an optional feature description at the top of your file to give some context about the scenarios contained within
 bottles.feature
 ```
-Feature: As a bystander 
+Feature: As a bystander
    I can watch bottles falling from a wall
    So that I can be mildly amused
 
@@ -219,6 +219,15 @@ will expand to
 ```js
 "(?:[Gg]iven|[Aa]nd|[Ww]ith]|[Bb]ut) a street address of (\d+) (\w+)"
 ```
+Dictionaries can also be merged...
+```
+  var shared_dictionary = new Yadda.Dictionary()
+      .define('number', /(\d+1/));
+
+  var feature_specific_dictionary = new Yadda.Dictionary()
+      .merge(shared_dictionary)
+      .define('speciality', /(cardio|elderly|gastro)/);
+```
 
 #### Functions
 The function is the code you want to execute for a specific line of text. If you don't specify a function then a no-op
@@ -270,5 +279,5 @@ The following events are available...
   </tr>
   <tr>
     <td>ON_EXECUTE</td><td>{ step: '100 green bottles...', pattern: '/(\d+) green bottles.../', args: ['100'], ctx: context }</td>
-  </tr>  
+  </tr>
 </table>
