@@ -1,7 +1,7 @@
 var assert = require("assert");
-var TextParser = require('../lib/index').parsers.TextParser;
+var FeatureParser = require('../lib/index').parsers.FeatureParser;
 
-describe('TextPaser', function() {
+describe('FeatureParser', function() {
 
     var simple_scenario = ['Scenario: Simple', '   Given A', '   When B', '   Then C'].join('\n');
     var simple_feature = ['Feature: Tests with feature', 'Scenario: With Feature'].join('\n');
@@ -9,13 +9,12 @@ describe('TextPaser', function() {
     var complex_scenario = ['Scenario: Complex', '', '  ', '   Given A', '', 'When B', ' ', '   Then C'].join('\n');
     var annotated_feature = ['@keyword1=value1', '@keyword2=value2', '@keyword3', 'Feature: Annotated', 'Scenario: Simple', 'Given A', 'When B', 'Then C'].join('\n');
     var annotated_scenario = ['Feature: Simple', '@keyword1=value1', '@keyword2=value2', '@keyword3', 'Scenario: Annotated', 'Given A', 'When B', 'Then C'].join('\n');
-    var missing_scenario = ['Given A', 'When B', 'Then C'].join('\n');    
-
+    var missing_scenario = ['Given A', 'When B', 'Then C'].join('\n');
 
     var parser;
 
     beforeEach(function(){
-        parser = new TextParser();
+        parser = new FeatureParser();
     });
 
     it('should parse a simple scenario', function() {
@@ -59,7 +58,7 @@ describe('TextPaser', function() {
         assert.throws(function() {
             parser.parse(missing_scenario);
         }, /Missing scenario/);
-    });    
+    });
 
     it('should parse feature annotations', function() {
         var feature = parser.parse(annotated_feature);
@@ -74,6 +73,6 @@ describe('TextPaser', function() {
         assert.deepEqual(feature.annotations, {});
         assert.equal(feature.scenarios[0].annotations['keyword1'], 'value1');
         assert.equal(feature.scenarios[0].annotations['keyword2'], 'value2');
-        assert(feature.scenarios[0].annotations['keyword3']);        
-    });    
+        assert(feature.scenarios[0].annotations['keyword3']);
+    });
 });

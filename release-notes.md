@@ -1,5 +1,9 @@
 # Release Notes
 
+## Yadda 0.7.0
+ - TextParser renamed to FeatureParser as per [Issue 12](https://github.com/acuminous/yadda/issues/12).
+ - StepParser added
+
 ## Yadda 0.6.5
  - Dictionaries can now be merged
 

@@ -1,11 +1,11 @@
-// The following code requires casper 1.1 after the following commit 
+// The following code requires casper 1.1 after the following commit
 // https://github.com/n1k0/casperjs/commit/2378537a716a492533a279b8e3bc560ae3deca5a
 
 var fs = require('fs');
 var async = require('async');
 var Yadda = require('yadda');
 
-var TextParser = Yadda.parsers.TextParser;
+var FeatureParser = Yadda.parsers.FeatureParser;
 var Dictionary = Yadda.Dictionary;
 var Library = Yadda.localisation.English;
 
@@ -14,7 +14,7 @@ var yadda = new Yadda.Yadda(library);
 Yadda.plugins.casper(yadda, casper);
 
 function loadScenarios(file) {
-    var parser = new TextParser();
+    var parser = new FeatureParser();
     var text = fs.read(file);
     return parser.parse(text);
 };
