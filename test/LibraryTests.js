@@ -75,16 +75,18 @@ describe('Library', function() {
 
         var givens = [
             'Given a wall with 100 bottles',
-            'Given a wall with 100 bottles',
+            'given a wall with 100 bottles',
             'And a wall with 100 bottles',
-            'and a wall with 100 bottles'
+            'and a wall with 100 bottles',
+            'with   a wall with 100 bottles'
         ];
 
         var whens = [
             'When 1 bottle accidentally falls',
             'when 1 bottle accidentally falls',
             'and 1 bottle accidentally falls',
-            'And 1 bottle accidentally falls'
+            'And 1 bottle accidentally falls',
+            'but  1 bottle accidentally falls'
         ];
 
         var thens = [
@@ -93,12 +95,13 @@ describe('Library', function() {
             'And there are 99 bottles left',
             'and there are 99 bottles left',
             'Expect there are 99 bottles left',
-            'expect there are 99 bottles left'
+            'expect there are 99 bottles left',
+            'but  there are 99 bottles left'
         ];
 
-        assert_localisation(library, givens, '/(?:[Gg]iven|[Ww]ith|[Aa]nd|[Bb]ut|[Ee]xcept) a wall with (\\d+) bottles/');
-        assert_localisation(library, whens, '/(?:[Ww]hen|[Ii]f|[Aa]nd|[Bb]ut) (\\d+) bottle(?:s)? accidentally falls/');
-        assert_localisation(library, thens, '/(?:[Tt]hen|[Ee]xpect|[Aa]nd|[Bb]ut) there are (\\d+) bottles left/');
+        assert_localisation(library, givens, '/(?:[Gg]iven|[Ww]ith|[Aa]nd|[Bb]ut|[Ee]xcept)\\s+a wall with (\\d+) bottles/');
+        assert_localisation(library, whens, '/(?:[Ww]hen|[Ii]f|[Aa]nd|[Bb]ut)\\s+(\\d+) bottle(?:s)? accidentally falls/');
+        assert_localisation(library, thens, '/(?:[Tt]hen|[Ee]xpect|[Aa]nd|[Bb]ut)\\s+there are (\\d+) bottles left/');
     });
 
     it('should supports localised aliased macros', function() {
