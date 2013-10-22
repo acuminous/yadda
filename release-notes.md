@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.7.1
+ - Localised libraries slurp whitespace from the start of steps [Pull 31](https://github.com/acuminous/yadda/pull/31). Thanks [Hans](https://github.com/hans-d).
+
 ## Yadda 0.7.0
  - TextParser renamed to FeatureParser as per [Issue 12](https://github.com/acuminous/yadda/issues/12).
  - StepParser added
