@@ -39,7 +39,7 @@ fi
 if [ ! -e ./node_modules/selenium-webdriver ]; then
 	npm install selenium-webdriver --prefix ./node_modules
 fi
-mocha --reporter spec --timeout 10000 test.js
+mocha --reporter spec --timeout 20000 test.js
 popd
 
 echo Running CasperJS Example
