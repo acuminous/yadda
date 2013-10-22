@@ -5,9 +5,10 @@ Yadda brings _true_ BDD to JavaScript test frameworks such as [Jasmine](http://p
 Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the ordinary language steps to code. Not only are the steps less likely to go stale, but they also provide a valuable abstraction layer and encourage re-use. You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-js), but we find Yadda less invasive and prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is smarter too.
 
 ## Installation
-Yadda 0.7.1 is the current verison, and includes a breaking change from the previous major version
+Yadda 0.7.2 is the current verison, and includes a breaking change from the previous major version
   - The TextParser has been renamed to FeatureParser, and a simpler StepParser added, which assumes no syntax has been added.
   - Localised Given / When / Then steps slurp whitespace from the beginning of step texts.
+  - FeatureParser supports single line comments (any line where the first non whitespace character is a #).
 
 
 ### Node based environments (e.g. Mocha)
@@ -16,7 +17,7 @@ npm install yadda
 ```
 ### Browser based environments (e.g. QUnit)
 ```html
-<script src="./lib/yadda-0.7.1.js"></script>
+<script src="./lib/yadda-0.7.2.js"></script>
 ```
 ## Writing Yadda Tests
 ### Step 1 - Write your scenarios

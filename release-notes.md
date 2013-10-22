@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.7.2
+ - FeatureParser supports single line comments (any line where the first non whitespace character is #)
+
 ## Yadda 0.7.1
  - Localised libraries slurp whitespace from the start of steps [Pull 31](https://github.com/acuminous/yadda/pull/31). Thanks [Hans](https://github.com/hans-d).
 

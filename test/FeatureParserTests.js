@@ -10,6 +10,7 @@ describe('FeatureParser', function() {
     var annotated_feature = ['@keyword1=value1', '@keyword2=value2', '@keyword3', 'Feature: Annotated', 'Scenario: Simple', 'Given A', 'When B', 'Then C'].join('\n');
     var annotated_scenario = ['Feature: Simple', '@keyword1=value1', '@keyword2=value2', '@keyword3', 'Scenario: Annotated', 'Given A', 'When B', 'Then C'].join('\n');
     var missing_scenario = ['Given A', 'When B', 'Then C'].join('\n');
+    var single_line_comments = ['Feature: Single Line Comments', '# Nothing to see here', '## Or here', 'Scenario: No Comment' , ' # Or here', 'Given A', 'When # B', 'Then C #'].join('\n');
 
     var parser;
 
@@ -75,4 +76,13 @@ describe('FeatureParser', function() {
         assert.equal(feature.scenarios[0].annotations['keyword2'], 'value2');
         assert(feature.scenarios[0].annotations['keyword3']);
     });
+
+    it('should support single line comments', function() {
+        var feature = parser.parse(single_line_comments);
+        var scenarios = feature.scenarios;
+        assert.equal(feature.title, 'Single Line Comments');
+        assert.equal(scenarios.length, 1);
+        assert.equal(scenarios[0].title, 'No Comment');
+        assert.deepEqual(scenarios[0].steps, ['Given A', 'When # B', 'Then C #']);
+    })
 });
