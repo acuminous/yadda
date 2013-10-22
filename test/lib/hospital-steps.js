@@ -1,5 +1,5 @@
 var assert = require('assert');
-var Library = require('../../lib/index').localisation.English;
+var English = require('../../lib/index').localisation.English;
 var Hospital = require('./hospital').Hospital;
 var Patient = require('./hospital').Patient;
 var Ward = require('./hospital').Ward;
@@ -7,9 +7,9 @@ var Bed = require('./hospital').Bed;
 
 module.exports.init = function() {
 
-    var hospital, ward, patient, bed, he, she = null;    
+    var hospital, ward, patient, bed, he, she = null;
 
-    var library = new Library()
+    var library = English.library()
 
         .given('that $name is a $gender, $speciality patient at $hospital hospital', function(patient_name, gender, speciality, hospital_name) {
             hospital = hospital ? hospital : new Hospital(hospital_name);

@@ -46,7 +46,7 @@ describe('Library', function() {
 
     it('should report duplicate macros', function() {
 
-        var library = new English()
+        var library = English.library()
             .define(/bar/);
 
         assert.raises(function() {
@@ -68,7 +68,7 @@ describe('Library', function() {
 
     it('should be localised', function() {
 
-        var library = English()
+        var library = English.library()
             .given(/^a wall with (\d+) bottles/)
             .when(/^(\d+) bottle(?:s)? accidentally falls/)
             .then(/^there are (\d+) bottles left/);
@@ -106,7 +106,7 @@ describe('Library', function() {
 
     it('should supports localised aliased macros', function() {
 
-        var library = English()
+        var library = English.library()
             .given([/^a wall with (\d+) bottles/, /^a wall with (\d+) green bottles/])
             .when([/^(\d+) bottle(?:s)? accidentally falls/, /^(\d+) green bottle(?:s)? accidentally falls/])
             .then([/^there are (\d+) bottles left/, /^there are (\d+) green bottles left/]);
