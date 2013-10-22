@@ -1,5 +1,16 @@
 # Release Notes
 
+## Yadda 0.8.2
+ - FeatureParser can be localised. Unfortunately this involved a breaking change to the Yadda.localisation.English API.
+ Thankfully the adjustment is simple.
+ ```js
+// Old Code (< 0.8.0)
+var library = new Yadda.localisation.English(optional_dictionary);
+
+// After  (>= 0.8.0)
+var library = Yadda.localisation.English.library(optional_dictionary);
+```
+
 ## Yadda 0.7.2
  - FeatureParser supports single line comments (any line where the first non whitespace character is #)
 
@@ -237,7 +248,7 @@ library.define('some text', function() {
 ```
 The helper methods are no longer available by default, but you can restore them by including yadda-0.2.2-localisation.js and creating your libraries as instances of Yadda.Library.English, e.g.
 ```js
-var library = new Yadda.Library.English()
+var library = Yadda.Library.English.library()
     .given('a (\\d+) green bottles', function() {
         // some code
     }).when('(\\d+) falls', function() {

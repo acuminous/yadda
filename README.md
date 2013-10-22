@@ -6,12 +6,12 @@ Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it m
 
 ## Installation
 Yadda 0.8.0 is the current verison. It contains breaking changes to Yadda.localisation.English that were required to localise Feature files.
-```js
+ ```js
 // Old Code (< 0.8.0)
-var library = new Yadda.localisation.English();
+var library = new Yadda.localisation.English(optional_dictionary);
 
 // After  (>= 0.8.0)
-var library = Yadda.localisation.English.library();
+var library = Yadda.localisation.English.library(optional_dictionary);
 ```
 
 ### Node based environments (e.g. Mocha)
@@ -20,7 +20,7 @@ npm install yadda
 ```
 ### Browser based environments (e.g. QUnit)
 ```html
-<script src="./lib/yadda-0.7.2.js"></script>
+<script src="./lib/yadda-0.8.0.js"></script>
 ```
 ## Writing Yadda Tests
 ### Step 1 - Write your scenarios
@@ -262,11 +262,20 @@ steps, or pass in define time variables such as an assertion library or 'done' f
 
 It can be a chore to add a context to every step, so a common context can be specified at the interpreter and scenario levels too...
 ```js
- // Shared between all scenarios
-new Yadda.yadda(library, ctx);
+// Shared between all scenarios
+var interpreter_context = { foo: 1, masked: 2 };
+new Yadda.yadda(library, scenario_context);
 
 // Shared between all steps in this scenario
+var scenario_context = { bar: 3, masked: 4 }
 new Yadda.yadda(library).yadda('Some scenario', ctx, done);
+
+new Library()
+    .define('Some text', function() {
+        assert(this.foo == 1);
+        assert(this.bar == 2);
+        assert(this.masked == 4);
+    });
 ```
 If you specify multiple contexts they will be merged before executing the step.
 
