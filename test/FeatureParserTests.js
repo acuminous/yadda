@@ -1,5 +1,6 @@
 var assert = require("assert");
 var FeatureParser = require('../lib/index').parsers.FeatureParser;
+var Language = require('../lib/index').localisation.Language;
 var Pirate = require('../lib/index').localisation.Pirate;
 
 describe('FeatureParser', function() {
@@ -59,6 +60,13 @@ describe('FeatureParser', function() {
         assert.equal(scenarios.length, 1);
         assert.equal(scenarios[0].title, 'The Black Spot');
         assert.deepEqual(scenarios[0].steps, ['Given A', 'When B', 'Then C']);
+    });
+
+    it('should report missing translations', function() {
+        var language = new Language('Incomplete', {});
+        assert.throws(function() {
+            new FeatureParser(language).parse(multiple_feature);
+        }, /Keyword "scenario" has not been translated into Incomplete/);
     });
 
     it('should report steps with no scenario', function() {
