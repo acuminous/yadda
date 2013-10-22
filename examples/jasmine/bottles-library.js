@@ -1,4 +1,4 @@
-var Library = require('../../lib/localisation/English');
+var English = require('../../lib/localisation/English');
 var Dictionary = require('../../lib/Dictionary');
 var assert = require('assert');
 
@@ -8,15 +8,15 @@ module.exports = (function() {
 
     var dictionary = new Dictionary()
         .define('NUM', /(\d+)/);
-        
-    var library = new Library(dictionary)
+
+    var library = English.library(dictionary)
 
     .given("$NUM green bottles are standing on the wall", function(number_of_bottles, next) {
     	wall = new Wall(number_of_bottles);
         next();
     })
 
-    .when("$NUM green bottle accidentally falls", function(number_of_falling_bottles, next) {	
+    .when("$NUM green bottle accidentally falls", function(number_of_falling_bottles, next) {
         wall.fall(number_of_falling_bottles);
         next();
     })

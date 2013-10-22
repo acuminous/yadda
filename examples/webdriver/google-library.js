@@ -8,9 +8,9 @@ module.exports = (function() {
         .define('LOCALE', /(fr|es|ie)/)
         .define('NUM', /(\d+)/);
 
-    var library = new Yadda.localisation.English(dictionary)
+    var library = new Yadda.localisation.English.library(dictionary)
 
-    .when("I open Google's $LOCALE search page", function(locale, next) {  
+    .when("I open Google's $LOCALE search page", function(locale, next) {
         this.driver.get("http://www.google." + locale + "/").then(next);
     })
 
@@ -19,7 +19,7 @@ module.exports = (function() {
         driver.wait(function() {
             return driver.getTitle().then(function(value) {
                 return value === title;
-            }); 
+            });
         }, 5000).then(function() {
             next();
         });
@@ -43,7 +43,7 @@ module.exports = (function() {
         driver.wait(function() {
             return driver.getCurrentUrl().then(function(value) {
                 return new RegExp('q=' + term).test(value);
-            }); 
+            });
         }, 5000).then(function() {
             next();
         });

@@ -7,7 +7,7 @@ var Yadda = require('yadda');
 
 var FeatureParser = Yadda.parsers.FeatureParser;
 var Dictionary = Yadda.Dictionary;
-var Library = Yadda.localisation.English;
+var English = Yadda.localisation.English;
 
 var library = require('./google-library').init();
 var yadda = new Yadda.Yadda(library);

@@ -3,9 +3,9 @@ module.exports.init = function() {
         .define('LOCALE', /(fr|es|ie)/)
         .define('NUM', /(\d+)/);
 
-    var library = new Library(dictionary)
+    var library = English.library(dictionary)
 
-    .when("I open Google's $LOCALE search page", function(locale) {    
+    .when("I open Google's $LOCALE search page", function(locale) {
     	casper.open("http://www.google." + locale + "/");
     })
 
@@ -29,7 +29,7 @@ module.exports.init = function() {
     .then("$NUM or more results were returned", function(number) {
         casper.test.assertEval(function(number) {
             return __utils__.findAll('h3.r').length >= number;
-        }, 'google search retrieves ' + number + ' or more results', [number]);		
+        }, 'google search retrieves ' + number + ' or more results', [number]);
     });
 
     return library;

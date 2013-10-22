@@ -5,11 +5,14 @@ Yadda brings _true_ BDD to JavaScript test frameworks such as [Jasmine](http://p
 Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the ordinary language steps to code. Not only are the steps less likely to go stale, but they also provide a valuable abstraction layer and encourage re-use. You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-js), but we find Yadda less invasive and prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is smarter too.
 
 ## Installation
-Yadda 0.7.2 is the current verison, and includes a breaking change from the previous major version
-  - The TextParser has been renamed to FeatureParser, and a simpler StepParser added, which assumes no syntax has been added.
-  - Localised Given / When / Then steps slurp whitespace from the beginning of step texts.
-  - FeatureParser supports single line comments (any line where the first non whitespace character is a #).
+Yadda 0.8.0 is the current verison. It contains breaking changes to Yadda.localisation.English that were required to localise Feature files.
+```js
+// Old Code (< 0.8.0)
+var library = new Yadda.localisation.English();
 
+// After  (>= 0.8.0)
+var library = Yadda.localisation.English.library();
+```
 
 ### Node based environments (e.g. Mocha)
 ```
@@ -42,10 +45,10 @@ Scenario: No bottles are left
 bottles-library.js
 ```js
 var assert = require('assert');
-var Library = require('yadda').localisation.English;
+var English = require('yadda').localisation.English;
 
 module.exports = (function() {
-  var library = new Library()
+  var library = English.library()
     .given("$NUM green bottles are standing on the wall", function(number, next) {
        wall = new Wall(number);
        next();
@@ -144,9 +147,7 @@ We'd be delighted to accept pull requests for more languages and dialects.
 You can add an optional feature description at the top of your file to give some context about the scenarios contained within
 bottles.feature
 ```
-Feature: As a bystander
-   I can watch bottles falling from a wall
-   So that I can be mildly amused
+Feature: As a bystander, I can watch bottles falling from a wall so that I can be mildly amused
 
 Scenario: should fall from the wall
 
@@ -190,14 +191,14 @@ library.given('^(\\d+) green bottle(?:s){0,1} standing on the wall$', function(n
 #### Regular Expressions
 The regular expression is used to identify which steps are compatible with the input text, and to provide arguments to the function. You can specify step signatures using true RegExp object, which is handy if they contain lots of backslash characters. e.g.
 ```js
-var library = new Yadda.Library.English()
+var library = Yadda.Library.English.library()
     .given(/^(\d+) green bottle(?:s){0,1} standing on the wall$/, function(n) {
         // some code
     });
 ```
 Regular expressions can get pretty ugly, so it's often preferable to relax the regex and use a $term variable which will be replaced with a wildcard i.e. '(.+)'.
 ```js
-var library = new Yadda.Library.English()
+var library = Yadda.Library.English.library()
     .given(/$NUM green bottles standing on the wall/, function(n) {
         // some code
     });
@@ -208,7 +209,7 @@ var dictionary = new Yadda.Dictionary()
     .define('gender', '(male|female)')
     .define('speciaility', '(cardio|elderly|gastro)');
 
-var library = new Yadda.Library.English(dictionary)
+var library = Yadda.localisation.English.library(dictionary)
     .given('a $gender, $speciality patient called $name', function(gender, speciality, name) { /* some code */ });
 ```
 will expand to
@@ -222,7 +223,7 @@ var dictionary = new Yadda.Dictionary()
     .define('number', /(\d+)/)
     .define('street', /(\w+)/);
 
-var library = new Yadda.Library.English(dictionary)
+var library = Yadda.Library.English.localisation(dictionary)
     .given('a street address of $address_line_1', function(number, street) { /* some code */ });
 ```
 will expand to

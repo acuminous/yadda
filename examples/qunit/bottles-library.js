@@ -1,16 +1,16 @@
 var Dictionary = require('yadda').Dictionary;
-var Library = require('yadda').localisation.English;
+var English = require('yadda').localisation.English;
 
 var dictionary = new Dictionary()
     .define('NUM', /(\d+)/);
 
-var library = new Library(dictionary)
+var library = English.library(dictionary)
 
 .given("$NUM green bottles are standing on the wall", function(number_of_bottles) {
 	wall = new Wall(number_of_bottles);
 })
 
-.when("$NUM green bottle accidentally falls", function(number_of_falling_bottles) {	
+.when("$NUM green bottle accidentally falls", function(number_of_falling_bottles) {
     wall.fall(number_of_falling_bottles);
 })
 

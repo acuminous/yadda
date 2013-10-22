@@ -1,5 +1,6 @@
 var assert = require("assert");
 var FeatureParser = require('../lib/index').parsers.FeatureParser;
+var Pirate = require('../lib/index').localisation.Pirate;
 
 describe('FeatureParser', function() {
 
@@ -11,58 +12,63 @@ describe('FeatureParser', function() {
     var annotated_scenario = ['Feature: Simple', '@keyword1=value1', '@keyword2=value2', '@keyword3', 'Scenario: Annotated', 'Given A', 'When B', 'Then C'].join('\n');
     var missing_scenario = ['Given A', 'When B', 'Then C'].join('\n');
     var single_line_comments = ['Feature: Single Line Comments', '# Nothing to see here', '## Or here', 'Scenario: No Comment' , ' # Or here', 'Given A', 'When # B', 'Then C #'].join('\n');
-
-    var parser;
-
-    beforeEach(function(){
-        parser = new FeatureParser();
-    });
+    var pirate_feature = ['Tale: Treasure Island', 'Adventure: The Black Spot', 'Given A', 'When B', 'Then C'].join('\n');
 
     it('should parse a simple scenario', function() {
-        var scenarios = parser.parse(simple_scenario).scenarios;
+        var scenarios = new FeatureParser().parse(simple_scenario).scenarios;
         assert.equal(scenarios.length, 1);
         assert.equal(scenarios[0].title, 'Simple');
         assert.deepEqual(scenarios[0].steps, ['Given A', 'When B', 'Then C']);
     });
 
     it('should parse a complex scenario', function() {
-        var scenarios = parser.parse(complex_scenario).scenarios;
+        var scenarios = new FeatureParser().parse(complex_scenario).scenarios;
         assert.equal(scenarios.length, 1);
         assert.equal(scenarios[0].title, 'Complex');
         assert.deepEqual(scenarios[0].steps, ['Given A', 'When B', 'Then C']);
     });
 
     it('should parses multiple scenarios', function() {
-        var scenarios = parser.parse(simple_scenario + '\n' + complex_scenario).scenarios;
+        var scenarios = new FeatureParser().parse(simple_scenario + '\n' + complex_scenario).scenarios;
         assert.equal(scenarios.length, 2);
         assert.equal(scenarios[0].title, 'Simple');
         assert.equal(scenarios[1].title, 'Complex');
     });
 
     it('should reset scenarios between parses', function() {
+        var parser = new FeatureParser();
         assert.equal(parser.parse(simple_scenario).scenarios.length, 1);
         assert.equal(parser.parse(simple_scenario).scenarios.length, 1);
     });
 
     it('should parse feature title', function() {
-        var feature = parser.parse(simple_feature);
+        var feature = new FeatureParser().parse(simple_feature);
         assert.equal(feature.title, 'Tests with feature');
     });
 
     it('should only allow a single feature', function() {
         assert.throws(function() {
-            parser.parse(multiple_feature);
+            new FeatureParser().parse(multiple_feature);
         }, /single feature/);
+    });
+
+    it('should support multiple languages', function() {
+        var feature = new FeatureParser(Pirate).parse(pirate_feature);
+        assert.equal(feature.title, 'Treasure Island');
+        var scenarios = feature.scenarios;
+        assert.equal(scenarios.length, 1);
+        assert.equal(scenarios[0].title, 'The Black Spot');
+        assert.deepEqual(scenarios[0].steps, ['Given A', 'When B', 'Then C']);
     });
 
     it('should report steps with no scenario', function() {
         assert.throws(function() {
-            parser.parse(missing_scenario);
+            new FeatureParser().parse(missing_scenario);
         }, /Missing scenario/);
     });
 
     it('should parse feature annotations', function() {
-        var feature = parser.parse(annotated_feature);
+        var feature = new FeatureParser().parse(annotated_feature);
 		assert.equal(feature.annotations['keyword1'], 'value1');
 		assert.equal(feature.annotations['keyword2'], 'value2');
         assert(feature.annotations['keyword3']);
@@ -70,7 +76,7 @@ describe('FeatureParser', function() {
     });
 
     it('should parse scenario annotations', function() {
-        var feature = parser.parse(annotated_scenario);
+        var feature = new FeatureParser().parse(annotated_scenario);
         assert.deepEqual(feature.annotations, {});
         assert.equal(feature.scenarios[0].annotations['keyword1'], 'value1');
         assert.equal(feature.scenarios[0].annotations['keyword2'], 'value2');
@@ -78,7 +84,7 @@ describe('FeatureParser', function() {
     });
 
     it('should support single line comments', function() {
-        var feature = parser.parse(single_line_comments);
+        var feature = new FeatureParser().parse(single_line_comments);
         var scenarios = feature.scenarios;
         assert.equal(feature.title, 'Single Line Comments');
         assert.equal(scenarios.length, 1);
