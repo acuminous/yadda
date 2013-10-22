@@ -1,8 +1,8 @@
 var fs = require('fs');
 var path = require('path');
 
-var Yadda = require('../../lib/Yadda');
-var FeatureParser = require('../../lib/parsers/FeatureParser');
+var Yadda = require('../../lib/index');
+var FeatureParser = Yadda.parsers.FeatureParser;
 
 function bySpecification(file) {
     return file.substr(-8) === '.feature';
@@ -21,7 +21,7 @@ function eachScenario(dir, fn) {
 
 eachScenario('./features', function(scenario) {
     var library = require('./bottles-library');
-    var yadda = new Yadda(library);
+    var yadda = new Yadda.Yadda(library);
     exports[scenario.title] = function(test) {
         yadda.yadda(scenario.steps, { test: test }, test.done);
     };

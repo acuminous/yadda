@@ -66,7 +66,7 @@ describe('FeatureParser', function() {
         var language = new Language('Incomplete', {});
         assert.throws(function() {
             new FeatureParser(language).parse(multiple_feature);
-        }, /Keyword "scenario" has not been translated into Incomplete/);
+        }, /Keyword "feature" has not been translated into Incomplete/);
     });
 
     it('should report steps with no scenario', function() {
