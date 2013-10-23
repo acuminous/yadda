@@ -1,8 +1,6 @@
 Feature: Mocha Synchronous Example
-Oh Yeah!
 
 Scenario: A bottle falls from the wall
-Oh Yeah!
 
     Given 100 green bottles are standing on the wall
     when 1 green bottle accidentally falls
