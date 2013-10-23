@@ -94,7 +94,7 @@ feature('./bottles.feature', function(feature) {
     - No bottles are left
 ```
 
-## Features
+## Yadda In Depth
 ### Supported Libraries
 Yadda works with Mocha, Jasmine, QUnit, Nodeunit, ZombieJS, CasperJS and WebDriver. See the examples for details.
 
