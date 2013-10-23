@@ -102,6 +102,15 @@ describe('FeatureParser', function() {
         assert.deepEqual(scenarios[0].steps, ['Given A', 'When # B', 'Then C #']);
     })
 
+    it('should parse multiline comments', function() {
+        var feature = parse_file('multiline_comment');
+        var scenarios = feature.scenarios;
+        assert.equal(feature.title, 'Simple Feature');
+        assert.equal(scenarios.length, 1);
+        assert.equal(scenarios[0].title, 'Simple Scenario');
+        assert.deepEqual(scenarios[0].steps, ['Given A', 'When B', 'Then C']);
+    });
+
     function parse_file(filename, language) {
         return new FeatureParser(language).parse(load(filename));
     }

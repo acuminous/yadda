@@ -1,4 +1,5 @@
 # Yadda
+[![Build Status](https://travis-ci.org/acuminous/yadda.png)](https://travis-ci.org/acuminous/yadda)
 Yadda brings _true_ BDD to JavaScript test frameworks such as [Jasmine](http://pivotal.github.io/jasmine/), [Mocha](http://visionmedia.github.io/mocha/), [QUnit](http://qunitjs.com), [Nodeunit](https://github.com/caolan/nodeunit), [WebDriverJs](code.google.com/p/selenium/wiki/WebDriverJs) and [CasperJS](http://casperjs.org). By _true_ BDD we mean that the ordinary language (e.g. English) steps are mapped to code, as opposed to simply decorating it. This is important because just like comments, the decorative steps such as those used by
 [Jasmine](http://pivotal.github.com/jasmine), [Mocha](http://visionmedia.github.io/mocha) and [Vows](http://vowsjs.org), can fall out of date and are a form of duplication.
 
@@ -147,7 +148,9 @@ We'd be delighted to accept pull requests for more languages and dialects.
 You can add an optional feature description at the top of your file to give some context about the scenarios contained within
 bottles.feature
 ```
-Feature: As a bystander, I can watch bottles falling from a wall so that I can be mildly amused
+Feature: As a bystander,
+I can watch bottles falling from a wall
+so that I can be mildly amused
 
 Scenario: should fall from the wall
 
@@ -176,6 +179,39 @@ Scenario: should fall from the wall
    Given 100 green bottles are standing on the wall
    When 1 green bottle accidentally falls
    Then there are 99 green bottles standing on the wall
+```
+
+### Comments
+You can add single line or block comments too.
+bottles.feature
+```
+###
+  This
+  is
+  a
+  block
+  comment
+###
+Feature: As a bystander
+    I can watch bottles falling from a wall
+    So that I can be mildly amused
+
+# Marked as pending until verified by customer - SC 300BC
+@Pending
+Scenario: should fall from the wall
+
+   Given 100 green bottles are standing on the wall
+   When 1 green bottle accidentally falls
+   Then there are 99 green bottles standing on the wall
+```
+But you can't do this...
+```
+Feature: As a bystander
+    I can watch bottles falling from a wall
+
+    # A blank line will always terminate a feature or scenario description
+
+    So that I can be mildly amused
 ```
 
 ### Step Anatomy
