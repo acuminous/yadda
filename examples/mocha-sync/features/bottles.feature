@@ -1,6 +1,8 @@
 Feature: Mocha Synchronous Example
+Oh Yeah!
 
 Scenario: A bottle falls from the wall
+Oh Yeah!
 
     Given 100 green bottles are standing on the wall
     when 1 green bottle accidentally falls
@@ -10,7 +12,7 @@ Scenario: No bottles are left
 
     Given 1 green bottles are standing on the wall
     when 1 green bottle accidentally falls
-    then there are 0 green bottles standing on the wall 
+    then there are 0 green bottles standing on the wall
 
 @Pending
 Scenario: Bottles are reset

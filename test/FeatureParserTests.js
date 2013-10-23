@@ -40,12 +40,12 @@ describe('FeatureParser', function() {
 
     it('should parse multiline feature titles', function() {
         var feature = parse_file('multiline_feature');
-        assert.equal(feature.title, 'Multi\nLine\nFeature\nOh Yeah!');
+        assert.equal(feature.title.join(' '), 'Multi Line Feature Oh Yeah!');
     });
 
     it('should parse multiline scenario titles', function() {
         var feature = parse_file('multiline_scenario');
-        assert.equal(feature.scenarios[0].title, 'Multi\nLine\nScenario\nOh Yeah!');
+        assert.equal(feature.scenarios[0].title.join(' '), 'Multi Line Scenario Oh Yeah!');
     });
 
     it('should only allow a single feature', function() {
