@@ -187,11 +187,8 @@ You can add single line or block comments too.
 bottles.feature
 ```
 ###
-  This
-  is
-  a
-  block
-  comment
+  This is  a
+  block comment
 ###
 Feature: As a bystander
     I can watch bottles falling from a wall
