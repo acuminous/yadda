@@ -147,7 +147,6 @@ We'd be delighted to accept pull requests for more languages and dialects.
 
 ### Feature Descriptions
 You can add an optional feature description at the top of your file to give some context about the scenarios contained within
-bottles.feature
 ```
 Feature: As a bystander,
 I can watch bottles falling from a wall
@@ -164,12 +163,9 @@ There can only be a single feature present in a file - it really doesn't make se
 
 ### Annotations
 Annotations can be added to a feature or scenario to enable you to do any kind of pre-processing required.  These take the form of either single value tags or key/value pairs and can be added like this:
-
-bottles.feature
 ```
 @Browser=chrome
 @Theme=bottles
-
 Feature: As a bystander
     I can watch bottles falling from a wall
     So that I can be mildly amused
@@ -184,7 +180,6 @@ Scenario: should fall from the wall
 
 ### Comments
 You can add single line or block comments too.
-bottles.feature
 ```
 ###
   This is  a
