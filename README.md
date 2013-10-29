@@ -6,15 +6,17 @@ Yadda brings _true_ BDD to JavaScript test frameworks such as [Jasmine](http://p
 
 Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the ordinary language steps to code. Not only are the steps less likely to go stale, but they also provide a valuable abstraction layer and encourage re-use. You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-js), but we find Yadda less invasive and prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is smarter too.
 
-## Installation
+## Latest Version
 Yadda 0.8.0 is the current verison. It contains breaking changes to Yadda.localisation.English that were required to localise Feature files.
  ```js
 // Old Code (< 0.8.0)
 var library = new Yadda.localisation.English(optional_dictionary);
 
-// After  (>= 0.8.0)
+// New Code  (>= 0.8.0)
 var library = Yadda.localisation.English.library(optional_dictionary);
 ```
+
+## Installation
 
 ### Node based environments (e.g. Mocha)
 ```

@@ -38,15 +38,12 @@ describe('FeatureParser', function() {
         assert.equal(feature.title, 'Simple Feature');
     });
 
-    it('should parse multiline feature titles', function() {
-        var feature = parse_file('multiline_feature');
-        assert.equal(feature.title.join(' '), 'Multi Line Feature Oh Yeah!');
+    it('should parse feature descriptions', function() {
+        var feature = parse_file('feature_description');
+        assert.equal(feature.title, 'Feature Description');
+        assert.equal(feature.description.join(' - '), 'As a wood chopper - I want to maintain a sharp axe - So that I can chop wood')
     });
 
-    it('should parse multiline scenario titles', function() {
-        var feature = parse_file('multiline_scenario');
-        assert.equal(feature.scenarios[0].title.join(' '), 'Multi Line Scenario Oh Yeah!');
-    });
 
     it('should only allow a single feature', function() {
         assert.throws(function() {
