@@ -3,6 +3,7 @@
 ## Yadda 0.8.1
  - Any text between a Feature line and a Scenario line is ignored.
  - Added support for multiline comments
+ - Norweigian Localisation - thanks [kjelloe](https://github.com/kjelloe).
 
 ## Yadda 0.8.0
  - FeatureParser can be localised. Unfortunately this involved a breaking change to the Yadda.localisation.English API.
