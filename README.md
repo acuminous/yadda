@@ -7,7 +7,7 @@ Yadda brings _true_ BDD to JavaScript test frameworks such as [Jasmine](http://p
 Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the ordinary language steps to code. Not only are the steps less likely to go stale, but they also provide a valuable abstraction layer and encourage re-use. You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-js), but we find Yadda less invasive and prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is smarter too.
 
 ## Latest Version
-Yadda 0.8.1 is the current verison, which includes support for feature descriptions, multiline comments and Norweigian localisation (thanks [kjelloe](https://github.com/kjelloe))
+Yadda 0.8.1 is the current verison, which includes support for feature descriptions, multiline comments and Norwegian localisation (thanks [kjelloe](https://github.com/kjelloe))
 
 Please note 0.8.0 contained breaking changes to Yadda.localisation.English that were required to localise Feature files.
  ```js
@@ -149,7 +149,7 @@ new Yadda.yadda(library).yadda([
 ```
 We'd be delighted to accept pull requests for more languages and dialects. Many thanks to the following language contributors
 
- - Norweigan [kjelloe](https://github.com/kjelloe)
+ - [kjelloe](https://github.com/kjelloe) - Norwegian
 
 ### Feature Descriptions
 You can add an optional feature description at the top of your file to give some context about the scenarios contained within
