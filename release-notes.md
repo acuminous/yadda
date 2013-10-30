@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.8.2
+ - Fixeds a bug in the mocha plugin output
+
 ## Yadda 0.8.1
  - Any text between a Feature line and a Scenario line is ignored.
  - Added support for multiline comments
