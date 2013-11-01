@@ -45,6 +45,9 @@ popd
 echo Running CasperJS Example
 pushd ./examples/casper > /dev/null
 mkdir -p node_modules
+if [ ! -e ./node_modules/process ]; then
+    npm install process --prefix ./node_modules
+fi
 if [ ! -e ./node_modules/async ]; then
     npm install async --prefix ./node_modules
 fi

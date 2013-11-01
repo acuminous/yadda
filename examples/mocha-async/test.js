@@ -1,7 +1,9 @@
 var Yadda = require('yadda');
 Yadda.plugins.mocha();
 
-feature('./features/bottles.feature', function(feature) {
+var all_features = new Yadda.FileSearch('features').list();
+
+feature(all_features, function(feature) {
 
     var library = require('./bottles-library');
     var yadda = new Yadda.Yadda(library);
