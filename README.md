@@ -54,7 +54,7 @@ var assert = require('assert');
 var English = require('yadda').localisation.English;
 
 module.exports = (function() {
-  var library = English.library()
+  return English.library()
     .given("$NUM green bottles are standing on the wall", function(number, next) {
        wall = new Wall(number);
        next();
@@ -77,7 +77,6 @@ bottles-test.js
 ```js
 var Yadda = require('yadda');
 Yadda.plugins.mocha();
-var
 
 feature('./bottles.feature', function(feature) {
 
