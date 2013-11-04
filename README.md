@@ -52,7 +52,7 @@ bottles-library.js
 ```js
 var assert = require('assert');
 var English = require('yadda').localisation.English;
-var Wall = require('wall'); // The library that you wish to test 
+var Wall = require('./wall'); // The library that you wish to test 
 
 module.exports = (function() {
   return English.library()
@@ -89,8 +89,17 @@ feature('./bottles.feature', function(feature) {
   });
 });
 ```
-
-### Step 4 - Run your tests
+### Step 4 - Write your code
+wall.js
+```js
+module.exports = function(bottles) {
+  this.bottles = bottles;
+  this.fall = function(n) {
+    this.bottles -= n;
+  }
+};
+```
+### Step 5 - Run your tests
 ```
   mocha --reporter spec bottles-test.js
 
