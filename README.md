@@ -52,6 +52,7 @@ bottles-library.js
 ```js
 var assert = require('assert');
 var English = require('yadda').localisation.English;
+var Wall = require('wall'); // The library that you wish to test 
 
 module.exports = (function() {
   return English.library()
