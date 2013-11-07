@@ -3,24 +3,33 @@
 echo Running Mocha Sync Example
 pushd ./examples/mocha-sync > /dev/null
 mkdir -p node_modules
+if [ ! -e ./node_modules/mocha ]; then
+    npm install mocha --prefix ./node_modules
+fi
 if [ ! -e ./node_modules/yadda ]; then
 	ln -sf ../../.. node_modules/yadda
 fi
-mocha --reporter spec test.js
+./node_modules/mocha/bin/mocha --reporter spec test.js
 popd
 
 echo Running Mocha Async Example
 pushd ./examples/mocha-async > /dev/null
 mkdir -p node_modules
+if [ ! -e ./node_modules/mocha ]; then
+    npm install mocha --prefix ./node_modules
+fi
 if [ ! -e ./node_modules/yadda ]; then
 	ln -sf ../../.. node_modules/yadda
 fi
-mocha --reporter spec test.js
+./node_modules/mocha/bin/mocha --reporter spec test.js
 popd
 
 echo Running Jasmine Example
 pushd ./examples/jasmine > /dev/null
 mkdir -p node_modules
+if [ ! -e ./node_modules/jasmine-node ]; then
+    npm install jasmine-node --prefix ./node_modules
+fi
 if [ ! -e ./node_modules/yadda ]; then
     ln -sf ../../.. node_modules/yadda
 fi
