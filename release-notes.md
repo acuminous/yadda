@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.8.4
+ - Improvements to locations suggested by [kjelloe](https://github.com/kjelloe).
+
 ## Yadda 0.8.3
  - Adds a FileSearch class so you can slurp feature files by directory and pattern instead of having to explicitly list them in your tests.
 
