@@ -304,26 +304,26 @@ function will be used, which is one way of implementing a 'Pending' step.
 
 #### Contexts (Shared State)
 The context will be bound with the function before it is executed and provides a non global way to share state between
-steps, or pass in define time variables such as an assertion library or 'done' function. The context is also optional.
+steps, or pass in define time variables such as an assertion library or 'done' function. The context is optional.
 
-It can be a chore to add a context to every step, so a common context can be specified at the interpreter and scenario levels too...
+It can be a chore to add a context to every step, so a common context can be specified at the interpreter and scenario levels too. If you specify multiple contexts (as in the following example) they will be merged before executing the step.
+
 ```js
-// Shared between all scenarios
-var interpreter_context = { foo: 1, masked: 2 };
-new Yadda.yadda(library, scenario_context);
+var interpreter_context = { foo: 1, masked: 2 }; // Shared between all scenarios
+var scenario_context = { bar: 3, masked: 4 };    // Shared between all steps in this scenario
+var step_context = { meh: 5, masked: 6 };        // Not shared between steps 
 
-// Shared between all steps in this scenario
-var scenario_context = { bar: 3, masked: 4 }
-new Yadda.yadda(library).yadda('Some scenario', ctx, done);
-
-new Library()
-    .define('Some text', function() {
+var library = new Library()
+    .define('Context Demonstration', function() {
         assert(this.foo == 1);
-        assert(this.bar == 2);
-        assert(this.masked == 4);
-    });
+        assert(this.bar == 3);
+        assert(this.meh == 5);
+        assert(this.masked == 6);
+    }, step_context);
+
+new Yadda.yadda(library, interpeter_context).yadda('Context Demonstration', scenario_context);
+
 ```
-If you specify multiple contexts they will be merged before executing the step.
 
 #### Step Conflicts
 One issue you find with BDD libraries, is that two steps might match the same input text. Usually this results in an error, and you end up having to add some extra text to one of the steps in order to differentiate it. Yadda attempts to minimise this in three ways.
