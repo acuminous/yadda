@@ -16,9 +16,13 @@
             var scenarios = new FeatureParser().parse(text).scenarios;
             for (var i = 0; i < scenarios.length; i++) {
                 var scenario = scenarios[i];
-                test(scenario.title, function() {
-                    new Yadda.Yadda(library).yadda(scenario.steps);
-                });
+                test(scenario.title, buildTest(scenario));
+
+                function buildTest(scenario) {
+                    return function() {
+                        new Yadda.Yadda(library).yadda(scenario.steps);
+                    }
+                };
             };
         };
     </script>
