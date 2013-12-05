@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.8.6
+ - Fixes bug in qunit example contributed by [RaulMB](https://github.com/RaulMB
+
 ## Yadda 0.8.5
  - Fixes to localisation contributed by [kjell](https://github.com/kjelloe).
 
