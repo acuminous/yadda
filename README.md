@@ -39,13 +39,6 @@ Scenario: should fall from the wall
    Given 100 green bottles are standing on the wall
    When 1 green bottle accidentally falls
    Then there are 99 green bottles standing on the wall
-
-@Pending
-Scenario: No bottles are left
-
-    Given 1 green bottles are standing on the wall
-    when 1 green bottle accidentally falls
-    then there are 0 green bottles standing on the wall
 ```
 ### Step 2 - Implement the step library
 bottles-library.js
@@ -105,7 +98,6 @@ module.exports = function(bottles) {
 
   100 Green Bottles
     ✓ should fall from the wall
-    - No bottles are left
 ```
 
 ## Yadda In Depth
@@ -179,7 +171,7 @@ Scenario: should fall from the wall
 There can only be a single feature present in a file - it really doesn't make sense to have two, and you will be issued with an error if you try to include more than one.
 
 ### Annotations
-Annotations can be added to a feature or scenario to enable you to do any kind of pre-processing required.  These take the form of either single value tags or key/value pairs and can be added like this:
+Annotations can be added to a feature or scenario and may take the form of either single value tags or key/value pair. The mocha and jasmine plugins already support @Pending annotations on features and scenarios out of the box, although [skipping tests in jasmine causes them to be excluded from the report](https://github.com/pivotal/jasmine/issues/274).
 ```
 @Browser=chrome
 @Theme=bottles
@@ -194,6 +186,7 @@ Scenario: should fall from the wall
    When 1 green bottle accidentally falls
    Then there are 99 green bottles standing on the wall
 ```
+If you're using a different test framework or want custom annoations you'll need to write the code that process the annotations from the parsed feature or scenario. The [MochaPlugin](https://github.com/acuminous/yadda/blob/master/lib/plugins/MochaPlugin.js) is a good starting point.
 
 ### Comments
 You can add single line or block comments too.
