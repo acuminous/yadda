@@ -44,11 +44,21 @@ describe('FeatureParser', function() {
         assert.equal(feature.description.join(' - '), 'As a wood chopper - I want to maintain a sharp axe - So that I can chop wood')
     });
 
-
     it('should only allow a single feature', function() {
         assert.throws(function() {
             parse_file('multiple_features');
         }, /Feature is unexpected/);
+    });
+
+    it('should expand scenarios with examples', function() {
+        var scenarios = parse_file('example_scenarios').scenarios;
+        assert.equal(scenarios.length, 2);
+        assert.equal(scenarios[0].title, 'First Scenario');
+        assert.equal(scenarios[0].steps[0], 'Step A1')
+        assert.equal(scenarios[0].steps[1], 'Step 1A')
+        assert.equal(scenarios[1].title, 'Second Scenario');
+        assert.equal(scenarios[1].steps[0], 'Step B2')
+        assert.equal(scenarios[1].steps[1], 'Step 2B')
     });
 
     it('should support multiple languages', function() {
