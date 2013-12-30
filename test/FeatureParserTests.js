@@ -48,7 +48,7 @@ describe('FeatureParser', function() {
     it('should only allow a single feature', function() {
         assert.throws(function() {
             parse_file('multiple_features');
-        }, /single feature/);
+        }, /Feature is unexpected/);
     });
 
     it('should support multiple languages', function() {

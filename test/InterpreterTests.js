@@ -1,4 +1,4 @@
-var assert = require('./lib/assert');
+var assert = require('assert');
 var Yadda = require('../lib/index');
 var Interpreter = Yadda.Interpreter;
 var EventBus = Yadda.EventBus;
@@ -70,7 +70,7 @@ describe('Interpreter', function() {
         var library = new Library();
         var interpreter = new Interpreter(library);
 
-        assert.raises(function() {
+        assert.throws(function() {
             interpreter.interpret('Blah blah blah');
         }, /Undefined Step: \[Blah blah blah\]/);
     });

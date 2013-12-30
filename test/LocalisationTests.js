@@ -1,4 +1,4 @@
-var assert = require('./lib/assert');
+var assert = require('assert');
 var Yadda = require('../lib/index');
 var Interpreter = Yadda.Interpreter;
 var Counter = require('./Counter');

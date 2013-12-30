@@ -1,1 +1,3 @@
-exclude.js
+module.exports = {
+    // exclude this
+}

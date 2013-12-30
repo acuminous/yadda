@@ -1,4 +1,4 @@
-var assert = require('./lib/assert');
+var assert = require('assert');
 var Library = require('../lib/index').Library;
 var English = require('../lib/index').localisation.English;
 var Dictionary = require('../lib/Dictionary');
@@ -49,7 +49,7 @@ describe('Library', function() {
         var library = English.library()
             .define(/bar/);
 
-        assert.raises(function() {
+        assert.throws(function() {
             library.define(/bar/);
         }, /Duplicate macro: \[\/bar\/\]/)
     });

@@ -1,4 +1,4 @@
-var assert = require('./lib/assert');
+var assert = require('assert');
 var Dictionary = require('../lib/index').Dictionary;
 
 describe('Dictionary', function() {
@@ -33,7 +33,7 @@ describe('Dictionary', function() {
         var dictionary = new Dictionary()
             .define('gender', '(male|female)');
 
-        assert.raises(function() {
+        assert.throws(function() {
             dictionary.define('gender', 'anything')
         }, /Duplicate definition: \[gender\]/);
     });
@@ -44,11 +44,11 @@ describe('Dictionary', function() {
             .define('indirect', '$intermediary')
             .define('intermediary', '$indirect');
 
-        assert.raises(function() {
+        assert.throws(function() {
             dictionary.expand('$direct');
         }, /Circular Definition: \[direct\]/);
 
-        assert.raises(function() {
+        assert.throws(function() {
             dictionary.expand('$indirect');
         }, /Circular Definition: \[indirect, intermediary\]/);
     });
@@ -72,7 +72,7 @@ describe('Dictionary', function() {
         var dictionary1 = new Dictionary('$');
         var dictionary2 = new Dictionary(':');
 
-        assert.raises(function() {
+        assert.throws(function() {
             dictionary1.merge(dictionary2);
         }, /Cannot merge dictionaries with different prefixes/);
     });
@@ -81,7 +81,7 @@ describe('Dictionary', function() {
         var dictionary1 = new Dictionary().define('gender', /(male|female)/);
         var dictionary2 = new Dictionary().define('gender', /(male|female)/);
 
-        assert.raises(function() {
+        assert.throws(function() {
             dictionary1.merge(dictionary2);
         }, /Duplicate definition: \[gender\]/);
     })

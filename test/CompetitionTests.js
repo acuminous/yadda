@@ -1,4 +1,4 @@
-var assert = require('./lib/assert');
+var assert = require('assert');
 var Macro = require('../lib/Macro');
 var Competition = require('../lib/Competition');
 
@@ -18,7 +18,7 @@ describe('Competition', function() {
         var equal_match = new Macro('equal', /given 1 (.+) patient/);
         var competition = new Competition('given 1 male patient', [best_match, equal_match]);
 
-        assert.raises(function() {
+        assert.throws(function() {
             competition.clear_winner();
         }, /Ambiguous Step: \[given 1 male patient\]/);
     });
@@ -26,7 +26,7 @@ describe('Competition', function() {
     it("Should support no winner", function() {
         var competition = new Competition('given 1 male patient', []);
 
-        assert.raises(function() {
+        assert.throws(function() {
             competition.clear_winner();
         }, /Undefined Step: \[given 1 male patient\]/);
     });
