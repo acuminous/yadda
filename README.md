@@ -186,7 +186,7 @@ Scenario: should fall from the wall
    When 1 green bottle accidentally falls
    Then there are 99 green bottles standing on the wall
 ```
-If you're using a different test framework or want custom annoations you'll need to write the code that process the annotations from the parsed feature or scenario, e.g.
+Next you'll need to write the code that process the annotations from the parsed feature or scenario, e.g.
 
 ```js
 var Yadda = require('yadda');
