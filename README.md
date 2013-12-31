@@ -7,7 +7,7 @@ Yadda brings _true_ BDD to JavaScript test frameworks such as [Jasmine](http://p
 Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the ordinary language steps to code. Not only are the steps less likely to go stale, but they also provide a valuable abstraction layer and encourage re-use. You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-js), but we find Yadda less invasive and prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is smarter too.
 
 ## Latest Version
-Yadda 0.8.6 is the current verison, which fixes a bug with the qunit example. Thanks [RaulMB](https://github.com/RaulMB).
+Yadda 0.9.0 is the current verison, which includes (long awaited) support for Example Tables - see [issue 15](github.com/acuminous/yadda/issues/15). Thanks for your patience). This was quite a large change, involving a complete re-write of the FeatureParser. The file format **should** be backwards compatible, but please raise an issue, if your feature files suddenly stop working.
 
 Please note 0.8.0 contained breaking changes to Yadda.localisation.English that were required to localise Feature files.
  ```js
@@ -26,7 +26,7 @@ npm install yadda
 ```
 ### Browser based environments (e.g. QUnit)
 ```html
-<script src="./lib/yadda-0.8.6.js"></script>
+<script src="./lib/yadda-0.9.0.js"></script>
 ```
 ## Writing Yadda Tests
 ### Step 1 - Write your scenarios
@@ -215,6 +215,47 @@ Feature: As a bystander
     # A blank line will always terminate a feature or scenario description
 
     So that I can be mildly amused
+```
+### Example Tables
+Example Tables are supported as of 0.9.0. When the following feature file is parsed
+
+bottles.feature
+```
+Feature: 100 Green Bottles
+
+Scenario: should fall in groups of [Falling]
+
+   Given 100 green bottles are standing on the wall
+   When [Falling] green bottles accidentally fall
+   Then there are [Remaining] green bottles standing on the wall
+
+   Where:
+      Falling | Remaining
+      2       | 98
+      10      | 90
+      100     | 0 
+```
+it will produce three scenarios, identical to
+```
+Feature: 100 Green Bottles
+
+Scenario: should fall in groups of 2
+
+   Given 100 green bottles are standing on the wall
+   When 2 green bottles accidentally fall
+   Then there are 98 green bottles standing on the wall
+
+Scenario: should fall in groups of 10
+
+   Given 100 green bottles are standing on the wall
+   When 10 green bottles accidentally fall
+   Then there are 90 green bottles standing on the wall
+
+Scenario: should fall in groups of 100
+
+   Given 100 green bottles are standing on the wall
+   When 100 green bottles accidentally fall
+   Then there are 0 green bottles standing on the wall      
 ```
 
 ### Step Anatomy

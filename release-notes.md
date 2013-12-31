@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.9.0
+ - Adds support for example tables
+
 ## Yadda 0.8.6
  - Fixes bug in qunit example contributed by [RaulMB](https://github.com/RaulMB
 
