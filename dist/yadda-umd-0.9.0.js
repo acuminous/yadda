@@ -1062,7 +1062,7 @@ module.exports = (function() {
         feature: '(?:[Tt]ale|[Yy]arn)',
         scenario: '(?:[Aa]dventure|[Ss]ortie)',
         examples: '[Ww]herest',
-        pending: '[Bb]rig',
+        pending: 'Brig',
         given: '(?:[Gg]iveth|[Ww]ith|[Aa]nd|[Bb]ut|[Ee]xcept)',
         when: '(?:[Ww]hence|[Ii]f|[Aa]nd|[Bb]ut)',
         then: '(?:[Tt]hence|[Ee]xpect|[Aa]nd|[Bb]ut)',
@@ -1204,6 +1204,7 @@ var Specification = function() {
 
     function stash_annotation(event, annotation) {
         feature_annotations[annotation.key] = annotation.value;
+        feature_annotations[annotation.key.toLowerCase()] = annotation.value;
     };
 
     function start_feature(event, title) {
@@ -1224,7 +1225,7 @@ var Specification = function() {
     };
 
     this.export = function() {
-        if (!feature) throw new Error('Missing scenario');
+        if (!feature) throw new Error('A feature must contain one or more scenarios');
         return feature.export();
     };
 };
@@ -1244,6 +1245,7 @@ var Feature = function(title, annotations) {
 
     function stash_annotation(event, annotation) {
         scenario_annotations[annotation.key] = annotation.value;
+        scenario_annotations[annotation.key.toLowerCase()] = annotation.value;
     };
 
     function capture_description(event, text) {
@@ -1509,7 +1511,7 @@ module.exports = function(options) {
 
     function async_scenarios(scenarios, next) {
         scenarios.forEach(function(scenario) {
-            var _it = scenario.annotations.Pending ? xit : it;
+            var _it = scenario.annotations[language.localise('pending')] ? xit : it;
             _it(scenario.title, function(done) {
                 next(scenario, done)
             });
@@ -1518,7 +1520,7 @@ module.exports = function(options) {
 
     function sync_scenarios(scenarios, next) {
         scenarios.forEach(function(scenario) {
-            var _it = scenario.annotations.Pending ? xit : it;
+            var _it = scenario.annotations[language.localise('pending')] ? xit : it;
             _it(scenario.title, function() {
                 next(scenario)
             });
