@@ -2,6 +2,8 @@
 
 ## Yadda 0.9.0
  - Adds support for example tables
+ - Fixes a bug in the MochaPlugin which didn't recognise non English @Pending annotations on scenarios
+ - Adds both original and lowercase annotations to the feature / scenarios, so that code which accesses them looks more normal
 
 ## Yadda 0.8.6
  - Fixes bug in qunit example contributed by [RaulMB](https://github.com/RaulMB

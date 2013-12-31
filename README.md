@@ -7,7 +7,7 @@ Yadda brings _true_ BDD to JavaScript test frameworks such as [Jasmine](http://p
 Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the ordinary language steps to code. Not only are the steps less likely to go stale, but they also provide a valuable abstraction layer and encourage re-use. You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-js), but we find Yadda less invasive and prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is smarter too.
 
 ## Latest Version
-Yadda 0.9.0 is the current verison, which includes (long awaited) support for Example Tables - see [issue 15](github.com/acuminous/yadda/issues/15). This was quite a large change, involving a complete re-write of the FeatureParser. The file format **should** be backwards compatible, but please raise an issue if your feature files suddenly stop working after the upgrade from 0.8.x.
+Yadda 0.9.0 is the current verison, which includes a localisation fix for the Pending annotation and (long awaited) support for Example Tables - see [issue 15](github.com/acuminous/yadda/issues/15). This was quite a large change, involving a complete re-write of the FeatureParser. The file format **should** be backwards compatible, but please raise an issue if your feature files suddenly stop working after the upgrade from 0.8.x.
 
 Please note 0.8.0 contained breaking changes to Yadda.localisation.English that were required to localise Feature files.
  ```js
