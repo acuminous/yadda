@@ -195,13 +195,13 @@ var all_features = new Yadda.FileSearch('features').list();
 
 features(all_features, function(feature) {
 
-    console.log(feature.annotations['Theme']);
+    console.log(feature.annotations.Theme);
 
     var library = require('./bottles-library');
     var yadda = new Yadda.Yadda(library);
 
     scenarios(feature.scenarios, function(scenario) {
-        if (scenario.annotations.teardown) library.teardown();
+        if (scenario.annotations.Teardown) library.teardown();
         yadda.yadda(scenario.steps);
     });
 });
