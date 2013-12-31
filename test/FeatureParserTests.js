@@ -109,9 +109,11 @@ describe('FeatureParser', function() {
         assert.equal(feature.title, 'Treasure Island');
 
         var scenarios = feature.scenarios;
-        assert.equal(scenarios.length, 1);
+        assert.equal(scenarios.length, 2);
         assert.equal(scenarios[0].title, 'The Black Spot');
         assert.deepEqual(scenarios[0].steps, ['Given A', 'When B', 'Then C']);
+
+        assert(scenarios[1].annotations.brig, 'Localised scenario was not marked as pending');
     });
 
     it('should report missing translations', function() {
@@ -124,7 +126,7 @@ describe('FeatureParser', function() {
     it('should report steps with no scenario', function() {
         assert.throws(function() {
             parse_file('missing_scenario');
-        }, /Missing scenario/);
+        }, /A feature must contain one or more scenarios/);
     });
 
     it('should parse feature annotations', function() {
