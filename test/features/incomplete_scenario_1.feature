@@ -1,0 +1,1 @@
+Scenario: Has no steps

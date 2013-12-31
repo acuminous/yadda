@@ -50,15 +50,58 @@ describe('FeatureParser', function() {
         }, /Feature is unexpected/);
     });
 
+    it('should report incomplete scenarios', function() {
+        assert.throws(function() {
+            parse_file('incomplete_scenario_1');
+        }, /Scenario requires one or more steps/);
+
+        assert.throws(function() {
+            parse_file('incomplete_scenario_2');
+        }, /Scenario requires one or more steps/);
+
+        assert.throws(function() {
+            parse_file('incomplete_scenario_3');
+        }, /Scenario requires one or more steps/);        
+
+        assert.throws(function() {
+            parse_file('incomplete_scenario_4');
+        }, /Scenario requires one or more steps/);
+    });
+
     it('should expand scenarios with examples', function() {
         var scenarios = parse_file('example_scenarios').scenarios;
         assert.equal(scenarios.length, 2);
         assert.equal(scenarios[0].title, 'First Scenario');
-        assert.equal(scenarios[0].steps[0], 'Step A1')
-        assert.equal(scenarios[0].steps[1], 'Step 1A')
+        assert.equal(scenarios[0].steps[0], 'Step A11')
+        assert.equal(scenarios[0].steps[1], 'Step 1AA')
         assert.equal(scenarios[1].title, 'Second Scenario');
-        assert.equal(scenarios[1].steps[0], 'Step B2')
-        assert.equal(scenarios[1].steps[1], 'Step 2B')
+        assert.equal(scenarios[1].steps[0], 'Step B22')
+        assert.equal(scenarios[1].steps[1], 'Step 2BB')
+    });
+
+    it('should report malformed example tables', function() {
+        assert.throws(function() {
+            parse_file('malformed_example').scenarios;
+        }, /Incorrect number of fields in example table/)
+    });
+
+    it('should report incomplete examples', function() {
+
+        assert.throws(function() {
+            parse_file('incomplete_examples_1');
+        }, /Examples table requires one or more headings/);
+
+        assert.throws(function() {
+            parse_file('incomplete_examples_2');
+        }, /Examples table requires one or more rows/);
+
+        assert.throws(function() {
+            parse_file('incomplete_examples_3');
+        }, /Examples table requires one or more rows/);
+
+        assert.throws(function() {
+            parse_file('incomplete_examples_4');
+        }, /Examples table requires one or more rows/);        
     });
 
     it('should support multiple languages', function() {

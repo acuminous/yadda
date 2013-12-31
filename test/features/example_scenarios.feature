@@ -1,7 +1,7 @@
 Scenario: [nth] Scenario
 
-    Step [letter][number]
-    Step [number][letter]
+    Step [letter][number][number]
+    Step [number][letter][letter]
 
 Examples:
     nth    | letter | number
