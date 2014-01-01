@@ -1,10 +1,13 @@
 # Release Notes
 
+## Yadda 0.9.3
+ - French localisation for example tables - thanks [ami44](https://github.com/ami44).
+
 ## Yadda 0.9.2
  - Added package.json to the example projects so than can be run with ```npm install; npm test```
 
 ## Yadda 0.9.1
- - Norwegian Localisation - thanks [ami44](https://github.com/ami44).
+ - French Localisation - thanks [ami44](https://github.com/ami44).
 
 ## Yadda 0.9.0
  - Adds support for example tables

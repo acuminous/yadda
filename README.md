@@ -7,16 +7,7 @@ Yadda brings _true_ BDD to JavaScript test frameworks such as [Jasmine](http://p
 Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the ordinary language steps to code. Not only are the steps less likely to go stale, but they also provide a valuable abstraction layer and encourage re-use. You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-js), but we find Yadda less invasive and prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is smarter too.
 
 ## Latest Version
-Yadda 0.9.2 is the current verison, French localisation kindly contributed by [ami44](https://github.com/ami44), revamped examples and (long awaited) support for Example Tables - see [issue 15](github.com/acuminous/yadda/issues/15). This was quite a large change, involving a complete re-write of the FeatureParser. The file format **should** be backwards compatible, but please raise an issue if your feature files suddenly stop working after the upgrade from 0.8.x.
-
-Please note 0.8.0 contained breaking changes to Yadda.localisation.English that were required to localise Feature files.
- ```js
-// Old Code (< 0.8.0)
-var library = new Yadda.localisation.English(optional_dictionary);
-
-// New Code  (>= 0.8.0)
-var library = Yadda.localisation.English.library(optional_dictionary);
-```
+Yadda 0.9.3 is the current verison, French localisation kindly contributed by [ami44](https://github.com/ami44), revamped examples and (long awaited) support for Example Tables - see [issue 15](github.com/acuminous/yadda/issues/15). This was quite a large change, involving a complete re-write of the FeatureParser. The file format **should** be backwards compatible, but please raise an issue if your feature files suddenly stop working after the upgrade from 0.8.x.
 
 ## Installation
 
@@ -26,7 +17,7 @@ npm install yadda
 ```
 ### Browser based environments (e.g. QUnit)
 ```html
-<script src="./lib/yadda-0.9.2.js"></script>
+<script src="./lib/yadda-0.9.3.js"></script>
 ```
 ## Writing Yadda Tests
 ### Step 1 - Write your scenarios
@@ -166,6 +157,8 @@ new Yadda.yadda(library).yadda([
 We'd be delighted to accept pull requests for more languages and dialects. Many thanks to the following language contributors
 
  - [kjelloe](https://github.com/kjelloe) - Norwegian
+ - [ami44](https://github.com/ami44) - French
+
 
 ### Feature Descriptions
 You can add an optional feature description at the top of your file to give some context about the scenarios contained within
