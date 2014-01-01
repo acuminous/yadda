@@ -1,0 +1,14 @@
+{
+    "name": "yadda-casper-example",
+    "version": "0.0.0",
+    "dependencies": {
+        "async": "~0.2.9",
+        "process": "~0.5.1"
+    },
+    "scripts": {
+        "preinstall": "npm --loglevel error install ../..",
+        "test": "casperjs test test.js"
+    },
+    "author": "Stephen Cresswell",
+    "license": "Apache2"
+}

@@ -1,4 +1,4 @@
-Feature: Mocha Asynchronous Example
+Feature: Jasmine Example
 
 Scenario: A bottle falls from the wall
 

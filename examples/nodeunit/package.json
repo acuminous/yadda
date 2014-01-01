@@ -1,0 +1,13 @@
+{
+    "name": "yadda-nodeunit-example",
+    "version": "0.0.0",
+    "dependencies": {
+      "nodeunit": "~0.8.2"
+    },
+    "scripts": {
+        "preinstall": "npm --loglevel error install ../..",      
+        "test": "./node_modules/nodeunit/bin/nodeunit test.js"
+    },
+    "author": "Stephen Cresswell",
+    "license": "Apache2"
+}

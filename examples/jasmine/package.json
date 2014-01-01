@@ -1,0 +1,13 @@
+{
+    "name": "yadda-mocha-async-example",
+    "version": "0.0.0",
+    "dependencies": {
+        "jasmine-node": "~1.11.0"
+    },
+    "scripts": {
+        "preinstall": "npm --loglevel error install ../..",
+        "test": "./node_modules/.bin/jasmine-node --verbose spec/bottles-spec.js"
+    },
+    "author": "Stephen Cresswell",
+    "license": "Apache2"
+}

@@ -1,0 +1,9 @@
+{
+    "name": "yadda-qunit-example",
+    "version": "0.0.0",
+    "scripts": {
+        "test": "open test.html"
+    },
+    "author": "Stephen Cresswell",
+    "license": "Apache2"
+}
