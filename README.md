@@ -7,7 +7,7 @@ Yadda brings _true_ BDD to JavaScript test frameworks such as [Jasmine](http://p
 Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the ordinary language steps to code. Not only are the steps less likely to go stale, but they also provide a valuable abstraction layer and encourage re-use. You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-js), but we find Yadda less invasive and prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is smarter too.
 
 ## Latest Version
-Yadda 0.9.1 is the current verison, French localisation kindly contributed by [ami44](https://github.com/ami44) and (long awaited) support for Example Tables - see [issue 15](github.com/acuminous/yadda/issues/15). This was quite a large change, involving a complete re-write of the FeatureParser. The file format **should** be backwards compatible, but please raise an issue if your feature files suddenly stop working after the upgrade from 0.8.x.
+Yadda 0.9.2 is the current verison, French localisation kindly contributed by [ami44](https://github.com/ami44), revamped examples and (long awaited) support for Example Tables - see [issue 15](github.com/acuminous/yadda/issues/15). This was quite a large change, involving a complete re-write of the FeatureParser. The file format **should** be backwards compatible, but please raise an issue if your feature files suddenly stop working after the upgrade from 0.8.x.
 
 Please note 0.8.0 contained breaking changes to Yadda.localisation.English that were required to localise Feature files.
  ```js
@@ -26,7 +26,7 @@ npm install yadda
 ```
 ### Browser based environments (e.g. QUnit)
 ```html
-<script src="./lib/yadda-0.9.1.js"></script>
+<script src="./lib/yadda-0.9.2.js"></script>
 ```
 ## Writing Yadda Tests
 ### Step 1 - Write your scenarios
@@ -102,7 +102,21 @@ module.exports = function(bottles) {
 
 ## Yadda In Depth
 ### Supported Libraries
-Yadda works with Mocha, Jasmine, QUnit, Nodeunit, ZombieJS, CasperJS and WebDriver. See the examples for details.
+Yadda works with Mocha, Jasmine, QUnit, Nodeunit, ZombieJS, CasperJS and WebDriver. There are examples for most of these which can be run as follows
+
+```bash
+git clone https://github.com/acuminous/yadda.git
+cd yadda/examples/&lt;desired-example-folder&gt;
+npm install
+npm test
+```
+
+Alternatively you can run all the examples
+```bash
+git clone https://github.com/acuminous/yadda.git
+cd yadda/examples/&lt;desired-example-folder&gt;
+npm run examples
+```
 
 ### Flexible BDD Syntax
 It's common for BDD libraries to limit syntax to precondition (given) steps, action (when) steps and assertion (then) steps. Yadda doesn't. This allows for more freedom of expression. e.g.

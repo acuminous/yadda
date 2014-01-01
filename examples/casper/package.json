@@ -7,7 +7,7 @@
     },
     "scripts": {
         "preinstall": "npm --loglevel error install ../..",
-        "test": "casperjs test test.js"
+        "test": "which -s phantomjs && which -s casperjs && casperjs test test.js"
     },
     "author": "Stephen Cresswell",
     "license": "Apache2"

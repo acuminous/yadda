@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.9.2
+ - Added package.json to the example projects so than can be run with ```npm install; npm test```
+
 ## Yadda 0.9.1
  - Norwegian Localisation - thanks [ami44](https://github.com/ami44).
 
