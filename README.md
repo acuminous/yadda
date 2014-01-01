@@ -97,7 +97,7 @@ Yadda works with Mocha, Jasmine, QUnit, Nodeunit, ZombieJS, CasperJS and WebDriv
 
 ```bash
 git clone https://github.com/acuminous/yadda.git
-cd yadda/examples/&lt;desired-example-folder&gt;
+cd yadda/examples/<desired-example-folder>
 npm install
 npm test
 ```
@@ -105,7 +105,7 @@ npm test
 Alternatively you can run all the examples
 ```bash
 git clone https://github.com/acuminous/yadda.git
-cd yadda/examples/&lt;desired-example-folder&gt;
+cd yadda
 npm run examples
 ```
 
