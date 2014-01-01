@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.9.1
+ - Norwegian Localisation - thanks [ami44](https://github.com/ami44).
+
 ## Yadda 0.9.0
  - Adds support for example tables
  - Fixes a bug in the MochaPlugin which didn't recognise non English @Pending annotations on scenarios
