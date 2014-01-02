@@ -8,16 +8,14 @@ var Yadda = require('yadda');
 var Dictionary = Yadda.Dictionary;
 var English = Yadda.localisation.English;
 
+var parser = new Yadda.parsers.FeatureParser();
 var library = require('./google-library').init();
 var yadda = new Yadda.Yadda(library);
 Yadda.plugins.casper(yadda, casper);
 
-var parser = new Yadda.parsers.FeatureParser();
+new Yadda.FeatureFileSearch('features').each(function(file) {
 
-
-new Yadda.FileSearch('features').list().forEach(function(filename) {
-
-    var feature = parser.parse(fs.read(filename));
+    var feature = parser.parse(fs.read(file));
 
     casper.test.begin(feature.title, function suite(test) {
         async.eachSeries(feature.scenarios, function(scenario, next) {
