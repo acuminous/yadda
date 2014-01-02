@@ -1,7 +1,8 @@
 var Yadda = require('yadda');
+
 Yadda.plugins.mocha({ mode: 'sync'});
 
-var all_features = new Yadda.FileSearch('features').list();
+var all_features = new Yadda.FeatureFileSearch('features').list();
 
 features(all_features, function(feature) {
 

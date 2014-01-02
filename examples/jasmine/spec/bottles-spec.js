@@ -1,7 +1,9 @@
 var Yadda = require('yadda');
 Yadda.plugins.jasmine();
 
-feature('./features/bottles.feature', function(feature) {
+var all_features = new Yadda.FeatureFileSearch('features').list();
+
+feature(all_features, function(feature) {
 
     var library = require('../bottles-library');
     var yadda = new Yadda.Yadda(library);

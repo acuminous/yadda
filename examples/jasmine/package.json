@@ -5,7 +5,7 @@
         "jasmine-node": "~1.11.0"
     },
     "scripts": {
-        "preinstall": "npm --loglevel error install ../..",
+        "preinstall": "npm --loglevel error link yadda",
         "test": "./node_modules/.bin/jasmine-node --verbose spec/bottles-spec.js"
     },
     "author": "Stephen Cresswell",

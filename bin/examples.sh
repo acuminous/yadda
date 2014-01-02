@@ -2,6 +2,7 @@
 
 set -e
 
+npm link
 pushd examples
 for D in *; do
     echo "Running ${D} example"

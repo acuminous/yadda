@@ -6,7 +6,7 @@
         "process": "~0.5.1"
     },
     "scripts": {
-        "preinstall": "npm --loglevel error install ../..",
+        "preinstall": "npm --loglevel error link yadda",
         "test": "which -s phantomjs && which -s casperjs && casperjs test test.js"
     },
     "author": "Stephen Cresswell",
