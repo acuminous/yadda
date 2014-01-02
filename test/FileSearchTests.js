@@ -7,7 +7,6 @@ describe('FileSearch', function() {
 
     it('should return all files by default', function() {
         var files = new FileSearch('./test/filesearch').list().sort();
-        console.log(files);
         assert.equal(files.length, 6);
         assert.equal(files[0], path.join('test', 'filesearch', 'exclude.js'));
         assert.equal(files[1], path.join('test', 'filesearch', 'include.feature'));        

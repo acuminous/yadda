@@ -1286,7 +1286,7 @@ var Specification = function() {
 
     function stash_annotation(event, annotation) {
         feature_annotations[annotation.key] = annotation.value;
-        feature_annotations[annotation.key.toLowerCase()] = annotation.value;
+        feature_annotations[annotation.key.toLowerCase().replace(/\W/g, '_')] = annotation.value;
     };
 
     function start_feature(event, title) {
@@ -1327,7 +1327,7 @@ var Feature = function(title, annotations) {
 
     function stash_annotation(event, annotation) {
         scenario_annotations[annotation.key] = annotation.value;
-        scenario_annotations[annotation.key.toLowerCase()] = annotation.value;
+        scenario_annotations[annotation.key.toLowerCase().replace(/\W/g, '_')] = annotation.value;
     };
 
     function capture_description(event, text) {

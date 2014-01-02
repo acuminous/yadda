@@ -131,18 +131,26 @@ describe('FeatureParser', function() {
 
     it('should parse feature annotations', function() {
         var feature = parse_file('annotated_feature');
-		assert.equal(feature.annotations['keyword1'], 'value1');
-		assert.equal(feature.annotations['keyword2'], 'value2');
-        assert(feature.annotations['keyword3']);
+		assert.equal(feature.annotations.keyword1, 'value1');
+		assert.equal(feature.annotations.keyword2, 'value2');
+        assert(feature.annotations.keyword3);
         assert.deepEqual(feature.scenarios[0].annotations, {});
     });
 
     it('should parse scenario annotations', function() {
         var feature = parse_file('annotated_scenario');
         assert.deepEqual(feature.annotations, {});
-        assert.equal(feature.scenarios[0].annotations['keyword1'], 'value1');
-        assert.equal(feature.scenarios[0].annotations['keyword2'], 'value2');
-        assert(feature.scenarios[0].annotations['keyword3']);
+        assert.equal(feature.scenarios[0].annotations.keyword1, 'value1');
+        assert.equal(feature.scenarios[0].annotations.keyword2, 'value2');
+        assert(feature.scenarios[0].annotations.keyword3);
+    });
+
+    it('should support annotations with non alphanumerics', function() {
+        var feature = parse_file('non_alphanumeric_annotated_feature');
+        assert.equal(feature.annotations['Key Word+1'], 'value1');
+        assert.equal(feature.annotations.key_word_1, 'value1');
+        assert.equal(feature.scenarios[0].annotations['Key Word-1'], 'value1');
+        assert.equal(feature.scenarios[0].annotations.key_word_1, 'value1');
     });
 
     it('should support single line comments', function() {
