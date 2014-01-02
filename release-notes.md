@@ -3,6 +3,7 @@
 ## Yadda 0.9.4
  - Added FeatureFileSearch as discussed in https://github.com/acuminous/yadda/issues/47
  - Using npm link to install yadda for the examples
+ - Yadda now lists undefined and ambiguous steps as discussed in https://github.com/acuminous/yadda/issues/30
 
 ## Yadda 0.9.3
  - French localisation for example tables - thanks [ami44](https://github.com/ami44).

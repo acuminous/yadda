@@ -149,37 +149,55 @@ var $ = require('./Array');
 // Understands appropriateness of macros in relation to a specific step
 var Competition = function(step, macros) {
 
-    var results = [];
-    var by_ascending_score = function(a, b) { return b.score.beats(a.score); };
-    var FIRST_PLACE = 0;
-    var SECOND_PLACE = 1;
+    var results = [];   
+
+    this.validate = function() {
+        if (is_undefined()) return { step: step, valid: false, reason: 'Undefined Step' };
+        if (is_ambiguous()) return { step: step, valid: false, reason: 'Ambiguous Step (Patterns [' + winning_patterns() + '] are all equally good candidates)' };
+        return { step: step, valid: true };
+    };
 
     this.clear_winner = function() {
-        if (number_of_competitors() == 0) throw new Error('Undefined Step: [' + step + ']');
-        if (joint_first_place()) throw new Error('Ambiguous Step: [' + step + ']');
+        if (is_undefined()) throw new Error('Undefined Step: [' + step + ']');
+        if (is_ambiguous()) throw new Error('Ambiguous Step: [' + step + ']. Patterns [' + winning_patterns() + '] match equally well.');
         return this.winner();
     };   
 
-    var number_of_competitors = function() {
-        return results.length;
+    function is_undefined() {
+        return results.length == 0;
     };
 
-    var joint_first_place = function() {
-        return (number_of_competitors() > 1) && 
-            results[FIRST_PLACE].score.equals(results[SECOND_PLACE].score); 
+    function is_ambiguous() {
+        return (results.length > 1) && results[0].score.equals(results[1].score); 
     };
 
     this.winner = function() {
-        return results[FIRST_PLACE].macro;
+        return results[0].macro;
     };
 
-    var rank = function(step, macros) {
+    function winning_patterns() {
+        return results.find_all(by_winning_score).collect(macro_signatures).join(', ');
+    };
+
+    function rank(step, macros) {
         results = macros.collect(function(macro) {
             return { 
                 macro: macro, 
                 score: new LevenshteinDistanceScore(step, macro.levenshtein_signature())
             }
         }).sort( by_ascending_score );
+    };
+
+    function by_ascending_score(a, b) { 
+        return b.score.beats(a.score);
+    };
+
+    function by_winning_score(result) {
+        return result.score.equals(results[0].score);
+    };
+
+    function macro_signatures(result) {
+        return result.macro.toString();
     };
 
     rank(step, $(macros));
@@ -513,9 +531,24 @@ var Interpreter = function(libraries) {
         return this;
     };
 
+    this.validate = function(scenario) {
+        var results = $(scenario).collect(function(step) {
+            return _this.rank_macros(step).validate();
+        });
+        if (results.find(by_invalid_step)) throw new Error('Scenario cannot be interpreted\n' + results.collect(validation_report).join('\n'));
+    };
+
+    function by_invalid_step(result) {
+        return !result.valid;  
+    };
+
+    function validation_report(result) {
+        return result.step + (result.valid ? '' : ' <-- ' + result.reason);
+    };
+
     this.interpret = function(scenario, scenario_context, next) {
         scenario_context = new Context().merge(scenario_context);
-        event_bus.send(EventBus.ON_SCENARIO, { scenario: scenario, ctx: scenario_context.properties });        
+        event_bus.send(EventBus.ON_SCENARIO, { scenario: scenario, ctx: scenario_context.properties });
         var iterator = make_step_iterator(scenario_context, next);
         $(scenario).each_async(iterator, next);
     };
@@ -530,7 +563,7 @@ var Interpreter = function(libraries) {
     this.interpret_step = function(step, scenario_context, next) {
         var context = new Context().merge(scenario_context);
         event_bus.send(EventBus.ON_STEP, { step: step, ctx: context.properties });        
-        _this.rank_macros(step).clear_winner().interpret(step, context || {}, next);
+        this.rank_macros(step).clear_winner().interpret(step, context || {}, next);
     };  
 
     this.rank_macros = function(step) {
@@ -854,6 +887,7 @@ var Yadda = function(libraries, interpreter_context) {
     this.yadda = function(scenario, scenario_context, next) {
         if (arguments.length == 0) return this;
         if (arguments.length == 2 && fn.is_function(scenario_context)) return this.yadda(scenario, {}, scenario_context);
+        this.interpreter.validate(scenario);
         this.interpreter.interpret(scenario, new Context().merge(interpreter_context).merge(scenario_context), next);
     };
 
