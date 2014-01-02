@@ -93,11 +93,11 @@ module.exports = function(bottles) {
 
 ## Yadda In Depth
 ### Supported Libraries
-Yadda works with Mocha, Jasmine, QUnit, Nodeunit, ZombieJS, CasperJS and WebDriver. There are examples for most of these which can be run as follows
+Yadda works with Mocha, Jasmine, QUnit, Nodeunit, ZombieJS, CasperJS and WebDriver. There are examples for most of these, which can be run as follows...
 
 ```bash
 git clone https://github.com/acuminous/yadda.git
-cd yadda/examples/&lt;desired-example-folder&gt;
+cd yadda/examples/<desired-example-folder>
 npm install
 npm test
 ```
@@ -105,7 +105,7 @@ npm test
 Alternatively you can run all the examples
 ```bash
 git clone https://github.com/acuminous/yadda.git
-cd yadda/examples/&lt;desired-example-folder&gt;
+cd yadda
 npm run examples
 ```
 
