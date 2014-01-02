@@ -32,6 +32,20 @@ describe('Interpreter', function() {
         assert.equal(counter.total(), 2);
     });
 
+    it('should validate scenarios', function() {
+        var counter = new Counter();
+        var library = new Library().define('This is defined').define(/[Tt]his is ambiguous/).define(/[tT]his is ambiguous/);
+
+        assert.throws(function() {
+            new Interpreter(library).validate([
+                'This is defined',
+                'This is undefined',
+                'This is ambiguous'
+            ]);
+        }, /Scenario cannot be interpreted\nThis is defined\nThis is undefined <-- Undefined Step\nThis is ambiguous <-- Ambiguous Step/);
+       
+    })
+
     it('should utilise macros from different libraries', function() {
 
         var counter = new Counter();

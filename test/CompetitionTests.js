@@ -20,7 +20,7 @@ describe('Competition', function() {
 
         assert.throws(function() {
             competition.clear_winner();
-        }, /Ambiguous Step: \[given 1 male patient\]/);
+        }, /Ambiguous Step: \[given 1 male patient\]. Patterns \[\/best\/, \/equal\/\] match equally well./);
     });
 
     it("Should support no winner", function() {
