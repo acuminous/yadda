@@ -4,6 +4,7 @@
 var fs = require('fs');
 var async = require('async');
 var Yadda = require('yadda');
+var xpath = require('casper').selectXPath; 
 
 var Dictionary = Yadda.Dictionary;
 var English = Yadda.localisation.English;
