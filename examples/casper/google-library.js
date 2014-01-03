@@ -11,6 +11,7 @@ module.exports.init = function() {
 
     .then("the title is $TITLE", function(title) {
         casper.test.assertTitle(title, 'Incorrect title - ' + casper.getTitle());
+        casper.test.assertSelectorHasText(xpath('//title/text()'), title, 'Incorrect title with xpath');
     })
 
     .then("the $ACTION form exists", function(action) {
