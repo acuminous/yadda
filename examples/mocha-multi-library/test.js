@@ -1,3 +1,11 @@
+/*
+Please note this is just one way to import different libraries per feature
+The downsides of this approach are that it pollutes the specification
+and doesn't support running the same specification with different libraries,
+which can be useful if the application under test supports multiple 
+interfaces (Rest, Web, CLI, etc)
+*/
+
 var path = require('path');
 var Yadda = require('yadda');
 Yadda.plugins.mocha();
