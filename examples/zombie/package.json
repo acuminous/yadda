@@ -1,0 +1,14 @@
+{
+    "name": "yadda-zombie-example",
+    "version": "0.0.0",
+    "dependencies": {
+        "zombie": "~2.0.0-alpha24",
+        "mocha": "~1.16.2"        
+    },    
+    "scripts": {
+        "preinstall": "npm --loglevel error link yadda",
+        "test": "./node_modules/mocha/bin/mocha --reporter spec test.js"
+    },
+    "author": "Stephen Cresswell",
+    "license": "Apache2"
+}
