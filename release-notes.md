@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.9.6
+ - Fix for [issue 43 - @Pending not working](https://github.com/acuminous/yadda/issues/43)
+
 ## Yadda 0.9.5
  - Added Zombie JS example
  - Added Multi library example
