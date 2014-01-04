@@ -1,5 +1,6 @@
-var English = require('../../lib/localisation/English');
-var Dictionary = require('../../lib/Dictionary');
+var Yadda = require('yadda');
+var English = Yadda.localisation.English;
+var Dictionary = Yadda.Dictionary;
 
 module.exports = (function() {
 

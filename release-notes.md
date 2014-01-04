@@ -1,5 +1,10 @@
 # Release Notes
 
+## Yadda 0.9.5
+ - Added Zombie JS example
+ - Added Multi library example
+ - Generally improved other examples
+
 ## Yadda 0.9.4
  - Added FeatureFileSearch as discussed in https://github.com/acuminous/yadda/issues/47
  - Using npm link to install yadda for the examples

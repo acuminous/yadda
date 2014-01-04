@@ -2,7 +2,6 @@ var Browser = require("zombie");
 var assert = require("assert");
 var Yadda = require('yadda');
 
-
 module.exports = (function() {
 
     var browser = new Browser();
