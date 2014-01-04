@@ -1,4 +1,3 @@
 ```
-npm install
-npm test
+open test.html
 ```
