@@ -423,3 +423,14 @@ The following events are available...
     <td>ON_EXECUTE</td><td>{ step: '100 green bottles...', pattern: '/(\d+) green bottles.../', args: ['100'], ctx: context }</td>
   </tr>
 </table>
+
+#### Coverage
+
+```
+npm install istanbul -g 
+npm install mocha -g 
+npm run istanbul
+```
+
+Open ```coverage/lcov-report/lib/localisation/index.html``` with your browser
+
