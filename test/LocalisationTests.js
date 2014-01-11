@@ -87,5 +87,44 @@ describe('Localisation', function() {
         ]);
 
         assert.equal(counter.total(), 10);
+    });   
+
+    it('should support Spanish', function() {
+        
+        var counter = new Counter();
+        var library = Yadda.localisation.Spanish.library()
+            .sea('some text 1', counter.count)
+            .sean('some text 2', counter.count)
+            .dado('some text 3', counter.count)
+            .dada('some text 4', counter.count)
+            .dados('some text 5', counter.count)
+            .dadas('some text 6', counter.count)
+            .given('some text 7', counter.count)
+        
+            .cuando('some text 8', counter.count)
+            .si('some text 9', counter.count)
+            .when('some text 10', counter.count)
+        
+            .entonces('some text 11', counter.count)
+            .then('some text 12', counter.count);
+
+        new Interpreter(library).interpret([
+            'sea some text 1',
+            'sean some text 2',
+            'dado some text 3',
+            'dada some text 4',
+            'dados some text 5',
+            'dadas some text 6',
+            'sea some text 7',
+
+            'cuando some text 8',            
+            'si some text 9',
+            'cuando some text 10',            
+
+            'entonces some text 11',
+            'entonces some text 12'
+        ]);
+
+        assert.equal(counter.total(), 12);
     });    
 })
