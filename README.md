@@ -7,11 +7,8 @@ Yadda brings _true_ BDD to JavaScript test frameworks such as [Jasmine](http://p
 Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the ordinary language steps to code. Not only are the steps less likely to go stale, but they also provide a valuable abstraction layer and encourage re-use. You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-js), but we find Yadda less invasive and prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is smarter too.
 
 ## Latest Version
-Yadda 0.9.6 is the current verison, which includes 
- - A fix for [issue 43 - @Pending not working](https://github.com/acuminous/yadda/issues/43)
- - Improvements to French localsation and examples - thanks [ami44](https://github.com/ami44).
+Yadda 0.9.7 is the current verison, which includes Spanish localsation - thanks [feliun](https://github.com/feliun).
  
-
 ## Installation
 
 ### Node based environments (e.g. Mocha)
@@ -20,7 +17,7 @@ npm install yadda
 ```
 ### Browser based environments (e.g. QUnit)
 ```html
-<script src="./lib/yadda-0.9.6.js"></script>
+<script src="./lib/yadda-0.9.7.js"></script>
 ```
 ## Writing Yadda Tests
 ### Step 1 - Write your scenarios
@@ -161,7 +158,7 @@ We'd be delighted to accept pull requests for more languages and dialects. Many 
 
  - [kjelloe](https://github.com/kjelloe) - Norwegian
  - [ami44](https://github.com/ami44) - French
-
+ - [feliun](https://github.com/feliun) - Spanish
 
 ### Feature Descriptions
 You can add an optional feature description at the top of your file to give some context about the scenarios contained within

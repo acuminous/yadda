@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.9.7
+ - Spanish localisation - thanks [feliun](https://github.com/feliun).
+
 ## Yadda 0.9.6
  - Fix for [issue 43 - @Pending not working](https://github.com/acuminous/yadda/issues/43)
  - Improvements to French localsation and examples - thanks [ami44](https://github.com/ami44).
