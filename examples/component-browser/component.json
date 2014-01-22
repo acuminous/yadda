@@ -1,7 +1,7 @@
 {
     "name": "yadda-component-browser-example",
     "dependencies": {
-        "acuminous/yadda": "*",
+        "johntron/yadda": "*",
         "chaijs/chai": "*"
     },
     "scripts": [

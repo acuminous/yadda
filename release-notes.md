@@ -1,5 +1,9 @@
 # Release Notes
 
+## Yadda 0.9.8
+ - Added support for component - thanks [johntron](https://github.com/johntron).
+
+
 ## Yadda 0.9.7
  - Spanish localisation - thanks [feliun](https://github.com/feliun).
 
