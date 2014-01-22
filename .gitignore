@@ -5,3 +5,4 @@ npm-debug.log
 *.swp
 *.swo
 *.iml
+/components/
