@@ -4,6 +4,10 @@
     "dependencies": {
         "mocha": "~1.17.0"
     },
+    "scripts": {
+        "test": "echo read README.md && cat README.md",
+        "wtest": "echo read README.md && cat README.md"
+    },
     "author": "Stephen Cresswell",
     "license": "Apache2"
 }

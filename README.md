@@ -102,12 +102,24 @@ npm install
 npm test
 ```
 
-Alternatively you can run all the examples
+Alternatively you can run all the examples (not windows)
 ```bash
 git clone https://github.com/acuminous/yadda.git
 cd yadda
 npm run examples
 ```
+
+If you use windows, you must first install [gow](https://github.com/bmatzelle/gow), delete ``node_modules`` (symlink not work), edit ``package.json`` and run ``npm run wtest`` instead of ``npm test``
+
+```bash
+cd yadda/examples/<desired-example-folder>
+rm -rf node_modules
+vim package.json
+    - delete line "preinstall":
+    - add dependencies "yadda" : "*"
+npm run wtest
+```
+
 
 ### Flexible BDD Syntax
 It's common for BDD libraries to limit syntax to precondition (given) steps, action (when) steps and assertion (then) steps. Yadda doesn't. This allows for more freedom of expression. e.g.
