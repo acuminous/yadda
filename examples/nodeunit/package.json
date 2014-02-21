@@ -5,8 +5,9 @@
       "nodeunit": "~0.8.2"
     },
     "scripts": {
-        "preinstall": "npm --loglevel error link yadda",      
-        "test": "./node_modules/nodeunit/bin/nodeunit test.js"
+        "preinstall": "npm --loglevel error link yadda",
+        "test": "./node_modules/nodeunit/bin/nodeunit test.js",
+        "wtest": ".\\node_modules\\.bin\\nodeunit test.js"
     },
     "author": "Stephen Cresswell",
     "license": "Apache2"

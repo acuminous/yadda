@@ -6,7 +6,8 @@
     },
     "scripts": {
         "preinstall": "npm --loglevel error link yadda",
-        "test": "./node_modules/.bin/jasmine-node --verbose spec/bottles-spec.js"
+        "test": "./node_modules/.bin/jasmine-node --verbose spec/bottles-spec.js",
+        "wtest": ".\\node_modules\\.bin\\jasmine-node --verbose spec\\bottles-spec.js"
     },
     "author": "Stephen Cresswell",
     "license": "Apache2"

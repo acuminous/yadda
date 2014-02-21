@@ -6,7 +6,8 @@
     },
     "scripts": {
         "preinstall": "npm --loglevel error link yadda",
-        "test": "./node_modules/mocha/bin/mocha --reporter spec test.js"
+        "test": "./node_modules/mocha/bin/mocha --reporter spec test.js",
+        "wtest": ".\\node_modules\\.bin\\mocha --reporter spec test.js"
     },
     "author": "Stephen Cresswell",
     "license": "Apache2"
