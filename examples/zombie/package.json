@@ -3,11 +3,12 @@
     "version": "0.0.0",
     "dependencies": {
         "zombie": "~2.0.0-alpha24",
-        "mocha": "~1.16.2"        
-    },    
+        "mocha": "~1.16.2"
+    },
     "scripts": {
         "preinstall": "npm --loglevel error link yadda",
-        "test": "./node_modules/mocha/bin/mocha --reporter spec --timeout 20000 test.js"
+        "test": "./node_modules/mocha/bin/mocha --reporter spec --timeout 20000 test.js",
+        "wtest": "echo /!\\ zombie does not walk on windows"
     },
     "author": "Stephen Cresswell",
     "license": "Apache2"
