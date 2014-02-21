@@ -1,6 +1,7 @@
 Feature: Simple Feature
 
   Background:
+
     Given A
 
   Scenario: Simple Scenario
