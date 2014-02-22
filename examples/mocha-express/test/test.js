@@ -17,7 +17,6 @@ before(function(next) {
     // Stop the application in case it's already running
     request.del({ url: serverUrl }, function(err, response, body) {
 
-        // Start the application
         app.start(hostname, port, function() {
             request.get({ url: serverUrl }, function(err, response, body) {
                 assert.ifError(err);
