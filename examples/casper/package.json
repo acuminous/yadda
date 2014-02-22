@@ -1,13 +1,14 @@
 {
     "name": "yadda-casper-example",
     "version": "0.0.0",
+    "main": "index.js",
     "dependencies": {
         "async": "~0.2.9",
         "process": "~0.5.1"
     },
     "scripts": {
         "preinstall": "npm --loglevel error link yadda",
-        "test": "which -s phantomjs && which -s casperjs && casperjs test test.js 2>&1 | grep -v 'CoreText performance note'"
+        "test": "which phantomjs && which casperjs && casperjs test test.js 2>&1 | grep -v 'CoreText performance note'"
     },
     "author": "Stephen Cresswell",
     "license": "Apache2"

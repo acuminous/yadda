@@ -1,0 +1,19 @@
+{
+  "name": "yadda-mocha-express-example",
+  "version": "0.0.0",
+  "scripts": {
+    "preinstall": "npm --loglevel error link yadda",
+    "test": "./node_modules/mocha/bin/mocha --reporter spec test/test.js",
+    "start": "node index.js"
+  },
+  "author": "Stephen Cresswell",
+  "license": "Apache 2",
+  "dependencies": {
+    "express": "~3.4.8",
+    "request": "~2.34.0",
+    "underscore": "~1.6.0",
+    "node-uuid": "~1.4.1",
+    "mocha": "~1.17.1",
+    "async": "~0.2.10"
+  }
+}
