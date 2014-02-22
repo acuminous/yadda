@@ -8,7 +8,7 @@ module.exports = (function() {
     }
 
     function status(req, res) {
-        res.send({ started: req.app.started })
+        res.send({ started: req.app.get('started') })
     }
 
     function shutdown(req, res) {
