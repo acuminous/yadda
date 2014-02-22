@@ -8,7 +8,7 @@
     },
     "scripts": {
         "preinstall": "npm --loglevel error link yadda",
-        "test": "./bin/example.sh"
+        "test": "node ./bin/example.js"
     },
     "author": "Stephen Cresswell",
     "license": "Apache2"
