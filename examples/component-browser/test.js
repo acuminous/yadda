@@ -1,4 +1,5 @@
 (function() {
+
     var Yadda = require('yadda'),
         English = Yadda.localisation.English,
         FeatureParser = Yadda.parsers.FeatureParser,

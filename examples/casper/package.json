@@ -8,7 +8,7 @@
     },
     "scripts": {
         "preinstall": "npm --loglevel error link yadda",
-        "test": "which phantomjs && which casperjs && casperjs test test.js 2>&1 | grep -v 'CoreText performance note'"
+        "test": "./bin/example.sh"
     },
     "author": "Stephen Cresswell",
     "license": "Apache2"
