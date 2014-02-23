@@ -14,8 +14,8 @@
   "scripts": {
     "test": "make test",
     "istanbul": "NODE_ENV=test istanbul cover _mocha -- -u exports --reporter spec",
-    "examples": "./bin/examples.sh",
-    "browserify": "node ./bin/browserify.js"
+    "examples": "node bin/examples.js",
+    "browserify": "node bin/browserify.js"
   },
   "repository": {
     "type": "git",

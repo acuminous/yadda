@@ -5,7 +5,7 @@ Prerequisits
 
 ```
 npm install
-cd yadda/examples/casper
+cd examples/casper
 npm install
 npm test
 ```

@@ -1,5 +1,8 @@
+Prerequisits
+* chromedriver
 ```
-cd yadda/examples/webdriver
+npm install
+cd examples/webdriver
 npm install
 npm test
 ```

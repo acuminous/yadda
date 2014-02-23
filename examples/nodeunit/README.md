@@ -1,5 +1,6 @@
 ```
-cd yadda/examples/nodeunit
+npm install
+cd examples/nodeunit
 npm install
 npm test
 ```

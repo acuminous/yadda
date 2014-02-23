@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "preinstall": "npm --loglevel error link yadda",
-    "test": "./node_modules/mocha/bin/mocha --reporter spec test/test.js",
+    "test": "node bin/example.js",
     "start": "node index.js"
   },
   "author": "Stephen Cresswell",

@@ -1,5 +1,6 @@
 ```
-cd yadda/examples/localisation
+npm install
+cd examples/localisation
 npm install
 npm test
 ```

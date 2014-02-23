@@ -1,6 +1,6 @@
 ```
 npm install
-cd examples/mocha-async
+cd examples/mocha-express
 npm install
 npm test
 ```

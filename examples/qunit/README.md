@@ -1,3 +1,4 @@
 ```
-open test.html
+cd examples\qunit
+npm test
 ```

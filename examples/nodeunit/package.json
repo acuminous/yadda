@@ -6,7 +6,7 @@
     },
     "scripts": {
         "preinstall": "npm --loglevel error link yadda",      
-        "test": "./node_modules/nodeunit/bin/nodeunit test.js"
+        "test": "node bin/example.js"
     },
     "author": "Stephen Cresswell",
     "license": "Apache2"

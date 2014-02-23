@@ -1,6 +1,6 @@
 ```
 npm install
-cd yadda/examples/jasmine
+cd examples/jasmine
 npm install
 npm test
 ```
