@@ -97,7 +97,9 @@ Yadda works with Mocha, Jasmine, QUnit, Nodeunit, ZombieJS, CasperJS and WebDriv
 
 ```bash
 git clone https://github.com/acuminous/yadda.git
-cd yadda/examples/<desired-example-folder>
+cd yadda
+npm install
+cd examples/<desired-example-folder>
 npm install
 npm test
 ```
@@ -106,8 +108,11 @@ Alternatively you can run all the examples
 ```bash
 git clone https://github.com/acuminous/yadda.git
 cd yadda
+npm install
 npm run examples
 ```
+
+Please note that the Zombie example doesn't install on windows and that the webdriver example may fail depending on how google detects your locale
 
 ### Flexible BDD Syntax
 It's common for BDD libraries to limit syntax to precondition (given) steps, action (when) steps and assertion (then) steps. Yadda doesn't. This allows for more freedom of expression. e.g.
