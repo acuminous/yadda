@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.9.10
+ - You can use Scenario and Scenario Outline interchangeably
+
 ## Yadda 0.9.9
  - Added an example using mocha and express
 

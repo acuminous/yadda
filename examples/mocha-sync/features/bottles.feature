@@ -19,7 +19,7 @@ Scenario: Bottles are reset
 	when 5 minutes has elapsed
 	then there are 100 green bottles standing on the wall
 
-Scenario: [N] bottles are standing on a wall
+Scenario Outline: [N] bottles are standing on a wall
 
     Given [N] green bottles are standing on the wall
     when 1 green bottle accidentally falls

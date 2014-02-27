@@ -2,6 +2,6 @@
 
 ./node_modules/.bin/http-server & 
 PID=$!
-sleep 1;
-open http://localhost:8081
+sleep 2;
+open http://localhost:8080
 kill $PID > /dev/null
