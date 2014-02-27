@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.9.11
+ - Updated French translations - Thanks [poum](https://github.com/poum)
+
 ## Yadda 0.9.10
  - You can use Scenario and Scenario Outline interchangeably
 
