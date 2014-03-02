@@ -171,6 +171,11 @@ describe('FeatureParser', function() {
         assert.deepEqual(scenarios[0].steps, ['Given A', 'When B', 'Then C']);
     });
 
+    it('should parse feature background', function() {
+        var feature = parse_file('feature_with_background');
+        assert.deepEqual(feature.background_steps, ['Given A']);
+    });
+
     function parse_file(filename, language) {
         return new FeatureParser(language).parse(load(filename));
     }
