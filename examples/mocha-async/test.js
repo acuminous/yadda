@@ -8,7 +8,7 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
         var yadda = new Yadda.Yadda(library);
 
         scenarios(feature.scenarios, function(scenario, done) {            
-            yadda.yadda(feature.background_steps.concat(scenario.steps), done);
+            yadda.yadda(scenario.steps, done);
         });
     });
 });
