@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.10.0
+ - Added support for backgrounds - Thanks [mucsi](http://github.com/mucsi)
+
 ## Yadda 0.9.11
  - Updated French translations - Thanks [poum](https://github.com/poum)
 

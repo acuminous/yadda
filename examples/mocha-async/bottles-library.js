@@ -12,8 +12,13 @@ module.exports = (function() {
 
     var library = English.library(dictionary)
 
+    .given("a $NUM foot wall", function(height, next) {
+        wall = new Wall();
+        next();
+    })
+
     .given("$NUM green bottles are standing on the wall", function(number_of_bottles, next) {
-    	wall = new Wall(number_of_bottles);
+        wall.bottles = number_of_bottles;
         next();
     })
 

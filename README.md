@@ -7,7 +7,7 @@ Yadda brings _true_ BDD to JavaScript test frameworks such as [Jasmine](http://p
 Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the ordinary language steps to code. Not only are the steps less likely to go stale, but they also provide a valuable abstraction layer and encourage re-use. You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-js), but we find Yadda less invasive and prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is smarter too.
 
 ## Latest Version
-Yadda 0.9.11 is the current verison which enables you to use "Scenario" and "Scenario Outline" interchangably. The french translation was kindly provided by [poum](https://github.com/poum)
+Yadda 0.10.0 - Added support for backgrounds kindly contributed by [Igor Mucsicska](http://github.com/mucsi)
  
 ## Installation
 
@@ -17,7 +17,7 @@ npm install yadda
 ```
 ### Browser based environments (e.g. QUnit)
 ```html
-<script src="./lib/yadda-0.9.11.js"></script>
+<script src="./lib/yadda-0.10.0.js"></script>
 ```
 ## Writing Yadda Tests
 ### Step 1 - Write your scenarios
@@ -164,6 +164,54 @@ We'd be delighted to accept pull requests for more languages and dialects. Many 
  - [kjelloe](https://github.com/kjelloe) - Norwegian
  - [ami44](https://github.com/ami44) - French
  - [feliun](https://github.com/feliun) - Spanish
+
+### Backgrounds
+A background is a set of steps that are executed before each scenario in the corresponding feature file. 
+```
+Feature: 100 Green Bottles
+
+Background:
+
+   Given a 6ft wall
+   With a healthy amount of moss
+
+Scenario: Bottles should fall from the wall
+
+   Given 100 green bottles are standing on the wall
+   When 1 green bottles accidentally falls
+   Then there are 99 green bottles standing on the wall
+
+Scenario: Plastic bottles should not break
+
+   Given 100 plastic bottles are standing on the wall
+   When 1 plastic bottles accidentally falls
+   It does not break
+``` 
+The background steps are added to the feature and can be accessed as follows...
+```js
+var Yadda = require('yadda');
+Yadda.plugins.mocha();
+
+new Yadda.FeatureFileSearch('features').each(function(file) {
+    feature(file, function(feature) {
+
+        var library = require('./bottles-library');
+        var yadda = new Yadda.Yadda(library);
+
+        scenarios(feature.scenarios, function(scenario, done) { 
+            var steps = feature.background_steps.concat(scenario.steps);
+            yadda.yadda(steps, done);
+        });
+    });
+});
+```
+Backgrounds are have the following limitations:
+
+* They cannot be shared between features
+* A feature can only have one background
+* There is out of the box mechanism associate a background with a subset of scenarios within a feature (you can do this which custom annotations if you need to)
+
+A more flexible approach would be to support re-use of scenarios, however the implications of this are more complicated and are still under consideration. 
 
 ### Feature Descriptions
 You can add an optional feature description at the top of your file to give some context about the scenarios contained within
