@@ -173,16 +173,16 @@ describe('FeatureParser', function() {
 
     it('should parse feature background', function() {
         var feature = parse_file('feature_with_background');
-        assert.deepEqual(feature.scenarios[0].background_steps, ['Given A']);
+        assert.deepEqual(feature.scenarios[0].steps[0], 'Given A');
     });
 
     it('should expand feature background with examples', function() {
         var feature = parse_file('feature_with_background_and_examples');
         assert.equal(feature.scenarios.length, 4);
-        assert.equal(feature.scenarios[0].background_steps[0], 'BG A1');
-        assert.equal(feature.scenarios[1].background_steps[0], 'BG B2');       
-        assert.equal(feature.scenarios[2].background_steps[0], 'BG X3');
-        assert.equal(feature.scenarios[3].background_steps[0], 'BG Y4');       
+        assert.equal(feature.scenarios[0].steps[0], 'BG A1');
+        assert.equal(feature.scenarios[1].steps[0], 'BG B2');       
+        assert.equal(feature.scenarios[2].steps[0], 'BG X3');
+        assert.equal(feature.scenarios[3].steps[0], 'BG Y4');       
     });    
 
     function parse_file(filename, language) {

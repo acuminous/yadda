@@ -187,29 +187,11 @@ Scenario: Plastic bottles should not break
    When 1 plastic bottles accidentally falls
    It does not break
 ``` 
-The background steps are added to the feature and can be accessed as follows...
-```js
-var Yadda = require('yadda');
-Yadda.plugins.mocha();
-
-new Yadda.FeatureFileSearch('features').each(function(file) {
-    feature(file, function(feature) {
-
-        var library = require('./bottles-library');
-        var yadda = new Yadda.Yadda(library);
-
-        scenarios(feature.scenarios, function(scenario, done) { 
-            var steps = feature.background_steps.concat(scenario.steps);
-            yadda.yadda(steps, done);
-        });
-    });
-});
-```
 Backgrounds are have the following limitations:
 
 * They cannot be shared between features
 * A feature can only have one background
-* There is out of the box mechanism associate a background with a subset of scenarios within a feature (you can do this which custom annotations if you need to)
+* There is out of the box mechanism associate a background with a subset of scenarios within a feature
 
 A more flexible approach would be to support re-use of scenarios, however the implications of this are more complicated and are still under consideration. 
 
