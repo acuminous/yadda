@@ -1,5 +1,5 @@
 var Yadda = require('yadda');
-Yadda.plugins.mocha({ mode: 'sync'});
+Yadda.plugins.mocha({ mode: 'sync', output: 'verbose' });
 
 new Yadda.FeatureFileSearch('features').each(function(file) {
     feature(file, function(feature) {
@@ -8,7 +8,9 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
         var yadda = new Yadda.Yadda(library);
 
         scenarios(feature.scenarios, function(scenario) {
-            yadda.yadda(scenario.steps);
+            steps(scenario.steps, function(step) {
+                yadda.yadda(step);
+            })
         });
     });
 });

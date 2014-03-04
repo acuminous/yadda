@@ -8,7 +8,7 @@ interfaces (Rest, Web, CLI, etc)
 
 var path = require('path');
 var Yadda = require('yadda');
-Yadda.plugins.mocha();
+Yadda.plugins.mocha({output: 'verbose'});
 
 new Yadda.FeatureFileSearch('features').each(function(file) {
     feature(file, function(feature) {
@@ -16,8 +16,10 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
         var libraries = require_feature_libraries(feature);
         var yadda = new Yadda.Yadda(libraries);
 
-        scenarios(feature.scenarios, function(scenario, done) {
-            yadda.yadda(scenario.steps, done);
+        scenarios(feature.scenarios, function(scenario) {
+            steps(scenario.steps, function(step, done) {
+                yadda.yadda(step, done);
+            });
         });
     });
 });
