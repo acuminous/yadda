@@ -1,8 +1,9 @@
 var Yadda = require('yadda');
-Yadda.plugins.mocha({ output: 'verbose' });
+Yadda.plugins.mocha.AsyncStepLevelPlugin.init(GLOBAL);
 
 new Yadda.FeatureFileSearch('features').each(function(file) {
-    feature(file, function(feature) {
+
+    featureFile(file, function(feature) {
 
         var library = require('./bottles-library');
         var yadda = new Yadda.Yadda(library);
@@ -10,7 +11,7 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
         scenarios(feature.scenarios, function(scenario) {
             steps(scenario.steps, function(step, done) {
                 yadda.yadda(step, done);
-            })
+            });
         });
     });
 });
