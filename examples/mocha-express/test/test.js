@@ -12,8 +12,6 @@ var serverUrl = url.resolve(baseUrl, '/api/server');
 
 before(function(next) {
 
-    console.log(serverUrl);
-
     // Stop the application in case it's already running
     request.del({ url: serverUrl }, function(err, response, body) {
 

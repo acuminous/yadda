@@ -7,7 +7,19 @@ Yadda brings _true_ BDD to JavaScript test frameworks such as [Jasmine](http://p
 Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the ordinary language steps to code. Not only are the steps less likely to go stale, but they also provide a valuable abstraction layer and encourage re-use. You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-js), but we find Yadda less invasive and prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is smarter too.
 
 ## Latest Version
-Yadda 0.10.0 - Added support for backgrounds kindly contributed by [Igor Mucsicska](http://github.com/mucsi)
+Yadda 0.10.0
+* Added support for backgrounds based on the pull request by [Igor Mucsicska](http://github.com/mucsi)
+* The mocha/jasmine plugin optional provides step level output, e.g.
+```
+  Mocha Express Example
+    A bottle falls from the wall
+      ✓ Given 100 green bottles are standing on the wall 
+      ✓ when 1 green bottle accidentally falls 
+      ✓ then there are 99 green bottles standing on the wall
+```
+
+
+
  
 ## Installation
 

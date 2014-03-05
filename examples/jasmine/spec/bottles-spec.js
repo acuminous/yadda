@@ -1,5 +1,5 @@
 var Yadda = require('yadda');
-Yadda.plugins.jasmine({ output: 'verbose'});
+Yadda.plugins.jasmine({ granularity: 'step' });
 
 new Yadda.FeatureFileSearch('features').each(function(file) {
     features(file, function(feature) {

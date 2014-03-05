@@ -137,6 +137,12 @@ describe('FeatureParser', function() {
         assert.deepEqual(feature.scenarios[0].annotations, {});
     });
 
+    it('should report background annotations', function() {
+        assert.throws(function() {
+            parse_file('annotated_background');
+        }, /Background is unexpected at this time/);
+    });
+
     it('should parse scenario annotations', function() {
         var feature = parse_file('annotated_scenario');
         assert.deepEqual(feature.annotations, {});
@@ -144,6 +150,14 @@ describe('FeatureParser', function() {
         assert.equal(feature.scenarios[0].annotations.keyword2, 'value2');
         assert(feature.scenarios[0].annotations.keyword3);
     });
+
+    it('should parse simple scenario annotations', function() {
+        var feature = parse_file('annotated_simple_scenario');
+        assert.deepEqual(feature.annotations, {});
+        assert.equal(feature.scenarios[0].annotations.keyword1, 'value1');
+        assert.equal(feature.scenarios[0].annotations.keyword2, 'value2');
+        assert(feature.scenarios[0].annotations.keyword3);
+    });    
 
     it('should support annotations with non alphanumerics', function() {
         var feature = parse_file('non_alphanumeric_annotated_feature');
@@ -173,7 +187,7 @@ describe('FeatureParser', function() {
 
     it('should parse feature background', function() {
         var feature = parse_file('feature_with_background');
-        assert.deepEqual(feature.scenarios[0].steps[0], 'Given A');
+        assert.equal(feature.scenarios[0].steps[0], 'Given A');
     });
 
     it('should expand feature background with examples', function() {

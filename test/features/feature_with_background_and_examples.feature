@@ -1,4 +1,4 @@
-Feature: Simple Feature
+Feature: Simple Feature With Examples
 
 Background:
 

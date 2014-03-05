@@ -1,6 +1,6 @@
-Feature: Simple Feature
+Feature: Simple Feature With Background
 
-  Background:
+  Background: Simple Background
 
     Given A
 
