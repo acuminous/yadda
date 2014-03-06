@@ -8,8 +8,8 @@ Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it m
 
 ## Latest Version
 Yadda 0.10.0
-* Added support for backgrounds - Thanks [Igor Mucsicska](http://github.com/mucsi)
-* Added support for step level output, e.g.
+* Added support for backgrounds - Thanks [mucsi](http://github.com/mucsi)
+* Added support for step level output - Thanks [simoami](http://github.com/simoami)
 ```
   Mocha Step Level Output Example
     A bottle falls from the wall
@@ -17,7 +17,6 @@ Yadda 0.10.0
       ✓ when 1 green bottle accidentally falls 
       ✓ then there are 99 green bottles standing on the wall
 ```
-Thanks [simoami](http://github.com/simoami)
 * Minor bug fixes to FeatureParser
 * Major rewrite of the mocha plugin. The old plugin will still work but has been deprecated and will be removed in 0.12.0. The replacement syntax is:
 ```
@@ -59,7 +58,7 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
     });
 });
 ```
-Part of the reason for the rewrite was to pave the way for karma integration as requested by [](http://github.com/). 
+Part of the reason for the rewrite was to pave the way for karma integration as requested by [zpratt](https://github.com/zpratt). This feature is next on the list.
 
 
  
