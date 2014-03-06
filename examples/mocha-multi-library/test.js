@@ -8,10 +8,11 @@ interfaces (Rest, Web, CLI, etc)
 
 var path = require('path');
 var Yadda = require('yadda');
-Yadda.plugins.mocha({output: 'verbose'});
+Yadda.plugins.mocha.AsyncStepLevelPlugin.init();
 
 new Yadda.FeatureFileSearch('features').each(function(file) {
-    feature(file, function(feature) {
+
+    featureFile(file, function(feature) {
 
         var libraries = require_feature_libraries(feature);
         var yadda = new Yadda.Yadda(libraries);

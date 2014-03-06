@@ -3,7 +3,7 @@ var request = require('request');
 var app = require('../app');
 var assert = require('assert');
 var Yadda = require('yadda');
-Yadda.plugins.mocha({output: 'verbose'});
+Yadda.plugins.mocha.AsyncStepLevelPlugin.init();
 
 var hostname = 'localhost';
 var port = 3000;
@@ -31,14 +31,14 @@ after(function(next) {
 
 new Yadda.FeatureFileSearch('test/features').each(function(file) {
 
-    feature(file, function(feature) {
+    featureFile(file, function(feature) {
 
         var library = require('./steps/bottles-library');
         var yadda = new Yadda.Yadda(library, { baseUrl: baseUrl });
 
         scenarios(feature.scenarios, function(scenario) {
             steps(scenario.steps, function(step, done) {
-                yadda.yadda(step, done);
+                yadda.yadda(scenario.steps, done);
             })
         });
     });
