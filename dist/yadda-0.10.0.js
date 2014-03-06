@@ -126,7 +126,7 @@ module.exports = function(obj) {
 
     return ensure_array(obj);
 };
-},{"./fn":14}],2:[function(require,module,exports){
+},{"./fn":15}],2:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -331,7 +331,7 @@ var Dictionary = function(prefix) {
 
 
 module.exports = Dictionary;
-},{"./Array":1,"./RegularExpression":12}],5:[function(require,module,exports){
+},{"./Array":1,"./RegularExpression":13}],5:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -396,7 +396,7 @@ module.exports = {
     ON_STEP: '__ON_STEP__',
     ON_EXECUTE: '__ON_EXECUTE__'
 };
-},{"./Array":1,"./fn":14}],6:[function(require,module,exports){
+},{"./Array":1,"./fn":15}],6:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -496,7 +496,7 @@ var FileSearch = function(directories, patterns) {
 };
 
 module.exports = FileSearch;
-},{"./Array":1,"./shims/index":30}],8:[function(require,module,exports){
+},{"./Array":1,"./shims/index":37}],8:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -578,7 +578,7 @@ var Interpreter = function(libraries) {
 };
 
 module.exports = Interpreter;
-},{"./Array":1,"./Competition":2,"./Context":3,"./EventBus":5,"./fn":14}],9:[function(require,module,exports){
+},{"./Array":1,"./Competition":2,"./Context":3,"./EventBus":5,"./fn":15}],9:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -782,7 +782,40 @@ var Macro = function(signature, signature_pattern, macro, macro_context) {
 
 module.exports = Macro;
 
-},{"./Context":3,"./EventBus":5,"./RegularExpression":12,"./fn":14}],12:[function(require,module,exports){
+},{"./Context":3,"./EventBus":5,"./RegularExpression":13,"./fn":15}],12:[function(require,module,exports){
+var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {};module.exports = Platform;
+
+function Platform() {
+
+    function get_container() {
+        if (is_browser()) return window;
+        if (is_node()) return global; 
+        if (is_phantom()) return phantom;
+    }
+
+    function is_node() {
+        return typeof global != 'undefined' &&
+               typeof global.process != 'undefined' &&
+               global.process.title == 'node';
+    }
+
+    function is_browser() {
+        return typeof window != 'undefined';
+    }
+
+    function is_phantom() {
+        return typeof phantom != 'undefined';
+    }
+
+    return {
+        get_container: get_container,
+        is_node: is_node,
+        is_browser: is_browser,
+        is_phantom: is_phantom
+    }
+
+}
+},{}],13:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -852,7 +885,7 @@ var RegularExpression = function(pattern_or_regexp) {
 };
 
 module.exports = RegularExpression;
-},{"./Array":1}],13:[function(require,module,exports){
+},{"./Array":1}],14:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -898,7 +931,7 @@ var Yadda = function(libraries, interpreter_context) {
 
 module.exports = Yadda;
 
-},{"./Context":3,"./Interpreter":8,"./fn":14}],14:[function(require,module,exports){
+},{"./Context":3,"./Interpreter":8,"./fn":15}],15:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -970,13 +1003,14 @@ module.exports = {
     Dictionary: require('./Dictionary'),
     FeatureFileSearch: require('./FeatureFileSearch'),    
     FileSearch: require('./FileSearch'),
+    Platform: require('./Platform'),    
     localisation: require('./localisation/index'),
     parsers: require('./parsers/index'),
     plugins: require('./plugins/index'),
     shims: require('./shims/index')
 };
 
-},{"./Context":3,"./Dictionary":4,"./EventBus":5,"./FeatureFileSearch":6,"./FileSearch":7,"./Interpreter":8,"./Library":10,"./Yadda":13,"./localisation/index":23,"./parsers/index":26,"./plugins/index":29,"./shims/index":30}],17:[function(require,module,exports){
+},{"./Context":3,"./Dictionary":4,"./EventBus":5,"./FeatureFileSearch":6,"./FileSearch":7,"./Interpreter":8,"./Library":10,"./Platform":12,"./Yadda":14,"./localisation/index":24,"./parsers/index":28,"./plugins/index":31,"./shims/index":37}],18:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -1012,7 +1046,7 @@ module.exports = (function() {
     return new Language('English', vocabulary);
 })();
 
-},{"./Language":19}],18:[function(require,module,exports){
+},{"./Language":20}],19:[function(require,module,exports){
 /* -*- coding: utf-8 -*-
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -1064,7 +1098,7 @@ module.exports = (function() {
 
 
 
-},{"./Language":19}],19:[function(require,module,exports){
+},{"./Language":20}],20:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -1116,7 +1150,7 @@ module.exports = function(name, vocabulary) {
         return vocabulary[keyword];
     };
 };
-},{"../Array":1,"../Library":10}],20:[function(require,module,exports){
+},{"../Array":1,"../Library":10}],21:[function(require,module,exports){
 ﻿/*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -1156,7 +1190,7 @@ module.exports = (function() {
     return new Language('Norwegian', vocabulary);
 })();
 
-},{"./Language":19}],21:[function(require,module,exports){
+},{"./Language":20}],22:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -1197,7 +1231,7 @@ module.exports = (function() {
     return new Language('Pirate', vocabulary);
 })();
 
-},{"./Language":19}],22:[function(require,module,exports){
+},{"./Language":20}],23:[function(require,module,exports){
 /* -*- coding: utf-8 -*-
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -1251,7 +1285,7 @@ module.exports = (function() {
 
 
 
-},{"./Language":19}],23:[function(require,module,exports){
+},{"./Language":20}],24:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -1276,7 +1310,38 @@ module.exports = {
     Pirate: require('./Pirate'),
     Language: require('./Language')
 }
-},{"./English":17,"./French":18,"./Language":19,"./Norwegian":20,"./Pirate":21,"./Spanish":22}],24:[function(require,module,exports){
+},{"./English":18,"./French":19,"./Language":20,"./Norwegian":21,"./Pirate":22,"./Spanish":23}],25:[function(require,module,exports){
+/*
+ * Copyright 2010 Acuminous Ltd / Energized Work Ltd
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+var FeatureFileParser = function(language) {
+
+    // Requiring fs locally so it doesn't break component
+    var fs = require('fs');
+    var FeatureParser = require('./FeatureParser');
+    var parser = new FeatureParser(language);
+
+    this.parse = function(file, next) {
+        var text = fs.readFileSync(file, 'utf8');
+        var feature = parser.parse(text);
+        return next && next(feature) || feature;
+    } 
+}
+
+module.exports = FeatureFileParser;
+},{"./FeatureParser":26,"fs":42}],26:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -1304,7 +1369,7 @@ var FeatureParser = function(language) {
 
     var FEATURE_REGEX = new RegExp('^\\s*' + language.localise('feature') + ':\\s*(.*)', 'i');
     var SCENARIO_REGEX = new RegExp('^\\s*' + language.localise('scenario') + ':\\s*(.*)', 'i');
-    var BACKGROUND_REGEX = new RegExp('^\\s*' + language.localise('background') + ':', 'i');
+    var BACKGROUND_REGEX = new RegExp('^\\s*' + language.localise('background') + ':\\s*(.*)', 'i');
     var EXAMPLES_REGEX = new RegExp('^\\s*' + language.localise('examples') + ':', 'i');
     var TEXT_REGEX = new RegExp('^\\s*([^\\s].*)', 'i');
     var SINGLE_LINE_COMMENT_REGEX = new RegExp('^\\s*#');
@@ -1343,7 +1408,7 @@ var FeatureParser = function(language) {
             if (match = NVP_ANNOTATION_REGEX.exec(line)) return specification.handle('Annotation', { key: match[1], value: match[2] });
             if (match = FEATURE_REGEX.exec(line)) return specification.handle('Feature', match[1]);
             if (match = SCENARIO_REGEX.exec(line)) return specification.handle('Scenario', match[1]);
-            if (match = BACKGROUND_REGEX.exec(line)) return specification.handle('Background');
+            if (match = BACKGROUND_REGEX.exec(line)) return specification.handle('Background', match[1]);
             if (match = EXAMPLES_REGEX.exec(line)) return specification.handle('Examples');
             if (match = BLANK_REGEX.test(line)) return specification.handle('Blank');
             if (match = TEXT_REGEX.exec(line)) return specification.handle('Text', match[1]);
@@ -1354,6 +1419,8 @@ var FeatureParser = function(language) {
 }
 
 var Handlers = function(handlers) {
+
+    var handlers = handlers || {};
 
     this.register = function(event, handler) {
         handlers[event] = handler;
@@ -1373,28 +1440,32 @@ var Specification = function() {
 
     var current_element = this;
     var feature = undefined;
-    var feature_annotations = {};
+    var annotations = {};
     var handlers = new Handlers({
         text: fn.noop,
         blank: fn.noop,        
         annotation: stash_annotation,
         feature: start_feature,
-        scenario: start_scenario
+        scenario: start_scenario,
+        background: start_background,
     });
 
     function stash_annotation(event, annotation) {
-        feature_annotations[annotation.key] = annotation.value;
-        feature_annotations[annotation.key.toLowerCase().replace(/\W/g, '_')] = annotation.value;
+        handlers.unregister('background');
+        annotations[annotation.key] = annotation.value;
+        annotations[annotation.key.toLowerCase().replace(/\W/g, '_')] = annotation.value;
     };
 
     function start_feature(event, title) {
-        return feature = new Feature(title, feature_annotations);
+        return feature = new Feature(title, annotations, {});
     };
 
     function start_scenario(event, title) {
-        start_feature();
+        feature = new Feature(title, {}, annotations);
         return feature.on(event, title);
-    };
+    }; 
+
+    var start_background = start_scenario;  
 
     this.handle = function(event, data) {
         current_element = current_element.on(event, data);
@@ -1410,12 +1481,11 @@ var Specification = function() {
     };
 };
 
-var Feature = function(title, annotations) {
+var Feature = function(title, annotations, stashed_annotations) {
 
     var description = [];
     var scenarios = [];
-    var background_steps = [];
-    var scenario_annotations = {};      
+    var background = new NullBackground();
     var handlers = new Handlers({
         text: capture_description,
         blank: end_description,        
@@ -1425,24 +1495,16 @@ var Feature = function(title, annotations) {
     }); 
     var _this = this;
 
-    function start_background() {
-        handlers.unregister('background');
-        handlers.register('text', capture_background_step);
-        handlers.register('blank', fn.noop);
+    function start_background(event, title) {
+        background = new Background(title, _this);
+        stashed_annotations = {};
+        return background;
     };
-
-    function capture_background_step(event, text) {
-        background_steps.push(text);
-    };
-
-    function end_background() {
-        handlers.unregister('text');
-    }
 
     function stash_annotation(event, annotation) {
-        end_background();
-        scenario_annotations[annotation.key] = annotation.value;
-        scenario_annotations[annotation.key.toLowerCase().replace(/\W/g, '_')] = annotation.value;
+        handlers.unregister('background');        
+        stashed_annotations[annotation.key] = annotation.value;
+        stashed_annotations[annotation.key.toLowerCase().replace(/\W/g, '_')] = annotation.value;
     };
 
     function capture_description(event, text) {
@@ -1455,10 +1517,9 @@ var Feature = function(title, annotations) {
     };
 
     function start_scenario(event, title) {
-        end_background();        
-        var scenario = new Scenario(title, background_steps, scenario_annotations, _this);
+        var scenario = new Scenario(title, background, stashed_annotations, _this);
         scenarios.push(scenario);
-        scenario_annotations = {};        
+        stashed_annotations = {};        
         return scenario;
     };
 
@@ -1478,7 +1539,61 @@ var Feature = function(title, annotations) {
     };
 };
 
-var Scenario = function(title, background_steps, annotations, feature) {
+var Background = function(title, feature) {
+
+    var steps = [];
+    var handlers = new Handlers({
+        text: fn.noop,        
+        blank: end_description,
+        scenario: start_scenario
+    }); 
+    var _this = this;  
+
+    function end_description() {
+        handlers.register('text', capture_step);
+        handlers.register('blank', fn.noop);
+    };
+
+    function capture_step(event, text) {
+        steps.push(text);
+    }
+
+    function start_scenario(event, data) {
+        validate();
+        return feature.on(event, data);
+    };  
+
+    function validate() {
+        if (steps.length == 0) throw new Error('Background requires one or more steps');        
+    };
+
+    this.on = function(event, data) {
+        return handlers.find(event).handle(event, data) || this;
+    };
+
+    this.export = function() {
+        validate();
+        return {
+            steps: steps
+        };
+    };
+};
+
+var NullBackground = function() {
+    var handlers = new Handlers(); 
+
+    this.on = function(event, data) {
+        return handlers.find(event).handle(event, data) || this;
+    };
+
+    this.export = function() {
+        return {
+            steps: []
+        };
+    };    
+}
+
+var Scenario = function(title, background, annotations, feature) {
 
     var description = [];
     var steps = [];
@@ -1529,7 +1644,7 @@ var Scenario = function(title, background_steps, annotations, feature) {
             title: title,
             annotations: annotations,
             description: description,
-            steps: background_steps.concat(steps)
+            steps: background.export().steps.concat(steps)
         };
         return examples ? examples.expand(result) : result;
     };
@@ -1547,6 +1662,7 @@ var Examples = function(scenario) {
         annotation: start_scenario,
         scenario: start_scenario,
     });
+    var _this = this;
 
     function capture_headings(event, data) {
         handlers.register('text', capture_example);
@@ -1592,25 +1708,28 @@ var Examples = function(scenario) {
             return {
                 title: substitute(example, scenario.title),
                 annotations: scenario.annotations,
-                description: substitute(example, scenario.description),
-                steps: substitute(example, scenario.steps),
-                background_steps: substitute(example, scenario.background_steps)
-            };            
+                description: substitute_all(example, scenario.description),
+                steps: substitute_all(example, scenario.steps)
+            };
         }).naked();
     };
 
-    function substitute(example, lines) {
+    function substitute_all(example, lines) {
         return $(lines).collect(function(line) {
-            for (var heading in example) {
-                line = line.replace(new RegExp('\\[\\s*' + heading + '\\s*\\]', 'g'), example[heading]);
-            };
-            return line;
+            return substitute(example, line);
         }).naked();
-    }
+    };
+
+    function substitute(example, line) {
+        for (var heading in example) {
+            line = line.replace(new RegExp('\\[\\s*' + heading + '\\s*\\]', 'g'), example[heading]);
+        };
+        return line;        
+    };
 };
 
 module.exports = FeatureParser;
-},{"../Array":1,"../fn":14,"../localisation/English":17}],25:[function(require,module,exports){
+},{"../Array":1,"../fn":15,"../localisation/English":18}],27:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -1649,12 +1768,13 @@ var StepParser = function() {
 };
 
 module.exports = StepParser;
-},{"../Array":1}],26:[function(require,module,exports){
+},{"../Array":1}],28:[function(require,module,exports){
 module.exports = {
     StepParser: require('./StepParser'),
-    FeatureParser: require('./FeatureParser')
+    FeatureParser: require('./FeatureParser'),
+    FeatureFileParser: require('./FeatureFileParser')
 }
-},{"./FeatureParser":24,"./StepParser":25}],27:[function(require,module,exports){
+},{"./FeatureFileParser":25,"./FeatureParser":26,"./StepParser":27}],29:[function(require,module,exports){
 var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {};if (!module.client) {   
     var fs = require('fs');
     global.process = global.process || {
@@ -1685,7 +1805,7 @@ module.exports = function(yadda, casper) {
     }
 };
 
-},{"fs":35,"yadda":"3V0FPO"}],28:[function(require,module,exports){
+},{"fs":42,"yadda":"3V0FPO"}],30:[function(require,module,exports){
 if (!module.client) {
 	var fs = require('fs');
 }
@@ -1699,6 +1819,14 @@ module.exports = function(options) {
     var language = options.language || English;
     var parser = options.parser || new FeatureParser(language);
     var mode = options.mode || 'async';
+
+    if (options.deprecation_warning != false) {
+        console.log('The MochaPlugin is deprecated as os 0.10.0 and will be removed in 0.12.0');
+        console.log('Replace it with one of AsyncScenarioLevelPlugin, SyncScenarioLevelPlugin, AsyncStepLevelPlugin or SyncStepLevelPlugin');
+        console.log('To disable this message use Yadda.plugins.mocha({deprecation_warning: false})');
+        console.log('See the readme for more details')        
+    }
+
 	if (module.client) {
 		var feature = function (text, next) {
 			parser.parse(text, function(feature) {
@@ -1751,14 +1879,23 @@ module.exports = function(options) {
 	}
 };
 
-},{"../Array":1,"../localisation/English":17,"../parsers/FeatureParser":24,"fs":35}],29:[function(require,module,exports){
+},{"../Array":1,"../localisation/English":18,"../parsers/FeatureParser":26,"fs":42}],31:[function(require,module,exports){
 module.exports = {
     casper: require('./CasperPlugin'),
-    mocha: require('./MochaPlugin'),
-    jasmine: require('./MochaPlugin')
+    get mocha() { 
+        var legacyPlugin = require('./MochaPlugin');
+        legacyPlugin.AsyncScenarioLevelPlugin = require('./mocha/AsyncScenarioLevelPlugin');
+        legacyPlugin.SyncScenarioLevelPlugin = require('./mocha/SyncScenarioLevelPlugin');
+        legacyPlugin.AsyncStepLevelPlugin = require('./mocha/AsyncStepLevelPlugin');
+        legacyPlugin.SyncStepLevelPlugin = require('./mocha/SyncStepLevelPlugin');
+        return legacyPlugin;
+    },
+    get jasmine() { 
+        return this.mocha
+    }
 }
-},{"./CasperPlugin":27,"./MochaPlugin":28}],30:[function(require,module,exports){
-var process=require("__browserify_process"),global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {};/*
+},{"./CasperPlugin":29,"./MochaPlugin":30,"./mocha/AsyncScenarioLevelPlugin":32,"./mocha/AsyncStepLevelPlugin":33,"./mocha/SyncScenarioLevelPlugin":35,"./mocha/SyncStepLevelPlugin":36}],32:[function(require,module,exports){
+/*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -1774,7 +1911,256 @@ var process=require("__browserify_process"),global=typeof self !== "undefined" ?
  * limitations under the License.
  */
 
+var $ = require('../../Array');
+var Platform = require('../../Platform');
+var BasePlugin = require('./BasePlugin');
+
+module.exports.init = function(options) {
+
+    var platform = new Platform();
+    var options = options || {};    
+    var container = options.container || platform.get_container();
+
+    var base_plugin = BasePlugin.create(options);
+
+    function scenarios(scenarios, iterator) {        
+        $(scenarios).each(function(scenario) {
+            base_plugin.it_async(scenario.title, scenario, iterator);
+        });
+    }    
+
+    container.featureFiles = container.featureFile = base_plugin.featureFiles;
+    container.features = container.feature = base_plugin.features;
+    container.scenarios = container.scenario = scenarios;          
+};
+},{"../../Array":1,"../../Platform":12,"./BasePlugin":34}],33:[function(require,module,exports){
+/*
+ * Copyright 2010 Acuminous Ltd / Energized Work Ltd
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+var $ = require('../../Array');
+var Platform = require('../../Platform');
+var BasePlugin = require('./BasePlugin');
+
+module.exports.init = function(options) {
+
+    var platform = new Platform();
+    var options = options || {};
+    var container = options.container || platform.get_container();
+
+    var base_plugin = BasePlugin.create(options);
+
+    function scenarios(scenarios, iterator) {
+        $(scenarios).each(function(scenario) {
+            base_plugin.describe(scenario.title, scenario, iterator);                        
+        });        
+    } 
+
+    function steps(steps, iterator) {
+        $(steps).each(function(step) {
+            base_plugin.it_async(step, step, iterator);
+        });        
+    }     
+
+    container.featureFiles = container.featureFile = base_plugin.featureFiles;
+    container.features = container.feature = base_plugin.feature;
+    container.scenarios = container.scenario = scenarios;
+    container.steps = steps;
+};
+},{"../../Array":1,"../../Platform":12,"./BasePlugin":34}],34:[function(require,module,exports){
+/*
+ * Copyright 2010 Acuminous Ltd / Energized Work Ltd
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+var English = require('../../localisation/English');
+var Platform = require('../../Platform');
+var FeatureFileParser = require('../../parsers/FeatureFileParser');
+var $ = require('../../Array');
+
+module.exports.create = function(options) {
+
+    var platform = new Platform();
+    var language = options.language || English;
+    var container = options.container || platform.get_container();
+        
+    function featureFiles(files, iterator) {
+        var parser = new FeatureFileParser(language);
+        $(files).each(function(file) {
+            features(parser.parse(file), iterator)
+        });
+    };
+
+    function features(features, iterator) {
+        $(features).each(function(feature) {
+            describe(feature.title, feature, iterator);
+        });        
+    };
+
+    function describe(title, subject, iterator) {
+        var _describe = is_pending(subject) ? container.xdescribe : container.describe;
+        _describe(title, function() {
+            iterator(subject)
+        });        
+    }    
+
+    function it_async(title, subject, iterator) {
+        var _it = is_pending(subject) ? container.xit : container.it;
+        _it(title, function(done) {
+            iterator(subject, done);
+        }) 
+    }
+
+    function it_sync(title, subject, iterator) {
+        var _it = is_pending(subject) ? container.xit : container.it;
+        _it(title, function() {
+            iterator(subject);
+        }) 
+    }  
+
+    function is_pending(subject) {
+        return subject.annotations && subject.annotations[language.localise('pending')];
+    }
+
+    return {
+        featureFiles: featureFiles,
+        features: features,
+        describe: describe,
+        it_async: it_async,
+        it_sync: it_sync
+    }        
+};
+},{"../../Array":1,"../../Platform":12,"../../localisation/English":18,"../../parsers/FeatureFileParser":25}],35:[function(require,module,exports){
+/*
+ * Copyright 2010 Acuminous Ltd / Energized Work Ltd
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+var $ = require('../../Array');
+var Platform = require('../../Platform');
+var BasePlugin = require('./BasePlugin');
+
+module.exports.init = function(options) {
+
+    var platform = new Platform();
+    var options = options || {};    
+    var container = options.container || platform.get_container();
+
+    var base_plugin = BasePlugin.create(options);
+
+    function scenarios(scenarios, iterator) {
+        $(scenarios).each(function(scenario) {
+            base_plugin.it_sync(scenario.title, scenario, iterator);
+        });
+    }
+
+    container.featureFiles = container.featureFile = base_plugin.featureFiles;
+    container.features = container.feature = base_plugin.features;
+    container.scenarios = container.scenario = scenarios;     
+};
+},{"../../Array":1,"../../Platform":12,"./BasePlugin":34}],36:[function(require,module,exports){
+/*
+ * Copyright 2010 Acuminous Ltd / Energized Work Ltd
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+var $ = require('../../Array');
+var Platform = require('../../Platform');
+var BasePlugin = require('./BasePlugin');
+
+module.exports.init = function(options) {
+
+    var platform = new Platform();
+    var options = options || {};    
+    var container = options.container || platform.get_container();
+
+    var base_plugin = BasePlugin.create(options);
+
+    function scenarios(scenarios, iterator) {
+        $(scenarios).each(function(scenario) {
+            base_plugin.describe(scenario.title, scenario, iterator);                        
+        });        
+    } 
+
+    function steps(steps, iterator) {
+        $(steps).each(function(step) {
+            base_plugin.it_sync(step, step, iterator);
+        });        
+    }  
+
+    container.featureFiles = container.featureFile = base_plugin.featureFiles;
+    container.features = container.feature = base_plugin.features;
+    container.scenarios = container.scenario = scenarios;
+    container.steps = steps;
+};
+},{"../../Array":1,"../../Platform":12,"./BasePlugin":34}],37:[function(require,module,exports){
+var process=require("__browserify_process");/*
+ * Copyright 2010 Acuminous Ltd / Energized Work Ltd
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+var Platform = require('../Platform');
+
 module.exports = (function() {
+
+    var platform = new Platform();
 
     var shims = {
         node: function() {
@@ -1793,27 +2179,17 @@ module.exports = (function() {
         }
     }
 
-    function is_node() {
-        return typeof global != 'undefined' &&
-               typeof global.process != 'undefined' &&
-               global.process.title == 'node';
-    }
-
-    function is_phantom() {
-        return typeof phantom;
-    }
-
     function get_shim() {
-        if (is_node()) return shims.node();
+        if (platform.is_node()) return shims.node();
 
-        if (is_phantom()) return shims.phantom();
+        if (platform.is_phantom()) return shims.phantom();
         throw new Error('Unsupported Platform');
     }
 
     return get_shim();
 })();
 
-},{"./phantom-fs":31,"./phantom-path":32,"./phantom-process":33,"__browserify_process":38,"fs":35,"path":36}],31:[function(require,module,exports){
+},{"../Platform":12,"./phantom-fs":38,"./phantom-path":39,"./phantom-process":40,"__browserify_process":45,"fs":42,"path":43}],38:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -1857,7 +2233,7 @@ module.exports = (function() {
     return fs;
 })();
 
-},{"fs":35}],32:[function(require,module,exports){
+},{"fs":42}],39:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -1901,7 +2277,7 @@ module.exports = (function() {
 
 })();
 
-},{"fs":35,"path":36}],33:[function(require,module,exports){
+},{"fs":42,"path":43}],40:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -1935,7 +2311,7 @@ module.exports = (function() {
 
 })();
 
-},{"fs":35}],34:[function(require,module,exports){
+},{"fs":42}],41:[function(require,module,exports){
 
 
 //
@@ -2153,13 +2529,13 @@ if (typeof Object.getOwnPropertyDescriptor === 'function') {
   exports.getOwnPropertyDescriptor = valueObject;
 }
 
-},{}],35:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 
 // not implemented
 // The reason for having an empty file and not throwing is to allow
 // untraditional implementation of this module.
 
-},{}],36:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 var process=require("__browserify_process");// Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -2370,7 +2746,7 @@ exports.extname = function(path) {
   return splitPath(path)[3];
 };
 
-},{"__browserify_process":38,"_shims":34,"util":37}],37:[function(require,module,exports){
+},{"__browserify_process":45,"_shims":41,"util":44}],44:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -2915,7 +3291,7 @@ function hasOwnProperty(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop);
 }
 
-},{"_shims":34}],38:[function(require,module,exports){
+},{"_shims":41}],45:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
