@@ -2,7 +2,7 @@
 
 ## Yadda 0.10.0
  - Added support for backgrounds - Thanks [mucsi](http://github.com/mucsi)
- - Added support for step level output in mocha tests - Thanks [](http://github.com/mucsi)
+ - Added support for step level output in mocha tests - Thanks [simoami](http://github.com/simoami)
  - Fixed a few minor bugs in the FeatureParser
  - This release involves a complete rewrite of the mocha/jasmine plugin. The old plugin will be deprecated in 0.12.0. 
    The replacement syntax is:
