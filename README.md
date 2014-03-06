@@ -8,16 +8,58 @@ Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it m
 
 ## Latest Version
 Yadda 0.10.0
-* Added support for backgrounds based on the pull request by [Igor Mucsicska](http://github.com/mucsi)
-* The mocha/jasmine plugin optional provides step level output, e.g.
+* Added support for backgrounds - Thanks [Igor Mucsicska](http://github.com/mucsi)
+* Added support for step level output, e.g.
 ```
-  Mocha Express Example
+  Mocha Step Level Output Example
     A bottle falls from the wall
       ✓ Given 100 green bottles are standing on the wall 
       ✓ when 1 green bottle accidentally falls 
       ✓ then there are 99 green bottles standing on the wall
 ```
+Thanks [](http://github.com/)
+* Minor bug fixes to FeatureParser
+* Major rewrite of the mocha plugin. The old plugin will still work but has been deprecated and will be removed in 0.12.0. The replacement syntax is:
+```
+var Yadda = require('yadda');
+Yadda.plugins.mocha.AsyncScenarioLevelPlugin.init();
 
+new Yadda.FeatureFileSearch('features').each(function(file) {
+
+    // Previously features(file, function(feature))
+    featureFile(file, function(feature) {
+
+        var library = require('./bottles-library');
+        var yadda = new Yadda.Yadda(library);
+
+        scenarios(feature.scenarios, function(scenario, done) {
+            yadda.yadda(scenario.steps, done);
+        });
+    });
+});
+```
+To get step level output use SyncStepLevelPlugin or AsyncStepLevelPlugin as appropriate, e.g. 
+```
+var Yadda = require('yadda');
+Yadda.plugins.mocha.AsyncStepLevelPlugin.init();
+
+new Yadda.FeatureFileSearch('features').each(function(file) {
+
+    // Previously features(file, function(feature))
+    featureFile(file, function(feature) {
+
+        var library = require('./bottles-library');
+        var yadda = new Yadda.Yadda(library);
+
+        scenarios(feature.scenarios, function(scenario) {
+            steps(scenario.steps, function(step, done) {
+                yadda.yadda(step, done);
+            })
+        });
+    });
+});
+```
+Part of the reason for the rewrite was to pave the way for karma integration as requested by [](http://github.com/). 
 
 
  
@@ -37,7 +79,7 @@ bottles.feature
 ```
 Feature: 100 Green Bottles
 
-Scenario: should fall from the wall
+Scenario: Should fall from the wall
 
    Given 100 green bottles are standing on the wall
    When 1 green bottle accidentally falls
@@ -73,16 +115,20 @@ module.exports = (function() {
 bottles-test.js
 ```js
 var Yadda = require('yadda');
-Yadda.plugins.mocha();
+Yadda.plugins.mocha.AsyncStepLevelPlugin.init();
 
-feature('./bottles.feature', function(feature) {
+new Yadda.FeatureFileSearch('features').each(function(file) {
 
-  var library = require('./bottles-library');
-  var yadda = new Yadda.Yadda(library);
+  featureFile(file, function(feature) {
 
-  scenarios(feature.scenarios, function(scenario, done) {
-    yadda.yadda(scenario.steps, done);
-  });
+    var library = require('./bottles-library');
+    var yadda = new Yadda.Yadda(library);
+
+    scenarios(feature.scenarios, function(scenario) {
+      steps(scenario.steps, function(step, done) {  
+        yadda.yadda(scenario.steps, done);
+      });
+    });
 });
 ```
 ### Step 4 - Write your code
@@ -100,7 +146,10 @@ module.exports = function(bottles) {
   mocha --reporter spec bottles-test.js
 
   100 Green Bottles
-    ✓ should fall from the wall
+    Should fall from the wall
+      ✓ Given 100 green bottles are standing on the wall
+      ✓ When 1 green bottle accidentally falls
+      ✓ Then there are 99 green bottles standing on the wall    
 ```
 
 ## Yadda In Depth
@@ -163,7 +212,7 @@ new Yadda.yadda(library).yadda([
     "then there are 99 green bottles standing on the wall"
 ]);
 ```
-Because the localisatised definitions for 'given', 'when' and 'then' are loose you could also re-write the above scenario as
+Because the localised definitions for 'given', 'when' and 'then' are loose you could also re-write the above scenario as
 ```js
 new Yadda.yadda(library).yadda([
     "given 100 green bottles standing on the wall",
@@ -171,166 +220,13 @@ new Yadda.yadda(library).yadda([
     "expect there are 99 green bottles standing on the wall"
 ]);
 ```
+
+### Localisation
 We'd be delighted to accept pull requests for more languages and dialects. Many thanks to the following language contributors
 
  - [kjelloe](https://github.com/kjelloe) - Norwegian
  - [ami44](https://github.com/ami44) - French
  - [feliun](https://github.com/feliun) - Spanish
-
-### Backgrounds
-A background is a set of steps that are executed before each scenario in the corresponding feature file. 
-```
-Feature: 100 Green Bottles
-
-Background:
-
-   Given a 6ft wall
-   With a healthy amount of moss
-
-Scenario: Bottles should fall from the wall
-
-   Given 100 green bottles are standing on the wall
-   When 1 green bottles accidentally falls
-   Then there are 99 green bottles standing on the wall
-
-Scenario: Plastic bottles should not break
-
-   Given 100 plastic bottles are standing on the wall
-   When 1 plastic bottles accidentally falls
-   It does not break
-``` 
-Backgrounds are have the following limitations:
-
-* They cannot be shared between features
-* A feature can only have one background
-* There is out of the box mechanism associate a background with a subset of scenarios within a feature
-
-A more flexible approach would be to support re-use of scenarios, however the implications of this are more complicated and are still under consideration. 
-
-### Feature Descriptions
-You can add an optional feature description at the top of your file to give some context about the scenarios contained within
-```
-Feature: Bystander is ammused by watching falling bottles
-As a bystander,
-I can watch bottles falling from a wall
-so that I can be mildly amused
-
-Scenario: should fall from the wall
-
-   Given 100 green bottles are standing on the wall
-   When 1 green bottle accidentally falls
-   Then there are 99 green bottles standing on the wall
-```
-
-There can only be a single feature present in a file - it really doesn't make sense to have two, and you will be issued with an error if you try to include more than one.
-
-### Annotations
-Annotations can be added to a feature or scenario and may take the form of either single value tags or key/value pair. 
-```
-@Browser=chrome
-@Theme=bottles
-Feature: As a bystander
-    I can watch bottles falling from a wall
-    So that I can be mildly amused
-
-@Teardown
-Scenario: should fall from the wall
-
-   Given 100 green bottles are standing on the wall
-   When 1 green bottle accidentally falls
-   Then there are 99 green bottles standing on the wall
-```
-Next you'll need to write the code that process the annotations from the parsed feature or scenario, e.g.
-
-```js
-var Yadda = require('yadda');
-
-var all_features = new Yadda.FileSearch('features').list();
-
-features(all_features, function(feature) {
-
-    console.log(feature.annotations.theme);
-
-    var library = require('./bottles-library');
-    var yadda = new Yadda.Yadda(library);
-
-    scenarios(feature.scenarios, function(scenario) {
-        if (scenario.annotations.teardown) library.teardown();
-        yadda.yadda(scenario.steps);
-    });
-});
-```
-The mocha and jasmine plugins already support @Pending annotations on features and scenarios out of the box, although [skipping tests in jasmine causes them to be excluded from the report](https://github.com/pivotal/jasmine/issues/274).
-
-### Comments
-You can add single line or block comments too.
-```
-###
-  This is  a
-  block comment
-###
-Feature: As a bystander
-    I can watch bottles falling from a wall
-    So that I can be mildly amused
-
-# Marked as pending until verified by customer - SC 300BC
-@Pending
-Scenario: should fall from the wall
-
-   Given 100 green bottles are standing on the wall
-   When 1 green bottle accidentally falls
-   Then there are 99 green bottles standing on the wall
-```
-But you can't do this...
-```
-Feature: As a bystander
-    I can watch bottles falling from a wall
-
-    # A blank line will always terminate a feature or scenario description
-
-    So that I can be mildly amused
-```
-### Example Tables
-Example Tables are supported as of 0.9.0. When the following feature file is parsed
-
-bottles.feature
-```
-Feature: 100 Green Bottles
-
-Scenario: should fall in groups of [Falling]
-
-   Given 100 green bottles are standing on the wall
-   When [Falling] green bottles accidentally fall
-   Then there are [Remaining] green bottles standing on the wall
-
-   Where:
-      Falling | Remaining
-      2       | 98
-      10      | 90
-      100     | 0 
-```
-it will produce three scenarios, identical to
-```
-Feature: 100 Green Bottles
-
-Scenario: should fall in groups of 2
-
-   Given 100 green bottles are standing on the wall
-   When 2 green bottles accidentally fall
-   Then there are 98 green bottles standing on the wall
-
-Scenario: should fall in groups of 10
-
-   Given 100 green bottles are standing on the wall
-   When 10 green bottles accidentally fall
-   Then there are 90 green bottles standing on the wall
-
-Scenario: should fall in groups of 100
-
-   Given 100 green bottles are standing on the wall
-   When 100 green bottles accidentally fall
-   Then there are 0 green bottles standing on the wall      
-```
 
 ### Step Anatomy
 A step is made up of a regular expression, a function and some context.
@@ -469,12 +365,171 @@ The following events are available...
 </table>
 
 #### Coverage
-
+Please note coverage may appear to hang on OSX, while causing the CPU to thrash. This is because the Yadda examples use symbolic links back to the top level directory, 
+creating an infinite loop. Istanbul follows these links indefinitely. The problem doesn't present on other linux based distributions.
 ```
 npm install istanbul -g 
 npm install mocha -g 
 npm run istanbul
 ```
-
 Open ```coverage/lcov-report/lib/localisation/index.html``` with your browser
+
+## Feature Filses
+While Yadda can interpret any text you write steps for, it also comes with a Gherkin like feature file parser.
+
+### Backgrounds
+A background is a set of steps that are executed before each scenario in the corresponding feature file. 
+```
+Feature: 100 Green Bottles
+
+Background:
+
+   Given a 6ft wall
+   With a healthy amount of moss
+
+Scenario: Bottles should fall from the wall
+
+   Given 100 green bottles are standing on the wall
+   When 1 green bottles accidentally falls
+   Then there are 99 green bottles standing on the wall
+
+Scenario: Plastic bottles should not break
+
+   Given 100 plastic bottles are standing on the wall
+   When 1 plastic bottles accidentally falls
+   It does not break
+``` 
+Backgrounds are have the following limitations:
+
+* They cannot be shared between features
+* A feature can only have one background
+* A background will be added to every scenario in a feature
+
+A more flexible approach would be to support [re-use of scenarios](http://github.com/acuminous/yadda/issue/27]. 
+The implications of this are more complicated and are still under consideration. 
+
+### Feature Descriptions
+You can add an optional feature description at the top of your file to give some context about the scenarios contained within
+```
+Feature: Bystander is ammused by watching falling bottles
+As a bystander,
+I can watch bottles falling from a wall
+so that I can be mildly amused
+
+Scenario: should fall from the wall
+
+   Given 100 green bottles are standing on the wall
+   When 1 green bottle accidentally falls
+   Then there are 99 green bottles standing on the wall
+```
+
+There can only be a single feature present in a file - it really doesn't make sense to have two, and you will be issued with an error if you try to include more than one.
+
+### Annotations
+Annotations can be added to a feature or scenario and may take the form of either single value tags or key/value pair. 
+```
+@Browser=chrome
+@Theme=bottles
+Feature: As a bystander
+    I can watch bottles falling from a wall
+    So that I can be mildly amused
+
+@Teardown
+Scenario: should fall from the wall
+
+   Given 100 green bottles are standing on the wall
+   When 1 green bottle accidentally falls
+   Then there are 99 green bottles standing on the wall
+```
+Next you'll need to write the code that process the annotations from the parsed feature or scenario, e.g.
+
+```js
+var Yadda = require('yadda');
+
+var all_features = new Yadda.FileSearch('features').list();
+
+features(all_features, function(feature) {
+
+    console.log(feature.annotations.theme);
+
+    var library = require('./bottles-library');
+    var yadda = new Yadda.Yadda(library);
+
+    scenarios(feature.scenarios, function(scenario) {
+        if (scenario.annotations.teardown) library.teardown();
+        yadda.yadda(scenario.steps);
+    });
+});
+```
+The mocha and jasmine plugins already support @Pending annotations on features and scenarios out of the box, although [skipping tests in jasmine causes them to be excluded from the report](https://github.com/pivotal/jasmine/issues/274).
+
+### Comments
+You can add single line or block comments too.
+```
+###
+  This is  a
+  block comment
+###
+Feature: As a bystander
+    I can watch bottles falling from a wall
+    So that I can be mildly amused
+
+# Marked as pending until verified by customer - SC 300BC
+@Pending
+Scenario: should fall from the wall
+
+   Given 100 green bottles are standing on the wall
+   When 1 green bottle accidentally falls
+   Then there are 99 green bottles standing on the wall
+```
+But you can't do this...
+```
+Feature: As a bystander
+    I can watch bottles falling from a wall
+
+    # A blank line will always terminate a feature or scenario description
+
+    So that I can be mildly amused
+```
+### Example Tables
+Example Tables are supported as of 0.9.0. When the following feature file is parsed
+
+bottles.feature
+```
+Feature: 100 Green Bottles
+
+Scenario: should fall in groups of [Falling]
+
+   Given 100 green bottles are standing on the wall
+   When [Falling] green bottles accidentally fall
+   Then there are [Remaining] green bottles standing on the wall
+
+   Where:
+      Falling | Remaining
+      2       | 98
+      10      | 90
+      100     | 0 
+```
+it will produce three scenarios, identical to
+```
+Feature: 100 Green Bottles
+
+Scenario: should fall in groups of 2
+
+   Given 100 green bottles are standing on the wall
+   When 2 green bottles accidentally fall
+   Then there are 98 green bottles standing on the wall
+
+Scenario: should fall in groups of 10
+
+   Given 100 green bottles are standing on the wall
+   When 10 green bottles accidentally fall
+   Then there are 90 green bottles standing on the wall
+
+Scenario: should fall in groups of 100
+
+   Given 100 green bottles are standing on the wall
+   When 100 green bottles accidentally fall
+   Then there are 0 green bottles standing on the wall      
+```
 

@@ -2,6 +2,49 @@
 
 ## Yadda 0.10.0
  - Added support for backgrounds - Thanks [mucsi](http://github.com/mucsi)
+ - Added support for step level output in mocha tests - Thanks [](http://github.com/mucsi)
+ - Fixed a few minor bugs in the FeatureParser
+ - This release involves a complete rewrite of the mocha/jasmine plugin. The old plugin will be deprecated in 0.12.0. 
+   The replacement syntax is:
+```
+var Yadda = require('yadda');
+Yadda.plugins.mocha.AsyncScenarioLevelPlugin.init();
+
+new Yadda.FeatureFileSearch('features').each(function(file) {
+
+    // Previously features(file, function(feature))
+    featureFile(file, function(feature) {
+
+        var library = require('./bottles-library');
+        var yadda = new Yadda.Yadda(library);
+
+        scenarios(feature.scenarios, function(scenario, done) {
+            yadda.yadda(scenario.steps, done);
+        });
+    });
+});
+```
+To get step level output use SyncStepLevelPlugin or AsyncStepLevelPlugin as appropriate, e.g. 
+```
+var Yadda = require('yadda');
+Yadda.plugins.mocha.AsyncStepLevelPlugin.init();
+
+new Yadda.FeatureFileSearch('features').each(function(file) {
+
+    // Previously features(file, function(feature))
+    featureFile(file, function(feature) {
+
+        var library = require('./bottles-library');
+        var yadda = new Yadda.Yadda(library);
+
+        scenarios(feature.scenarios, function(scenario) {
+            steps(scenario.steps, function(step, done) {
+                yadda.yadda(step, done);
+            })
+        });
+    });
+});
+```
 
 ## Yadda 0.9.11
  - Updated French translations - Thanks [poum](https://github.com/poum)

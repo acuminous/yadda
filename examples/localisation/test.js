@@ -1,8 +1,8 @@
 var Yadda = require('yadda');
-Yadda.plugins.mocha({language: Yadda.localisation.Pirate, output: 'verbose' });
+Yadda.plugins.mocha.AsyncStepLevelPlugin.init({language: Yadda.localisation.Pirate});
 
 new Yadda.FeatureFileSearch('features').each(function(file) {
-    feature(file, function(feature) {
+    featureFile(file, function(feature) {
 
         var library = require('./bottles-library');
         var yadda = new Yadda.Yadda(library);
