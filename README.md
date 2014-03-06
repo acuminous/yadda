@@ -17,7 +17,7 @@ Yadda 0.10.0
       ✓ when 1 green bottle accidentally falls 
       ✓ then there are 99 green bottles standing on the wall
 ```
-Thanks [](http://github.com/)
+Thanks [simoami](http://github.com/simoami)
 * Minor bug fixes to FeatureParser
 * Major rewrite of the mocha plugin. The old plugin will still work but has been deprecated and will be removed in 0.12.0. The replacement syntax is:
 ```
@@ -49,7 +49,7 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
     featureFile(file, function(feature) {
 
         var library = require('./bottles-library');
-        var yadda = new Yadda.Yadda(library);
+    T    var yadda = new Yadda.Yadda(library);
 
         scenarios(feature.scenarios, function(scenario) {
             steps(scenario.steps, function(step, done) {
