@@ -789,8 +789,8 @@ function Platform() {
 
     function get_container() {
         if (is_browser()) return window;
-        if (is_node()) return global; 
         if (is_phantom()) return phantom;
+        if (is_node()) return global;         
     }
 
     function is_node() {
@@ -2180,9 +2180,9 @@ module.exports = (function() {
     }
 
     function get_shim() {
-        if (platform.is_node()) return shims.node();
-
         if (platform.is_phantom()) return shims.phantom();
+        if (platform.is_node()) return shims.node();
+        
         throw new Error('Unsupported Platform');
     }
 
