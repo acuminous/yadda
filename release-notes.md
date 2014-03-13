@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.10.1
+- Improved nodejs detection - Thanks [eXon](http://github.com/eXon)
+
 ## Yadda 0.10.0
  - Added support for backgrounds - Thanks [mucsi](http://github.com/mucsi)
  - Added support for step level output in mocha tests - Thanks [simoami](http://github.com/simoami)
