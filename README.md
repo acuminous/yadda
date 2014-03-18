@@ -129,6 +129,7 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
         yadda.yadda(scenario.steps, done);
       });
     });
+  });
 });
 ```
 ### Step 4 - Write your code
