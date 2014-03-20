@@ -9,7 +9,7 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
 
         scenarios(feature.scenarios, function(scenario) {
             steps(scenario.steps, function(step) {
-                yadda.yadda(scenario.steps);
+                yadda.yadda(step);
             })
         });
     });
