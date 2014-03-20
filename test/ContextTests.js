@@ -9,6 +9,12 @@ describe('Context', function() {
         assert_merge_context({a: 1}, {}, {a: 1});
         assert_merge_context({a: 1}, {b: 2}, {a: 1, b:2});
         assert_merge_context({a: 1}, {a: 2}, {a: 2});
+
+        assert_merge_context(undefined, {a: 1}, {a: 1});
+        assert_merge_context(null, {a: 1}, {a: 1});
+        assert_merge_context({}, {a: 1}, {a: 1});
+        assert_merge_context({b: 2}, {a: 1}, {a: 1, b:2});
+        assert_merge_context({a: 2}, {a: 1}, {a: 1});
     });
 
     it("should merge contexts", function() {      
