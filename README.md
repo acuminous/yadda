@@ -8,6 +8,7 @@ Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it m
 
 ## Latest Version
 Yadda 0.10.2
+* Fixes to the mocha-sync and mocha-express examples
 * Bower support - Thanks [jeffreytgilbert](http://github.com/jeffreytgilbert)
 * Improved French localisation - Thanks [poum](http://github.com/poum)
 * Improved README - Thanks [gblosser42](http://github.com/gblosser42)
@@ -71,7 +72,7 @@ npm install yadda
 ```
 ### Browser based environments (e.g. QUnit)
 ```html
-<script src="./lib/yadda-0.10.1.js"></script>
+<script src="./lib/yadda-0.10.2.js"></script>
 ```
 ## Writing Yadda Tests
 ### Step 1 - Write your scenarios

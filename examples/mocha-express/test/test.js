@@ -38,7 +38,7 @@ new Yadda.FeatureFileSearch('test/features').each(function(file) {
 
         scenarios(feature.scenarios, function(scenario) {
             steps(scenario.steps, function(step, done) {
-                yadda.yadda(scenario.steps, done);
+                yadda.yadda(step, done);
             })
         });
     });

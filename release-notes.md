@@ -1,5 +1,11 @@
 # Release Notes
 
+## Yadda 0.10.2
+* Fixes to the mocha-sync and mocha-express examples
+* Bower support - Thanks [jeffreytgilbert](http://github.com/jeffreytgilbert)
+* Improved French localisation - Thanks [poum](http://github.com/poum)
+* Improved README - Thanks [gblosser42](http://github.com/gblosser42)
+
 ## Yadda 0.10.1
 - Improved nodejs detection - Thanks [eXon](http://github.com/eXon)
 
