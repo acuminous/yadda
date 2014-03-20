@@ -925,7 +925,7 @@ var Yadda = function(libraries, interpreter_context) {
     };
 
     this.toString = function() {
-        return "Yadda 0.10.2 Copyright 2010 Acuminous Ltd / Energized Work Ltd";
+        return "Yadda 0.10.0 Copyright 2010 Acuminous Ltd / Energized Work Ltd";
     };
 };
 
@@ -1072,7 +1072,7 @@ module.exports = (function() {
         scenario: '(?:[Ss]cénario|[Pp]lan [Dd]u [Ss]cénario)',
         examples: '(?:[Ee]xemples|[Ee]xemple|[Oo][uù])',
         pending: 'En attente',
-        background: '(?:[Cc]ontexte|[Ff]ond)',
+        background: '[Ff]ond',
         given: '(?:[Ss]oit|[ÉéEe]tant données|[ÉéEe]tant donnée|[ÉéEe]tant donnés|[ÉéEe]tant donné|[Aa]vec|[Ee]t|[Mm]ais|[Aa]ttendre)',
         when: '(?:[Qq]uand|[Ll]orsqu\'|[Ll]orsque|[Ss]i|[Ee]t|[Mm]ais)',
         then: '(?:[Aa]lors|[Aa]ttendre|[Ee]t|[Mm]ais)',
