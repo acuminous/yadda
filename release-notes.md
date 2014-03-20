@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.10.3
+* The webdriver example uses new mocha plugin
+
 ## Yadda 0.10.2
 * Fixes to the mocha-sync and mocha-express examples
 * Bower support - Thanks [jeffreytgilbert](http://github.com/jeffreytgilbert)

@@ -1,11 +1,12 @@
 var Yadda = require('yadda');
-Yadda.plugins.mocha();
+Yadda.plugins.mocha.AsyncStepLevelPlugin.init();
+
 var library = require('./google-library');
 var webdriver = require('selenium-webdriver');
 var driver;
 
 new Yadda.FeatureFileSearch('features').each(function(file) {
-    feature(file, function(feature) {
+    featureFile(file, function(feature) {
 
         before(function(done) {
             driver = new webdriver.Builder().usingServer().withCapabilities({'browserName': 'chrome'}).build();
@@ -13,8 +14,10 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
             done();
         })
 
-        scenarios(feature.scenarios, function(scenario, done) {
-            new Yadda.Yadda(library, { driver: driver }).yadda(scenario.steps, done);
+        scenarios(feature.scenarios, function(scenario) {
+            steps(scenario.steps, function(step, done) {
+                new Yadda.Yadda(library, { driver: driver }).yadda(step, done);
+            })
         });
 
         after(function(done) {
