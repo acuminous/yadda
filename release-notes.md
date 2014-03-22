@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.10.5
+* Supporting multiple variations of Pending annotation. See [issue 78](https://github.com/acuminous/yadda/issues/78)
+
 ## Yadda 0.10.4
 * Annotations can now be prefixed with a space. See [issue79](https://github.com/acuminous/yadda/issues/79)
 
