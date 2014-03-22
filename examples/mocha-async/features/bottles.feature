@@ -16,7 +16,7 @@ Scenario: No bottles are left
     when 1 green bottle accidentally falls
     then there are 0 green bottles standing on the wall
 
-@Pending
+@Todo
 Scenario: Bottles are reset
 
 	Given there are no green bottles
