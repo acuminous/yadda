@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.10.4
+* Annotations can now be prefixed with a space. See [issue79](https://github.com/acuminous/yadda/issues/79)
+
 ## Yadda 0.10.3
 * The webdriver example uses new mocha plugin
 
