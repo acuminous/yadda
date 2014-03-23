@@ -10,49 +10,43 @@ module.exports = (function() {
 
     var library = new Yadda.localisation.English.library(dictionary)
 
-    .when("I open Google's $LOCALE search page", function(locale, next) {
-        this.driver.get("http://www.google." + locale + "/").then(next);
+    .when("I open Google's $LOCALE search page", function(locale) {
+        this.driver.get("http://www.google." + locale + "/");
     })
 
-    .then("the title is $TITLE", function(title, next) {
+    .then("the title is $TITLE", function(title) {
         var driver = this.driver;
         driver.wait(function() {
             return driver.getTitle().then(function(value) {
                 return value === title;
             });
-        }, 5000).then(function() {
-            next();
-        });
+        }, 5000);
     })
 
-    .then("the $ACTION form exists", function(action, next) {
+    .then("the $ACTION form exists", function(action) {
         this.driver.findElement(webdriver.By.css('form[action="/' + action + '"]')).then(function(form) {
             assert.ok(form);
-            next();
         });
     })
 
-    .when("I search for $TERM", function(term, next) {
+    .when("I search for $TERM", function(term) {
         this.driver.findElement(webdriver.By.name('q')).then(function(input) {
-            input.sendKeys(term + '\n').then(next);
+            input.sendKeys(term + '\n');
         });
     })
 
-    .then("the search for $TERM was made", function(term, next) {
+    .then("the search for $TERM was made", function(term) {
         var driver = this.driver;
         driver.wait(function() {
             return driver.getCurrentUrl().then(function(value) {
                 return new RegExp('q=' + term).test(value);
             });
-        }, 5000).then(function() {
-            next();
-        });
+        }, 5000);
     })
 
-    .then("$NUM or more results were returned", function(number, next) {
+    .then("$NUM or more results were returned", function(number) {
         this.driver.findElements(webdriver.By.css('h3.r')).then(function(elements) {
             assert.ok(elements.length >= parseInt(number));
-            next();
         });
     });
 

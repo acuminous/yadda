@@ -1,5 +1,5 @@
 {
-    "name": "yadda-webdriver-example",
+    "name": "yadda-mocha-webdriver-example",
     "version": "0.0.0",
     "dependencies": {
         "selenium-webdriver": "~2.39.0",
