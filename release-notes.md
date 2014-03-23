@@ -1,5 +1,8 @@
 # Release Notes
 
+## Coming up
+* The new mocha plugins can be configured with a parser instead
+
 ## Yadda 0.10.6
 * Fix for [issue-82](https://github.com/acuminous/yadda/issues/82)
 * Jasmine webdriver example
