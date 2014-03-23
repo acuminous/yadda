@@ -1,5 +1,9 @@
 # Release Notes
 
+## Yadda 0.10.6
+* Fix for [issue-82](https://github.com/acuminous/yadda/issues/82)
+* Jasmine webdriver example
+
 ## Yadda 0.10.5
 * Supporting multiple variations of Pending annotation. See [issue 78](https://github.com/acuminous/yadda/issues/78)
 
