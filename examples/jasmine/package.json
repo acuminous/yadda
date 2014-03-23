@@ -1,5 +1,5 @@
 {
-    "name": "yadda-mocha-async-example",
+    "name": "yadda-jasmine-example",
     "version": "0.0.0",
     "dependencies": {
         "jasmine-node": "~1.11.0"

@@ -1,0 +1,14 @@
+{
+  "name": "yadda-jamine-webdriver-example",
+  "version": "0.0.0",
+  "dependencies": {
+    "jasmine-node": "~1.11.0",
+    "selenium-webdriver": "^2.40.0"
+  },
+  "scripts": {
+    "preinstall": "npm --loglevel error link yadda",
+    "test": "node bin/example.js"
+  },
+  "author": "Stephen Cresswell",
+  "license": "Apache2"
+}

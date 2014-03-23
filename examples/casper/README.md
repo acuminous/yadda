@@ -5,6 +5,7 @@ Prerequisits
 
 ```
 npm install
+npm link
 cd examples/casper
 npm install
 npm test
