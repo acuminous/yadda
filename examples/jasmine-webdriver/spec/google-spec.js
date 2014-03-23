@@ -1,14 +1,10 @@
-var webdriver = require('selenium-webdriver');
-test = require('selenium-webdriver/testing');
-var Yadda = require('yadda');
-Yadda.plugins.mocha.AsyncScenarioLevelPlugin.init();
-
 require('jasmine-before-all');
-
-jasmine.getEnv().defaultTimeoutInterval = 10000;
-var flow = webdriver.promise.controlFlow();
-
+var webdriver = require('selenium-webdriver');
+var Yadda = require('yadda');
 var library = require('../google-library');
+
+Yadda.plugins.mocha.AsyncStepLevelPlugin.init();
+jasmine.getEnv().defaultTimeoutInterval = 10000;
 
 
 describe('Google', function() {
@@ -23,12 +19,13 @@ describe('Google', function() {
 
     new Yadda.FeatureFileSearch('features').each(function(file) {       
         featureFile(file, function(feature) {
-            scenarios(feature.scenarios, function(scenario, done) {
-                executeInFlow(function() {
-                    new Yadda.Yadda(library, { driver: driver }).yadda(scenario.steps);
-                }, done);
-            });
-
+            scenarios(feature.scenarios, function(scenario) {
+                steps(scenario.steps, function(step, done) {
+                    executeInFlow(function() {
+                        new Yadda.Yadda(library, { driver: driver }).yadda(step);
+                    }, done);
+                })
+            })
         })
     })
 
@@ -41,7 +38,7 @@ describe('Google', function() {
 })
 
 function executeInFlow(fn, done) {
-    flow.execute(fn).then(function() {
+    webdriver.promise.controlFlow().execute(fn).then(function() {
         done();
     }, done);    
 }
