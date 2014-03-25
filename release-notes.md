@@ -1,7 +1,9 @@
 # Release Notes
 
-## Coming up
-* The new mocha plugins can be configured with a parser instead
+## Yadda 0.10.7
+* The new mocha plugins can be passed a custom parser
+* Polish language support - Thanks [macie](https://github.com/macie)
+* A fix for multiline commments
 
 ## Yadda 0.10.6
 * Fix for [issue-82](https://github.com/acuminous/yadda/issues/82)
