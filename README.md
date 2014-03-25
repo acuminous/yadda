@@ -230,9 +230,10 @@ new Yadda.yadda(library).yadda([
 ### Localisation
 We'd be delighted to accept pull requests for more languages and dialects. Many thanks to the following language contributors
 
- - [kjelloe](https://github.com/kjelloe) - Norwegian
  - [ami44](https://github.com/ami44) - French
  - [feliun](https://github.com/feliun) - Spanish
+ - [kjelloe](https://github.com/kjelloe) - Norwegian
+ - [macie](https://github.com/macie) - Polish
 
 ### Step Anatomy
 A step is made up of a regular expression, a function and some context.
