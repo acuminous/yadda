@@ -6,16 +6,16 @@ Before Feature
 Feature: Simple Feature
 
 #####
-# Multi Line Comment
-# Before Scenario
+Multi Line Comment
+Before Scenario
 #####
 Scenario: Simple Scenario
 
     Given A
 
     #####
-    # Muli Line Comment
-    # Before Step
+    Muli Line Comment
+    Before Step
     #####
 
     When B
