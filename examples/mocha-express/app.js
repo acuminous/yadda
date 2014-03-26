@@ -15,17 +15,14 @@ module.exports = (function() {
     function start(host, port, next) {
         server = app.listen(port, host, function() {
             app.on('shutdown_request', stop);
-            app.set('started', new Date());    
+            app.set('started', new Date());
             next && next();
-        })
+        });
     }
 
     function stop(next) {
-        server && server.close(next);        
+        server && server.close(next);
     }
 
-    return {
-        start: start,
-        stop: stop
-    }
+    return {start: start, stop: stop};
 })();

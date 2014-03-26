@@ -12,7 +12,7 @@
     mocha.setup('bdd');
     Yadda.plugins.mocha();
 
-    feature(bottles, function (feature) {
+    feature(bottles, function(feature) {
         scenarios(feature.scenarios, function(scenario, done) {
             steps(scenario.steps, done);
         });

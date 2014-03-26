@@ -17,7 +17,12 @@ module.exports = (function() {
     }
 
     function listBottles(req, res) {
-        res.json(_.chain(bottles).filter(byQueryParameters(req)).map(toJson).value());
+        res.json(
+            _.chain(bottles)
+             .filter(byQueryParameters(req))
+             .map(toJson)
+             .value()
+        );
     }
 
     function deleteBottle(req, res) {
@@ -26,18 +31,20 @@ module.exports = (function() {
     }
 
     function toBottles(json) {
-        return _.extend(json, { id: uuid.v1() })
+        return _.extend(json, {id: uuid.v1()});
     }
 
     function toJson(bottle) {
-        return _.chain(bottle).clone().extend({ uri: '/api/bottles/' + bottle.id }).omit('id').value();
+        return _.chain(bottle)
+                .clone()
+                .extend({uri: '/api/bottles/' + bottle.id })
+                .omit('id')
+                .value();
     }
 
     function byQueryParameters(req) {
-        return _.matches(req.query);        
+        return _.matches(req.query);
     }
 
-    return {
-        init: init
-    }
+    return {init: init};
 })();

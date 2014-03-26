@@ -10,20 +10,24 @@ module.exports = (function() {
 
     var library = English.library(dictionary)
 
-        .given("$NUM green bottles are standing on the wall", function(number_of_bottles, next) {
-        	wall = new Wall(number_of_bottles);
-            next();
-        })
-
-        .when("$NUM green bottle accidentally falls", function(number_of_falling_bottles, next) {
-            wall.fall(number_of_falling_bottles);
-            next();
-        })
-
-        .then("there (?:are|are still) $NUM green bottles standing on the wall", function(number_of_bottles, next) {
-            assert.equal(number_of_bottles, wall.items);
-            next();
-        })
+        .given('$NUM green bottles are standing on the wall',
+            function(number_of_bottles, next) {
+                wall = new Wall(number_of_bottles);
+                next();
+            }
+        )
+        .when('$NUM green bottle accidentally falls',
+            function(number_of_falling_bottles, next) {
+                wall.fall(number_of_falling_bottles);
+                next();
+            }
+        )
+        .then('there (?:are|are still) $NUM green bottles standing on the wall',
+            function(number_of_bottles, next) {
+                assert.equal(number_of_bottles, wall.items);
+                next();
+            }
+        );
 
     return library;
 })();
