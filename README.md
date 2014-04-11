@@ -282,7 +282,7 @@ var feature_specific_dictionary = new Yadda.Dictionary()
     .merge(shared_dictionary)
     .define('speciality', /(cardio|elderly|gastro)/);
 ```
-An alternative way to make your regular expressions more rediable is to alias them. So instead of...
+An alternative way to make your regular expressions more readable is to alias them. So instead of...
 ```js
     .given('$patient is (?:still )awaiting discharge', function(patient) {
         // some code
@@ -392,7 +392,7 @@ Scenario: Plastic bottles should not break
    When 1 plastic bottles accidentally falls
    It does not break
 ``` 
-Backgrounds are have the following limitations:
+Backgrounds have the following limitations:
 
 * They cannot be shared between features
 * A feature can only have one background
@@ -404,7 +404,7 @@ The implications of this are more complicated and are still under consideration.
 ### Feature Descriptions
 You can add an optional feature description at the top of your file to give some context about the scenarios contained within
 ```
-Feature: Bystander is ammused by watching falling bottles
+Feature: Bystander is amused by watching falling bottles
 As a bystander,
 I can watch bottles falling from a wall
 so that I can be mildly amused
@@ -416,7 +416,7 @@ Scenario: should fall from the wall
    Then there are 99 green bottles standing on the wall
 ```
 
-There can only be a single feature present in a file - it really doesn't make sense to have two, and you will be issued with an error if you try to include more than one.
+There can only be a single feature present in a file - it really doesn't make sense to have two, and you will be issued an error if you try to include more than one.
 
 ### Annotations
 Annotations can be added to a feature or scenario and may take the form of either single value tags or key/value pair. 
@@ -434,7 +434,7 @@ Scenario: should fall from the wall
    When 1 green bottle accidentally falls
    Then there are 99 green bottles standing on the wall
 ```
-Next you'll need to write the code that process the annotations from the parsed feature or scenario, e.g.
+Next you'll need to write the code that processes the annotations from the parsed feature or scenario, e.g.
 
 ```js
 var Yadda = require('yadda');
