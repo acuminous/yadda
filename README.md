@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/acuminous/yadda.png)](https://travis-ci.org/acuminous/yadda)
 
 Yadda brings _true_ BDD to JavaScript test frameworks such as [Jasmine](http://pivotal.github.io/jasmine/), [Mocha](http://visionmedia.github.io/mocha/), [QUnit](http://qunitjs.com), [Nodeunit](https://github.com/caolan/nodeunit), [WebDriverJs](code.google.com/p/selenium/wiki/WebDriverJs) and [CasperJS](http://casperjs.org). By _true_ BDD we mean that the ordinary language (e.g. English) steps are mapped to code, as opposed to simply decorating it. This is important because just like comments, the decorative steps such as those used by
-[Jasmine](http://pivotal.github.com/jasmine), [Mocha](http://visionmedia.github.io/mocha) and [Vows](http://vowsjs.org), can fall out of date and are a form of duplication.
+[Jasmine](http://pivotal.github.com/jasmine), [Mocha](http://visionmedia.github.io/mocha) and [Vows](http://vowsjs.org) can fall out of date and are a form of duplication.
 
 Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the ordinary language steps to code. Not only are the steps less likely to go stale, but they also provide a valuable abstraction layer and encourage re-use. You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-js), but we find Yadda less invasive and prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is smarter too.
 
@@ -232,7 +232,7 @@ library.given('^(\\d+) green bottle(?:s){0,1} standing on the wall$', function(n
 ```
 
 #### Regular Expressions
-The regular expression is used to identify which steps are compatible with the input text, and to provide arguments to the function. You can specify step signatures using true RegExp object, which is handy if they contain lots of backslash characters. e.g.
+The regular expression is used to identify which steps are compatible with the input text, and to provide arguments to the function. You can specify step signatures using true RegExp objects, which is handy if they contain lots of backslash characters. e.g.
 ```js
 var library = Yadda.Library.English.library()
     .given(/^(\d+) green bottle(?:s){0,1} standing on the wall$/, function(n) {
@@ -282,7 +282,7 @@ var feature_specific_dictionary = new Yadda.Dictionary()
     .merge(shared_dictionary)
     .define('speciality', /(cardio|elderly|gastro)/);
 ```
-An alternative way to make your regular expressions more rediable is to alias them. So instead of...
+An alternative way to make your regular expressions more readable is to alias them. So instead of...
 ```js
     .given('$patient is (?:still )awaiting discharge', function(patient) {
         // some code
@@ -301,7 +301,7 @@ function will be used, which is one way of implementing a 'Pending' step.
 
 #### Contexts (Shared State)
 The context will be bound with the function before it is executed and provides a non global way to share state between
-steps, or pass in define time variables such as an assertion library or 'done' function. The context is optional.
+steps, or pass in "define-time" variables such as an assertion library or 'done' function. The context is optional.
 
 It can be a chore to add a context to every step, so a common context can be specified at the interpreter and scenario levels too. If you specify multiple contexts (as in the following example) they will be merged before executing the step.
 
@@ -327,12 +327,12 @@ One issue you find with BDD libraries, is that two steps might match the same in
 
 1. By using the Levenshtein Distance to determine which step is the best match when clashes occur.
 
-2. By allowing you to define steps in multiple libraries. Grouping steps into libraries not only helps keep a tidy code base, but also prevents clashes if you scenario doesn't require the library with the alternative step.
+2. By allowing you to define steps in multiple libraries. Grouping steps into libraries not only helps keep a tidy code base, but also prevents clashes if your scenario doesn't require the library with the alternative step.
 
 3. If you still have problems with clashing, you can use the term dictionary to make your regular expression more specific without affecting the readability of your step.
 
 #### Events
-Debugging BDD tests is typically harder than debugging unit tests, not least because you usually can't step through a feature file. You can make things a bit easier by adding event listeners, which log the step that is being executed.
+Debugging BDD tests is typically harder than debugging unit tests for a number of reasons, not the least of which is because you can't step through a feature file. You can make things a bit easier by adding event listeners, which log the step that is being executed.
 
 ```js
 var EventBus = require('Yadda').EventBus;
@@ -359,7 +359,7 @@ The following events are available...
 
 #### Coverage
 Please note coverage may appear to hang on OSX, while causing the CPU to thrash. This is because the Yadda examples use symbolic links back to the top level directory, 
-creating an infinite loop. Istanbul follows these links indefinitely. The problem doesn't present on other linux based distributions.
+creating an infinite loop. Istanbul follows these links indefinitely. The problem doesn't present itself on other linux-based distributions.
 ```
 npm install istanbul -g 
 npm install mocha -g 
@@ -367,8 +367,8 @@ npm run istanbul
 ```
 Open ```coverage/lcov-report/lib/localisation/index.html``` with your browser
 
-## Feature Filses
-While Yadda can interpret any text you write steps for, it also comes with a Gherkin like feature file parser.
+## Feature Files
+While Yadda can interpret any text you write steps for, it also comes with a Gherkin-like feature file parser.
 
 ### Backgrounds
 A background is a set of steps that are executed before each scenario in the corresponding feature file. 
@@ -392,19 +392,19 @@ Scenario: Plastic bottles should not break
    When 1 plastic bottles accidentally falls
    It does not break
 ``` 
-Backgrounds are have the following limitations:
+Backgrounds have the following limitations:
 
 * They cannot be shared between features
 * A feature can only have one background
 * A background will be added to every scenario in a feature
 
-A more flexible approach would be to support [re-use of scenarios](http://github.com/acuminous/yadda/issue/27]. 
+A more flexible approach would be to support [re-use of scenarios](http://github.com/acuminous/yadda/issue/27). 
 The implications of this are more complicated and are still under consideration. 
 
 ### Feature Descriptions
 You can add an optional feature description at the top of your file to give some context about the scenarios contained within
 ```
-Feature: Bystander is ammused by watching falling bottles
+Feature: Bystander is amused by watching falling bottles
 As a bystander,
 I can watch bottles falling from a wall
 so that I can be mildly amused
@@ -416,10 +416,10 @@ Scenario: should fall from the wall
    Then there are 99 green bottles standing on the wall
 ```
 
-There can only be a single feature present in a file - it really doesn't make sense to have two, and you will be issued with an error if you try to include more than one.
+There can only be a single feature present in a file - it really doesn't make sense to have two, and you will be issued an error if you try to include more than one.
 
 ### Annotations
-Annotations can be added to a feature or scenario and may take the form of either single value tags or key/value pair. 
+Annotations can be added to a feature or scenario and may take the form of either single-value tags or key/value pairs. 
 ```
 @Browser=chrome
 @Theme=bottles
@@ -434,7 +434,7 @@ Scenario: should fall from the wall
    When 1 green bottle accidentally falls
    Then there are 99 green bottles standing on the wall
 ```
-Next you'll need to write the code that process the annotations from the parsed feature or scenario, e.g.
+Next you'll need to write the code that processes the annotations from the parsed feature or scenario, e.g.
 
 ```js
 var Yadda = require('yadda');
