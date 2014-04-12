@@ -14,11 +14,11 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
                     patient.admission = timestamp;
                 },
                 scheduleDischarge: function(patient, timestamp) {
-                    patient.discharge = { time: timestamp };
+                    patient.discharge = {time: timestamp};
                 }
             }
         }
-    }
+    };
 
     featureFile(file, function(feature) {
 
@@ -31,7 +31,7 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
         var yadda = new Yadda.Yadda(libraies);
 
         scenarios(feature.scenarios, function(scenario) {
-            var ctx = { hospitals: { Middleton: MiddletonHospital }};
+            var ctx = {hospitals: {Middleton: MiddletonHospital}};
             steps(scenario.steps, function(step, done) {
                 yadda.yadda(step, {ctx: ctx}, done);
             });

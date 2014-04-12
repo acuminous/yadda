@@ -1,4 +1,4 @@
-var events = require('events');    
+var events = require('events');
 
 module.exports = (function() {
 
@@ -8,16 +8,14 @@ module.exports = (function() {
     }
 
     function status(req, res) {
-        res.send({ started: req.app.get('started') })
+        res.send({started: req.app.get('started')});
     }
 
     function shutdown(req, res) {
-        res.send(202);        
+        res.send(202);
         req.app.emit('shutdown_request');
     }
 
-    return {
-        init: init
-    }
+    return {init: init};
 })();
 

@@ -5,13 +5,13 @@ var library = require('./bottles-library');
 var yadda = new Yadda.Yadda(library);
 
 new Yadda.FeatureFileSearch('features').each(function(file) {
-    
+
     var text = fs.readFileSync(file, 'utf8');
     var feature = parser.parse(text);
 
     feature.scenarios.forEach(function(scenario) {
         exports[scenario.title] = function(test) {
-            yadda.yadda(scenario.steps, { test: test }, test.done);
+            yadda.yadda(scenario.steps, {test: test}, test.done);
         };
-    }); 
+    });
 });

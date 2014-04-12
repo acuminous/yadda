@@ -1,5 +1,6 @@
 var Yadda = require('yadda');
-Yadda.plugins.mocha.AsyncStepLevelPlugin.init({language: Yadda.localisation.Pirate});
+Yadda.plugins.mocha.AsyncStepLevelPlugin.init(
+    {language: Yadda.localisation.Pirate});
 
 new Yadda.FeatureFileSearch('features').each(function(file) {
     featureFile(file, function(feature) {
@@ -10,7 +11,7 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
         scenarios(feature.scenarios, function(scenario) {
             steps(scenario.steps, function(step, done) {
                 yadda.yadda(step, done);
-            })
+            });
         });
     });
 });
