@@ -9,6 +9,10 @@ describe('Array', function() {
         assert.deepEqual($([1, [[2], 3]], []).flatten().naked(), [1, 2, 3]);
     })
 
+    it('Flattens an empty array', function() {
+        assert.deepEqual($([]).flatten().naked(), []);
+    })    
+
     it('Should iterate asynchronously', function() {
         var items = [1, 2, 3];
         var iterations = 0;

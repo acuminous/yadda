@@ -197,7 +197,13 @@ describe('FeatureParser', function() {
         assert.equal(feature.scenarios[1].steps[0], 'BG B2');       
         assert.equal(feature.scenarios[2].steps[0], 'BG X3');
         assert.equal(feature.scenarios[3].steps[0], 'BG Y4');       
-    });    
+    });
+
+    it('should report incomplete features', function() {
+        assert.throws(function() {
+            parse_file('incomplete_feature');
+        }, /Feature requires one or more scenarios/);
+    })    
 
     function parse_file(filename, language) {
         return new FeatureParser(language).parse(load(filename));
