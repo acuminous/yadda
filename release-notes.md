@@ -1,5 +1,9 @@
 # Release Notes
 
+## Yadda 0.10.8
+* Fix for [issue-88](https://github.com/acuminous/yadda/issues/88)
+* Removal of incorrect French translation for 'background'
+
 ## Yadda 0.10.7
 * The new mocha plugins can be passed a custom parser
 * Polish language support - Thanks [macie](https://github.com/macie)
