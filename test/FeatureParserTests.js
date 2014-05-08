@@ -143,6 +143,11 @@ describe('FeatureParser', function() {
         }, /Background is unexpected at this time/);
     });
 
+    it('should parse multiple feature definitions of the same annotation as an array of values', function() {
+        var feature = parse_file('annotated_feature');
+        assert.deepEqual(feature.annotations.keyword4, [ 'value1', 'value2' ]);
+    });
+
     it('should parse scenario annotations', function() {
         var feature = parse_file('annotated_scenario');
         assert.deepEqual(feature.annotations, {});
@@ -165,6 +170,11 @@ describe('FeatureParser', function() {
         assert.equal(feature.annotations.key_word_1, 'value1');
         assert.equal(feature.scenarios[0].annotations['Key Word-1'], 'value1');
         assert.equal(feature.scenarios[0].annotations.key_word_1, 'value1');
+    });
+
+    it('should parse multiple scenario definitions of the same annotation as an array of values', function() {
+        var feature = parse_file('annotated_scenario');
+        assert.deepEqual(feature.scenarios[0].annotations.keyword4, [ 'value1', 'value2' ]);
     });
 
     it('should support single line comments', function() {
