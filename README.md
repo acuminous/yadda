@@ -11,6 +11,7 @@ The current version of Yadda is 0.10.8. Recent changes include:
 * Fix for [issue-88](https://github.com/acuminous/yadda/issues/88)
 * Removal of incorrect French translation for 'background'
 * Major rewrite of the mocha plugin. The old plugin will still work but has been deprecated and will be removed in 0.12.0. The replacement syntax is:
+
 ```
 var Yadda = require('yadda');
 Yadda.plugins.mocha.AsyncScenarioLevelPlugin.init();
@@ -164,20 +165,26 @@ Yadda works with Mocha, Jasmine, QUnit, Nodeunit, ZombieJS, CasperJS and WebDriv
 git clone https://github.com/acuminous/yadda.git
 cd yadda
 npm install
+npm link
+npm run examples
+```
+
+Alternatively you can run them individually
+
+```bash
+git clone https://github.com/acuminous/yadda.git
+cd yadda
+npm install
+npm link
 cd examples/<desired-example-folder>
 npm install
 npm test
 ```
 
-Alternatively you can run all the examples
-```bash
-git clone https://github.com/acuminous/yadda.git
-cd yadda
-npm install
-npm run examples
-```
-
-Please note that the Zombie example doesn't install on windows and that the webdriver example may fail depending on how google detects your locale
+**Please note:**
+* The Zombie example doesn't install on windows
+* The webdriver example may fail depending on how google detects your locale.
+* Your operating system must support ```npm link```.
 
 ### Flexible BDD Syntax
 It's common for BDD libraries to limit syntax to precondition (given) steps, action (when) steps and assertion (then) steps. Yadda doesn't. This allows for more freedom of expression. e.g.
