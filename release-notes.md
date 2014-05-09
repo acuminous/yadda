@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.10.9
+* Fix for [issue-93](https://github.com/acuminous/yadda/issue/93). Thanks [simoami](https://github.com/simoami)
+
 ## Yadda 0.10.8
 * Fix for [issue-88](https://github.com/acuminous/yadda/issues/88)
 * Removal of incorrect French translation for 'background'
@@ -35,7 +38,7 @@
  - Added support for backgrounds - Thanks [mucsi](http://github.com/mucsi)
  - Added support for step level output in mocha tests - Thanks [simoami](http://github.com/simoami)
  - Fixed a few minor bugs in the FeatureParser
- - This release involves a complete rewrite of the mocha/jasmine plugin. The old plugin will be deprecated in 0.12.0. 
+ - This release involves a complete rewrite of the mocha/jasmine plugin. The old plugin will be deprecated in 0.12.0.
    The replacement syntax is:
 ```
 var Yadda = require('yadda');
@@ -55,7 +58,7 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
     });
 });
 ```
-To get step level output use SyncStepLevelPlugin or AsyncStepLevelPlugin as appropriate, e.g. 
+To get step level output use SyncStepLevelPlugin or AsyncStepLevelPlugin as appropriate, e.g.
 ```
 var Yadda = require('yadda');
 Yadda.plugins.mocha.AsyncStepLevelPlugin.init();
