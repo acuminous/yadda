@@ -29,7 +29,7 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
     });
 });
 ```
-To get step level output use SyncStepLevelPlugin or AsyncStepLevelPlugin as appropriate, e.g. 
+To get step level output use SyncStepLevelPlugin or AsyncStepLevelPlugin as appropriate, e.g.
 ```
 var Yadda = require('yadda');
 Yadda.plugins.mocha.AsyncStepLevelPlugin.init();
@@ -53,7 +53,7 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
 Part of the reason for the rewrite was to pave the way for karma integration as requested by [zpratt](https://github.com/zpratt). This feature is next on the list.
 
 
- 
+
 ## Installation
 
 ### Node based environments (e.g. Mocha)
@@ -65,8 +65,19 @@ npm install yadda
 <script src="./lib/yadda-0.10.8.js"></script>
 ```
 ## Writing Yadda Tests
-### Step 1 - Write your scenarios
-bottles.feature
+### Step 1 - Decide upon a directory structure, e.g.
+```
+.
+├── index.js
+├── package.json
+├── lib
+└── test
+    ├── features
+    └── steps
+```
+
+### Step 2 - Write your first scenario
+./test/features/bottles.feature
 ```
 Feature: 100 Green Bottles
 
@@ -75,13 +86,14 @@ Scenario: Should fall from the wall
    Given 100 green bottles are standing on the wall
    When 1 green bottle accidentally falls
    Then there are 99 green bottles standing on the wall
+
 ```
-### Step 2 - Implement the step library
-bottles-library.js
+### Step 3 - Implement the step library
+./test/steps/bottles-library.js
 ```js
 var assert = require('assert');
 var English = require('yadda').localisation.English;
-var Wall = require('./wall'); // The library that you wish to test
+var Wall = require('../../lib/wall'); // The library that you wish to test
 
 module.exports = (function() {
   return English.library()
@@ -102,13 +114,13 @@ module.exports = (function() {
 (If your test runner & code are synchronous you can omit the calls to 'next')
 
 
-### Step 3 - Integrate Yadda with your testing framework (e.g. Mocha)
-bottles-test.js
+### Step 4 - Integrate Yadda with your testing framework (e.g. Mocha)
+./test/steps/bottles-library.js
 ```js
 var Yadda = require('yadda');
 Yadda.plugins.mocha.AsyncStepLevelPlugin.init();
 
-new Yadda.FeatureFileSearch('features').each(function(file) {
+new Yadda.FeatureFileSearch('./test/features').each(function(file) {
 
   featureFile(file, function(feature) {
 
@@ -123,8 +135,8 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
   });
 });
 ```
-### Step 4 - Write your code
-wall.js
+### Step 5 - Write your code
+./lib/wall.js
 ```js
 module.exports = function(bottles) {
   this.bottles = bottles;
@@ -133,7 +145,7 @@ module.exports = function(bottles) {
   }
 };
 ```
-### Step 5 - Run your tests
+### Step 6 - Run your tests
 ```
   mocha --reporter spec bottles-test.js
 
@@ -141,7 +153,7 @@ module.exports = function(bottles) {
     Should fall from the wall
       ✓ Given 100 green bottles are standing on the wall
       ✓ When 1 green bottle accidentally falls
-      ✓ Then there are 99 green bottles standing on the wall    
+      ✓ Then there are 99 green bottles standing on the wall
 ```
 
 ## Yadda In Depth
@@ -308,7 +320,7 @@ It can be a chore to add a context to every step, so a common context can be spe
 ```js
 var interpreter_context = { foo: 1, masked: 2 }; // Shared between all scenarios
 var scenario_context = { bar: 3, masked: 4 };    // Shared between all steps in this scenario
-var step_context = { meh: 5, masked: 6 };        // Not shared between steps 
+var step_context = { meh: 5, masked: 6 };        // Not shared between steps
 
 var library = new Library()
     .define('Context Demonstration', function() {
@@ -358,11 +370,11 @@ The following events are available...
 </table>
 
 #### Coverage
-Please note coverage may appear to hang on OSX, while causing the CPU to thrash. This is because the Yadda examples use symbolic links back to the top level directory, 
+Please note coverage may appear to hang on OSX, while causing the CPU to thrash. This is because the Yadda examples use symbolic links back to the top level directory,
 creating an infinite loop. Istanbul follows these links indefinitely. The problem doesn't present itself on other linux-based distributions.
 ```
-npm install istanbul -g 
-npm install mocha -g 
+npm install istanbul -g
+npm install mocha -g
 npm run istanbul
 ```
 Open ```coverage/lcov-report/lib/localisation/index.html``` with your browser
@@ -371,7 +383,7 @@ Open ```coverage/lcov-report/lib/localisation/index.html``` with your browser
 While Yadda can interpret any text you write steps for, it also comes with a Gherkin-like feature file parser.
 
 ### Backgrounds
-A background is a set of steps that are executed before each scenario in the corresponding feature file. 
+A background is a set of steps that are executed before each scenario in the corresponding feature file.
 ```
 Feature: 100 Green Bottles
 
@@ -391,15 +403,15 @@ Scenario: Plastic bottles should not break
    Given 100 plastic bottles are standing on the wall
    When 1 plastic bottles accidentally falls
    It does not break
-``` 
+```
 Backgrounds have the following limitations:
 
 * They cannot be shared between features
 * A feature can only have one background
 * A background will be added to every scenario in a feature
 
-A more flexible approach would be to support [re-use of scenarios](http://github.com/acuminous/yadda/issue/27). 
-The implications of this are more complicated and are still under consideration. 
+A more flexible approach would be to support [re-use of scenarios](http://github.com/acuminous/yadda/issue/27).
+The implications of this are more complicated and are still under consideration.
 
 ### Feature Descriptions
 You can add an optional feature description at the top of your file to give some context about the scenarios contained within
@@ -419,7 +431,7 @@ Scenario: should fall from the wall
 There can only be a single feature present in a file - it really doesn't make sense to have two, and you will be issued an error if you try to include more than one.
 
 ### Annotations
-Annotations can be added to a feature or scenario and may take the form of either single-value tags or key/value pairs. 
+Annotations can be added to a feature or scenario and may take the form of either single-value tags or key/value pairs.
 ```
 @Browser=chrome
 @Theme=bottles
@@ -501,7 +513,7 @@ Scenario: should fall in groups of [Falling]
       Falling | Remaining
       2       | 98
       10      | 90
-      100     | 0 
+      100     | 0
 ```
 it will produce three scenarios, identical to
 ```
@@ -523,6 +535,5 @@ Scenario: should fall in groups of 100
 
    Given 100 green bottles are standing on the wall
    When 100 green bottles accidentally fall
-   Then there are 0 green bottles standing on the wall      
+   Then there are 0 green bottles standing on the wall
 ```
-
