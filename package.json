@@ -5,7 +5,8 @@
   "main": "./lib/index.js",
   "devDependencies": {
     "mocha": "*",
-    "browserify": "*"
+    "browserify": "*",
+    "jshint": "^2.5.0"
   },
   "directories": {
     "example": "examples",
@@ -15,7 +16,8 @@
     "test": "make test",
     "istanbul": "NODE_ENV=test istanbul cover _mocha -- -u exports --reporter spec",
     "examples": "node bin/examples.js",
-    "browserify": "node bin/browserify.js"
+    "browserify": "node bin/browserify.js",
+    "jshint": "find . -name *.js | grep -vE '/node_modules/|/dist/|/components/|/component-browser/build/|/coverage/' | xargs ./node_modules/.bin/jshint"
   },
   "repository": {
     "type": "git",
