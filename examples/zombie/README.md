@@ -1,7 +1,7 @@
 ```
 npm install
 npm link
-cd examples/webdriver
+cd examples/zombie
 npm install
 npm test
 ```
