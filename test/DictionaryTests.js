@@ -1,3 +1,7 @@
+/* jslint node: true */
+/* global describe, it */
+"use strict";
+
 var assert = require('assert');
 var Dictionary = require('../lib/index').Dictionary;
 
@@ -34,7 +38,7 @@ describe('Dictionary', function() {
             .define('gender', '(male|female)');
 
         assert.throws(function() {
-            dictionary.define('gender', 'anything')
+            dictionary.define('gender', 'anything');
         }, /Duplicate definition: \[gender\]/);
     });
 
@@ -66,7 +70,7 @@ describe('Dictionary', function() {
         var dictionary1 = new Dictionary(':').define('gender', /(male|female)/);
         var dictionary2 = new Dictionary(':').merge(dictionary1);
         assert_definition(dictionary2, ':gender', '(male|female)');
-    })
+    });
 
     it('should not merge dictionaries with different prefixes', function() {
         var dictionary1 = new Dictionary('$');
@@ -84,7 +88,7 @@ describe('Dictionary', function() {
         assert.throws(function() {
             dictionary1.merge(dictionary2);
         }, /Duplicate definition: \[gender\]/);
-    })
+    });
 
     function assert_definition(dictionary, term, expected) {
         assert.equal(dictionary.expand(term), expected);

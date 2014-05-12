@@ -15,9 +15,9 @@ Sortie: No bottles are left
 @Brig
 Adventure: Bottles are reset
 
-	Giveth there are no green bottles
-	whence 5 minutes has elapsed
-	thence there are 100 green bottles standing on the wall
+    Giveth there are no green bottles
+    whence 5 minutes has elapsed
+    thence there are 100 green bottles standing on the wall
 
 Adventure: [N] bottles are standing on a wall
 
@@ -30,4 +30,3 @@ Adventure: [N] bottles are standing on a wall
         100 | 99
         99  | 98
         10  | 9
-        

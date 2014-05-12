@@ -1,3 +1,6 @@
+/* jslint node: true */
+"use strict";
+
 var webdriver = require('selenium-webdriver');
 var assert = require('assert');
 var Yadda = require('yadda');

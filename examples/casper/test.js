@@ -1,10 +1,14 @@
 // The following code requires casper 1.1 after the following commit
 // https://github.com/n1k0/casperjs/commit/2378537a716a492533a279b8e3bc560ae3deca5a
 
+/* jslint node: true */
+/* global casper */
+"use strict";
+
 var fs = require('fs');
 var async = require('async');
 var Yadda = require('yadda');
-var xpath = require('casper').selectXPath; 
+var xpath = require('casper').selectXPath;
 
 var Dictionary = Yadda.Dictionary;
 var English = Yadda.localisation.English;
@@ -31,4 +35,4 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
         });
     });
 
-})
+});

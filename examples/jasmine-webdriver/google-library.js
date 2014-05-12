@@ -1,3 +1,6 @@
+/* jslint node: true */
+"use strict";
+
 var webdriver = require('selenium-webdriver');
 var assert = require('assert');
 var Yadda = require('yadda');
@@ -23,14 +26,14 @@ module.exports = (function() {
         }, 5000);
     })
 
-    .then("the $ACTION form exists", function(action) {       
+    .then("the $ACTION form exists", function(action) {
         var driver = this.driver;
         driver.wait(function() {
             return driver.findElement(webdriver.By.css('form[action="/' + action + '"]'));
         }, 5000);
     })
 
-    .when("I search for $TERM", function(term) {       
+    .when("I search for $TERM", function(term) {
         this.driver.findElement(webdriver.By.name('q')).then(function(input) {
             input.sendKeys(term + '\n');
         });
@@ -50,7 +53,7 @@ module.exports = (function() {
         driver.wait(function() {
             return driver.findElements(webdriver.By.css('h3.r')).then(function(elements) {
                 return elements.length >= parseInt(number);
-            })
+            });
         });
     });
 

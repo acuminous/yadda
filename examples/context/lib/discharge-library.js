@@ -1,3 +1,6 @@
+/* jslint node: true */
+"use strict";
+
 var Yadda = require('yadda');
 var assert = require('assert');
 
@@ -10,7 +13,7 @@ module.exports = (function() {
         .define('His condition has improved sufficiently for him to be scheduled for discharge (today|tomorrow) at $time.', function(day, time, next) {
             var patient = this.ctx.patient;
             var timestamp = toTime(day, time);
-            patient.ward.scheduleDischarge(patient, timestamp);      
+            patient.ward.scheduleDischarge(patient, timestamp);
             next();
         })
 
@@ -20,12 +23,12 @@ module.exports = (function() {
             var patient = this.ctx.patient;
             patient.discharge.requirements = requirements;
             next();
-        })        
+        });
 
     function toTime(day, time) {
         var offset = day == 'today' ? 0 : ONE_DAY_IN_MILLIS;
         return Date.parse(new Date().toString().replace(/\d{2}:\d{2}:\d{2}/, time + ':00')) + offset;
-    }                
+    }
 
     return library;
 

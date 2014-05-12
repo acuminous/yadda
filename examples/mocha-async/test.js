@@ -1,3 +1,7 @@
+/* jslint node: true */
+/* global featureFile, scenarios, steps */
+"use strict";
+
 var Yadda = require('yadda');
 Yadda.plugins.mocha.AsyncStepLevelPlugin.init();
 

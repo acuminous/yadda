@@ -1,3 +1,6 @@
+/* jslint node: true */
+"use strict";
+
 var Browser = require("zombie");
 var assert = require("assert");
 var Yadda = require('yadda');
@@ -14,9 +17,9 @@ module.exports = (function() {
 
     .when("I open Google's $LOCALE search page", function(locale, next) {
         browser.visit("http://www.google." + locale + "/", function(err) {
-            assert.ok(browser.success);            
+            assert.ok(browser.success);
             next(err);
-        });       
+        });
     })
 
     .then("the title is $TITLE", function(title, next) {
@@ -38,12 +41,12 @@ module.exports = (function() {
 
     .then("the search for $TERM was made", function(term, next) {
         assert.ok(new RegExp('q=' + term).test(browser.location.toString()), 'Search term does not appear in the url');
-        next();        
+        next();
     })
 
-    .then("$NUM or more results were returned", function(number, next) { 
+    .then("$NUM or more results were returned", function(number, next) {
         assert.ok(browser.queryAll('.web_result').length >= parseInt(number), 'Insufficient search results');
-        next();        
+        next();
     });
 
     return library;

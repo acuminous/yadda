@@ -1,3 +1,7 @@
+/* jslint node: true */
+/* global describe, it, beforeEach */
+"use strict";
+
 var hospital = require('./lib/hospital');
 var Yadda = require('../lib/index').Yadda;
 
@@ -6,7 +10,7 @@ describe('Hospital', function() {
     var yadda;
 
     beforeEach(function() {
-        var library = require('./lib/hospital-steps').init();        
+        var library = require('./lib/hospital-steps').init();
         yadda = new Yadda(library);
     });
 

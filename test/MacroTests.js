@@ -1,4 +1,8 @@
-var assert = require('assert');   
+/* jslint node: true */
+/* global describe, it */
+"use strict";
+
+var assert = require('assert');
 var Macro = require('../lib/Macro');
 var Context = require('../lib/Context');
 var EventBus = require('../lib/EventBus');
@@ -9,12 +13,12 @@ describe('Macro', function() {
 
     it('should interpret a line of text', function() {
         var execution = new Execution();
-        var args = [1, 2, 3, 'callback'];    
+        var args = [1, 2, 3, 'callback'];
 
         new Macro('Easy', /Easy as (\d), (\d), (\d)/, execution.code, {a: 1}).interpret("Easy as 1, 2, 3", new Context({b: 2}), fn.noop);
 
         assert.ok(execution.executed, "The step code was not run");
-        assert.deepEqual(execution.args.splice(0, 3), [1, 2, 3]);    
+        assert.deepEqual(execution.args.splice(0, 3), [1, 2, 3]);
         assert.deepEqual(execution.ctx, {a: 1, b: 2});
     });
 
@@ -35,13 +39,13 @@ describe('Macro', function() {
         new Macro('blah $a', /blah (.*)/).interpret('blah 1', {}, function() {
             done();
         });
-    })
+    });
 
 
     it('should notify listeners of macro events', function(done) {
-        
+
         var execution = new Execution();
-        var args = [1, 2, 3, 'callback'];    
+        var args = [1, 2, 3, 'callback'];
         var listener = new Listener();
 
         EventBus.instance().on(/EXECUTE/, listener.listen);
@@ -57,27 +61,27 @@ describe('Macro', function() {
         assert.equal(event.data.pattern, "/Easy as (\\d), (\\d), (\\d)/");
         assert.deepEqual(event.data.args.slice(), ["1", "2", "3"]);
         done();
-    });     
+    });
 
-    function Execution() {   
+    function Execution() {
 
         this.executed = false;
         this.args = undefined;
         this.ctx = undefined;
         var _this = this;
 
-        this.code = function() {      
-            _this.executed = true;        
-            _this.captureArguments(arguments);        
+        this.code = function() {
+            _this.executed = true;
+            _this.captureArguments(arguments);
             _this.ctx = this;
         };
         this.captureArguments = function(args) {
-            _this.args = this.toArray(args)
+            _this.args = this.toArray(args);
         };
         this.toArray = function(obj) {
-            return [].slice.call(obj, 0);        
+            return [].slice.call(obj, 0);
         };
-    };
+    }
 
     function Listener() {
         var _this = this;
@@ -85,5 +89,5 @@ describe('Macro', function() {
         this.listen = function(event) {
             _this.events.push(event);
         };
-    };    
+    }
 });

@@ -1,5 +1,8 @@
+/* jslint node: true */
+"use strict";
+
 module.exports = function() {
-    
+
     var tally = 0;
 
     this.count = function(next) {

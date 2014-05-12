@@ -1,3 +1,6 @@
+/* jslint node: true */
+"use strict";
+
 var browserify = require('browserify');
 var path = require('path');
 var fs = require('fs');
@@ -14,4 +17,3 @@ b.ignore('casper');
 
 b.bundle().pipe(web_bundle);
 b.bundle({standalone: 'yadda_umd'}).pipe(umd_bundle);
-

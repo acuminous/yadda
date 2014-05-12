@@ -1,3 +1,7 @@
+/* jslint node: true */
+/* global describe, it */
+"use strict";
+
 var assert = require('assert');
 var Yadda = require('../lib/index');
 var Interpreter = Yadda.Interpreter;

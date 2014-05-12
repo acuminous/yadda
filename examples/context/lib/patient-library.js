@@ -1,3 +1,6 @@
+/* jslint node: true */
+"use strict";
+
 var Yadda = require('yadda');
 var assert = require('assert');
 
@@ -6,7 +9,7 @@ module.exports = (function() {
     var gender = {
         Fred: 'M',
         Sue: 'F'
-    }
+    };
 
     var library = new Yadda.Library()
 
@@ -22,7 +25,7 @@ module.exports = (function() {
                         time: this.discharge.time,
                         requirements: this.discharge.requirements
                     }
-                }
+                };
             }};
             this.ctx.hospital = this.ctx.hospitals[hospitalName];
             next();
@@ -39,7 +42,7 @@ module.exports = (function() {
             assert.equal(chart.discharge.time, patient.discharge.time);
             assert.deepEqual(chart.discharge.requirements.toString(), patient.discharge.requirements.toString());
             next();
-        })
+        });
 
     return library;
 

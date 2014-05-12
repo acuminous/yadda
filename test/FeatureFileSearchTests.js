@@ -1,3 +1,7 @@
+/* jslint node: true */
+/* global describe, it */
+"use strict";
+
 var path = require('path');
 var assert = require('assert');
 var FeatureFileSearch = require('../lib/FeatureFileSearch');

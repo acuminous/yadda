@@ -1,3 +1,7 @@
+/* jslint node: true */
+/* global before, after, featureFile, scenarios, steps */
+"use strict";
+
 var url = require('url');
 var request = require('request');
 var app = require('../app');
@@ -20,14 +24,14 @@ before(function(next) {
                 assert.ifError(err);
                 assert.equal(response.statusCode, 200);
                 next();
-            })
-        })
-    })
-})
+            });
+        });
+    });
+});
 
 after(function(next) {
     app.stop(next);
-})
+});
 
 new Yadda.FeatureFileSearch('test/features').each(function(file) {
 
@@ -39,7 +43,7 @@ new Yadda.FeatureFileSearch('test/features').each(function(file) {
         scenarios(feature.scenarios, function(scenario) {
             steps(scenario.steps, function(step, done) {
                 yadda.yadda(step, done);
-            })
+            });
         });
     });
 });

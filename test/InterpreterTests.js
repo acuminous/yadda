@@ -1,3 +1,7 @@
+/* jslint node: true */
+/* global describe, it */
+"use strict";
+
 var assert = require('assert');
 var Yadda = require('../lib/index');
 var Interpreter = Yadda.Interpreter;
@@ -10,7 +14,7 @@ var Counter = require('./Counter');
 describe('Interpreter', function() {
 
     it('should interpret a single line script', function() {
-        
+
         var counter = new Counter();
         var library = new Library().define('Blah blah blah', counter.count);
 
@@ -43,8 +47,8 @@ describe('Interpreter', function() {
                 'This is ambiguous'
             ]);
         }, /Scenario cannot be interpreted\nThis is defined\nThis is undefined <-- Undefined Step\nThis is ambiguous <-- Ambiguous Step/);
-       
-    })
+
+    });
 
     it('should utilise macros from different libraries', function() {
 
@@ -69,8 +73,8 @@ describe('Interpreter', function() {
             .define('speciality', '(cardio|elderly care)');
 
         var library = new Library(dictionary)
-            .define('Given a $gender patient called $name', function(gender, name) { patient_name = name })
-            .define('Given a $speciality patient called $name', function(speciality, name) { patient_name = name });
+            .define('Given a $gender patient called $name', function(gender, name) { patient_name = name; })
+            .define('Given a $speciality patient called $name', function(speciality, name) { patient_name = name; });
 
         new Interpreter(library).interpret('Given a female patient called Carol');
         assert.equal('Carol', patient_name);
@@ -90,7 +94,7 @@ describe('Interpreter', function() {
     });
 
     it('should interpret steps asynchronously', function(done) {
-        
+
         var counter = new Counter();
         var library = new Library().define('Blah blah blah', counter.count);
 
@@ -101,7 +105,7 @@ describe('Interpreter', function() {
             assert.equal(counter.total(), 2);
             done();
         });
-    });  
+    });
 
     it('should bind the context to the macro', function(done) {
 
@@ -116,10 +120,10 @@ describe('Interpreter', function() {
             'Blah blah blah'
         ], context, done);
 
-    })
+    });
 
     it('should notify listeners of interpreter events', function(done) {
-        
+
         var library = new Library().define('Blah blah blah');
         var interpreter = new Interpreter(library);
         var listener = new Listener();
@@ -129,18 +133,18 @@ describe('Interpreter', function() {
 
         assert.equal(2, listener.events.length);
 
-        assert_event({ 
-            name: EventBus.ON_SCENARIO, 
+        assert_event({
+            name: EventBus.ON_SCENARIO,
             data: { scenario: 'Blah blah blah', ctx: { foo: 'bar' }}
         }, listener.events[0]);
 
         assert_event({
-            name: EventBus.ON_STEP, 
-            data: { step: 'Blah blah blah', ctx: { foo: 'bar' }} 
+            name: EventBus.ON_STEP,
+            data: { step: 'Blah blah blah', ctx: { foo: 'bar' }}
         }, listener.events[1]);
 
         done();
-    });  
+    });
 
     function Listener() {
         var _this = this;
@@ -148,11 +152,11 @@ describe('Interpreter', function() {
         this.listen = function(event) {
             _this.events.push(event);
         };
-    };
+    }
 
     function assert_event(expected, actual) {
-        assert.ok(actual);       
+        assert.ok(actual);
         assert.equal(expected.name, actual.name);
         assert.deepEqual(expected.data, actual.data);
-    }; 
-})
+    }
+});

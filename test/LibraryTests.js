@@ -1,3 +1,7 @@
+/* jslint node: true */
+/* global describe, it */
+"use strict";
+
 var assert = require('assert');
 var Library = require('../lib/index').Library;
 var English = require('../lib/index').localisation.English;
@@ -23,11 +27,11 @@ describe('Library', function() {
 
     it('should support aliased macros', function() {
         var library = new Library()
-            .define([/bar/, /foo/])
+            .define([/bar/, /foo/]);
 
         assert.ok(library.get_macro(/bar/), 'Macro should have been defined');
         assert.ok(library.get_macro(/foo/), 'Macro should have been defined');
-    })
+    });
 
     it('should expand macro signature using specified dictionary', function() {
 
@@ -42,7 +46,7 @@ describe('Library', function() {
         assert.ok(macro.can_interpret('Given a male, cardiovascular patient called Bob'));
         assert.ok(macro.can_interpret('Given a female, elderly care patient called Carol'));
         assert.ok(!macro.can_interpret('Given a ugly, angry patient called Max'));
-    })
+    });
 
     it('should report duplicate macros', function() {
 
@@ -51,7 +55,7 @@ describe('Library', function() {
 
         assert.throws(function() {
             library.define(/bar/);
-        }, /Duplicate macro: \[\/bar\/\]/)
+        }, /Duplicate macro: \[\/bar\/\]/);
     });
 
     it('should find all compatible macros', function() {

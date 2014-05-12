@@ -1,3 +1,7 @@
+/* jslint node: true */
+/* global describe, it */
+"use strict";
+
 var assert = require('assert');
 var $ = require('../lib/Array');
 
@@ -7,11 +11,11 @@ describe('Array', function() {
         assert.deepEqual($([1, [2], 3]).flatten().naked(), [1, 2, 3]);
         assert.deepEqual($([1, [[2], 3]]).flatten().naked(), [1, 2, 3]);
         assert.deepEqual($([1, [[2], 3]], []).flatten().naked(), [1, 2, 3]);
-    })
+    });
 
     it('Flattens an empty array', function() {
         assert.deepEqual($([]).flatten().naked(), []);
-    })    
+    });
 
     it('Should iterate asynchronously', function() {
         var items = [1, 2, 3];
@@ -24,5 +28,5 @@ describe('Array', function() {
         }, function(err, result) {
             assert.equal(result, 3);
         });
-    })
+    });
 });

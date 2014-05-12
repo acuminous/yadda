@@ -1,3 +1,7 @@
+/* jslint node: true */
+/* global describe, it */
+"use strict";
+
 var assert = require('assert');
 var Macro = require('../lib/Macro');
 var Competition = require('../lib/Competition');

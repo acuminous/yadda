@@ -1,3 +1,6 @@
+/* jslint node: true */
+"use strict";
+
 var _ = require('underscore');
 var uuid = require('node-uuid');
 
@@ -26,7 +29,7 @@ module.exports = (function() {
     }
 
     function toBottles(json) {
-        return _.extend(json, { id: uuid.v1() })
+        return _.extend(json, { id: uuid.v1() });
     }
 
     function toJson(bottle) {
@@ -34,10 +37,10 @@ module.exports = (function() {
     }
 
     function byQueryParameters(req) {
-        return _.matches(req.query);        
+        return _.matches(req.query);
     }
 
     return {
         init: init
-    }
+    };
 })();

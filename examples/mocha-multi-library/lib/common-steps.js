@@ -1,3 +1,6 @@
+/* jslint node: true */
+"use strict";
+
 var Yadda = require('yadda');
 var English = Yadda.localisation.English;
 var dictionary = require('./dictionary');
@@ -6,7 +9,7 @@ var assert = require('assert');
 
 module.exports = (function() {
 
-    var library = English.library(dictionary)
+    var library = English.library(dictionary);
 
     // Define common steps here
 

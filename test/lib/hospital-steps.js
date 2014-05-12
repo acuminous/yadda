@@ -1,3 +1,6 @@
+/* jslint node: true */
+"use strict";
+
 var assert = require('assert');
 var English = require('../../lib/index').localisation.English;
 var Hospital = require('./hospital').Hospital;
@@ -34,7 +37,7 @@ module.exports.init = function() {
         })
         .then('$name is marked as $template template', function(name, template) {
             patient = name.match(/he|she/) ? patient : hospital.get_patient(name);
-            assert.equal(patient.template, template)
+            assert.equal(patient.template, template);
         });
 
     return library;

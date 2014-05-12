@@ -1,9 +1,13 @@
+/* jslint node: true */
+/* global featureFile, scenarios, steps */
+"use strict";
+
 var Yadda = require('yadda');
 Yadda.plugins.jasmine.AsyncStepLevelPlugin.init();
 
 new Yadda.FeatureFileSearch('features').each(function(file) {
     featureFile(file, function(feature) {
-        
+
         var library = require('../bottles-library');
         var yadda = new Yadda.Yadda(library);
 

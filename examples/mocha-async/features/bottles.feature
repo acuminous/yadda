@@ -19,9 +19,9 @@ Scenario: No bottles are left
 @Todo
 Scenario: Bottles are reset
 
-	Given there are no green bottles
-	when 5 minutes has elapsed
-	then there are 100 green bottles standing on the wall
+    Given there are no green bottles
+    when 5 minutes has elapsed
+    then there are 100 green bottles standing on the wall
 
 Scenario: [N] bottles are standing on a wall
 

@@ -1,3 +1,6 @@
+/* jslint node: true */
+"use strict";
+
 var Yadda = require('yadda');
 var assert = require('assert');
 
@@ -6,7 +9,7 @@ module.exports = (function() {
     var ONE_DAY_IN_MILLIS = 24 * 60 * 60 * 1000;
 
     var dictionary = new Yadda.Dictionary()
-        .define('NUM', /(\d+)/);    
+        .define('NUM', /(\d+)/);
 
     var library = new Yadda.Library(dictionary)
 
@@ -19,7 +22,7 @@ module.exports = (function() {
             var admission = new Date().getTime() - ONE_DAY_IN_MILLIS * 2;
             var bed = ward.admit(patient, admission);
             next();
-        })
+        });
 
     return library;
 

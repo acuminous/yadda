@@ -1,3 +1,6 @@
+/* jslint node: true */
+"use strict";
+
 var Yadda = require('yadda');
 var English = Yadda.localisation.English;
 var Dictionary = Yadda.Dictionary;
@@ -13,7 +16,7 @@ module.exports = (function() {
     var library = English.library(dictionary)
 
     .given("$NUM green bottles are standing on the wall", function(number_of_bottles, next) {
-    	wall = new Wall(number_of_bottles);
+        wall = new Wall(number_of_bottles);
         next();
     })
 
@@ -25,17 +28,17 @@ module.exports = (function() {
     .then("there (?:are|are still) $NUM green bottles standing on the wall", function(number_of_bottles, next) {
         assert.equal(number_of_bottles, wall.bottles);
         next();
-    })
+    });
 
     var Wall = function(bottles) {
         this.bottles = bottles;
         this.fall = function(n) {
             this.bottles -= n;
-        }
+        };
         this.returned = function() {
             this.bottles++;
-        }
-    }
+        };
+    };
 
     return library;
 })();

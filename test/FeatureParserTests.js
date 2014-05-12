@@ -1,3 +1,7 @@
+/* jslint node: true */
+/* global describe, it */
+"use strict";
+
 var fs = require('fs');
 var path = require('path');
 var assert = require("assert");
@@ -41,7 +45,7 @@ describe('FeatureParser', function() {
     it('should parse feature descriptions', function() {
         var feature = parse_file('feature_description');
         assert.equal(feature.title, 'Feature Description');
-        assert.equal(feature.description.join(' - '), 'As a wood chopper - I want to maintain a sharp axe - So that I can chop wood')
+        assert.equal(feature.description.join(' - '), 'As a wood chopper - I want to maintain a sharp axe - So that I can chop wood');
     });
 
     it('should only allow a single feature', function() {
@@ -61,7 +65,7 @@ describe('FeatureParser', function() {
 
         assert.throws(function() {
             parse_file('incomplete_scenario_3');
-        }, /Scenario requires one or more steps/);        
+        }, /Scenario requires one or more steps/);
 
         assert.throws(function() {
             parse_file('incomplete_scenario_4');
@@ -72,17 +76,17 @@ describe('FeatureParser', function() {
         var scenarios = parse_file('example_scenarios').scenarios;
         assert.equal(scenarios.length, 2);
         assert.equal(scenarios[0].title, 'First Scenario');
-        assert.equal(scenarios[0].steps[0], 'Step A11')
-        assert.equal(scenarios[0].steps[1], 'Step 1AA')
+        assert.equal(scenarios[0].steps[0], 'Step A11');
+        assert.equal(scenarios[0].steps[1], 'Step 1AA');
         assert.equal(scenarios[1].title, 'Second Scenario');
-        assert.equal(scenarios[1].steps[0], 'Step B22')
-        assert.equal(scenarios[1].steps[1], 'Step 2BB')
+        assert.equal(scenarios[1].steps[0], 'Step B22');
+        assert.equal(scenarios[1].steps[1], 'Step 2BB');
     });
 
     it('should report malformed example tables', function() {
         assert.throws(function() {
             parse_file('malformed_example').scenarios;
-        }, /Incorrect number of fields in example table/)
+        }, /Incorrect number of fields in example table/);
     });
 
     it('should report incomplete examples', function() {
@@ -101,7 +105,7 @@ describe('FeatureParser', function() {
 
         assert.throws(function() {
             parse_file('incomplete_examples_4');
-        }, /Examples table requires one or more rows/);        
+        }, /Examples table requires one or more rows/);
     });
 
     it('should support multiple languages', function() {
@@ -131,8 +135,8 @@ describe('FeatureParser', function() {
 
     it('should parse feature annotations', function() {
         var feature = parse_file('annotated_feature');
-		assert.equal(feature.annotations.keyword1, 'value1');
-		assert.equal(feature.annotations.keyword2, 'value2');
+        assert.equal(feature.annotations.keyword1, 'value1');
+        assert.equal(feature.annotations.keyword2, 'value2');
         assert(feature.annotations.keyword3);
         assert.deepEqual(feature.scenarios[0].annotations, {});
     });
@@ -157,7 +161,7 @@ describe('FeatureParser', function() {
         assert.equal(feature.scenarios[0].annotations.keyword1, 'value1');
         assert.equal(feature.scenarios[0].annotations.keyword2, 'value2');
         assert(feature.scenarios[0].annotations.keyword3);
-    });    
+    });
 
     it('should support annotations with non alphanumerics', function() {
         var feature = parse_file('non_alphanumeric_annotated_feature');
@@ -174,7 +178,7 @@ describe('FeatureParser', function() {
         assert.equal(scenarios.length, 1);
         assert.equal(scenarios[0].title, 'Single Line Comments Scenario');
         assert.deepEqual(scenarios[0].steps, ['Given A', 'When # B', 'Then C #']);
-    })
+    });
 
     it('should parse multiline comments', function() {
         var feature = parse_file('multiline_comment');
@@ -194,16 +198,16 @@ describe('FeatureParser', function() {
         var feature = parse_file('feature_with_background_and_examples');
         assert.equal(feature.scenarios.length, 4);
         assert.equal(feature.scenarios[0].steps[0], 'BG A1');
-        assert.equal(feature.scenarios[1].steps[0], 'BG B2');       
+        assert.equal(feature.scenarios[1].steps[0], 'BG B2');
         assert.equal(feature.scenarios[2].steps[0], 'BG X3');
-        assert.equal(feature.scenarios[3].steps[0], 'BG Y4');       
+        assert.equal(feature.scenarios[3].steps[0], 'BG Y4');
     });
 
     it('should report incomplete features', function() {
         assert.throws(function() {
             parse_file('incomplete_feature');
         }, /Feature requires one or more scenarios/);
-    })    
+    });
 
     function parse_file(filename, language) {
         return new FeatureParser(language).parse(load(filename));
@@ -211,5 +215,5 @@ describe('FeatureParser', function() {
 
     function load(filename) {
         return fs.readFileSync(path.join(__dirname, 'features', filename + '.feature'), 'utf8');
-    };
+    }
 });
