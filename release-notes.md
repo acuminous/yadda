@@ -1,5 +1,9 @@
 # Release Notes
 
+## Yadda 0.10.10
+* Added a really basic example
+* Added jshint
+
 ## Yadda 0.10.9
 * Fix for [issue-93](https://github.com/acuminous/yadda/issue/93). Thanks [simoami](https://github.com/simoami)
 
