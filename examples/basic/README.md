@@ -1,7 +1,7 @@
 ```
 npm install
 npm link
-cd examples/mocha-sync
+cd examples/basic
 npm install
 npm test
 ```
