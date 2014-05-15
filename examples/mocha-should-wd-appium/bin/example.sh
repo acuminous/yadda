@@ -1,8 +1,8 @@
 #!/bin/bash
 
-which chromedriver > /dev/null
+which appium > /dev/null
 if [ $? -ne 0 ]; then
-    echo "Could not find chromedriver"
+    echo "Could not find appium"
     exit 1;
 fi
 
