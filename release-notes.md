@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.10.12
+* Adds support for mocha's only feature to the Mocha plugin - see [issue-98](https://github.com/acuminous/yadda/issues/98)
+
 ## Yadda 0.10.11
 * Fixes [issue-97](https://github.com/acuminous/yadda/issues/97) - scenario annotations after a background caused the parser to fail.
 
