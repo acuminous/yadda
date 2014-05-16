@@ -209,6 +209,11 @@ describe('FeatureParser', function() {
         }, /Feature requires one or more scenarios/);
     });
 
+    it('should parse scenario annotations after background', function() {
+        var feature = parse_file('annotated_scenario_after_background');
+        assert.equal(feature.scenarios[0].steps[0], 'Given A');
+    });
+
     function parse_file(filename, language) {
         return new FeatureParser(language).parse(load(filename));
     }
