@@ -23,24 +23,24 @@ var config = {
 var browser;
 
 // Find every `xxx.feature` file in `features` dir.
-new Yadda.FeatureFileSearch('features').each(function(file) {
-  featureFile(file, function(feature) {
+new Yadda.FeatureFileSearch('features').each(function (file) {
+  featureFile(file, function (feature) {
 
-    before(function(done) {
+    before(function (done) {
       browser = wd.promiseChainRemote('localhost', 4723);
       // extra logging.
-      browser.on('status', function(info) {
+      browser.on('status', function (info) {
         console.log(info);
       });
-      browser.on('command', function(meth, path, data) {
+      browser.on('command', function (meth, path, data) {
         console.log(' > ' + meth, path, data || '');
       });
       // Let's init our browser.
       browser.init(config).nodeify(done);
     });
 
-    scenarios(feature.scenarios, function(scenario) {
-      steps(scenario.steps, function(step, done) {
+    scenarios(feature.scenarios, function (scenario) {
+      steps(scenario.steps, function (step, done) {
         // For every steps, we give reference to our browser.
         new Yadda.Yadda(library, {browser: browser}).yadda(step, done);
       });
@@ -59,10 +59,10 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
   });
 });
 
-function takeScreenshotOnFailure(test) {
+function takeScreenshotOnFailure (test) {
   if (test.status != 'passed') {
     var path = 'screenshots/' + test.title.replace(/\W+/g, '_').toLowerCase() + '.png';
-    browser.takeScreenshot().then(function(data) {
+    browser.takeScreenshot().then(function (data) {
       fs.writeFileSync(path, data, 'base64');
     });
   }

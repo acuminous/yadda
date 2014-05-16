@@ -4,7 +4,7 @@
 var should = require('should');
 var Yadda = require('yadda');
 
-module.exports = (function() {
+module.exports = (function () {
   var dictionary = new Yadda.Dictionary()
     .define('LOCALE', /(fr|es|ie)/)
     .define('NUM', /(\d+)/);
@@ -25,7 +25,7 @@ module.exports = (function() {
       .nodeify(done);
   })
 
-  .then("the $ACTION form exists", function (action, done) {
+  .then('the $ACTION form exists', function (action, done) {
     this.browser.elementByCss('form[action="/' + action + '"]')
       .then(function (form) {
         should(form).ok;
@@ -46,11 +46,11 @@ module.exports = (function() {
   })
 
   .then('the search for $TERM was made', function (term, done) {
-      this.browser.url()
-        .then(function (url) {
-          new RegExp('q=' + term).test(url);
-        })
-        .nodeify(done);
+    this.browser.url()
+      .then(function (url) {
+        new RegExp('q=' + term).test(url);
+      })
+      .nodeify(done);
   })
 
   .then('$NUM or more results were returned', function (number, done) {
