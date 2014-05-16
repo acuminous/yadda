@@ -60,7 +60,7 @@ new Yadda.FeatureFileSearch('features').each(function (file) {
 });
 
 function takeScreenshotOnFailure (test) {
-  if (test.status != 'passed') {
+  if (test.state != 'passed') {
     var path = 'screenshots/' + test.title.replace(/\W+/g, '_').toLowerCase() + '.png';
     browser.takeScreenshot().then(function (data) {
       fs.writeFileSync(path, data, 'base64');
