@@ -33,8 +33,8 @@ module.exports = (function() {
         };
         this.printStatus = function() {
             console.log('There are %s bottles on the wall', this.bottles);
-        }
-    };
+        };
+    }
 
     return library;
 })();

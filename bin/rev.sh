@@ -9,6 +9,7 @@ if [ -z "$VERSION" ]; then
     exit 1
 fi
 
+npm run jshint
 npm test
 
 sed -i '' -E "s/\"version\": \"$VERSION_PATTERN\"/\"version\": \"$VERSION\"/" package.json
