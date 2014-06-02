@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.10.13
+* Locking down the webdriver examples to 2.41.x as (problems)[https://github.com/acuminous/yadda/issues/105] where reported with 2.42
+
 ## Yadda 0.10.12
 * Adds support for mocha's only feature to the Mocha plugin - see [issue-98](https://github.com/acuminous/yadda/issues/98)
 
