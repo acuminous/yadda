@@ -5,6 +5,22 @@ var Counter = require('./Counter');
 
 describe('Localisation', function() {
 
+    it('should support German', function () {
+        var counter = new Counter();
+        var library = Yadda.localisation.German.library()
+            .given('some text 1', counter.count)
+            .when('some text 2', counter.count)
+            .then('some text 4', counter.count);
+
+        new Interpreter(library).interpret([
+            'angenommen some text 1',
+            'wenn some text 2',
+            'dann some text 4'
+        ]);
+
+        assert.equal(counter.total(), 3);
+    });
+
     it('should support French', function() {
         var counter = new Counter();
         var library = Yadda.localisation.French.library()

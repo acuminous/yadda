@@ -31,6 +31,7 @@
         "lib/Library.js",
         "lib/localisation/English.js",
         "lib/localisation/French.js",
+        "lib/localisation/German.js",
         "lib/localisation/index.js",
         "lib/localisation/Language.js",
         "lib/localisation/Pirate.js",
