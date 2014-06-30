@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.10.14
+* Adding German language support - Thanks [prokls](https://github.com/prokls)
+
 ## Yadda 0.10.13
 * Locking down the webdriver examples to 2.41.x as (problems)[https://github.com/acuminous/yadda/issues/105] where reported with 2.42
 
