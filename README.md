@@ -236,6 +236,7 @@ We'd be delighted to accept pull requests for more languages and dialects. Many 
  - [feliun](https://github.com/feliun) - Spanish
  - [kjelloe](https://github.com/kjelloe) - Norwegian
  - [macie](https://github.com/macie) - Polish
+ - [prokls](https://github.com/prokls) - German
 
 ### Step Anatomy
 A step is made up of a regular expression, a function and some context.
