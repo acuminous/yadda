@@ -113,7 +113,7 @@ module.exports = (function() {
 
 
 ### Step 4 - Integrate Yadda with your testing framework (e.g. Mocha)
-./test/steps/bottles-library.js
+./bottles-test.js
 ```js
 var Yadda = require('yadda');
 Yadda.plugins.mocha.AsyncStepLevelPlugin.init();
@@ -122,7 +122,7 @@ new Yadda.FeatureFileSearch('./test/features').each(function(file) {
 
   featureFile(file, function(feature) {
 
-    var library = require('./bottles-library');
+    var library = require('./test/steps/bottles-library');
     var yadda = new Yadda.Yadda(library);
 
     scenarios(feature.scenarios, function(scenario) {
