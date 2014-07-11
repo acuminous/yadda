@@ -18,7 +18,7 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
     // Previously features(file, function(feature))
     featureFile(file, function(feature) {
 
-        var library = require('./bottles-library');
+        var library = require('./test/steps/bottles-library');
         var yadda = new Yadda.Yadda(library);
 
         scenarios(feature.scenarios, function(scenario, done) {
@@ -37,7 +37,7 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
     // Previously features(file, function(feature))
     featureFile(file, function(feature) {
 
-        var library = require('./bottles-library');
+        var library = require('./test/steps/bottles-library');
         var yadda = new Yadda.Yadda(library);
 
         scenarios(feature.scenarios, function(scenario) {
@@ -475,7 +475,7 @@ features(all_features, function(feature) {
 
     console.log(feature.annotations.theme);
 
-    var library = require('./bottles-library');
+    var library = require('./test/steps/bottles-library');
     var yadda = new Yadda.Yadda(library);
 
     scenarios(feature.scenarios, function(scenario) {
