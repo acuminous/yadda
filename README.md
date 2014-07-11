@@ -74,6 +74,19 @@ npm install yadda
     └── steps
 ```
 
+For this tutorial we are going to use:
+```
+.
+├── bottles-test.js
+├── lib
+│    └── wall.js
+└── test
+    ├── features
+    │   └── bottles.feature
+    └── steps
+        └── bottles-library.js
+```
+
 ### Step 2 - Write your first scenario
 ./test/features/bottles.feature
 ```
