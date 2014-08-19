@@ -18,7 +18,7 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
     // Previously features(file, function(feature))
     featureFile(file, function(feature) {
 
-        var library = require('./bottles-library');
+        var library = require('./test/steps/bottles-library');
         var yadda = new Yadda.Yadda(library);
 
         scenarios(feature.scenarios, function(scenario, done) {
@@ -37,7 +37,7 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
     // Previously features(file, function(feature))
     featureFile(file, function(feature) {
 
-        var library = require('./bottles-library');
+        var library = require('./test/steps/bottles-library');
         var yadda = new Yadda.Yadda(library);
 
         scenarios(feature.scenarios, function(scenario) {
@@ -72,6 +72,19 @@ npm install yadda
 └── test
     ├── features
     └── steps
+```
+
+For this tutorial we are going to use:
+```
+.
+├── bottles-test.js
+├── lib
+│    └── wall.js
+└── test
+    ├── features
+    │   └── bottles.feature
+    └── steps
+        └── bottles-library.js
 ```
 
 ### Step 2 - Write your first scenario
@@ -113,7 +126,7 @@ module.exports = (function() {
 
 
 ### Step 4 - Integrate Yadda with your testing framework (e.g. Mocha)
-./test/steps/bottles-library.js
+./bottles-test.js
 ```js
 var Yadda = require('yadda');
 Yadda.plugins.mocha.AsyncStepLevelPlugin.init();
@@ -122,12 +135,12 @@ new Yadda.FeatureFileSearch('./test/features').each(function(file) {
 
   featureFile(file, function(feature) {
 
-    var library = require('./bottles-library');
+    var library = require('./test/steps/bottles-library');
     var yadda = new Yadda.Yadda(library);
 
     scenarios(feature.scenarios, function(scenario) {
       steps(scenario.steps, function(step, done) {
-        yadda.yadda(scenario.steps, done);
+        yadda.yadda(step, done);
       });
     });
   });
@@ -462,7 +475,7 @@ features(all_features, function(feature) {
 
     console.log(feature.annotations.theme);
 
-    var library = require('./bottles-library');
+    var library = require('./test/steps/bottles-library');
     var yadda = new Yadda.Yadda(library);
 
     scenarios(feature.scenarios, function(scenario) {
