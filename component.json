@@ -1,6 +1,6 @@
 {
     "name": "yadda",
-    "version": "0.10.14",
+    "version": "0.11.0",
     "description": "A true BDD framework for JavaScript",
     "repo": "acuminous/yadda",
     "keywords": [
@@ -48,8 +48,10 @@
         "lib/plugins/MochaPlugin.js",
         "lib/plugins/mocha/AsyncScenarioLevelPlugin.js",
         "lib/plugins/mocha/AsyncStepLevelPlugin.js",
-        "lib/plugins/mocha/SyncScenarioLevelPlugin.js",        
+        "lib/plugins/mocha/SyncScenarioLevelPlugin.js",
         "lib/plugins/mocha/SyncStepLevelPlugin.js",
+        "lib/plugins/mocha/ScenarioLevelPlugin.js",
+        "lib/plugins/mocha/StepLevelPlugin.js",
         "lib/RegularExpression.js",
         "lib/shims/index.js",
         "lib/shims/phantom-fs.js",

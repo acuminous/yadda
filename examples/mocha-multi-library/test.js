@@ -12,7 +12,7 @@ interfaces (Rest, Web, CLI, etc)
 
 var path = require('path');
 var Yadda = require('yadda');
-Yadda.plugins.mocha.AsyncStepLevelPlugin.init();
+Yadda.plugins.mocha.StepLevelPlugin.init();
 
 new Yadda.FeatureFileSearch('features').each(function(file) {
 

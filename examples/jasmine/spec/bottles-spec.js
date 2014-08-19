@@ -3,7 +3,7 @@
 "use strict";
 
 var Yadda = require('yadda');
-Yadda.plugins.jasmine.AsyncStepLevelPlugin.init();
+Yadda.plugins.jasmine.StepLevelPlugin.init();
 
 new Yadda.FeatureFileSearch('features').each(function(file) {
     featureFile(file, function(feature) {

@@ -3,7 +3,7 @@
 "use strict";
 
 var Yadda = require('yadda');
-Yadda.plugins.mocha.AsyncScenarioLevelPlugin.init();
+Yadda.plugins.mocha.ScenarioLevelPlugin.init();
 
 new Yadda.FeatureFileSearch('features').each(function(file) {
 

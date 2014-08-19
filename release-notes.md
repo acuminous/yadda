@@ -1,5 +1,9 @@
 # Release Notes
 
+## Yadda 0.11.0
+* Deprecation of AsyncScenarioLevelPlugin, SyncScenarioLevelPlugin, AsyncStepLevelPlugin, SyncStepLevelPlugin. Use the new ScenarioLevelPlugin or StepLevelPlugin replacements instead
+* Improved readme - Thanks [prokls](https://github.com/prokls)
+
 ## Yadda 0.10.14
 * Adding German language support - Thanks [prokls](https://github.com/prokls)
 

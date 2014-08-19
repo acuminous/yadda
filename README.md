@@ -7,11 +7,12 @@ Yadda brings _true_ BDD to JavaScript test frameworks such as [Jasmine](http://p
 Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the ordinary language steps to code. Not only are the steps less likely to go stale, but they also provide a valuable abstraction layer and encourage re-use. You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-js), but we find Yadda less invasive and prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is smarter too.
 
 ## Latest Version
-The current version of Yadda is 0.10.14. Recent changes include:
-* Adding German language support - Thanks [prokls](https://github.com/prokls)
+The current version of Yadda is 0.11.0. Recent changes include:
+* Deprecation of AsyncScenarioLevelPlugin, SyncScenarioLevelPlugin, AsyncStepLevelPlugin, SyncStepLevelPlugin. Use the new ScenarioLevelPlugin or StepLevelPlugin replacements instead
+* Improved readme - Thanks [prokls](https://github.com/prokls)
 ```
 var Yadda = require('yadda');
-Yadda.plugins.mocha.AsyncScenarioLevelPlugin.init();
+Yadda.plugins.mocha.ScenarioLevelPlugin.init();
 
 new Yadda.FeatureFileSearch('features').each(function(file) {
 
@@ -27,10 +28,10 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
     });
 });
 ```
-To get step level output use SyncStepLevelPlugin or AsyncStepLevelPlugin as appropriate, e.g.
+To get step level output use StepLevelPlugin or StepLevelPlugin as appropriate, e.g.
 ```
 var Yadda = require('yadda');
-Yadda.plugins.mocha.AsyncStepLevelPlugin.init();
+Yadda.plugins.mocha.StepLevelPlugin.init();
 
 new Yadda.FeatureFileSearch('features').each(function(file) {
 
@@ -60,7 +61,7 @@ npm install yadda
 ```
 ### Browser based environments (e.g. QUnit)
 ```html
-<script src="./lib/yadda-0.10.14.js"></script>
+<script src="./lib/yadda-0.11.0.js"></script>
 ```
 ## Writing Yadda Tests
 ### Step 1 - Decide upon a directory structure, e.g.
@@ -129,7 +130,7 @@ module.exports = (function() {
 ./bottles-test.js
 ```js
 var Yadda = require('yadda');
-Yadda.plugins.mocha.AsyncStepLevelPlugin.init();
+Yadda.plugins.mocha.StepLevelPlugin.init();
 
 new Yadda.FeatureFileSearch('./test/features').each(function(file) {
 

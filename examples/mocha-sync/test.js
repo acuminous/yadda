@@ -3,7 +3,7 @@
 "use strict";
 
 var Yadda = require('yadda');
-Yadda.plugins.mocha.SyncStepLevelPlugin.init();
+Yadda.plugins.mocha.StepLevelPlugin.init();
 
 new Yadda.FeatureFileSearch('features').each(function(file) {
     featureFile(file, function(feature) {

@@ -8,7 +8,7 @@ var Yadda = require('yadda');
 var library = require('../google-library');
 var fs = require('fs');
 
-Yadda.plugins.mocha.AsyncStepLevelPlugin.init();
+Yadda.plugins.mocha.StepLevelPlugin.init();
 jasmine.getEnv().defaultTimeoutInterval = 10000;
 
 var driver;

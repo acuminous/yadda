@@ -7,7 +7,7 @@ var request = require('request');
 var app = require('../app');
 var assert = require('assert');
 var Yadda = require('yadda');
-Yadda.plugins.mocha.AsyncStepLevelPlugin.init();
+Yadda.plugins.mocha.StepLevelPlugin.init();
 
 var hostname = 'localhost';
 var port = 3000;

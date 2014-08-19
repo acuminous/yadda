@@ -13,7 +13,7 @@
     var yadda = new Yadda.Yadda(library);
 
     mocha.setup('bdd');
-    Yadda.plugins.mocha();
+    Yadda.plugins.mocha.ScenarioLevelPlugin.init();
 
     feature(bottles, function(feature) {
         scenarios(feature.scenarios, function(scenario, done) {

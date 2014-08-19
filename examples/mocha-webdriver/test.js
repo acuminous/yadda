@@ -3,7 +3,7 @@
 "use strict";
 
 var Yadda = require('yadda');
-Yadda.plugins.mocha.AsyncStepLevelPlugin.init();
+Yadda.plugins.mocha.StepLevelPlugin.init();
 
 var library = require('./google-library');
 var webdriver = require('selenium-webdriver');
