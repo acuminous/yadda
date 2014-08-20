@@ -13,9 +13,9 @@
     var yadda = new Yadda.Yadda(library);
 
     mocha.setup('bdd');
-    Yadda.plugins.mocha.ScenarioLevelPlugin.init();
+    Yadda.plugins.mocha.ScenarioLevelPlugin.init({ parser: parser });
 
-    feature(bottles, function(feature) {
+    featureFiles(bottles, function(feature) {
         scenarios(feature.scenarios, function(scenario, done) {
             yadda.yadda(scenario.steps, done);
         });
