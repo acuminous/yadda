@@ -11,6 +11,7 @@ Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it m
 
 ## Latest Version
 The current version of Yadda is 0.11.0. Recent changes include:
+* Removal of scenario descriptions which forced a blank line between scenario title and steps. See [issue #55](https://github.com/acuminous/yadda/issues/55)
 * Deprecation of AsyncScenarioLevelPlugin, SyncScenarioLevelPlugin, AsyncStepLevelPlugin, SyncStepLevelPlugin. Use the new ScenarioLevelPlugin or StepLevelPlugin replacements instead
 * Improved readme - Thanks [prokls](https://github.com/prokls)
 ```
