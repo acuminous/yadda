@@ -1,5 +1,5 @@
 /* jslint node: true */
-/* global mocha, feature, scenarios */
+/* global mocha, featureFiles, scenarios */
 "use strict";
 
 (function() {
