@@ -23,6 +23,7 @@
         "lib/Dictionary.js",
         "lib/EventBus.js",
         "lib/FileSearch.js",
+        "lib/FeatureFileSearch.js",
         "lib/fn.js",
         "lib/index.js",
         "lib/Interpreter.js",
@@ -38,7 +39,6 @@
         "lib/localisation/Spanish.js",
         "lib/localisation/Norwegian.js",
         "lib/Macro.js",
-        "lib/parsers/FeatureFileSearch.js",
         "lib/parsers/FeatureParser.js",
         "lib/parsers/FeatureFileParser.js",
         "lib/parsers/StepParser.js",
@@ -53,6 +53,7 @@
         "lib/plugins/mocha/SyncStepLevelPlugin.js",
         "lib/plugins/mocha/ScenarioLevelPlugin.js",
         "lib/plugins/mocha/StepLevelPlugin.js",
+        "lib/plugins/mocha/BasePlugin.js",
         "lib/RegularExpression.js",
         "lib/shims/index.js",
         "lib/Yadda.js"
