@@ -83,7 +83,7 @@ describe('FeatureParser', function() {
         assert.equal(scenarios[1].steps[1], 'Step 2BB');
     });
 
-    it.only('should clone scenario annotations to examples', function() {
+    it('should clone scenario annotations to examples', function() {
         var scenarios = parse_file('pending_example_scenarios').scenarios;
         assert.equal(scenarios.length, 2);
         assert.equal(scenarios[0].annotations.pending, true);
