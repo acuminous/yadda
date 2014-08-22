@@ -88,7 +88,7 @@ describe('FeatureParser', function() {
         assert.equal(scenarios.length, 2);
         assert.equal(scenarios[0].annotations.pending, true);
         assert.equal(scenarios[1].annotations.pending, true);
-        delete scenarios[0].annotations.pending
+        delete scenarios[0].annotations.pending;
         assert.equal(scenarios[1].annotations.pending, true);
     });
 

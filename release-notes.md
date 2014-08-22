@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.11.1
+* Scenarios created from example tables no longer share annotations. See [PR #119](https://github.com/acuminous/yadda/pull/119)
+
 ## Yadda 0.11.0
 * Removal of scenario descriptions which forced a blank line between scenario title and steps. See [issue #55](https://github.com/acuminous/yadda/issues/55)
 * Deprecation of AsyncScenarioLevelPlugin, SyncScenarioLevelPlugin, AsyncStepLevelPlugin, SyncStepLevelPlugin. Use the new ScenarioLevelPlugin or StepLevelPlugin replacements instead
