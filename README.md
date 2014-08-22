@@ -32,7 +32,7 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
     });
 });
 ```
-To get step level output use StepLevelPlugin or StepLevelPlugin as appropriate, e.g.
+To get step level output use StepLevelPlugin, e.g.
 ```
 var Yadda = require('yadda');
 Yadda.plugins.mocha.StepLevelPlugin.init();
