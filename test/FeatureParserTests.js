@@ -83,6 +83,15 @@ describe('FeatureParser', function() {
         assert.equal(scenarios[1].steps[1], 'Step 2BB');
     });
 
+    it.only('should clone scenario annotations to examples', function() {
+        var scenarios = parse_file('pending_example_scenarios').scenarios;
+        assert.equal(scenarios.length, 2);
+        assert.equal(scenarios[0].annotations.pending, true);
+        assert.equal(scenarios[1].annotations.pending, true);
+        delete scenarios[0].annotations.pending
+        assert.equal(scenarios[1].annotations.pending, true);
+    });
+
     it('should report malformed example tables', function() {
         assert.throws(function() {
             parse_file('malformed_example').scenarios;
