@@ -9,7 +9,7 @@ Scenario: Searching Google For The First Time
     When I search for foo
     then the title is foo - Recherche Google
     and the search for foo was made
-    and 10 or more results were returned
+    and 6 or more results were returned
 
 Scenario: Searching Google Again
 
@@ -20,4 +20,4 @@ Scenario: Searching Google Again
     When I search for bar
     then the title is bar - Google Search
     and the search for bar was made
-    and 10 or more results were returned    
+    and 6 or more results were returned

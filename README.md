@@ -10,7 +10,8 @@ Yadda brings _true_ BDD to JavaScript test frameworks such as [Jasmine](http://p
 Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the ordinary language steps to code. Not only are the steps less likely to go stale, but they also provide a valuable abstraction layer and encourage re-use. You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-js), but we find Yadda less invasive and prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is smarter too.
 
 ## Latest Version
-The current version of Yadda is 0.11.1. Recent changes include:
+The current version of Yadda is 0.11.2. Recent changes include:
+* Fix for [issue 120](https://github.com/acuminous/yadda/issues/120) - False positives with the new StepLevelPlugin
 * Scenarios created from example tables no longer share annotations. See [PR #119](https://github.com/acuminous/yadda/pull/119)
 * Removal of scenario descriptions which forced a blank line between scenario title and steps. See [issue #55](https://github.com/acuminous/yadda/issues/55)
 * Deprecation of AsyncScenarioLevelPlugin, SyncScenarioLevelPlugin, AsyncStepLevelPlugin, SyncStepLevelPlugin. Use the new ScenarioLevelPlugin or StepLevelPlugin replacements instead
@@ -66,7 +67,7 @@ npm install yadda
 ```
 ### Browser based environments (e.g. QUnit)
 ```html
-<script src="./lib/yadda-0.11.1.js"></script>
+<script src="./lib/yadda-0.11.2.js"></script>
 ```
 ## Writing Yadda Tests
 ### Step 1 - Decide upon a directory structure, e.g.
