@@ -262,7 +262,7 @@ We'd be delighted to accept pull requests for more languages and dialects. Many 
 A step is made up of a regular expression, a function and some context.
 ```js
 var ctx = { assert: assert };
-library.given('^(\\d+) green bottle(?:s){0,1} standing on the wall$', function(n) {
+library.given('^(\d+) green bottle(?:s){0,1} standing on the wall$', function(n) {
    wall = new Wall(n);
    this.assert.equals(wall.bottles, n);
 }, ctx);
