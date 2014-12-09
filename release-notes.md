@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.11.3
+* Node is fixed. Removing warning about failing travis build from readme
+
 ## Yadda 0.11.2
 * Fix for [issue 120](https://github.com/acuminous/yadda/issues/120) - False positives with the new StepLevelPlugin
 
