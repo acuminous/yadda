@@ -126,7 +126,7 @@ module.exports = function(bottles) {
 ```
 
 ## Yadda In Depth
-### Supported Libraries
+### Examples
 Yadda works with Mocha, Jasmine, QUnit, Nodeunit, ZombieJS, CasperJS and WebDriver. There are examples for most of these, which can be run as follows...
 
 ```bash
@@ -154,7 +154,7 @@ npm test
 * The webdriver example may fail depending on how google detects your locale.
 * Your operating system must support ```npm link```.
 
-#### More examples
+### More Examples
 There's a great example of how to use Yadda on large scale projects [here](https://github.com/adlnet/xAPI_LRS_Test/tree/master/src). Thanks very much to [brianjmiller](https://github.com/brianjmiller) for sharing.
 
 ### Flexible BDD Syntax
