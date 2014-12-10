@@ -154,6 +154,9 @@ npm test
 * The webdriver example may fail depending on how google detects your locale.
 * Your operating system must support ```npm link```.
 
+#### More examples
+There's a great example of how to use Yadda on large scale projects [here](https://github.com/adlnet/xAPI_LRS_Test/tree/master/src). Thanks very much to [brianjmiller](https://github.com/brianjmiller) for sharing.
+
 ### Flexible BDD Syntax
 It's common for BDD libraries to limit syntax to precondition (given) steps, action (when) steps and assertion (then) steps. Yadda doesn't. This allows for more freedom of expression. e.g.
 ```js
