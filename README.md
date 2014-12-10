@@ -1,5 +1,7 @@
 # Yadda
-[![Build Status](https://travis-ci.org/acuminous/yadda.png)](https://travis-ci.org/acuminous/yadda)
+[![Build Status](https://travis-ci.org/acuminous/yadda.png)](https://travis-ci.org/acuminous/yadda) [![Dependencies](https://david-dm.org/acuminous/yadda.svg)](https://david-dm.org/acuminous/yadda) [![Coverage Status](https://img.shields.io/coveralls/acuminous/yadda.svg)](https://coveralls.io/r/acuminous/yadda?branch=master)
+
+[![NPM](https://nodei.co/npm/yadda.png?downloads=true)](https://nodei.co/npm/yadda/)
 
 Yadda brings _true_ BDD to JavaScript test frameworks such as [Jasmine](http://pivotal.github.io/jasmine/), [Mocha](http://visionmedia.github.io/mocha/), [QUnit](http://qunitjs.com), [Nodeunit](https://github.com/caolan/nodeunit), [WebDriverJs](http://code.google.com/p/selenium/wiki/WebDriverJs) and [CasperJS](http://casperjs.org). By _true_ BDD we mean that the ordinary language (e.g. English) steps are mapped to code, as opposed to simply decorating it. This is important because just like comments, the decorative steps such as those used by
 [Jasmine](http://pivotal.github.com/jasmine), [Mocha](http://visionmedia.github.io/mocha) and [Vows](http://vowsjs.org) can fall out of date and are a form of duplication.
