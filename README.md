@@ -9,53 +9,7 @@ Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it m
 
 ## Latest Version
 The current version of Yadda is 0.11.3. Recent changes include:
-* Fix for [issue 120](https://github.com/acuminous/yadda/issues/120) - False positives with the new StepLevelPlugin
-* Scenarios created from example tables no longer share annotations. See [PR #119](https://github.com/acuminous/yadda/pull/119)
-* Removal of scenario descriptions which forced a blank line between scenario title and steps. See [issue #55](https://github.com/acuminous/yadda/issues/55)
-* Improved readme - Thanks [prokls](https://github.com/prokls)
-* Deprecation of AsyncScenarioLevelPlugin, SyncScenarioLevelPlugin, AsyncStepLevelPlugin, SyncStepLevelPlugin. Use the new ScenarioLevelPlugin or StepLevelPlugin replacements e.g.
-```
-var Yadda = require('yadda');
-Yadda.plugins.mocha.ScenarioLevelPlugin.init();
-
-new Yadda.FeatureFileSearch('features').each(function(file) {
-
-    // Previously features(file, function(feature))
-    featureFile(file, function(feature) {
-
-        var library = require('./test/steps/bottles-library');
-        var yadda = new Yadda.Yadda(library);
-
-        scenarios(feature.scenarios, function(scenario, done) {
-            yadda.yadda(scenario.steps, done);
-        });
-    });
-});
-```
-To get step level output use StepLevelPlugin, e.g.
-```
-var Yadda = require('yadda');
-Yadda.plugins.mocha.StepLevelPlugin.init();
-
-new Yadda.FeatureFileSearch('features').each(function(file) {
-
-    // Previously features(file, function(feature))
-    featureFile(file, function(feature) {
-
-        var library = require('./test/steps/bottles-library');
-        var yadda = new Yadda.Yadda(library);
-
-        scenarios(feature.scenarios, function(scenario) {
-            steps(scenario.steps, function(step, done) {
-                yadda.yadda(step, done);
-            })
-        });
-    });
-});
-```
-Part of the reason for the rewrite was to pave the way for karma integration as requested by [zpratt](https://github.com/zpratt). This feature is next on the list.
-
-
+* Alternative "non-recurisve" api [issue 111](https://github.com/acuminous/yadda/issues/111).
 
 ## Installation
 
@@ -141,11 +95,11 @@ new Yadda.FeatureFileSearch('./test/features').each(function(file) {
   featureFile(file, function(feature) {
 
     var library = require('./test/steps/bottles-library');
-    var yadda = new Yadda.Yadda(library);
+    var yadda = Yadda.createInstance(library);
 
     scenarios(feature.scenarios, function(scenario) {
       steps(scenario.steps, function(step, done) {
-        yadda.yadda(step, done);
+        yadda.run(step, done);
       });
     });
   });
@@ -214,7 +168,7 @@ var library = new Yadda.Library()
     .define("there are $NUM green bottle(?:s){0,1} standing on the wall", function(number) {
         // some code
     });
-new Yadda.yadda(library).yadda([
+Yadda.createInstance(library).run([
     "100 green bottles standing on the wall",
     "if 1 green bottle should accidentally fall",
     "there are 99 green bottles standing on the wall"
@@ -232,7 +186,7 @@ var library = new Yadda.Library()
     .then("there are $NUM green bottle(?:s){0,1} standing on the wall", function(number) {
         // some code
     });
-new Yadda.yadda(library).yadda([
+Yadda.createInstance(library).run([
     "Given 100 green bottles standing on the wall",
     "when 1 green bottle should accidentally fall",
     "then there are 99 green bottles standing on the wall"
@@ -240,7 +194,7 @@ new Yadda.yadda(library).yadda([
 ```
 Because the localised definitions for 'given', 'when' and 'then' are loose you could also re-write the above scenario as
 ```js
-new Yadda.yadda(library).yadda([
+Yadda.createInstance(library).run([
     "given 100 green bottles standing on the wall",
     "but 1 green bottle should accidentally fall",
     "expect there are 99 green bottles standing on the wall"
@@ -353,7 +307,7 @@ var library = new Library()
         assert(this.masked == 6);
     }, step_context);
 
-new Yadda.yadda(library, interpeter_context).yadda('Context Demonstration', scenario_context);
+Yadda.createInstance(library, interpeter_context).run('Context Demonstration', scenario_context);
 
 ```
 
@@ -481,11 +435,11 @@ features(all_features, function(feature) {
     console.log(feature.annotations.theme);
 
     var library = require('./test/steps/bottles-library');
-    var yadda = new Yadda.Yadda(library);
+    var yadda = Yadda.createInstance(library);
 
     scenarios(feature.scenarios, function(scenario) {
         if (scenario.annotations.teardown) library.teardown();
-        yadda.yadda(scenario.steps);
+        yadda.run(scenario.steps);
     });
 });
 ```

@@ -26,7 +26,7 @@ describe('Google', function() {
             scenarios(feature.scenarios, function(scenario) {
                 steps(scenario.steps, function(step, done) {
                     executeInFlow(function() {
-                        new Yadda.Yadda(library, { driver: driver }).yadda(step);
+                        Yadda.createInstance(library, { driver: driver }).run(step);
                     }, function(err) {
                         if (err) takeScreenshot(step);
                         done(err);

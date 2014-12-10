@@ -9,6 +9,7 @@ var Interpreter = require('../lib/index').Interpreter;
 var $ = require('../lib/Array');
 
 describe('Yadda', function() {
+
     it('should interpret synchronous scenarios', function() {
         var executions = 0;
         var library = new Library().define('foo', function() { executions++; });
@@ -27,5 +28,14 @@ describe('Yadda', function() {
             assert.equal(executions, 1);
             done();
         });
+    });
+
+    it('should cater for people who dont find the recursive api amusing', function() {
+        var Yadda = require('../lib/index');
+        var executions = 0;
+        var library = new Yadda.Library().define('foo', function() { executions++; });
+        var yadda = Yadda.createInstance(library);
+        yadda.run('foo');
+        assert.equal(executions, 1);
     });
 });

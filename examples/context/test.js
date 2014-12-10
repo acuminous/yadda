@@ -26,18 +26,18 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
 
     featureFile(file, function(feature) {
 
-        var libraies = [
+        var libraries = [
             require('./lib/hospital-library'),
             require('./lib/patient-library'),
             require('./lib/discharge-library')
         ];
 
-        var yadda = new Yadda.Yadda(libraies);
+        var yadda = Yadda.createInstance(libraries);
 
         scenarios(feature.scenarios, function(scenario) {
             var ctx = { hospitals: { Middleton: MiddletonHospital }};
             steps(scenario.steps, function(step, done) {
-                yadda.yadda(step, {ctx: ctx}, done);
+                yadda.run(step, {ctx: ctx}, done);
             });
         });
     });

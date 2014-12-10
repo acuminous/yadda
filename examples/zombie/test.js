@@ -10,10 +10,10 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
     featureFile(file, function(feature) {
 
         var library = require('./google-library');
-        var yadda = new Yadda.Yadda(library);
+        var yadda = Yadda.createInstance(library);
 
         scenarios(feature.scenarios, function(scenario, done) {
-            yadda.yadda(scenario.steps, done);
+            yadda.run(scenario.steps, done);
         });
     });
 });

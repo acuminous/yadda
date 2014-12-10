@@ -19,11 +19,11 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
     featureFile(file, function(feature) {
 
         var libraries = require_feature_libraries(feature);
-        var yadda = new Yadda.Yadda(libraries);
+        var yadda = Yadda.createInstance(libraries);
 
         scenarios(feature.scenarios, function(scenario) {
             steps(scenario.steps, function(step, done) {
-                yadda.yadda(step, done);
+                yadda.run(step, done);
             });
         });
     });

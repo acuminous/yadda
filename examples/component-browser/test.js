@@ -10,14 +10,14 @@
     var parser = new FeatureParser(English);
     var bottles = require('yadda-component-browser-example/features/bottles.feature.js');
     var library = require('yadda-component-browser-example/bottles-library.js');
-    var yadda = new Yadda.Yadda(library);
+    var yadda = Yadda.createInstance(library);
 
     mocha.setup('bdd');
     Yadda.plugins.mocha.ScenarioLevelPlugin.init({ parser: parser });
 
     featureFiles(bottles, function(feature) {
         scenarios(feature.scenarios, function(scenario, done) {
-            yadda.yadda(scenario.steps, done);
+            yadda.run(scenario.steps, done);
         });
     });
 })();

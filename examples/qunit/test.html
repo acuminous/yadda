@@ -20,7 +20,7 @@
 
                 function buildTest(scenario) {
                     return function() {
-                        new Yadda.Yadda(library).yadda(scenario.steps);
+                        Yadda.createInstance(library).run(scenario.steps);
                     }
                 };
             };

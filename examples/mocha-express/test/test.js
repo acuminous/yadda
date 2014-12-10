@@ -38,11 +38,11 @@ new Yadda.FeatureFileSearch('test/features').each(function(file) {
     featureFile(file, function(feature) {
 
         var library = require('./steps/bottles-library');
-        var yadda = new Yadda.Yadda(library, { baseUrl: baseUrl });
+        var yadda = Yadda.createInstance(library, { baseUrl: baseUrl });
 
         scenarios(feature.scenarios, function(scenario) {
             steps(scenario.steps, function(step, done) {
-                yadda.yadda(step, done);
+                yadda.run(step, done);
             });
         });
     });

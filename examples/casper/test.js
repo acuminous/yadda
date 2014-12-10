@@ -15,7 +15,7 @@ var English = Yadda.localisation.English;
 
 var parser = new Yadda.parsers.FeatureParser();
 var library = require('./google-library').init();
-var yadda = new Yadda.Yadda(library);
+var yadda = Yadda.createInstance(library);
 Yadda.plugins.casper(yadda, casper);
 
 new Yadda.FeatureFileSearch('features').each(function(file) {

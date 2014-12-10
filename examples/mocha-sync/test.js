@@ -9,11 +9,11 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
     featureFile(file, function(feature) {
 
         var library = require('./bottles-library');
-        var yadda = new Yadda.Yadda(library);
+        var yadda = Yadda.createInstance(library);
 
         scenarios(feature.scenarios, function(scenario) {
             steps(scenario.steps, function(step) {
-                yadda.yadda(step);
+                yadda.run(step);
             });
         });
     });
