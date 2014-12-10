@@ -124,8 +124,6 @@ module.exports = function(bottles) {
       ✓ When 1 green bottle accidentally falls
       ✓ Then there are 99 green bottles standing on the wall
 ```
-
-## Yadda In Depth
 ### Examples
 Yadda works with Mocha, Jasmine, QUnit, Nodeunit, ZombieJS, CasperJS and WebDriver. There are examples for most of these, which can be run as follows...
 
@@ -156,6 +154,8 @@ npm test
 
 ### More Examples
 There's a great example of how to use Yadda on large scale projects [here](https://github.com/adlnet/xAPI_LRS_Test/tree/master/src). Thanks very much to [brianjmiller](https://github.com/brianjmiller) for sharing.
+
+## Yadda In Depth
 
 ### Flexible BDD Syntax
 It's common for BDD libraries to limit syntax to precondition (given) steps, action (when) steps and assertion (then) steps. Yadda doesn't. This allows for more freedom of expression. e.g.
