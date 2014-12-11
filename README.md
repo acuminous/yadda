@@ -8,6 +8,13 @@ Yadda brings _true_ BDD to JavaScript test frameworks such as [Jasmine](http://p
 
 Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the ordinary language steps to code. Not only are the steps less likely to go stale, but they also provide a valuable abstraction layer and encourage re-use. You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-js), but we find Yadda less invasive and prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is smarter too.
 
+It's also worth checking out the following tools which use Yadda to provide their BDD functionality.
+
+* [moonraker](https://github.com/LateRoomsGroup/moonraker) by LateRooms - An out of the box solution for bdd web testing using the page object pattern.
+* [mimik](https://www.npmjs.com/package/mimik) - Mimik is a behavior-driven testing framework and UI automation platform.
+* [massah](https://www.npmjs.com/package/massah) - Making BDD style automated browser testing with node.js very simple. 
+* [y2nw](https://www.npmjs.com/package/y2nw) - Yadda to [NightWatch](http://nightwatchjs.org) integraction
+
 ## Latest Version
 The current version of Yadda is 0.11.4. Recent changes include:
 * Alternative "non-recurisve" api - see [issue 111](https://github.com/acuminous/yadda/issues/111).
