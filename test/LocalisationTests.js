@@ -183,4 +183,20 @@ describe('Localisation', function() {
 
         assert.equal(counter.total(), 12);
     });
+
+    it('should support Russian', function() {
+        var counter = new Counter();
+        var library = Yadda.localisation.Russian.library()
+            .given('some text 1', counter.count)
+            .when('some text 2', counter.count)
+            .then('some text 4', counter.count);
+
+        new Interpreter(library).interpret([
+            'допустим some text 1',
+            'если some text 2',
+            'то some text 4'
+        ]);
+
+        assert.equal(counter.total(), 3);
+    });
 });
