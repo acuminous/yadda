@@ -12,11 +12,12 @@ It's also worth checking out the following tools which use Yadda to provide thei
 
 * [moonraker](https://github.com/LateRoomsGroup/moonraker) by LateRooms - An out of the box solution for bdd web testing using the page object pattern.
 * [mimik](https://www.npmjs.com/package/mimik) - Mimik is a behavior-driven testing framework and UI automation platform.
-* [massah](https://www.npmjs.com/package/massah) - Making BDD style automated browser testing with node.js very simple. 
+* [massah](https://www.npmjs.com/package/massah) - Making BDD style automated browser testing with node.js very simple.
 * [y2nw](https://www.npmjs.com/package/y2nw) - Yadda to [NightWatch](http://nightwatchjs.org) integraction
 
 ## Latest Version
-The current version of Yadda is 0.11.4. Recent changes include:
+The current version of Yadda is 0.11.5. Recent changes include:
+* Russian language support kindly contributed by [vectart](https://github.com/vectart)
 * Alternative "non-recurisve" api - see [issue 111](https://github.com/acuminous/yadda/issues/111).
 
 ## Installation
@@ -27,7 +28,7 @@ npm install yadda
 ```
 ### Browser based environments (e.g. QUnit)
 ```html
-<script src="./lib/yadda-0.11.4.js"></script>
+<script src="./lib/yadda-0.11.5.js"></script>
 ```
 ## Writing Yadda Tests
 ### Step 1 - Decide upon a directory structure, e.g.
@@ -220,6 +221,7 @@ We'd be delighted to accept pull requests for more languages and dialects. Many 
  - [kjelloe](https://github.com/kjelloe) - Norwegian
  - [macie](https://github.com/macie) - Polish
  - [prokls](https://github.com/prokls) - German
+ - [vectart](https://github.com/vectart) - Russian
 
 ### Step Anatomy
 A step is made up of a regular expression, a function and some context.

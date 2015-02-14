@@ -1,5 +1,11 @@
 # Release Notes
 
+## Yadda 0.11.5
+* Russian language support kindly contributed by [vectart](https://github.com/vectart)
+
+## Yadda 0.11.4
+* Added a friendlier syntax
+
 ## Yadda 0.11.3
 * Node is fixed. Removing warning about failing travis build from readme
 
