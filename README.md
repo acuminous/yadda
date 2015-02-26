@@ -13,7 +13,8 @@ It's also worth checking out the following tools which use Yadda to provide thei
 * [moonraker](https://github.com/LateRoomsGroup/moonraker) by LateRooms - An out of the box solution for bdd web testing using the page object pattern.
 * [mimik](https://www.npmjs.com/package/mimik) - Mimik is a behavior-driven testing framework and UI automation platform.
 * [massah](https://www.npmjs.com/package/massah) - Making BDD style automated browser testing with node.js very simple.
-* [y2nw](https://www.npmjs.com/package/y2nw) - Yadda to [NightWatch](http://nightwatchjs.org) integraction
+* [y2nw](https://www.npmjs.com/package/y2nw) - Yadda to [NightWatch](http://nightwatchjs.org) integration
+* [cucumber-boilerplate](https://github.com/webdriverio/cucumber-boilerplate) - boilerplate project for an easy and powerful setup of Yadda and [WebdriverIO](http://webdriver.io/) with predefined common Webdriver steps
 
 ## Latest Version
 The current version of Yadda is 0.11.5. Recent changes include:
