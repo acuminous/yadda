@@ -279,7 +279,7 @@ will expand to
 Dictionaries can also be merged...
 ```js
 var shared_dictionary = new Yadda.Dictionary()
-    .define('number', /(\d+1/));
+    .define('number', /(\d+1)/);
 
 var feature_specific_dictionary = new Yadda.Dictionary()
     .merge(shared_dictionary)
