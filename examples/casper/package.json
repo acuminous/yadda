@@ -4,7 +4,8 @@
     "main": "index.js",
     "dependencies": {
         "async": "~0.2.9",
-        "process": "~0.5.1"
+        "process": "~0.5.1",
+        "casperjs:" "~1.1.0-beta3"
     },
     "scripts": {
         "preinstall": "npm --loglevel error link yadda",
