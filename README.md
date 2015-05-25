@@ -136,7 +136,9 @@ module.exports = function(bottles) {
       ✓ Then there are 99 green bottles standing on the wall
 ```
 ### Examples
-Yadda works with Mocha, Jasmine, QUnit, Nodeunit, ZombieJS, CasperJS and WebDriver. There are examples for most of these, which can be run as follows...
+Yadda works with Mocha, Jasmine, QUnit, Nodeunit, ZombieJS, CasperJS and WebDriver. There are examples for most of these, see the [examples/](https://github.com/acuminous/yadda/tree/master/examples) folder to study their sources.
+
+You can either run all the examples at once:
 
 ```bash
 git clone https://github.com/acuminous/yadda.git
@@ -146,7 +148,7 @@ npm link
 npm run examples
 ```
 
-Alternatively you can run them individually
+...or you can run them individually:
 
 ```bash
 git clone https://github.com/acuminous/yadda.git
