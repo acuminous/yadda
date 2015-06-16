@@ -36,6 +36,7 @@
         "lib/localisation/Language.js",
         "lib/localisation/Pirate.js",
         "lib/localisation/Polish.js",
+        "lib/localisation/Russian.js",
         "lib/localisation/Spanish.js",
         "lib/localisation/Norwegian.js",
         "lib/Macro.js",

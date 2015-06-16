@@ -14,9 +14,10 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
     featureFile(file, function(feature) {
 
         before(function(done) {
-            driver = new webdriver.Builder().usingServer().withCapabilities({'browserName': 'chrome'}).build();
-            driver.manage().timeouts().implicitlyWait(10000);
-            done();
+            executeInFlow(function() {
+                driver = new webdriver.Builder().usingServer().withCapabilities({'browserName': 'chrome'}).build();
+                driver.manage().timeouts().implicitlyWait(10000);
+            }, done);
         });
 
         scenarios(feature.scenarios, function(scenario) {

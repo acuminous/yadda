@@ -16,9 +16,10 @@ var driver;
 describe('Google', function() {
 
     beforeAll(function() {
-        driver = new webdriver.Builder()
-            .withCapabilities(webdriver.Capabilities.chrome())
-            .build();
+        executeInFlow(function() {
+            driver = new webdriver.Builder().usingServer().withCapabilities({'browserName': 'chrome'}).build();
+            driver.manage().timeouts().implicitlyWait(10000);
+        }, done);
     });
 
     new Yadda.FeatureFileSearch('features').each(function(file) {

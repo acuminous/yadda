@@ -1,8 +1,7 @@
 {
     "name": "yadda-component-browser-example",
     "dependencies": {
-        "acuminous/yadda": "*",
-        "chaijs/chai": "*"
+        "acuminous/yadda": "*"
     },
     "scripts": [
         "features/bottles.feature.js",

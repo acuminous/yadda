@@ -2,8 +2,9 @@
   "name": "yadda-jamine-webdriver-example",
   "version": "0.0.0",
   "dependencies": {
-    "selenium-webdriver": "~2.41.0",
-    "jasmine-node": "~1.11.0"
+    "selenium-webdriver": "2.45",
+    "jasmine-node": "~1.11.0",
+    "jasmine-before-all": "^0.1.0"
   },
   "scripts": {
     "preinstall": "npm --loglevel error link yadda",
