@@ -223,6 +223,13 @@ describe('FeatureParser', function() {
         assert.equal(feature.scenarios[0].steps[0], 'Given A');
     });
 
+    it('should parse compact features', function() {
+        var feature = parse_file('background_description');
+        assert.equal(feature.scenarios[0].steps[0], 'Given A');
+        assert.equal(feature.scenarios[0].steps[1], 'When B');
+        assert.equal(feature.scenarios[0].steps[2], 'Then C');
+    });
+
     function parse_file(filename, language) {
         return new FeatureParser(language).parse(load(filename));
     }
