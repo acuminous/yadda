@@ -15,7 +15,7 @@ var driver;
 
 describe('Google', function() {
 
-    beforeAll(function() {
+    beforeAll(function(done) {
         executeInFlow(function() {
             driver = new webdriver.Builder().usingServer().withCapabilities({'browserName': 'chrome'}).build();
             driver.manage().timeouts().implicitlyWait(10000);

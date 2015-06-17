@@ -9,5 +9,5 @@ new Yadda.createInstance(library).run([
     'when 1 green bottle accidentally falls',
     'then there are 99 green bottles standing on the wall'
 ], function(err) {
-    if (err) throw err
+    if (err) throw err;
 });

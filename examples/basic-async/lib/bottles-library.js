@@ -22,7 +22,7 @@ module.exports = (function() {
             next();
         })
         .then("there are $NUM green bottles standing on the wall", function(number_of_bottles, next) {
-            if (number_of_bottles != wall.bottles) return next(new Error(format('Expected %d but got %d', number_of_bottles, wall.bottles)))
+            if (number_of_bottles != wall.bottles) return next(new Error(format('Expected %d but got %d', number_of_bottles, wall.bottles)));
             wall.printStatus();
             next();
         });
