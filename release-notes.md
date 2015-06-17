@@ -1,5 +1,9 @@
 # Release Notes
 
+## Yadda 0.11.6
+* Added console.log to request user feedback on whether [background descriptions](https://github.com/acuminous/yadda/issues/146) can be decprecated
+* Improved examples
+
 ## Yadda 0.11.5
 * Russian language support kindly contributed by [vectart](https://github.com/vectart)
 

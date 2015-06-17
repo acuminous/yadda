@@ -18,6 +18,8 @@ It's also worth checking out the following tools which use Yadda to provide thei
 
 ## Latest Version
 The current version of Yadda is 0.11.6. Recent changes include:
+* Added console.log to request user feedback on whether [background descriptions](https://github.com/acuminous/yadda/issues/146) can be decprecated
+* Improved examples
 * Russian language support kindly contributed by [vectart](https://github.com/vectart)
 * Alternative "non-recurisve" api - see [issue 111](https://github.com/acuminous/yadda/issues/111).
 
