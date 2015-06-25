@@ -1,3 +1,3 @@
 #!/bin/bash
 
-node demo.js
+./node_modules/.bin/mocha --reporter spec test.js

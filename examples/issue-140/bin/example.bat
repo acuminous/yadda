@@ -2,5 +2,5 @@
 setlocal
 
 :run
-node demo.js
+node_modules\.bin\mocha --reporter spec test.js
 endlocal
