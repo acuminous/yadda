@@ -1,4 +1,4 @@
-Feature: Mocha Asynchronous Example
+Feature: Reusable Scenario Example
 
 Scenario: 100 green bottles
 
