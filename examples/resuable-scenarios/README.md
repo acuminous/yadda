@@ -1,7 +1,7 @@
 ```
 npm install
 npm link
-cd examples/context
+cd examples/resuable-scenarios
 npm install
 npm test
 ```
