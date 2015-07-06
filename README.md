@@ -17,7 +17,7 @@ It's also worth checking out the following tools which use Yadda to provide thei
 * [cucumber-boilerplate](https://github.com/webdriverio/cucumber-boilerplate) - boilerplate project for an easy and powerful setup of Yadda and [WebdriverIO](http://webdriver.io/) with predefined common Webdriver steps
 
 ## Latest Version
-The current version of Yadda is 0.12.1. Recent changes include:
+The current version of Yadda is 0.12.0. Recent changes include:
 * Removed deprecated mocha plugin
 * Added console.log to request user feedback on whether [background descriptions](https://github.com/acuminous/yadda/issues/146) can be decprecated
 * Improved examples
@@ -32,7 +32,7 @@ npm install yadda
 ```
 ### Browser based environments (e.g. QUnit)
 ```html
-<script src="./lib/yadda-0.11.7.js"></script>
+<script src="./lib/yadda-0.12.0.js"></script>
 ```
 ## Writing Yadda Tests
 ### Step 1 - Decide upon a directory structure, e.g.

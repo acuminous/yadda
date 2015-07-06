@@ -1,5 +1,5 @@
 /* jslint node: true */
-/* global describe, it */
+/* global describe, it, afterEach */
 "use strict";
 
 var fs = require('fs');
@@ -15,7 +15,7 @@ describe('FeatureParser', function() {
 
     afterEach(function() {
         Localisation.default = English;
-    })
+    });
 
     it('should parse a simple scenario', function() {
         var scenarios = parse_file('simple_scenario').scenarios;
