@@ -17,5 +17,4 @@ describe('StepParser', function() {
         assert.equal(steps[1], '   When B   ');
         assert.equal(steps[2], 'Then C');
     });
-
 });
