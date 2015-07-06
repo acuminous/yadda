@@ -539,6 +539,8 @@ Scenario: should fall in groups of 100
    Then there are 0 green bottles standing on the wall
 ```
 
+> Yadda supports `| (\u007C)` or `┆ (\u2506)` as column separator.
+
 ### Multi-line Example Tables
 Multi-line Example Tables are supported as of 0.12.1. Just leave a blank row before each example.
 
