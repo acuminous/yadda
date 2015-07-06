@@ -18,6 +18,49 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 /* jslint node: true */
 "use strict";
 
+var api = {
+    Yadda: require('./Yadda'),
+    EventBus: require('./EventBus'),
+    Interpreter: require('./Interpreter'),
+    Context: require('./Context'),
+    Library: require('./Library'),
+    Dictionary: require('./Dictionary'),
+    FeatureFileSearch: require('./FeatureFileSearch'),
+    FileSearch: require('./FileSearch'),
+    Platform: require('./Platform'),
+    localisation: require('./localisation/index'),
+    parsers: require('./parsers/index'),
+    plugins: require('./plugins/index'),
+    shims: require('./shims/index'),
+    createInstance: function() {
+        // Not everyone shares my sense of humour re the recursive api :(
+        // See https://github.com/acuminous/yadda/issues/111
+        return api.Yadda.apply(null, Array.prototype.slice.call(arguments, 0));
+    }
+};
+
+module.exports = api;
+
+},{"./Context":4,"./Dictionary":5,"./EventBus":6,"./FeatureFileSearch":7,"./FileSearch":8,"./Interpreter":9,"./Library":11,"./Platform":13,"./Yadda":15,"./localisation/index":27,"./parsers/index":31,"./plugins/index":34,"./shims/index":42}],2:[function(require,module,exports){
+/*
+ * Copyright 2010 Acuminous Ltd / Energized Work Ltd
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/* jslint node: true */
+"use strict";
+
 var fn = require('./fn');
 
 module.exports = function(obj) {
@@ -130,7 +173,7 @@ module.exports = function(obj) {
     return ensure_array(obj);
 };
 
-},{"./fn":15}],2:[function(require,module,exports){
+},{"./fn":16}],3:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -212,7 +255,7 @@ var Competition = function(step, macros) {
 
 module.exports = Competition;
 
-},{"./Array":1,"./LevenshteinDistanceScore":9}],3:[function(require,module,exports){
+},{"./Array":2,"./LevenshteinDistanceScore":10}],4:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -255,7 +298,7 @@ var Context = function(properties) {
 
 module.exports = Context;
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -352,7 +395,7 @@ var Dictionary = function(prefix) {
 
 module.exports = Dictionary;
 
-},{"./Array":1,"./RegularExpression":13}],5:[function(require,module,exports){
+},{"./Array":2,"./RegularExpression":14}],6:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -421,7 +464,7 @@ module.exports = {
     ON_EXECUTE: '__ON_EXECUTE__'
 };
 
-},{"./Array":1,"./fn":15}],6:[function(require,module,exports){
+},{"./Array":2,"./fn":16}],7:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -450,7 +493,7 @@ FeatureFileSearch.prototype = new FileSearch();
 
 module.exports = FeatureFileSearch;
 
-},{"./FileSearch":7}],7:[function(require,module,exports){
+},{"./FileSearch":8}],8:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -530,7 +573,7 @@ var FileSearch = function(directories, patterns) {
 
 module.exports = FileSearch;
 
-},{"./Array":1,"./shims/index":41}],8:[function(require,module,exports){
+},{"./Array":2,"./shims/index":42}],9:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -617,7 +660,7 @@ var Interpreter = function(libraries) {
 
 module.exports = Interpreter;
 
-},{"./Array":1,"./Competition":2,"./Context":3,"./EventBus":5,"./fn":15}],9:[function(require,module,exports){
+},{"./Array":2,"./Competition":3,"./Context":4,"./EventBus":6,"./fn":16}],10:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -708,7 +751,7 @@ var LevenshteinDistanceScore = function(s1, s2) {
 
 module.exports = LevenshteinDistanceScore;
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -767,7 +810,7 @@ var Library = function(dictionary) {
 
 module.exports = Library;
 
-},{"./Array":1,"./Dictionary":4,"./Macro":11}],11:[function(require,module,exports){
+},{"./Array":2,"./Dictionary":5,"./Macro":12}],12:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -837,7 +880,7 @@ var Macro = function(signature, signature_pattern, macro, macro_context) {
 
 module.exports = Macro;
 
-},{"./Context":3,"./EventBus":5,"./RegularExpression":13,"./fn":15}],12:[function(require,module,exports){
+},{"./Context":4,"./EventBus":6,"./RegularExpression":14,"./fn":16}],13:[function(require,module,exports){
 (function (process,global,__dirname){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
@@ -894,7 +937,7 @@ function Platform() {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},"/lib")
-},{"_process":47}],13:[function(require,module,exports){
+},{"_process":48}],14:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -968,7 +1011,7 @@ var RegularExpression = function(pattern_or_regexp) {
 
 module.exports = RegularExpression;
 
-},{"./Array":1}],14:[function(require,module,exports){
+},{"./Array":2}],15:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -1017,13 +1060,13 @@ var Yadda = function(libraries, interpreter_context) {
     this.run = this.yadda;
 
     this.toString = function() {
-        return "Yadda 0.11.6 Copyright 2010 Acuminous Ltd / Energized Work Ltd";
+        return "Yadda 0.11.7 Copyright 2010 Acuminous Ltd / Energized Work Ltd";
     };
 };
 
 module.exports = Yadda;
 
-},{"./Context":3,"./Interpreter":8,"./fn":15}],15:[function(require,module,exports){
+},{"./Context":4,"./Interpreter":9,"./fn":16}],16:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -1086,7 +1129,7 @@ module.exports = (function() {
 
 })();
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -1126,7 +1169,7 @@ module.exports = (function() {
     return new Language('English', vocabulary);
 })();
 
-},{"./Language":19}],17:[function(require,module,exports){
+},{"./Language":20}],18:[function(require,module,exports){
 /* -*- coding: utf-8 -*-
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -1180,7 +1223,7 @@ module.exports = (function() {
     return new Language('French', vocabulary);
 })();
 
-},{"./Language":19}],18:[function(require,module,exports){
+},{"./Language":20}],19:[function(require,module,exports){
 /*
 * Copyright 2010 Acuminous Ltd / Energized Work Ltd
 *
@@ -1220,7 +1263,7 @@ module.exports = (function() {
     return new Language('German', vocabulary);
 })();
 
-},{"./Language":19}],19:[function(require,module,exports){
+},{"./Language":20}],20:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -1276,7 +1319,7 @@ module.exports = function(name, vocabulary) {
     };
 };
 
-},{"../Array":1,"../Library":10}],20:[function(require,module,exports){
+},{"../Array":2,"../Library":11}],21:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -1320,7 +1363,7 @@ module.exports = (function() {
     return new Language('Norwegian', vocabulary);
 })();
 
-},{"./Language":19}],21:[function(require,module,exports){
+},{"./Language":20}],22:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -1365,7 +1408,7 @@ module.exports = (function() {
     return new Language('Pirate', vocabulary);
 })();
 
-},{"./Language":19}],22:[function(require,module,exports){
+},{"./Language":20}],23:[function(require,module,exports){
 /* jslint node: true */
 "use strict";
 
@@ -1402,7 +1445,7 @@ module.exports = (function() {
     return new Language('Polish', vocabulary);
 })();
 
-},{"./Language":19}],23:[function(require,module,exports){
+},{"./Language":20}],24:[function(require,module,exports){
 /* -*- coding: utf-8 -*-
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -1444,39 +1487,20 @@ module.exports = (function () {
             'entao'
         ],
 
-        get seja() {
-            return this.given;
-        },
-        get sejam() {
-            return this.given;
-        },
-        get dado() {
-            return this.given;
-        },
-        get dada() {
-            return this.given;
-        },
-        get dados() {
-            return this.given;
-        },
-        get dadas() {
-            return this.given;
-        },
-        get quando() {
-            return this.when;
-        },
-        get se() {
-            return this.when;
-        },
-        get entao() {
-            return this.then;
-        }
+        get seja() { return this.given; },
+        get sejam() { return this.given; },
+        get dado() { return this.given; },
+        get dada() { return this.given; },
+        get dados() { return this.given; },
+        get dadas() { return this.given; },
+        get quando() { return this.when; },
+        get se() { return this.when; },
+        get entao() { return this.then; }
     };
 
     return new Language('Portuguese', vocabulary);
 })();
-
-},{"./Language":19}],24:[function(require,module,exports){
+},{"./Language":20}],25:[function(require,module,exports){
 /* -*- coding: utf-8 -*-
  * Author: Marat Dyatko
  * https://github.com/vectart
@@ -1511,7 +1535,7 @@ module.exports = (function() {
     return new Language('Russian', vocabulary);
 })();
 
-},{"./Language":19}],25:[function(require,module,exports){
+},{"./Language":20}],26:[function(require,module,exports){
 /* -*- coding: utf-8 -*-
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -1567,7 +1591,7 @@ module.exports = (function() {
     return new Language('Spanish', vocabulary);
 })();
 
-},{"./Language":19}],26:[function(require,module,exports){
+},{"./Language":20}],27:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -1600,7 +1624,8 @@ module.exports = {
 
     Language: require('./Language')
 };
-},{"./English":16,"./French":17,"./German":18,"./Language":19,"./Norwegian":20,"./Pirate":21,"./Polish":22,"./Portuguese":23,"./Russian":24,"./Spanish":25}],27:[function(require,module,exports){
+
+},{"./English":17,"./French":18,"./German":19,"./Language":20,"./Norwegian":21,"./Pirate":22,"./Polish":23,"./Portuguese":24,"./Russian":25,"./Spanish":26}],28:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -1636,7 +1661,7 @@ var FeatureFileParser = function(language) {
 
 module.exports = FeatureFileParser;
 
-},{"./FeatureParser":28,"fs":45}],28:[function(require,module,exports){
+},{"./FeatureParser":29,"fs":46}],29:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -2054,7 +2079,7 @@ var Examples = function(scenario) {
 
 module.exports = FeatureParser;
 
-},{"../Array":1,"../fn":15,"../localisation/English":16}],29:[function(require,module,exports){
+},{"../Array":2,"../fn":16,"../localisation/English":17}],30:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -2096,7 +2121,7 @@ var StepParser = function() {
 
 module.exports = StepParser;
 
-},{"../Array":1}],30:[function(require,module,exports){
+},{"../Array":2}],31:[function(require,module,exports){
 /* jslint node: true */
 "use strict";
 
@@ -2106,7 +2131,7 @@ module.exports = {
     FeatureFileParser: require('./FeatureFileParser')
 };
 
-},{"./FeatureFileParser":27,"./FeatureParser":28,"./StepParser":29}],31:[function(require,module,exports){
+},{"./FeatureFileParser":28,"./FeatureParser":29,"./StepParser":30}],32:[function(require,module,exports){
 (function (global){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
@@ -2158,7 +2183,7 @@ module.exports = function(yadda, casper) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"fs":45,"yadda":"yadda"}],32:[function(require,module,exports){
+},{"fs":46,"yadda":"yadda"}],33:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -2174,7 +2199,7 @@ module.exports = function(yadda, casper) {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+ 
 /* jslint node: true */
 /* jslint browser: true */
 /* global describe, xdescribe, it, xit */
@@ -2255,7 +2280,7 @@ module.exports = function(options) {
     }
 };
 
-},{"../Array":1,"../localisation/English":16,"../parsers/FeatureParser":28,"fs":45}],33:[function(require,module,exports){
+},{"../Array":2,"../localisation/English":17,"../parsers/FeatureParser":29,"fs":46}],34:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -2292,7 +2317,7 @@ module.exports = {
     }
 };
 
-},{"./CasperPlugin":31,"./MochaPlugin":32,"./mocha/AsyncScenarioLevelPlugin":34,"./mocha/AsyncStepLevelPlugin":35,"./mocha/ScenarioLevelPlugin":37,"./mocha/StepLevelPlugin":38,"./mocha/SyncScenarioLevelPlugin":39,"./mocha/SyncStepLevelPlugin":40}],34:[function(require,module,exports){
+},{"./CasperPlugin":32,"./MochaPlugin":33,"./mocha/AsyncScenarioLevelPlugin":35,"./mocha/AsyncStepLevelPlugin":36,"./mocha/ScenarioLevelPlugin":38,"./mocha/StepLevelPlugin":39,"./mocha/SyncScenarioLevelPlugin":40,"./mocha/SyncStepLevelPlugin":41}],35:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -2343,7 +2368,7 @@ module.exports.init = function(options) {
     container.scenarios = container.scenario = scenarios;
 };
 
-},{"../../Array":1,"../../Platform":12,"./BasePlugin":36}],35:[function(require,module,exports){
+},{"../../Array":2,"../../Platform":13,"./BasePlugin":37}],36:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -2408,7 +2433,7 @@ module.exports.init = function(options) {
     container.steps = steps;
 };
 
-},{"../../Array":1,"../../Platform":12,"./BasePlugin":36}],36:[function(require,module,exports){
+},{"../../Array":2,"../../Platform":13,"./BasePlugin":37}],37:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -2502,7 +2527,7 @@ module.exports.create = function(options) {
     };
 };
 
-},{"../../Array":1,"../../Platform":12,"../../localisation/English":16,"../../parsers/FeatureFileParser":27}],37:[function(require,module,exports){
+},{"../../Array":2,"../../Platform":13,"../../localisation/English":17,"../../parsers/FeatureFileParser":28}],38:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -2547,7 +2572,7 @@ module.exports.init = function(options) {
     container.scenarios = container.scenario = scenarios;
 };
 
-},{"../../Array":1,"../../Platform":12,"./BasePlugin":36}],38:[function(require,module,exports){
+},{"../../Array":2,"../../Platform":13,"./BasePlugin":37}],39:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -2623,7 +2648,7 @@ module.exports.init = function(options) {
     container.steps = steps;
 };
 
-},{"../../Array":1,"../../Platform":12,"./BasePlugin":36}],39:[function(require,module,exports){
+},{"../../Array":2,"../../Platform":13,"./BasePlugin":37}],40:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -2674,7 +2699,7 @@ module.exports.init = function(options) {
     container.scenarios = container.scenario = scenarios;
 };
 
-},{"../../Array":1,"../../Platform":12,"./BasePlugin":36}],40:[function(require,module,exports){
+},{"../../Array":2,"../../Platform":13,"./BasePlugin":37}],41:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -2739,7 +2764,7 @@ module.exports.init = function(options) {
     container.steps = steps;
 };
 
-},{"../../Array":1,"../../Platform":12,"./BasePlugin":36}],41:[function(require,module,exports){
+},{"../../Array":2,"../../Platform":13,"./BasePlugin":37}],42:[function(require,module,exports){
 (function (process){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
@@ -2793,7 +2818,7 @@ module.exports = (function() {
 })();
 
 }).call(this,require('_process'))
-},{"../Platform":12,"./phantom-fs":42,"./phantom-path":43,"./phantom-process":44,"_process":47,"fs":45,"path":46}],42:[function(require,module,exports){
+},{"../Platform":13,"./phantom-fs":43,"./phantom-path":44,"./phantom-process":45,"_process":48,"fs":46,"path":47}],43:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -2837,7 +2862,7 @@ module.exports = (function() {
     return fs;
 })();
 
-},{"fs":45}],43:[function(require,module,exports){
+},{"fs":46}],44:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -2881,7 +2906,7 @@ module.exports = (function() {
 
 })();
 
-},{"fs":45,"path":46}],44:[function(require,module,exports){
+},{"fs":46,"path":47}],45:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -2916,9 +2941,9 @@ module.exports = (function() {
 
 })();
 
-},{"fs":45}],45:[function(require,module,exports){
+},{"fs":46}],46:[function(require,module,exports){
 
-},{}],46:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -3146,7 +3171,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-},{"_process":47}],47:[function(require,module,exports){
+},{"_process":48}],48:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -3238,47 +3263,4 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],"yadda":[function(require,module,exports){
-/*
- * Copyright 2010 Acuminous Ltd / Energized Work Ltd
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-/* jslint node: true */
-"use strict";
-
-var api = {
-    Yadda: require('./Yadda'),
-    EventBus: require('./EventBus'),
-    Interpreter: require('./Interpreter'),
-    Context: require('./Context'),
-    Library: require('./Library'),
-    Dictionary: require('./Dictionary'),
-    FeatureFileSearch: require('./FeatureFileSearch'),
-    FileSearch: require('./FileSearch'),
-    Platform: require('./Platform'),
-    localisation: require('./localisation/index'),
-    parsers: require('./parsers/index'),
-    plugins: require('./plugins/index'),
-    shims: require('./shims/index'),
-    createInstance: function() {
-        // Not everyone shares my sense of humour re the recursive api :(
-        // See https://github.com/acuminous/yadda/issues/111
-        return api.Yadda.apply(null, Array.prototype.slice.call(arguments, 0));
-    }
-};
-
-module.exports = api;
-
-},{"./Context":3,"./Dictionary":4,"./EventBus":5,"./FeatureFileSearch":6,"./FileSearch":7,"./Interpreter":8,"./Library":10,"./Platform":12,"./Yadda":14,"./localisation/index":26,"./parsers/index":30,"./plugins/index":33,"./shims/index":41}]},{},["yadda"]);
+},{}]},{},[1]);

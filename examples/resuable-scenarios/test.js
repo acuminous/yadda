@@ -13,7 +13,7 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
         var yadda = Yadda.createInstance(library);
 
         scenarios(feature.scenarios, function(scenario) {
-            var ctx = { yadda: yadda }
+            var ctx = { yadda: yadda };
             steps(scenario.steps, function(step, done) {
                 yadda.run(step, ctx, done);
             });

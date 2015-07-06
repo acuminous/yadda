@@ -41,7 +41,7 @@ var api = {
 
 module.exports = api;
 
-},{"./Context":4,"./Dictionary":5,"./EventBus":6,"./FeatureFileSearch":7,"./FileSearch":8,"./Interpreter":9,"./Library":11,"./Platform":13,"./Yadda":15,"./localisation/index":27,"./parsers/index":31,"./plugins/index":34,"./shims/index":42}],2:[function(require,module,exports){
+},{"./Context":4,"./Dictionary":5,"./EventBus":6,"./FeatureFileSearch":7,"./FileSearch":8,"./Interpreter":9,"./Library":11,"./Platform":13,"./Yadda":15,"./localisation/index":27,"./parsers/index":31,"./plugins/index":33,"./shims/index":37}],2:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -573,7 +573,7 @@ var FileSearch = function(directories, patterns) {
 
 module.exports = FileSearch;
 
-},{"./Array":2,"./shims/index":42}],9:[function(require,module,exports){
+},{"./Array":2,"./shims/index":37}],9:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -937,7 +937,7 @@ function Platform() {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},"/lib")
-},{"_process":48}],14:[function(require,module,exports){
+},{"_process":43}],14:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -1060,7 +1060,7 @@ var Yadda = function(libraries, interpreter_context) {
     this.run = this.yadda;
 
     this.toString = function() {
-        return "Yadda 0.11.7 Copyright 2010 Acuminous Ltd / Energized Work Ltd";
+        return "Yadda 0.12.0 Copyright 2010 Acuminous Ltd / Energized Work Ltd";
     };
 };
 
@@ -1621,7 +1621,7 @@ module.exports = {
     Spanish: require('./Spanish'),
     Russian: require('./Russian'),
     Portuguese: require('./Portuguese'),
-
+    default: require('./English'),
     Language: require('./Language')
 };
 
@@ -1661,7 +1661,7 @@ var FeatureFileParser = function(language) {
 
 module.exports = FeatureFileParser;
 
-},{"./FeatureParser":29,"fs":46}],29:[function(require,module,exports){
+},{"./FeatureParser":29,"fs":41}],29:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -1684,12 +1684,12 @@ module.exports = FeatureFileParser;
 var $ = require('../Array');
 var fn = require('../fn');
 
-var English = require('../localisation/English');
+var Localisation = require('../localisation');
 
 var FeatureParser = function(language) {
 
     /* jslint shadow: true */
-    var language = language || English;
+    var language = language || Localisation.default;
 
     var FEATURE_REGEX = new RegExp('^\\s*' + language.localise('feature') + ':\\s*(.*)', 'i');
     var SCENARIO_REGEX = new RegExp('^\\s*' + language.localise('scenario') + ':\\s*(.*)', 'i');
@@ -2079,7 +2079,7 @@ var Examples = function(scenario) {
 
 module.exports = FeatureParser;
 
-},{"../Array":2,"../fn":16,"../localisation/English":17}],30:[function(require,module,exports){
+},{"../Array":2,"../fn":16,"../localisation":27}],30:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -2183,104 +2183,7 @@ module.exports = function(yadda, casper) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"fs":46,"yadda":"yadda"}],33:[function(require,module,exports){
-/*
- * Copyright 2010 Acuminous Ltd / Energized Work Ltd
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
- 
-/* jslint node: true */
-/* jslint browser: true */
-/* global describe, xdescribe, it, xit */
-"use strict";
-
-if (!module.client) {
-    var fs = require('fs');
-}
-var English = require('../localisation/English');
-var FeatureParser = require('../parsers/FeatureParser');
-var $ = require('../Array');
-
-module.exports = function(options) {
-
-    /* jslint shadow: true */
-    var options = options || {};
-    var language = options.language || English;
-    var parser = options.parser || new FeatureParser(language);
-    var mode = options.mode || 'async';
-    var feature;
-
-    if (options.deprecation_warning !== false) {
-        console.log('The MochaPlugin is deprecated as of 0.10.0 and will be removed in 0.12.0');
-        console.log('Replace it with one of AsyncScenarioLevelPlugin, SyncScenarioLevelPlugin, AsyncStepLevelPlugin or SyncStepLevelPlugin');
-        console.log('To disable this message use Yadda.plugins.mocha({deprecation_warning: false})');
-        console.log('See the readme for more details');
-    }
-
-    if (module.client) {
-        feature = function (text, next) {
-            parser.parse(text, function(feature) {
-                var _describe = feature.annotations[language.localise('pending')] ? xdescribe : describe;
-                _describe(feature.title, function() {
-                    next(feature);
-                });
-            });
-        };
-    } else {
-        feature = function (filenames, next) {
-            $(filenames).each(function(filename) {
-                var text = fs.readFileSync(filename, 'utf8');
-                parser.parse(text, function(feature) {
-                    var _describe = feature.annotations[language.localise('pending')] ? xdescribe : describe;
-                    _describe(feature.title || filename, function() {
-                        next(feature);
-                    });
-                });
-            });
-        };
-    }
-
-    function async_scenarios(scenarios, next) {
-        $(scenarios).each(function(scenario) {
-            var _it = scenario.annotations[language.localise('pending')] ? xit : it;
-            _it(scenario.title, function(done) {
-                next(scenario, done);
-            });
-        });
-    }
-
-    function sync_scenarios(scenarios, next) {
-        $(scenarios).each(function(scenario) {
-            var _it = scenario.annotations[language.localise('pending')] ? xit : it;
-            _it(scenario.title, function() {
-                next(scenario);
-            });
-        });
-    }
-
-    if (typeof GLOBAL !== 'undefined') {
-        GLOBAL.features = GLOBAL.feature = feature;
-        GLOBAL.scenarios = mode == 'async' ? async_scenarios : sync_scenarios;
-    }
-
-    if (typeof window !== 'undefined') {
-        window.features = window.feature = feature;
-        window.scenarios = mode == 'async' ? async_scenarios : sync_scenarios;
-    }
-};
-
-},{"../Array":2,"../localisation/English":17,"../parsers/FeatureParser":29,"fs":46}],34:[function(require,module,exports){
+},{"fs":41,"yadda":"yadda"}],33:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -2302,22 +2205,16 @@ module.exports = function(options) {
 
 module.exports = {
     casper: require('./CasperPlugin'),
-    get mocha() {
-        var legacyPlugin = require('./MochaPlugin');
-        legacyPlugin.AsyncScenarioLevelPlugin = require('./mocha/AsyncScenarioLevelPlugin');
-        legacyPlugin.SyncScenarioLevelPlugin = require('./mocha/SyncScenarioLevelPlugin');
-        legacyPlugin.AsyncStepLevelPlugin = require('./mocha/AsyncStepLevelPlugin');
-        legacyPlugin.SyncStepLevelPlugin = require('./mocha/SyncStepLevelPlugin');
-        legacyPlugin.ScenarioLevelPlugin = require('./mocha/ScenarioLevelPlugin');
-        legacyPlugin.StepLevelPlugin = require('./mocha/StepLevelPlugin');
-        return legacyPlugin;
+    mocha: {
+        ScenarioLevelPlugin: require('./mocha/ScenarioLevelPlugin'),
+        StepLevelPlugin: require('./mocha/StepLevelPlugin')
     },
     get jasmine() {
         return this.mocha;
     }
 };
 
-},{"./CasperPlugin":32,"./MochaPlugin":33,"./mocha/AsyncScenarioLevelPlugin":35,"./mocha/AsyncStepLevelPlugin":36,"./mocha/ScenarioLevelPlugin":38,"./mocha/StepLevelPlugin":39,"./mocha/SyncScenarioLevelPlugin":40,"./mocha/SyncStepLevelPlugin":41}],35:[function(require,module,exports){
+},{"./CasperPlugin":32,"./mocha/ScenarioLevelPlugin":35,"./mocha/StepLevelPlugin":36}],34:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -2337,123 +2234,7 @@ module.exports = {
 /* jslint node: true */
 "use strict";
 
-var $ = require('../../Array');
-var Platform = require('../../Platform');
-var BasePlugin = require('./BasePlugin');
-
-module.exports.init = function(options) {
-
-    /* jslint shadow: true */
-    var options = options || {};
-    var platform = new Platform();
-    var container = options.container || platform.get_container();
-
-    var base_plugin = BasePlugin.create(options);
-
-    function scenarios(scenarios, iterator) {
-        if (!options.silenceDeprecations) {
-            console.log('*******************************************************************************');
-            console.log('* AsyncScenarioLevelPlugin has been deprecated and will soon be removed.      *');
-            console.log('* Use the ScenarioLevelPlugin instead.                                        *');
-            console.log('* To turn off this message add silenceDeprecations: true to the init options. *');
-            console.log('*******************************************************************************');
-        }
-        $(scenarios).each(function(scenario) {
-            base_plugin.it_async(scenario.title, scenario, iterator);
-        });
-    }
-
-    container.featureFiles = container.featureFile = base_plugin.featureFiles;
-    container.features = container.feature = base_plugin.features;
-    container.scenarios = container.scenario = scenarios;
-};
-
-},{"../../Array":2,"../../Platform":13,"./BasePlugin":37}],36:[function(require,module,exports){
-/*
- * Copyright 2010 Acuminous Ltd / Energized Work Ltd
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-/* jslint node: true */
-"use strict";
-
-var $ = require('../../Array');
-var Platform = require('../../Platform');
-var BasePlugin = require('./BasePlugin');
-
-module.exports.init = function(options) {
-
-    /* jslint shadow: true */
-    var options = options || {};
-    var platform = new Platform();
-    var container = options.container || platform.get_container();
-
-    var base_plugin = BasePlugin.create(options);
-
-    function scenarios(scenarios, iterator) {
-        if (!options.silenceDeprecations) {
-            console.log('*******************************************************************************');
-            console.log('* AsyncStepLevelPlugin has been deprecated and will soon be removed.          *');
-            console.log('* Use the ScenarioLevelPlugin instead.                                        *');
-            console.log('* To turn off this message add silenceDeprecations: true to the init options. *');
-            console.log('*******************************************************************************');
-        }
-        $(scenarios).each(function(scenario) {
-            base_plugin.describe(scenario.title, scenario, iterator);
-        });
-    }
-
-    function steps(steps, iterator) {
-        var abort;
-        $(steps).each(function(step) {
-            base_plugin.it_async(step, step, function(step, done) {
-                if (abort) return done();
-                iterator(step, function(err) {
-                    if (err) abort = true;
-                    done(err);
-                });
-            });
-        });
-    }
-
-    container.featureFiles = container.featureFile = base_plugin.featureFiles;
-    container.features = container.feature = base_plugin.features;
-    container.scenarios = container.scenario = scenarios;
-    container.steps = steps;
-};
-
-},{"../../Array":2,"../../Platform":13,"./BasePlugin":37}],37:[function(require,module,exports){
-/*
- * Copyright 2010 Acuminous Ltd / Energized Work Ltd
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-/* jslint node: true */
-"use strict";
-
-var English = require('../../localisation/English');
+var Localisation = require('../../localisation');
 var Platform = require('../../Platform');
 var FeatureFileParser = require('../../parsers/FeatureFileParser');
 var $ = require('../../Array');
@@ -2462,7 +2243,7 @@ module.exports.create = function(options) {
 
     /* jslint shadow: true */
     var platform = new Platform();
-    var language = options.language || English;
+    var language = options.language || Localisation.default;
     var parser = options.parser || new FeatureFileParser(language);
     var container = options.container || platform.get_container();
 
@@ -2527,7 +2308,7 @@ module.exports.create = function(options) {
     };
 };
 
-},{"../../Array":2,"../../Platform":13,"../../localisation/English":17,"../../parsers/FeatureFileParser":28}],38:[function(require,module,exports){
+},{"../../Array":2,"../../Platform":13,"../../localisation":27,"../../parsers/FeatureFileParser":28}],35:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -2572,7 +2353,7 @@ module.exports.init = function(options) {
     container.scenarios = container.scenario = scenarios;
 };
 
-},{"../../Array":2,"../../Platform":13,"./BasePlugin":37}],39:[function(require,module,exports){
+},{"../../Array":2,"../../Platform":13,"./BasePlugin":34}],36:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -2648,123 +2429,7 @@ module.exports.init = function(options) {
     container.steps = steps;
 };
 
-},{"../../Array":2,"../../Platform":13,"./BasePlugin":37}],40:[function(require,module,exports){
-/*
- * Copyright 2010 Acuminous Ltd / Energized Work Ltd
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-/* jslint node: true */
-"use strict";
-
-var $ = require('../../Array');
-var Platform = require('../../Platform');
-var BasePlugin = require('./BasePlugin');
-
-module.exports.init = function(options) {
-
-    /* jslint shadow: true */
-    var options = options || {};
-    var platform = new Platform();
-    var container = options.container || platform.get_container();
-
-    var base_plugin = BasePlugin.create(options);
-
-    function scenarios(scenarios, iterator) {
-        if (!options.silenceDeprecations) {
-            console.log('*******************************************************************************');
-            console.log('* SyncScenarioLevelPlugin has been deprecated and will soon be removed.       *');
-            console.log('* Use the ScenarioLevelPlugin instead.                                        *');
-            console.log('* To turn off this message add silenceDeprecations: true to the init options. *');
-            console.log('*******************************************************************************');
-        }
-        $(scenarios).each(function(scenario) {
-            base_plugin.it_sync(scenario.title, scenario, iterator);
-        });
-    }
-
-    container.featureFiles = container.featureFile = base_plugin.featureFiles;
-    container.features = container.feature = base_plugin.features;
-    container.scenarios = container.scenario = scenarios;
-};
-
-},{"../../Array":2,"../../Platform":13,"./BasePlugin":37}],41:[function(require,module,exports){
-/*
- * Copyright 2010 Acuminous Ltd / Energized Work Ltd
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-/* jslint node: true */
-"use strict";
-
-var $ = require('../../Array');
-var Platform = require('../../Platform');
-var BasePlugin = require('./BasePlugin');
-
-module.exports.init = function(options) {
-
-    /* jslint shadow: true */
-    var options = options || {};
-    var platform = new Platform();
-    var container = options.container || platform.get_container();
-
-    var base_plugin = BasePlugin.create(options);
-
-    function scenarios(scenarios, iterator) {
-        if (!options.silenceDeprecations) {
-            console.log('*******************************************************************************');
-            console.log('* SyncStepLevelPlugin has been deprecated and will soon be removed.           *');
-            console.log('* Use the ScenarioLevelPlugin instead.                                        *');
-            console.log('* To turn off this message add silenceDeprecations: true to the init options. *');
-            console.log('*******************************************************************************');
-        }
-        $(scenarios).each(function(scenario) {
-            base_plugin.describe(scenario.title, scenario, iterator);
-        });
-    }
-
-    function steps(steps, iterator) {
-        var abort;
-        $(steps).each(function(step) {
-            base_plugin.it_sync(step, step, function(step) {
-                if (abort) return;
-                abort = true;
-                iterator(step);
-                abort = false;
-            });
-        });
-    }
-
-
-    container.featureFiles = container.featureFile = base_plugin.featureFiles;
-    container.features = container.feature = base_plugin.features;
-    container.scenarios = container.scenario = scenarios;
-    container.steps = steps;
-};
-
-},{"../../Array":2,"../../Platform":13,"./BasePlugin":37}],42:[function(require,module,exports){
+},{"../../Array":2,"../../Platform":13,"./BasePlugin":34}],37:[function(require,module,exports){
 (function (process){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
@@ -2818,7 +2483,7 @@ module.exports = (function() {
 })();
 
 }).call(this,require('_process'))
-},{"../Platform":13,"./phantom-fs":43,"./phantom-path":44,"./phantom-process":45,"_process":48,"fs":46,"path":47}],43:[function(require,module,exports){
+},{"../Platform":13,"./phantom-fs":38,"./phantom-path":39,"./phantom-process":40,"_process":43,"fs":41,"path":42}],38:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -2862,7 +2527,7 @@ module.exports = (function() {
     return fs;
 })();
 
-},{"fs":46}],44:[function(require,module,exports){
+},{"fs":41}],39:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -2906,7 +2571,7 @@ module.exports = (function() {
 
 })();
 
-},{"fs":46,"path":47}],45:[function(require,module,exports){
+},{"fs":41,"path":42}],40:[function(require,module,exports){
 /*
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd
  *
@@ -2941,9 +2606,9 @@ module.exports = (function() {
 
 })();
 
-},{"fs":46}],46:[function(require,module,exports){
+},{"fs":41}],41:[function(require,module,exports){
 
-},{}],47:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -3171,7 +2836,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-},{"_process":48}],48:[function(require,module,exports){
+},{"_process":43}],43:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
