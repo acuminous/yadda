@@ -11,7 +11,7 @@ var Language = require('../lib/index').localisation.Language;
 var Pirate = require('../lib/index').localisation.Pirate;
 var English = require('../lib/index').localisation.English;
 
-describe('FeatureParser', function () {
+describe('FeatureParser', function() {
 
     afterEach(function() {
         Localisation.default = English;
@@ -24,61 +24,61 @@ describe('FeatureParser', function () {
         assert.deepEqual(scenarios[0].steps, ['Given A', 'When B', 'Then C']);
     });
 
-    it('should parse a complex scenario', function () {
+    it('should parse a complex scenario', function() {
         var scenarios = parse_file('complex_scenario').scenarios;
         assert.equal(scenarios.length, 1);
         assert.equal(scenarios[0].title, 'Complex Scenario');
         assert.deepEqual(scenarios[0].steps, ['Given A', 'When B', 'Then C']);
     });
 
-    it('should parse multiple scenarios', function () {
+    it('should parse multiple scenarios', function() {
         var scenarios = parse_file('multiple_scenarios').scenarios;
         assert.equal(scenarios.length, 2);
         assert.equal(scenarios[0].title, 'First Scenario');
         assert.equal(scenarios[1].title, 'Second Scenario');
     });
 
-    it('should reset scenarios between parses', function () {
+    it('should reset scenarios between parses', function() {
         assert.equal(parse_file('simple_scenario').scenarios.length, 1);
         assert.equal(parse_file('simple_scenario').scenarios.length, 1);
     });
 
-    it('should parse feature title', function () {
+    it('should parse feature title', function() {
         var feature = parse_file('simple_feature');
         assert.equal(feature.title, 'Simple Feature');
     });
 
-    it('should parse feature descriptions', function () {
+    it('should parse feature descriptions', function() {
         var feature = parse_file('feature_description');
         assert.equal(feature.title, 'Feature Description');
         assert.equal(feature.description.join(' - '), 'As a wood chopper - I want to maintain a sharp axe - So that I can chop wood');
     });
 
-    it('should only allow a single feature', function () {
-        assert.throws(function () {
+    it('should only allow a single feature', function() {
+        assert.throws(function() {
             parse_file('multiple_features');
         }, /Feature is unexpected/);
     });
 
-    it('should report incomplete scenarios', function () {
-        assert.throws(function () {
+    it('should report incomplete scenarios', function() {
+        assert.throws(function() {
             parse_file('incomplete_scenario_1');
         }, /Scenario requires one or more steps/);
 
-        assert.throws(function () {
+        assert.throws(function() {
             parse_file('incomplete_scenario_2');
         }, /Scenario requires one or more steps/);
 
-        assert.throws(function () {
+        assert.throws(function() {
             parse_file('incomplete_scenario_3');
         }, /Scenario requires one or more steps/);
 
-        assert.throws(function () {
+        assert.throws(function() {
             parse_file('incomplete_scenario_4');
         }, /Scenario requires one or more steps/);
     });
 
-    it('should expand scenarios with examples', function () {
+    it('should expand scenarios with examples', function() {
         var scenarios = parse_file('example_scenarios').scenarios;
         assert.equal(scenarios.length, 2);
         assert.equal(scenarios[0].title, 'First Scenario');
@@ -89,7 +89,7 @@ describe('FeatureParser', function () {
         assert.equal(scenarios[1].steps[1], 'Step 2BB');
     });
 
-    it('should expand scenarios with multiline examples', function () {
+    it('should expand scenarios with multiline examples', function() {
         var scenarios = parse_file('multiline_example_scenarios').scenarios;
         assert.equal(scenarios.length, 2);
 
@@ -116,7 +116,7 @@ describe('FeatureParser', function () {
 
     });
 
-    it('should clone scenario annotations to examples', function () {
+    it('should clone scenario annotations to examples', function() {
         var scenarios = parse_file('pending_example_scenarios').scenarios;
         assert.equal(scenarios.length, 2);
         assert.equal(scenarios[0].annotations.pending, true);
@@ -125,32 +125,32 @@ describe('FeatureParser', function () {
         assert.equal(scenarios[1].annotations.pending, true);
     });
 
-    it('should report malformed example tables', function () {
-        assert.throws(function () {
+    it('should report malformed example tables', function() {
+        assert.throws(function() {
             parse_file('malformed_example').scenarios;
         }, /Incorrect number of fields in example table/);
     });
 
-    it('should report incomplete examples', function () {
+    it('should report incomplete examples', function() {
 
-        assert.throws(function () {
+        assert.throws(function() {
             parse_file('incomplete_examples_1');
         }, /Examples table requires one or more headings/);
 
-        assert.throws(function () {
+        assert.throws(function() {
             parse_file('incomplete_examples_2');
         }, /Examples table requires one or more rows/);
 
-        assert.throws(function () {
+        assert.throws(function() {
             parse_file('incomplete_examples_3');
         }, /Examples table requires one or more rows/);
 
-        assert.throws(function () {
+        assert.throws(function() {
             parse_file('incomplete_examples_4');
         }, /Examples table requires one or more rows/);
     });
 
-    it('should support multiple languages', function () {
+    it('should support multiple languages', function() {
         var feature = parse_file('pirate_feature', Pirate);
         assert.equal(feature.title, 'Treasure Island');
 
@@ -178,18 +178,18 @@ describe('FeatureParser', function () {
 
     it('should report missing translations', function() {
         var language = new Language('Incomplete', {});
-        assert.throws(function () {
+        assert.throws(function() {
             parse_file('multiple_features', language);
         }, /Keyword "feature" has not been translated into Incomplete/);
     });
 
-    it('should report steps with no scenario', function () {
-        assert.throws(function () {
+    it('should report steps with no scenario', function() {
+        assert.throws(function() {
             parse_file('missing_scenario');
         }, /A feature must contain one or more scenarios/);
     });
 
-    it('should parse feature annotations', function () {
+    it('should parse feature annotations', function() {
         var feature = parse_file('annotated_feature');
         assert.equal(feature.annotations.keyword1, 'value1');
         assert.equal(feature.annotations.keyword2, 'value2');
@@ -197,13 +197,13 @@ describe('FeatureParser', function () {
         assert.deepEqual(feature.scenarios[0].annotations, {});
     });
 
-    it('should report background annotations', function () {
-        assert.throws(function () {
+    it('should report background annotations', function() {
+        assert.throws(function() {
             parse_file('annotated_background');
         }, /Background is unexpected at this time/);
     });
 
-    it('should parse scenario annotations', function () {
+    it('should parse scenario annotations', function() {
         var feature = parse_file('annotated_scenario');
         assert.deepEqual(feature.annotations, {});
         assert.equal(feature.scenarios[0].annotations.keyword1, 'value1');
@@ -211,7 +211,7 @@ describe('FeatureParser', function () {
         assert(feature.scenarios[0].annotations.keyword3);
     });
 
-    it('should parse simple scenario annotations', function () {
+    it('should parse simple scenario annotations', function() {
         var feature = parse_file('annotated_simple_scenario');
         assert.deepEqual(feature.annotations, {});
         assert.equal(feature.scenarios[0].annotations.keyword1, 'value1');
@@ -219,7 +219,7 @@ describe('FeatureParser', function () {
         assert(feature.scenarios[0].annotations.keyword3);
     });
 
-    it('should support annotations with non alphanumerics', function () {
+    it('should support annotations with non alphanumerics', function() {
         var feature = parse_file('non_alphanumeric_annotated_feature');
         assert.equal(feature.annotations['Key Word+1'], 'value1');
         assert.equal(feature.annotations.key_word_1, 'value1');
@@ -227,7 +227,7 @@ describe('FeatureParser', function () {
         assert.equal(feature.scenarios[0].annotations.key_word_1, 'value1');
     });
 
-    it('should support single line comments', function () {
+    it('should support single line comments', function() {
         var feature = parse_file('single_line_comments');
         var scenarios = feature.scenarios;
         assert.equal(feature.title, 'Single Line Comments Feature');
@@ -236,7 +236,7 @@ describe('FeatureParser', function () {
         assert.deepEqual(scenarios[0].steps, ['Given A', 'When # B', 'Then C #']);
     });
 
-    it('should parse multiline comments', function () {
+    it('should parse multiline comments', function() {
         var feature = parse_file('multiline_comment');
         var scenarios = feature.scenarios;
         assert.equal(feature.title, 'Simple Feature');
@@ -245,12 +245,12 @@ describe('FeatureParser', function () {
         assert.deepEqual(scenarios[0].steps, ['Given A', 'When B', 'Then C']);
     });
 
-    it('should parse feature background', function () {
+    it('should parse feature background', function() {
         var feature = parse_file('feature_with_background');
         assert.equal(feature.scenarios[0].steps[0], 'Given A');
     });
 
-    it('should expand feature background with examples', function () {
+    it('should expand feature background with examples', function() {
         var feature = parse_file('feature_with_background_and_examples');
         assert.equal(feature.scenarios.length, 4);
         assert.equal(feature.scenarios[0].steps[0], 'BG A1');
@@ -259,18 +259,18 @@ describe('FeatureParser', function () {
         assert.equal(feature.scenarios[3].steps[0], 'BG Y4');
     });
 
-    it('should report incomplete features', function () {
-        assert.throws(function () {
+    it('should report incomplete features', function() {
+        assert.throws(function() {
             parse_file('incomplete_feature');
         }, /Feature requires one or more scenarios/);
     });
 
-    it('should parse scenario annotations after background', function () {
+    it('should parse scenario annotations after background', function() {
         var feature = parse_file('annotated_scenario_after_background');
         assert.equal(feature.scenarios[0].steps[0], 'Given A');
     });
 
-    it('should parse compact features', function () {
+    it('should parse compact features', function() {
         var feature = parse_file('background_description');
         assert.equal(feature.scenarios[0].steps[0], 'Given A');
         assert.equal(feature.scenarios[0].steps[1], 'When B');
