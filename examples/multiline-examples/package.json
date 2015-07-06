@@ -1,7 +1,7 @@
 {
-  "name": "multiline-example",
+  "name": "multiline-examples",
   "version": "0.0.1",
-  "description": "Yadda multiline example sample",
+  "description": "Yadda multiline examples sample",
   "scripts": {
     "preinstall": "npm --loglevel error link yadda",
     "test": "node ./test.js"
