@@ -17,8 +17,9 @@ It's also worth checking out the following tools which use Yadda to provide thei
 * [cucumber-boilerplate](https://github.com/webdriverio/cucumber-boilerplate) - boilerplate project for an easy and powerful setup of Yadda and [WebdriverIO](http://webdriver.io/) with predefined common Webdriver steps
 
 ## Latest Version
-The current version of Yadda is 0.11.7. Recent changes include:
+The current version of Yadda is 0.12.0. Recent changes include:
 * Added console.log to request user feedback on whether [background descriptions](https://github.com/acuminous/yadda/issues/146) can be decprecated
+* Removed deprecated mocha plugin
 * Improved examples
 * Portuguese language support courtesy of [thr0w](https://github.com/thr0w). Thanks.
 

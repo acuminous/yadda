@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.12.0
+* Removing deprecated mocha plugin.
+
 ## Yadda 0.11.7
 * Portuguese language support courtesy of [https://github.com/thr0w](thr0w). Thanks.
 
