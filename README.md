@@ -17,11 +17,10 @@ It's also worth checking out the following tools which use Yadda to provide thei
 * [cucumber-boilerplate](https://github.com/webdriverio/cucumber-boilerplate) - boilerplate project for an easy and powerful setup of Yadda and [WebdriverIO](http://webdriver.io/) with predefined common Webdriver steps
 
 ## Latest Version
-The current version of Yadda is 0.11.6. Recent changes include:
+The current version of Yadda is 0.11.7. Recent changes include:
 * Added console.log to request user feedback on whether [background descriptions](https://github.com/acuminous/yadda/issues/146) can be decprecated
 * Improved examples
-* Russian language support kindly contributed by [vectart](https://github.com/vectart)
-* Alternative "non-recurisve" api - see [issue 111](https://github.com/acuminous/yadda/issues/111).
+* Portuguese language support courtesy of [thr0w](https://github.com/thr0w). Thanks.
 
 ## Installation
 
@@ -31,7 +30,7 @@ npm install yadda
 ```
 ### Browser based environments (e.g. QUnit)
 ```html
-<script src="./lib/yadda-0.11.6.js"></script>
+<script src="./lib/yadda-0.11.7.js"></script>
 ```
 ## Writing Yadda Tests
 ### Step 1 - Decide upon a directory structure, e.g.
@@ -225,6 +224,7 @@ We'd be delighted to accept pull requests for more languages and dialects. Many 
  - [macie](https://github.com/macie) - Polish
  - [prokls](https://github.com/prokls) - German
  - [vectart](https://github.com/vectart) - Russian
+ - [thr0w](https://github.com/thr0w) - Portuguese
 
 ### Step Anatomy
 A step is made up of a regular expression, a function and some context.

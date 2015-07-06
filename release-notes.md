@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.11.7
+* Portuguese language support courtesy of [https://github.com/thr0w](thr0w). Thanks.
+
 ## Yadda 0.11.6
 * Added console.log to request user feedback on whether [background descriptions](https://github.com/acuminous/yadda/issues/146) can be decprecated
 * Improved examples

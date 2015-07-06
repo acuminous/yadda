@@ -199,4 +199,42 @@ describe('Localisation', function() {
 
         assert.equal(counter.total(), 3);
     });
+
+    it('should support Portuguese', function() {
+        var counter = new Counter();
+        var library = Yadda.localisation.Portuguese.library()
+            .seja('some text 1', counter.count)
+            .sejam('some text 2', counter.count)
+            .dado('some text 3', counter.count)
+            .dada('some text 4', counter.count)
+            .dados('some text 5', counter.count)
+            .dadas('some text 6', counter.count)
+            .given('some text 7', counter.count)
+
+        .quando('some text 8', counter.count)
+            .se('some text 9', counter.count)
+            .when('some text 10', counter.count)
+
+        .entao('some text 11', counter.count)
+            .then('some text 12', counter.count);
+
+        new Interpreter(library).interpret([
+            'seja some text 1',
+            'sejam some text 2',
+            'dado some text 3',
+            'dada some text 4',
+            'dados some text 5',
+            'dadas some text 6',
+            'seja some text 7',
+
+            'quando some text 8',
+            'se some text 9',
+            'quando some text 10',
+
+            'então some text 11',
+            'entao some text 12'
+        ]);
+
+        assert.equal(counter.total(), 12);
+    });
 });
