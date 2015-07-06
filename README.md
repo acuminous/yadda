@@ -17,11 +17,12 @@ It's also worth checking out the following tools which use Yadda to provide thei
 * [cucumber-boilerplate](https://github.com/webdriverio/cucumber-boilerplate) - boilerplate project for an easy and powerful setup of Yadda and [WebdriverIO](http://webdriver.io/) with predefined common Webdriver steps
 
 ## Latest Version
-The current version of Yadda is 0.12.0. Recent changes include:
-* Added console.log to request user feedback on whether [background descriptions](https://github.com/acuminous/yadda/issues/146) can be decprecated
+The current version of Yadda is 0.12.1. Recent changes include:
 * Removed deprecated mocha plugin
+* Added console.log to request user feedback on whether [background descriptions](https://github.com/acuminous/yadda/issues/146) can be decprecated
 * Improved examples
 * Portuguese language support courtesy of [thr0w](https://github.com/thr0w). Thanks.
+* Allowing the default language to be changed (affects the FeatureParser and mocha/jasmine plugins)
 
 ## Installation
 
@@ -226,6 +227,12 @@ We'd be delighted to accept pull requests for more languages and dialects. Many 
  - [prokls](https://github.com/prokls) - German
  - [vectart](https://github.com/vectart) - Russian
  - [thr0w](https://github.com/thr0w) - Portuguese
+
+The easiest way to change the language used by the FeatureParser and mocha/jasmin plugins is to set Yadda.localisation.default to your language of choice, e.g.
+
+```js
+Yadda.localisation.default = Yadda.localisation.Pirate;
+```
 
 ### Step Anatomy
 A step is made up of a regular expression, a function and some context.

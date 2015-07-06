@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.12.1
+* Allow the default language to be overriden. See https://github.com/acuminous/yadda/issues/102.
+
 ## Yadda 0.12.0
 * Removing deprecated mocha plugin.
 

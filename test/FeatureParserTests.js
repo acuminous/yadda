@@ -6,10 +6,16 @@ var fs = require('fs');
 var path = require('path');
 var assert = require("assert");
 var FeatureParser = require('../lib/index').parsers.FeatureParser;
+var Localisation = require('../lib/index').localisation;
 var Language = require('../lib/index').localisation.Language;
 var Pirate = require('../lib/index').localisation.Pirate;
+var English = require('../lib/index').localisation.English;
 
 describe('FeatureParser', function() {
+
+    afterEach(function() {
+        Localisation.default = English;
+    })
 
     it('should parse a simple scenario', function() {
         var scenarios = parse_file('simple_scenario').scenarios;
@@ -119,6 +125,20 @@ describe('FeatureParser', function() {
 
     it('should support multiple languages', function() {
         var feature = parse_file('pirate_feature', Pirate);
+        assert.equal(feature.title, 'Treasure Island');
+
+        var scenarios = feature.scenarios;
+        assert.equal(scenarios.length, 2);
+        assert.equal(scenarios[0].title, 'The Black Spot');
+        assert.deepEqual(scenarios[0].steps, ['Given A', 'When B', 'Then C']);
+
+        assert(scenarios[1].annotations.brig, 'Localised scenario was not marked as pending');
+    });
+
+    it('should support changing the default language', function() {
+        Localisation.default = Pirate;
+        var feature = new FeatureParser().parse(load('pirate_feature'));
+
         assert.equal(feature.title, 'Treasure Island');
 
         var scenarios = feature.scenarios;
