@@ -24,6 +24,17 @@ describe('Dictionary', function() {
         );
     });
 
+    it('should expand multiline terms', function() {
+        var dictionary = new Dictionary()
+            .define('text', /([^\0000]*)/);
+
+        assert_definition(dictionary, '$text', '([^\\0000]*)');
+        assert_definition(dictionary,
+            'Given a text $text',
+            'Given a text ([^\\0000]*)'
+        );
+    });
+
     it('should expand complex terms', function() {
         var dictionary = new Dictionary()
             .define('address_line_1', '$number $street')

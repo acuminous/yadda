@@ -97,10 +97,12 @@ describe('FeatureParser', function () {
         assert.equal(scenarios[0].steps.length, 3);
         assert.equal(scenarios[0].steps[0], 'Given I need to transpile');
         assert.equal(scenarios[0].steps[1], 'When EcmaScript6=var r=arr.map((x)=>x*x);');
-        assert.equal(scenarios[0].steps[2], ['Then EcmaScript5=var r=arr.map(',
+        assert.equal(scenarios[0].steps[2], ['Then EcmaScript5="use strict";',
+                                             '',
+                                             'var r=arr.map(',
                                              '  function(x){',
                                              '    return x*x;',
-                                             '  });'
+                                             '});'
                                             ].join('\n'));
 
         assert.equal(scenarios[1].title, 'template strings Scenario');

@@ -7,10 +7,12 @@ Scenario: [case] Scenario
 Examples:
   case             | EcmaScript6              | EcmaScript5
 
-  arrow function   | var r=arr.map((x)=>x*x); | var r=arr.map(
+  arrow function   | var r=arr.map((x)=>x*x); | "use strict";
+                   |                          |
+                   |                          | var r=arr.map(
                    |                          |   function(x){
                    |                          |     return x*x;
-                   |                          |   });
+                   |                          | });
 
   template strings | var s=`x=${x}            | var s='x='.concat(x).concat('\n')
                    | y=${y}`;                 | .concat('y=').concat(y);

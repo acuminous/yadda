@@ -17,6 +17,15 @@ describe('Competition', function() {
         assert.equal(competition.clear_winner().signature, best_match.signature);
     });
 
+    it("should decide winner by Levenshtein distance on multiline", function() {
+        var best_match = new Macro('best', /given 1 ([^\0000]*) text/);
+        var middle_match = new Macro('middle', /given (\d+) ([^\0000]*) text (?:s{0,1})/);
+        var worst_match = new Macro('worse', /given (\d+) ([^\0000]*) (?:text|code)/);
+        var competition = new Competition('given 1 a\nb\nc text', [worst_match, best_match, middle_match]);
+
+        assert.equal(competition.clear_winner().signature, best_match.signature);
+    });
+
     it("should support joint winners", function() {
         var best_match = new Macro('best', /given 1 (.*) patient/);
         var equal_match = new Macro('equal', /given 1 (.+) patient/);
@@ -25,6 +34,16 @@ describe('Competition', function() {
         assert.throws(function() {
             competition.clear_winner();
         }, /Ambiguous Step: \[given 1 male patient\]. Patterns \[\/best\/, \/equal\/\] match equally well./);
+    });
+
+    it("should support multiline joint winners", function() {
+        var best_match = new Macro('best', /given ([^\0000]*) text/);
+        var equal_match = new Macro('equal', /given ([^\0000]+) text/);
+        var competition = new Competition('given 1\n2\n3 text', [best_match, equal_match]);
+
+        assert.throws(function() {
+            competition.clear_winner();
+        }, /Ambiguous Step: \[given 1\n2\n3 text\]. Patterns \[\/best\/, \/equal\/\] match equally well./);
     });
 
     it("Should support no winner", function() {

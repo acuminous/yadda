@@ -22,6 +22,17 @@ describe('Macro', function() {
         assert.deepEqual(execution.ctx, {a: 1, b: 2});
     });
 
+     it('should interpret a multiline', function() {
+        var execution = new Execution();
+        var args = [1, 2, 3, 'callback'];
+
+        new Macro('Easy', /Easy as ([^\0000]*)/, execution.code, {a: 1}).interpret("Easy as 1\n2\n3", new Context({b: 2}), fn.noop);
+
+        assert.ok(execution.executed, "The step code was not run");
+        assert.deepEqual(execution.args.splice(0, 1), ["1\n2\n3"]);
+        assert.deepEqual(execution.ctx, {a: 1, b: 2});
+    });
+
     it('should provide a signature that can be used to compare levenshtein distance', function() {
         $([
             /the quick brown fox/,
