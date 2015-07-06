@@ -89,6 +89,31 @@ describe('FeatureParser', function () {
         assert.equal(scenarios[1].steps[1], 'Step 2BB');
     });
 
+    it('should expand scenarios with multiline examples', function () {
+        var scenarios = parse_file('multiline_example_scenarios').scenarios;
+        assert.equal(scenarios.length, 2);
+
+        assert.equal(scenarios[0].title, 'arrow function Scenario');
+        assert.equal(scenarios[0].steps.length, 3);
+        assert.equal(scenarios[0].steps[0], 'Given I need to transpile');
+        assert.equal(scenarios[0].steps[1], 'When EcmaScript6=var r=arr.map((x)=>x*x);');
+        assert.equal(scenarios[0].steps[2], ['Then EcmaScript5=var r=arr.map(',
+                                             '  function(x){',
+                                             '    return x*x;',
+                                             '  });'
+                                            ].join('\n'));
+
+        assert.equal(scenarios[1].title, 'template strings Scenario');
+        assert.equal(scenarios[1].steps.length, 3);
+        assert.equal(scenarios[1].steps[0], 'Given I need to transpile');
+        assert.equal(scenarios[1].steps[1], ['When EcmaScript6=var s=`x=${x}',
+                                             'y=${y}`;'
+                                            ].join('\n'));
+        assert.equal(scenarios[1].steps[2], [
+            "Then EcmaScript5=var s=\'x='.concat(x).concat('\\n')",                                 ".concat('y=').concat(y);"].join('\n'));
+
+    });
+
     it('should clone scenario annotations to examples', function () {
         var scenarios = parse_file('pending_example_scenarios').scenarios;
         assert.equal(scenarios.length, 2);
