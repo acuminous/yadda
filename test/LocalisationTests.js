@@ -9,7 +9,7 @@ var Counter = require('./Counter');
 
 describe('Localisation', function() {
 
-    it('should support German', function() {
+    it('should support German', function () {
         var counter = new Counter();
         var library = Yadda.localisation.German.library()
             .given('some text 1', counter.count)
@@ -34,11 +34,11 @@ describe('Localisation', function() {
             .etantdonne('some text 4', counter.count)
             .given('some text 5', counter.count)
 
-        .quand('some text 6', counter.count)
+            .quand('some text 6', counter.count)
             .lorsque('some text 7', counter.count)
             .when('some text 8', counter.count)
 
-        .alors('some text 9', counter.count)
+            .alors('some text 9', counter.count)
             .then('some text 10', counter.count);
 
         new Interpreter(library).interpret([
@@ -65,10 +65,10 @@ describe('Localisation', function() {
             .gitt('some text 1', counter.count)
             .given('some text 2', counter.count)
 
-        .når('some text 3', counter.count)
+            .når('some text 3', counter.count)
             .when('some text 4', counter.count)
 
-        .så('some text 5', counter.count)
+            .så('some text 5', counter.count)
             .then('some text 6', counter.count);
 
 
@@ -92,10 +92,10 @@ describe('Localisation', function() {
             .giveth('some text 1', counter.count)
             .given('some text 2', counter.count)
 
-        .whence('some text 3', counter.count)
+            .whence('some text 3', counter.count)
             .when('some text 4', counter.count)
 
-        .thence('some text 5', counter.count)
+            .thence('some text 5', counter.count)
             .then('some text 6', counter.count);
 
         new Interpreter(library).interpret([
@@ -119,13 +119,13 @@ describe('Localisation', function() {
             .majac('some text 2', counter.count)
             .given('some text 3', counter.count)
 
-        .jezeli('some text 4', counter.count)
+            .jezeli('some text 4', counter.count)
             .jesli('some text 5', counter.count)
             .gdy('some text 6', counter.count)
             .kiedy('some text 7', counter.count)
             .when('some text 8', counter.count)
 
-        .wtedy('some text 9', counter.count)
+            .wtedy('some text 9', counter.count)
             .then('some text 10', counter.count);
 
         new Interpreter(library).interpret([
@@ -157,11 +157,11 @@ describe('Localisation', function() {
             .dadas('some text 6', counter.count)
             .given('some text 7', counter.count)
 
-        .cuando('some text 8', counter.count)
+            .cuando('some text 8', counter.count)
             .si('some text 9', counter.count)
             .when('some text 10', counter.count)
 
-        .entonces('some text 11', counter.count)
+            .entonces('some text 11', counter.count)
             .then('some text 12', counter.count);
 
         new Interpreter(library).interpret([
@@ -179,44 +179,6 @@ describe('Localisation', function() {
 
             'entonces some text 11',
             'entonces some text 12'
-        ]);
-
-        assert.equal(counter.total(), 12);
-    });
-
-    it('should support Portuguese', function() {
-        var counter = new Counter();
-        var library = Yadda.localisation.Portuguese.library()
-            .seja('some text 1', counter.count)
-            .sejam('some text 2', counter.count)
-            .dado('some text 3', counter.count)
-            .dada('some text 4', counter.count)
-            .dados('some text 5', counter.count)
-            .dadas('some text 6', counter.count)
-            .given('some text 7', counter.count)
-
-        .quando('some text 8', counter.count)
-            .se('some text 9', counter.count)
-            .when('some text 10', counter.count)
-
-        .entao('some text 11', counter.count)
-            .then('some text 12', counter.count);
-
-        new Interpreter(library).interpret([
-            'seja some text 1',
-            'sejam some text 2',
-            'dado some text 3',
-            'dada some text 4',
-            'dados some text 5',
-            'dadas some text 6',
-            'seja some text 7',
-
-            'quando some text 8',
-            'se some text 9',
-            'quando some text 10',
-
-            'então some text 11',
-            'entao some text 12'
         ]);
 
         assert.equal(counter.total(), 12);
