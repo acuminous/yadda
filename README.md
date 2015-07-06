@@ -538,3 +538,33 @@ Scenario: should fall in groups of 100
    When 100 green bottles accidentally fall
    Then there are 0 green bottles standing on the wall
 ```
+
+> Yadda supports `| (\u007C)` or `┆ (\u2506)` as column separator.
+
+### Multi-line Example Tables
+Multi-line Example Tables are supported as of 0.12.1. Just leave a blank row before each example.
+
+transpile.feature
+```
+Scenario: [case] Scenario
+
+    Given I need to transpile [case]
+    When EcmaScript6=[EcmaScript6]
+    Then EcmaScript5=[EcmaScript5]
+
+Examples:
+  case             | EcmaScript6              | EcmaScript5
+
+  arrow function   | var r=arr.map((x)=>x*x); | "use strict";
+                   |                          |
+                   |                          | var r = arr.map(function (x) {
+                   |                          |   return x * x;
+                   |                          | });
+
+  template strings | var s=`x=${x}            | "use strict";
+                   | y=${y}`;                 |
+                   |                          | var s = "x=" + x + "\ny=" + y;
+
+```
+
+> you can capture multiline value using `dictionary.define('CODE', /([^\0000]*)/)`. Look a sample in folder `examples\multiline-example` .
