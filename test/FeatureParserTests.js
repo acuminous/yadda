@@ -156,6 +156,18 @@ describe('FeatureParser', function() {
 
     });
 
+    it('should report scenarios with multiline examples with duplicated id', function() {
+        assert.throws(function() {
+        var scenarios = parse_file('multiline_example_with_duplicated_id').scenarios;
+        }, /Duplicated identifier "arrow function" at lines 11 and 23/);
+    });
+
+    it('should report scenarios with multiline examples with identation error', function() {
+        assert.throws(function() {
+        var scenarios = parse_file('multiline_example_with_identation_error').scenarios;
+        }, /Identation error/);
+    });
+
     it('should clone scenario annotations to examples', function() {
         var scenarios = parse_file('pending_example_scenarios').scenarios;
         assert.equal(scenarios.length, 2);
