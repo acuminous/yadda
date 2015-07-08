@@ -91,22 +91,34 @@ describe('FeatureParser', function() {
 
     it('should expand scenarios with annotated examples', function() {
         var scenarios = parse_file('example_scenarios_with_annotations').scenarios;
-        assert.equal(scenarios.length, 3);
-        assert.equal(scenarios[0].title, 'First Scenario');
-        assert.equal(scenarios[0].annotations.ForAll, true);
-        assert.equal(scenarios[0].annotations.pending, true);
-        assert.equal(scenarios[0].steps[0], 'Step A11');
-        assert.equal(scenarios[0].steps[1], 'Step 1AA');
-        assert.equal(scenarios[1].title, 'Second Scenario');
-        assert.equal(scenarios[1].annotations.ForAll, true);
-        assert.equal(scenarios[1].annotations.Only, true);
-        assert.equal(scenarios[1].annotations.keyword, 'value');
-        assert.equal(scenarios[1].steps[0], 'Step B22');
-        assert.equal(scenarios[1].steps[1], 'Step 2BB');
-        assert.equal(scenarios[2].title, 'Third Scenario');
-        assert.equal(scenarios[2].annotations.ForAll, true);
-        assert.equal(scenarios[2].steps[0], 'Step C33');
-        assert.equal(scenarios[2].steps[1], 'Step 3CC');
+        assert.equal(scenarios.length, 6);
+        for(var i=0;i<5;i+=3){
+            assert.equal(scenarios[i+0].title, (i==3?'Tagged ':'')+'First Scenario');
+            assert.equal(scenarios[i+0].steps[0], 'Step A11');
+            assert.equal(scenarios[i+0].steps[1], 'Step 1AA');
+            assert.equal(scenarios[i+1].title, (i==3?'Tagged ':'')+'Second Scenario');
+            assert.equal(scenarios[i+1].steps[0], 'Step B22');
+            assert.equal(scenarios[i+1].steps[1], 'Step 2BB');
+            assert.equal(scenarios[i+2].title, (i==3?'Tagged ':'')+'Third Scenario');
+            assert.equal(scenarios[i+2].steps[0], 'Step C33');
+            assert.equal(scenarios[i+2].steps[1], 'Step 3CC');
+            if (i==0){
+              assert.equal(scenarios[i+0].annotations.ForAll, true);
+              assert.equal(scenarios[i+0].annotations.pending, true);
+              assert.equal(scenarios[i+1].annotations.ForAll, true);
+              assert.equal(scenarios[i+1].annotations.Only, true);
+              assert.equal(scenarios[i+1].annotations.keyword, 'value');
+              assert.equal(scenarios[i+2].annotations.ForAll, true);
+            }
+            else {
+              assert.equal(scenarios[i+0].annotations.tag, true);
+              assert.equal(scenarios[i+0].annotations.pending, true);
+              assert.equal(scenarios[i+1].annotations.tag, true);
+              assert.equal(scenarios[i+1].annotations.Only, true);
+              assert.equal(scenarios[i+1].annotations.keyword, 'value');
+              assert.equal(scenarios[i+2].annotations.tag, true);
+            }
+        }
     });
 
     it('should expand scenarios with examples using separator \\u2506 \u2506', function() {
