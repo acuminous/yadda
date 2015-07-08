@@ -104,7 +104,7 @@ describe('FeatureParser', function() {
         var scenarios = parse_file('multiline_example_scenarios').scenarios;
         assert.equal(scenarios.length, 2);
 
-        assert.equal(scenarios[0].title, 'arrow function Scenario');
+        assert.equal(scenarios[0].title, 'arrow function');
         assert.equal(scenarios[0].steps.length, 3);
         assert.equal(scenarios[0].steps[0], 'Given I need to transpile');
         assert.equal(scenarios[0].steps[1], 'When EcmaScript6=var r=arr.map((x)=>x*x);');
@@ -116,14 +116,43 @@ describe('FeatureParser', function() {
                                              '});'
                                             ].join('\n'));
 
-        assert.equal(scenarios[1].title, 'template strings Scenario');
+        assert.equal(scenarios[1].title, 'template strings');
         assert.equal(scenarios[1].steps.length, 3);
         assert.equal(scenarios[1].steps[0], 'Given I need to transpile');
         assert.equal(scenarios[1].steps[1], ['When EcmaScript6=var s=`x=${x}',
                                              'y=${y}`;'
                                             ].join('\n'));
         assert.equal(scenarios[1].steps[2], [
-            "Then EcmaScript5=var s=\'x='.concat(x).concat('\\n')",                                 ".concat('y=').concat(y);"].join('\n'));
+            "Then EcmaScript5=var s=\'x='.concat(x).concat('\\n')",
+            ".concat('y=').concat(y);"].join('\n'));
+
+    });
+
+    it('should expand scenarios with multiline examples with typed columns', function() {
+        var scenarios = parse_file('multiline_example_with_typed_columns').scenarios;
+        assert.equal(scenarios.length, 2);
+
+        assert.equal(scenarios[0].title, 'arrow function');
+        assert.equal(scenarios[0].steps.length, 3);
+        assert.equal(scenarios[0].steps[0], 'Given I need to transpile');
+        assert.equal(scenarios[0].steps[1], 'When EcmaScript6 at 10:22-10:46 = var r=arr.map((x)=>x*x);');
+        assert.equal(scenarios[0].steps[2], ['Then EcmaScript5 at 10:49-15:64 = "use strict";',
+                                             '',
+                                             'var r=arr.map(',
+                                             '  function(x){',
+                                             '    return x*x;',
+                                             '});'
+                                            ].join('\n'));
+
+        assert.equal(scenarios[1].title, 'template strings');
+        assert.equal(scenarios[1].steps.length, 3);
+        assert.equal(scenarios[1].steps[0], 'Given I need to transpile');
+        assert.equal(scenarios[1].steps[1], ['When EcmaScript6 at 17:22-18:35 = var s=`x=${x}',
+                                             'y=${y}`;'
+                                            ].join('\n'));
+        assert.equal(scenarios[1].steps[2], [
+            "Then EcmaScript5 at 17:49-18:82 = var s=\'x='.concat(x).concat('\\n')",
+            ".concat('y=').concat(y);"].join('\n'));
 
     });
 
