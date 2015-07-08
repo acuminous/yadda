@@ -1,4 +1,4 @@
-@ForAll
+@ForAll   
 Scenario: [nth] Scenario
 
     Step [letter][number][number]
@@ -9,6 +9,6 @@ Examples:
 @Pending    
     First  | A      | 1
 @Only
-@keyword1=value
+@keyword=value
     Second | B      | 2
     Third  | C      | 3    
