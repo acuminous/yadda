@@ -26,7 +26,7 @@ describe('Macro', function() {
         var execution = new Execution();
         var args = [1, 2, 3, 'callback'];
 
-        new Macro('Easy', /Easy as ([^\0000]*)/, execution.code, {a: 1}).interpret("Easy as 1\n2\n3", new Context({b: 2}), fn.noop);
+        new Macro('Easy', /Easy as ([^\u0000]*)/, execution.code, {a: 1}).interpret("Easy as 1\n2\n3", new Context({b: 2}), fn.noop);
 
         assert.ok(execution.executed, "The step code was not run");
         assert.deepEqual(execution.args.splice(0, 1), ["1\n2\n3"]);

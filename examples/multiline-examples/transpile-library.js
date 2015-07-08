@@ -13,7 +13,7 @@ module.exports = (function() {
 
     var dictionary = new Dictionary();
     dictionary.define('CASE', /(.*)/);
-    dictionary.define('CODE', /([^\0000]*)/);
+    dictionary.define('CODE', /([^\u0000]*)/);
     var library = English.library(dictionary)
 
         .given("I need to transpile $CASE", function(s, next) {

@@ -51,7 +51,7 @@ describe('Library', function() {
      it('should expand multiline macro signature using specified dictionary', function() {
 
         var dictionary = new Dictionary()
-            .define('text', /([^\0000]*)/);
+            .define('text', /([^\u0000]*)/);
 
         var library = new Library(dictionary)
             .define('Given a text $text');
