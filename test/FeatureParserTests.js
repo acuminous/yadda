@@ -89,6 +89,26 @@ describe('FeatureParser', function() {
         assert.equal(scenarios[1].steps[1], 'Step 2BB');
     });
 
+    it('should expand scenarios with annotated examples', function() {
+        var scenarios = parse_file('example_scenarios_with_annotations').scenarios;
+        assert.equal(scenarios.length, 3);
+        assert.equal(scenarios[0].title, 'First Scenario');
+        assert.equal(scenarios[0].annotations.ForAll, true);
+        assert.equal(scenarios[0].annotations.pending, true);
+        assert.equal(scenarios[0].steps[0], 'Step A11');
+        assert.equal(scenarios[0].steps[1], 'Step 1AA');
+        assert.equal(scenarios[1].title, 'Second Scenario');
+        assert.equal(scenarios[1].annotations.ForAll, true);
+        assert.equal(scenarios[1].annotations.Only, true);
+        assert.equal(scenarios[1].annotations.keyword, 'value');
+        assert.equal(scenarios[1].steps[0], 'Step B22');
+        assert.equal(scenarios[1].steps[1], 'Step 2BB');
+        assert.equal(scenarios[2].title, 'Third Scenario');
+        assert.equal(scenarios[2].annotations.ForAll, true);
+        assert.equal(scenarios[2].steps[0], 'Step C33');
+        assert.equal(scenarios[2].steps[1], 'Step 3CC');
+    });
+
     it('should expand scenarios with examples using separator \\u2506 \u2506', function() {
         var scenarios = parse_file('example_scenarios_2506').scenarios;
         assert.equal(scenarios.length, 2);
