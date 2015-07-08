@@ -514,6 +514,7 @@ Scenario: should fall in groups of [Falling]
       Falling | Remaining
       2       | 98
       10      | 90
+@Pending
       100     | 0
 ```
 it will produce three scenarios, identical to
@@ -532,6 +533,7 @@ Scenario: should fall in groups of 10
    When 10 green bottles accidentally fall
    Then there are 90 green bottles standing on the wall
 
+@Pending
 Scenario: should fall in groups of 100
 
    Given 100 green bottles are standing on the wall
