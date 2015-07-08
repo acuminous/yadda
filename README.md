@@ -567,4 +567,6 @@ Examples:
 
 ```
 
-> you can capture multiline value using `dictionary.define('CODE', /([^\0000]*)/)`. Look a sample in folder `examples\multiline-example` .
+> Support for multiline value using `dictionary.define('CODE', /([^\u0000]*)/)`. Look a sample in folder [https://github.com/thr0w/yadda/tree/master/examples/multiline-examples] .
+
+> Yadda supports two column types: ID, define column as identifier denying duplicated. LOC, define aditional columns with position of data in feature file. Look the sample [https://github.com/thr0w/yadda/blob/master/test/features/multiline_example_with_typed_columns.feature] .
