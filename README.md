@@ -544,7 +544,7 @@ Scenario: should fall in groups of 100
 > Yadda supports `| (\u007C)` or `┆ (\u2506)` as column separator.
 
 ### Multi-line Example Tables
-Multi-line Example Tables are supported as of 0.12.1. Just leave a blank row before each example.
+Multi-line Example Tables are supported as of 0.12.1. Just leave a blank or dashed row before each example.
 
 transpile.feature
 ```
@@ -556,13 +556,13 @@ Scenario: [case] Scenario
 
 Examples:
   case             | EcmaScript6              | EcmaScript5
-
+  ----------------------------------------------------------------------------
   arrow function   | var r=arr.map((x)=>x*x); | "use strict";
                    |                          |
                    |                          | var r = arr.map(function (x) {
                    |                          |   return x * x;
                    |                          | });
-
+  ----------------------------------------------------------------------------
   template strings | var s=`x=${x}            | "use strict";
                    | y=${y}`;                 |
                    |                          | var s = "x=" + x + "\ny=" + y;
