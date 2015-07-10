@@ -22,4 +22,12 @@ describe('RegularExpression', function() {
         assert.equal(groups[1], 'the');
         assert.equal(groups[3], 'quick');
     });
+
+    it('should provide multiline', function() {
+        var words = new RegularExpression(/text: ([^\u0000]*)/);
+        var groups = words.groups('text: 1\n2\n3');
+        assert.equal(groups.length, 1);
+        assert.equal(groups[0], '1\n2\n3');
+    });
+
 });

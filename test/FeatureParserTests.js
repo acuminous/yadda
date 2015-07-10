@@ -89,6 +89,117 @@ describe('FeatureParser', function() {
         assert.equal(scenarios[1].steps[1], 'Step 2BB');
     });
 
+    it('should expand scenarios with annotated examples', function() {
+        var scenarios = parse_file('example_scenarios_with_annotations').scenarios;
+        assert.equal(scenarios.length, 6);
+        for(var i=0;i<5;i+=3){
+            assert.equal(scenarios[i+0].title, (i==3?'Tagged ':'')+'First Scenario');
+            assert.equal(scenarios[i+0].steps[0], 'Step A11');
+            assert.equal(scenarios[i+0].steps[1], 'Step 1AA');
+            assert.equal(scenarios[i+1].title, (i==3?'Tagged ':'')+'Second Scenario');
+            assert.equal(scenarios[i+1].steps[0], 'Step B22');
+            assert.equal(scenarios[i+1].steps[1], 'Step 2BB');
+            assert.equal(scenarios[i+2].title, (i==3?'Tagged ':'')+'Third Scenario');
+            assert.equal(scenarios[i+2].steps[0], 'Step C33');
+            assert.equal(scenarios[i+2].steps[1], 'Step 3CC');
+            if (i==0){
+              assert.equal(scenarios[i+0].annotations.ForAll, true);
+              assert.equal(scenarios[i+0].annotations.pending, true);
+              assert.equal(scenarios[i+1].annotations.ForAll, true);
+              assert.equal(scenarios[i+1].annotations.Only, true);
+              assert.equal(scenarios[i+1].annotations.keyword, 'value');
+              assert.equal(scenarios[i+2].annotations.ForAll, true);
+            }
+            else {
+              assert.equal(scenarios[i+0].annotations.tag, true);
+              assert.equal(scenarios[i+0].annotations.pending, true);
+              assert.equal(scenarios[i+1].annotations.tag, true);
+              assert.equal(scenarios[i+1].annotations.Only, true);
+              assert.equal(scenarios[i+1].annotations.keyword, 'value');
+              assert.equal(scenarios[i+2].annotations.tag, true);
+            }
+        }
+    });
+
+    it('should expand scenarios with examples using separator \\u2506 \u2506', function() {
+        var scenarios = parse_file('example_scenarios_2506').scenarios;
+        assert.equal(scenarios.length, 2);
+        assert.equal(scenarios[0].title, 'First Scenario');
+        assert.equal(scenarios[0].steps[0], 'Step A11');
+        assert.equal(scenarios[0].steps[1], 'Step 1AA');
+        assert.equal(scenarios[1].title, 'Second Scenario');
+        assert.equal(scenarios[1].steps[0], 'Step B22');
+        assert.equal(scenarios[1].steps[1], 'Step 2BB');
+    });
+
+    it('should expand scenarios with multiline examples', function() {
+        var scenarios = parse_file('multiline_example_scenarios').scenarios;
+        assert.equal(scenarios.length, 2);
+
+        assert.equal(scenarios[0].title, 'arrow function');
+        assert.equal(scenarios[0].steps.length, 3);
+        assert.equal(scenarios[0].steps[0], 'Given I need to transpile');
+        assert.equal(scenarios[0].steps[1], 'When EcmaScript6=var r=arr.map((x)=>x*x);');
+        assert.equal(scenarios[0].steps[2], ['Then EcmaScript5="use strict";',
+                                             '',
+                                             'var r=arr.map(',
+                                             '  function(x){',
+                                             '    return x*x;',
+                                             '});'
+                                            ].join('\n'));
+
+        assert.equal(scenarios[1].title, 'template strings');
+        assert.equal(scenarios[1].steps.length, 3);
+        assert.equal(scenarios[1].steps[0], 'Given I need to transpile');
+        assert.equal(scenarios[1].steps[1], ['When EcmaScript6=var s=`x=${x}',
+                                             'y=${y}`;'
+                                            ].join('\n'));
+        assert.equal(scenarios[1].steps[2], [
+            "Then EcmaScript5=var s=\'x='.concat(x).concat('\\n')",
+            ".concat('y=').concat(y);"].join('\n'));
+
+    });
+
+    it('should expand scenarios with multiline examples with typed columns', function() {
+        var scenarios = parse_file('multiline_example_with_typed_columns').scenarios;
+        assert.equal(scenarios.length, 2);
+
+        assert.equal(scenarios[0].title, 'arrow function');
+        assert.equal(scenarios[0].steps.length, 3);
+        assert.equal(scenarios[0].steps[0], 'Given I need to transpile');
+        assert.equal(scenarios[0].steps[1], 'When EcmaScript6 at 10:22-10:46 = var r=arr.map((x)=>x*x);');
+        assert.equal(scenarios[0].steps[2], ['Then EcmaScript5 at 10:49-15:64 = "use strict";',
+                                             '',
+                                             'var r=arr.map(',
+                                             '  function(x){',
+                                             '    return x*x;',
+                                             '});'
+                                            ].join('\n'));
+
+        assert.equal(scenarios[1].title, 'template strings');
+        assert.equal(scenarios[1].steps.length, 3);
+        assert.equal(scenarios[1].steps[0], 'Given I need to transpile');
+        assert.equal(scenarios[1].steps[1], ['When EcmaScript6 at 17:22-18:35 = var s=`x=${x}',
+                                             'y=${y}`;'
+                                            ].join('\n'));
+        assert.equal(scenarios[1].steps[2], [
+            "Then EcmaScript5 at 17:49-18:82 = var s=\'x='.concat(x).concat('\\n')",
+            ".concat('y=').concat(y);"].join('\n'));
+
+    });
+
+    it('should report scenarios with multiline examples with duplicated id', function() {
+        assert.throws(function() {
+        var scenarios = parse_file('multiline_example_with_duplicated_id').scenarios;
+        }, /Duplicated identifier "arrow function" at lines 11 and 23/);
+    });
+
+    it('should report scenarios with multiline examples with identation error', function() {
+        assert.throws(function() {
+        var scenarios = parse_file('multiline_example_with_identation_error').scenarios;
+        }, /Identation error/);
+    });
+
     it('should clone scenario annotations to examples', function() {
         var scenarios = parse_file('pending_example_scenarios').scenarios;
         assert.equal(scenarios.length, 2);

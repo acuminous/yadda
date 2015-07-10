@@ -48,6 +48,21 @@ describe('Library', function() {
         assert.ok(!macro.can_interpret('Given a ugly, angry patient called Max'));
     });
 
+     it('should expand multiline macro signature using specified dictionary', function() {
+
+        var dictionary = new Dictionary()
+            .define('text', /([^\u0000]*)/);
+
+        var library = new Library(dictionary)
+            .define('Given a text $text');
+
+        var macro = library.get_macro('Given a text $text');
+        assert.ok(macro.can_interpret('Given a text ')); // empty
+        assert.ok(macro.can_interpret('Given a text 1')); // oneline
+        assert.ok(macro.can_interpret('Given a text 1\n2\n3')); // multiline
+        assert.ok(!macro.can_interpret('Given another thing'));
+    });
+
     it('should report duplicate macros', function() {
 
         var library = English.library()
