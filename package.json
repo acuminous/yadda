@@ -5,7 +5,7 @@
   "main": "./lib/index.js",
   "devDependencies": {
     "mocha": "*",
-    "browserify": "*",
+    "browserify": "10.2.6",
     "jshint": "^2.5.0"
   },
   "directories": {
