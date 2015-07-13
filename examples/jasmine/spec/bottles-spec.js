@@ -2,6 +2,9 @@
 /* global featureFile, scenarios, steps */
 "use strict";
 
+var SpecReporter = require('jasmine-spec-reporter');
+jasmine.getEnv().addReporter(new SpecReporter());
+
 var Yadda = require('yadda');
 Yadda.plugins.jasmine.StepLevelPlugin.init();
 

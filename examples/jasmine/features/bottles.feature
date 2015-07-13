@@ -1,3 +1,4 @@
+@Only
 Feature: Jasmine Example
 
 Scenario: A bottle falls from the wall
