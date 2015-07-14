@@ -259,6 +259,27 @@ describe('FeatureParser', function() {
         assert.equal(feature.scenarios[3].steps[0], 'BG Y4');
     });
 
+    it('should expand scenarios with multiline examples', function() {
+        var scenarios = parse_file('multiline_example_scenarios').scenarios;
+        assert.equal(scenarios.length, 2);
+
+        assert.equal(scenarios[0].title, 'Multiline Examples');
+        assert.equal(scenarios[0].steps.length, 2);
+        assert.equal(scenarios[0].steps[0], 'Step line 1');
+        assert.equal(scenarios[0].steps[1], ['Step line 1', 'line 2'].join('\n'));
+
+        assert.equal(scenarios[1].title, 'Multiline Examples');
+        assert.equal(scenarios[1].steps.length, 2);
+        assert.equal(scenarios[1].steps[0], ['Step line 1', 'line 2'].join('\n'));
+        assert.equal(scenarios[1].steps[1], 'Step line 1');
+    });
+
+    it('should report invalid multiline examples', function() {
+        assert.throws(function() {
+            parse_file('malformed_multiline_example');
+        }, /Dash is unexpected at this time/);
+    })
+
     it('should report incomplete features', function() {
         assert.throws(function() {
             parse_file('incomplete_feature');

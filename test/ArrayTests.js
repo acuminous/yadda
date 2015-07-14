@@ -6,18 +6,18 @@ var assert = require('assert');
 var $ = require('../lib/Array');
 
 describe('Array', function() {
-    it('Flattens a nested array', function() {
+    it('should flatten a nested array', function() {
         assert.deepEqual($([1, 2, 3]).flatten().naked(), [1, 2, 3]);
         assert.deepEqual($([1, [2], 3]).flatten().naked(), [1, 2, 3]);
         assert.deepEqual($([1, [[2], 3]]).flatten().naked(), [1, 2, 3]);
         assert.deepEqual($([1, [[2], 3]], []).flatten().naked(), [1, 2, 3]);
     });
 
-    it('Flattens an empty array', function() {
+    it('should flatten an empty array', function() {
         assert.deepEqual($([]).flatten().naked(), []);
     });
 
-    it('Should iterate asynchronously', function() {
+    it('should iterate asynchronously', function() {
         var items = [1, 2, 3];
         var iterations = 0;
         $(items).each_async(function(item, index, callback) {
@@ -29,4 +29,8 @@ describe('Array', function() {
             assert.equal(result, 3);
         });
     });
+
+    it('should return the last item', function() {
+        assert.equal(3, $([1, 2, 3]).last())
+    })
 });
