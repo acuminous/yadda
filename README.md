@@ -1,7 +1,7 @@
 # Yadda
 [![Build Status](https://travis-ci.org/acuminous/yadda.png)](https://travis-ci.org/acuminous/yadda) [![Dependencies](https://david-dm.org/acuminous/yadda.svg)](https://david-dm.org/acuminous/yadda) [![Coverage Status](https://img.shields.io/coveralls/acuminous/yadda.svg)](https://coveralls.io/r/acuminous/yadda?branch=master)
 # CAUTION
-> that fork has some differences from upstream, like multiline examples, and annotated examples. If you wanna use it you will need change package.json dependences to `"yadda": "https://github.com/thr0w/yadda/tarball/master"`.
+> that fork has some differences from upstream, like multiline examples, and annotated examples. If you wanna use it you will need change package.json dependences to `"yadda":"https://github.com/thr0w/yadda/tarball/master"`
 
 [![NPM](https://nodei.co/npm/yadda.png?downloads=true)](https://nodei.co/npm/yadda/)
 
