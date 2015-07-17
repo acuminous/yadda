@@ -100,6 +100,17 @@ describe('FeatureParser', function() {
         assert.equal(scenarios[1].steps[1], 'Step 2BB');
     });
 
+    it('should expand scenarios with fully piped examples', function() {
+        var scenarios = parse_file('example_scenarios_piped').scenarios;
+        assert.equal(scenarios.length, 2);
+        assert.equal(scenarios[0].title, 'First Scenario');
+        assert.equal(scenarios[0].steps[0], 'Step A11');
+        assert.equal(scenarios[0].steps[1], 'Step 1AA');
+        assert.equal(scenarios[1].title, 'Second Scenario');
+        assert.equal(scenarios[1].steps[0], 'Step B22');
+        assert.equal(scenarios[1].steps[1], 'Step 2BB');
+    });
+
     it('should clone scenario annotations to examples', function() {
         var scenarios = parse_file('pending_example_scenarios').scenarios;
         assert.equal(scenarios.length, 2);
@@ -285,6 +296,21 @@ describe('FeatureParser', function() {
 
         assert.equal(scenarios[1].steps[0], 'Step ');
         assert.equal(scenarios[1].steps[1], 'Step x {\n  y\n }');
+    });
+
+    it('should expand scenarios with multiline fully piped examples', function() {
+        var scenarios = parse_file('simple_multiline_example_scenarios_piped').scenarios;
+        assert.equal(scenarios.length, 2);
+
+        assert.equal(scenarios[0].title, 'Multiline Examples');
+        assert.equal(scenarios[0].steps.length, 2);
+        assert.equal(scenarios[0].steps[0], 'Step left 1');
+        assert.equal(scenarios[0].steps[1], ['Step right 1', 'right 2'].join('\n'));
+
+        assert.equal(scenarios[1].title, 'Multiline Examples');
+        assert.equal(scenarios[1].steps.length, 2);
+        assert.equal(scenarios[1].steps[0], ['Step left 3', 'left 4'].join('\n'));
+        assert.equal(scenarios[1].steps[1], 'Step right 3');
     });
 
     it('should report invalid multiline examples', function() {
