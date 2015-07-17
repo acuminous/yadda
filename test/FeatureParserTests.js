@@ -377,13 +377,6 @@ describe('FeatureParser', function() {
             assert.equal(feature.scenarios[0].steps[0], 'Given A');
         });
 
-        it('should parse background description', function() {
-            var feature = parse_file('background/feature_with_background_description');
-            assert.equal(feature.scenarios[0].steps[0], 'Given A');
-            assert.equal(feature.scenarios[0].steps[1], 'When B');
-            assert.equal(feature.scenarios[0].steps[2], 'Then C');
-        });
-
         it('should report background annotations', function() {
             assert.throws(function() {
                 parse_file('background/malformed_background_annotated');
