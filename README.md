@@ -17,7 +17,8 @@ It's also worth checking out the following tools which use Yadda to provide thei
 * [cucumber-boilerplate](https://github.com/webdriverio/cucumber-boilerplate) - boilerplate project for an easy and powerful setup of Yadda and [WebdriverIO](http://webdriver.io/) with predefined common Webdriver steps
 
 ## Latest Version
-The current version of Yadda is 0.12.1. Recent changes include:
+The current version of Yadda is 0.13.0. There are breaking changes from 0.12.0. Recent changes include:
+* An amazing amount of work adding multiline example tables be [thr0w](http://github.com/thr0w). In reworking some of [thr0w's](http://github.com/thr0w) I intentially added a breaking change around example table formating. You'll only notice if you centered column headings though.
 * Removed deprecated mocha plugin
 * Added console.log to request user feedback on whether [background descriptions](https://github.com/acuminous/yadda/issues/146) can be decprecated
 * Improved examples
@@ -538,3 +539,50 @@ Scenario: should fall in groups of 100
    When 100 green bottles accidentally fall
    Then there are 0 green bottles standing on the wall
 ```
+
+### Multiline Example Tables
+Example Tables are supported as of 0.13.0 thanks to a lot of work by [thr0w](http://github.com/thr0w)
+
+transpile.feature
+```
+Scenario: [case] Scenario
+
+    Given I need to transpile [case]
+    When EcmaScript6=[EcmaScript6]
+    Then EcmaScript5=[EcmaScript5]
+
+Where:
+  case             | EcmaScript6              | EcmaScript5
+  -----------------|--------------------------|-------------------------------
+  arrow function   | var r=arr.map((x)=>x*x); | "use strict";
+                   |                          |
+                   |                          | var r = arr.map(function (x) {
+                   |                          |   return x * x;
+                   |                          | });
+  -----------------|--------------------------|-------------------------------
+  template strings | var s=`x=${x}            | "use strict";
+                   | y=${y}`;                 |
+                   |                          | var s = "x=" + x + "\ny=" + y;
+
+If the pipe(|) character appears naturally then use the column separator(┆) \u2056
+
+### Annoated Example Tables
+Not content with multiline examples tables [thr0w](http://github.com/thr0w) added annoated examples too (these work with both normal and multiline example tables)
+bottles.feature
+```
+Feature: 100 Green Bottles
+
+Scenario: should fall in groups of [Falling]
+
+   Given 100 green bottles are standing on the wall
+   When [Falling] green bottles accidentally fall
+   Then there are [Remaining] green bottles standing on the wall
+
+   Where:
+      Falling | Remaining
+      2       | 98
+      10      | 90
+@Pending
+      100     | 0
+```
+
