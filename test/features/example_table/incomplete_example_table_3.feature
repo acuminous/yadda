@@ -1,4 +1,4 @@
-Scenario: Incomplete Examples
+Scenario: Incomplete Example Table 3
 
     Given A
     When B

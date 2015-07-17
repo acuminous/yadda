@@ -1,4 +1,4 @@
-Scenario: Multiline Examples
+Scenario: Malformed Multiline Example Table 2
 
     Step [c1]
     Step [c2]

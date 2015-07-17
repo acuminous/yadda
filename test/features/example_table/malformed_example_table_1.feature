@@ -1,4 +1,4 @@
-Scenario: Malformed Example Scenario
+Scenario: Malformed Example  Table 1
 
     Blah
 

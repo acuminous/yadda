@@ -1,4 +1,4 @@
-Scenario: Multiline Examples
+Scenario: Multiline Example Table With Outer Border
 
     Step [c1]
     Step [c2]

@@ -1,4 +1,4 @@
-Scenario: [nth] Scenario
+Scenario: Malformed Example Table 2
 
     Step [letter][number][number]
     Step [number][letter][letter]

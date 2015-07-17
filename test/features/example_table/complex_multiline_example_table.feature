@@ -1,4 +1,4 @@
-Scenario: Multiline Examples
+Scenario: Complex Multiline Example Table
 
     Step [c1]
     Step [c2]

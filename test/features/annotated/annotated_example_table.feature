@@ -1,4 +1,4 @@
-@Pending
+@Only
 Scenario: [nth] Scenario
 
     Step [letter][number][number]
@@ -6,6 +6,13 @@ Scenario: [nth] Scenario
 
 Examples:
     nth    | letter | number
-@Only
+@Pending
     First  | A      | 1
     Second | B      | 2
+@Pending
+    Third  | C      | 3
+
+@Crystal
+Scenario: Another Scenario
+
+    Step whatever

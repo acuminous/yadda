@@ -1,4 +1,4 @@
-Scenario: Multiline Examples
+Scenario: Malformed Multiline Example Table 1
 
     Step [c1]
     Step [c2]
@@ -8,6 +8,7 @@ Examples:
     -------|--------
     left 1 | right 1
            | right 2
+@Pending
     -------|--------
-    left 3 | right 3
-    left 4 |
+    left 1 | right 1
+    left 2 |
