@@ -571,7 +571,6 @@ If the pipe(|) character appears naturally then use the column separator(┆) \u
 
 ### Annoated Example Tables
 Not content with multiline examples tables [thr0w](http://github.com/thr0w) added annoated examples too (these work with both normal and multiline example tables)
-bottles.feature
 ```
 Feature: 100 Green Bottles
 
