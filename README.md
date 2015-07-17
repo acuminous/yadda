@@ -563,7 +563,7 @@ Where:
   template strings | var s=`x=${x}            | "use strict";
                    | y=${y}`;                 |
                    |                          | var s = "x=" + x + "\ny=" + y;
-
+```
 If the pipe(|) character appears naturally then use the column separator(┆) \u2056
 
 ### Annoated Example Tables
