@@ -1,5 +1,5 @@
 # Yadda
-[![Build Status](https://travis-ci.org/acuminous/yadda.png)](https://travis-ci.org/acuminous/yadda) [![Dependencies](https://david-dm.org/acuminous/yadda.svg)](https://david-dm.org/acuminous/yadda) [![Coverage Status](https://img.shields.io/coveralls/acuminous/yadda.svg)](https://coveralls.io/r/acuminous/yadda?branch=master)
+[![Build Status](https://travis-ci.org/acuminous/yadda.png)](https://travis-ci.org/acuminous/yadda) [![Dependencies](https://david-dm.org/acuminous/yadda.svg)](https://david-dm.org/acuminous/yadda) 
 
 [![NPM](https://nodei.co/npm/yadda.png?downloads=true)](https://nodei.co/npm/yadda/)
 
