@@ -16,6 +16,9 @@ It's also worth checking out the following tools which use Yadda to provide thei
 * [y2nw](https://www.npmjs.com/package/y2nw) - Yadda to [NightWatch](http://nightwatchjs.org) integration
 * [cucumber-boilerplate](https://github.com/webdriverio/cucumber-boilerplate) - boilerplate project for an easy and powerful setup of Yadda and [WebdriverIO](http://webdriver.io/) with predefined common Webdriver steps
 
+## Contributing
+We're always happy to receive pull requests, but please read the [Contributor Notes](https://github.com/acuminous/yadda/wiki/Notes-for-Contributors) first.
+
 ## Latest Version
 The current version of Yadda is 0.13.0. There are breaking changes from 0.12.0. Recent changes include:
 * An amazing amount of work adding multiline example tables be [thr0w](http://github.com/thr0w). In reworking some of [thr0w's](http://github.com/thr0w) I intentially added a breaking change around example table formating. You'll only notice if you centered column headings though.
