@@ -259,8 +259,8 @@ describe('FeatureParser', function() {
         assert.equal(feature.scenarios[3].steps[0], 'BG Y4');
     });
 
-    it('should expand scenarios with multiline examples', function() {
-        var scenarios = parse_file('multiline_example_scenarios').scenarios;
+    it('should expand scenarios with simple multiline examples', function() {
+        var scenarios = parse_file('simple_multiline_example_scenarios').scenarios;
         assert.equal(scenarios.length, 2);
 
         assert.equal(scenarios[0].title, 'Multiline Examples');
@@ -274,7 +274,18 @@ describe('FeatureParser', function() {
         assert.equal(scenarios[1].steps[1], 'Step right 3');
     });
 
-    it('should maintain indentation with multiline examples')
+    it('should expand scenarios with complex multiline examples', function() {
+        var scenarios = parse_file('complex_multiline_example_scenario').scenarios;
+        assert.equal(scenarios.length, 2);
+
+        assert.equal(scenarios[0].title, 'Multiline Examples');
+        assert.equal(scenarios[0].steps.length, 2);
+        assert.equal(scenarios[0].steps[0], 'Step x {\n  y\n }');
+        assert.equal(scenarios[0].steps[1], 'Step foo');
+
+        assert.equal(scenarios[1].steps[0], 'Step ');
+        assert.equal(scenarios[1].steps[1], 'Step x {\n  y\n }');
+    });
 
     it('should report invalid multiline examples', function() {
         assert.throws(function() {
