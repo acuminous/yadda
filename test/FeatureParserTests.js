@@ -41,7 +41,7 @@ describe('FeatureParser', function() {
                 parse_file('feature/incomplete_feature');
             }, /Feature requires one or more scenarios/);
         });
-    })
+    });
 
     describe('(Scenarios)', function() {
 
@@ -368,7 +368,7 @@ describe('FeatureParser', function() {
                 parse_file('feature/multiple_features', language);
             }, /Keyword "feature" has not been translated into Incomplete/);
         });
-    })
+    });
 
     describe('(Feature Backgrounds)', function() {
 
@@ -389,7 +389,7 @@ describe('FeatureParser', function() {
                 parse_file('background/malformed_background_annotated');
             }, /Background is unexpected at this time/);
         });
-    })
+    });
 
     describe('(Comments)', function() {
         it('should support single line comments', function() {

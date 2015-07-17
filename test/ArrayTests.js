@@ -31,6 +31,6 @@ describe('Array', function() {
     });
 
     it('should return the last item', function() {
-        assert.equal(3, $([1, 2, 3]).last())
-    })
+        assert.equal(3, $([1, 2, 3]).last());
+    });
 });
