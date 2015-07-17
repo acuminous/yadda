@@ -4,4 +4,4 @@ Scenario: Malformed Example Scenario
 
 Examples:
     One | Two | Three
-    1   | 2   | 3     | 4  
+    1   | 2   | 3     | 4

@@ -109,9 +109,9 @@ describe('FeatureParser', function() {
         assert.equal(scenarios[1].annotations.pending, true);
     });
 
-    it('should report malformed example tables', function() {
+    it('should report example tables with the wrong number of columns', function() {
         assert.throws(function() {
-            parse_file('malformed_example').scenarios;
+            parse_file('malformed_example_too_many_columns').scenarios;
         }, /Incorrect number of fields in example table/);
     });
 
@@ -265,20 +265,28 @@ describe('FeatureParser', function() {
 
         assert.equal(scenarios[0].title, 'Multiline Examples');
         assert.equal(scenarios[0].steps.length, 2);
-        assert.equal(scenarios[0].steps[0], 'Step line 1');
-        assert.equal(scenarios[0].steps[1], ['Step line 1', 'line 2'].join('\n'));
+        assert.equal(scenarios[0].steps[0], 'Step left 1');
+        assert.equal(scenarios[0].steps[1], ['Step right 1', 'right 2'].join('\n'));
 
         assert.equal(scenarios[1].title, 'Multiline Examples');
         assert.equal(scenarios[1].steps.length, 2);
-        assert.equal(scenarios[1].steps[0], ['Step line 1', 'line 2'].join('\n'));
-        assert.equal(scenarios[1].steps[1], 'Step line 1');
+        assert.equal(scenarios[1].steps[0], ['Step left 3', 'left 4'].join('\n'));
+        assert.equal(scenarios[1].steps[1], 'Step right 3');
     });
+
+    it('should maintain indentation with multiline examples')
 
     it('should report invalid multiline examples', function() {
         assert.throws(function() {
-            parse_file('malformed_multiline_example');
+            parse_file('malformed_multiline_example_no_header_separator');
         }, /Dash is unexpected at this time/);
     })
+
+    it('should report multiline example tables with inconsistent indentation', function() {
+        assert.throws(function() {
+            parse_file('malformed_multiline_example_inconsistent_indentation').scenarios;
+        }, /Indentation error/);
+    });
 
     it('should report incomplete features', function() {
         assert.throws(function() {

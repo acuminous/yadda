@@ -17,6 +17,7 @@
     ],
     "main": "lib/index.js",
     "scripts": [
+        "lib/StringUtil.js",
         "lib/Array.js",
         "lib/Competition.js",
         "lib/Context.js",

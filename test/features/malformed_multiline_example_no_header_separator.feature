@@ -5,9 +5,8 @@ Scenario: Multiline Examples
 
 Examples:
     c1     | c2
-    -------|--------
     left 1 | right 1
            | right 2
     -------|--------
-    left 3 | right 3
-    left 4 |
+    left 1 | right 1
+    left 2 |

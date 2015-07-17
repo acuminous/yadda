@@ -20,4 +20,4 @@ Scenario: Scenario 2
     Examples:
         nth    | letter | number
         First  | X      | 3
-        Second | Y      | 4    
+        Second | Y      | 4
