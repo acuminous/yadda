@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.13.1
+* Fixes an issues where the new Annotations class broke moonraker
+
 ## Yadda 0.13.0
 * An amazing amount of work adding multiline example tables be [thr0w](http://github.com/thr0w).
 * [thr0w](http://github.com/thr0w) also added annotation support to example tables.
