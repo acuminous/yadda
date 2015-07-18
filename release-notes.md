@@ -1,5 +1,25 @@
 # Release Notes
 
+## Yadda 0.13.0
+* An amazing amount of work adding multiline example tables be [thr0w](http://github.com/thr0w).
+* [thr0w](http://github.com/thr0w) also added annotation support to example tables.
+* Breaking Change: In reworking some of [thr0w's](http://github.com/thr0w) example table code we added a breaking change around example table formating. You'll only notice if you centered column headings. If this feature is important to you then we suggest adding column separators to the outer left and right edges table, e.g.
+```
+|   one  |   two   |  three  |
+| banana | orange  | apricot |
+```
+* Breaking Change: Annotations have been reworked into a class. If you access annotations you need to do so via the get method
+```js
+// Instead of
+feature.annotations.pending
+// Do
+feature.annotations.get('pending')
+```
+Annotations can be requested using any case but are stored internally in lowercase. It is not longer valid for annotation names to contain spaces and non alhpanumerics are no longer converted to an underscore.
+* Breaking Change: Removed deprecated mocha plugin
+* Breaking Change: Background can no longer have descriptions
+* If you're using a recent version of mocha in combination with the StepLevelPlugin aborted steps will be marked as Pending.
+
 ## Yadda 0.12.1
 * Adding @Only support to jasmine plugin
 
