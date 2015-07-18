@@ -30,7 +30,7 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
 });
 
 function require_feature_libraries(feature) {
-    return feature.annotations.libraries.split(', ').reduce(require_library, []);
+    return feature.annotations.get('libraries').split(', ').reduce(require_library, []);
 }
 
 function require_library(libraries, library) {
