@@ -179,7 +179,7 @@ describe('FeatureParser', function() {
             assert.equal(scenarios[2].annotations.get('pending'), true);
             assert.equal(scenarios[2].annotations.get('only'), true);
 
-            delete scenarios[0].annotations.get('pending');
+            scenarios[0].annotations.remove('pending');
             assert.equal(scenarios[2].annotations.get('pending'), true);
         });
 
