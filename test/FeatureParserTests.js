@@ -99,54 +99,54 @@ describe('FeatureParser', function() {
     describe('(Annotations)', function() {
         it('should parse feature annotations', function() {
             var feature = parse_file('annotated/annotated_feature');
-            assert.equal(feature.annotations.get('keyword1'), 'value1');
-            assert.equal(feature.annotations.get('keyword2'), 'value2');
-            assert(feature.annotations.get('keyword3'));
-            assert.deepEqual(feature.scenarios[0].annotations.keys(), []);
+            assert.equal(feature.annotations.keyword1, 'value1');
+            assert.equal(feature.annotations.keyword2, 'value2');
+            assert(feature.annotations.keyword3);
+            assert.equal(Object.keys(feature.scenarios[0].annotations).length, 0);
         });
 
         it('should trim feature annotations', function() {
             var feature = parse_file('annotated/untrimmed_annotated_feature');
-            assert.equal(feature.annotations.get('keyword1'), 'value1');
-            assert.equal(feature.annotations.get('keyword2'), 'value2');
-            assert(feature.annotations.get('keyword3'));
-            assert(feature.scenarios[0].annotations.isEmpty());
+            assert.equal(feature.annotations.keyword1, 'value1');
+            assert.equal(feature.annotations.keyword2, 'value2');
+            assert(feature.annotations.keyword3);
+            assert.equal(Object.keys(feature.scenarios[0].annotations).length, 0);
         });
 
         it('should parse scenario annotations', function() {
             var feature = parse_file('annotated/annotated_scenario');
-            assert(feature.annotations.isEmpty());
-            assert.equal(feature.scenarios[0].annotations.get('keyword1'), 'value1');
-            assert.equal(feature.scenarios[0].annotations.get('keyword2'), 'value2');
-            assert(feature.scenarios[0].annotations.get('keyword3'));
+            assert.equal(Object.keys(feature.annotations).length, 0);
+            assert.equal(feature.scenarios[0].annotations.keyword1, 'value1');
+            assert.equal(feature.scenarios[0].annotations.keyword2, 'value2');
+            assert(feature.scenarios[0].annotations.keyword3);
         });
 
         it('should trim scenario annotations', function() {
             var feature = parse_file('annotated/untrimmed_annotated_scenario');
-            assert(feature.annotations.isEmpty());
-            assert.equal(feature.scenarios[0].annotations.get('keyword1'), 'value1');
-            assert.equal(feature.scenarios[0].annotations.get('keyword2'), 'value2');
-            assert(feature.scenarios[0].annotations.get('keyword3'));
+            assert.equal(Object.keys(feature.annotations).length, 0);
+            assert.equal(feature.scenarios[0].annotations.keyword1, 'value1');
+            assert.equal(feature.scenarios[0].annotations.keyword2, 'value2');
+            assert(feature.scenarios[0].annotations.keyword3);
         });
 
         it('should support annotations with non alphanumerics', function() {
             var feature = parse_file('annotated/annotated_feature_non_alphanumeric');
-            assert.equal(feature.annotations.get('KeyWord+1'), 'value1');
-            assert.equal(feature.scenarios[0].annotations.get('keyword-1'), 'value1');
+            assert.equal(feature.annotations['keyword+1'], 'value1');
+            assert.equal(feature.scenarios[0].annotations['keyword-1'], 'value1');
         });
 
         it('should expand scenarios from annotated singleline example table', function() {
             var scenarios = parse_file('annotated/annotated_example_table').scenarios;
             assert.equal(scenarios.length, 4);
-            assert.equal(scenarios[0].annotations.get('pending'), true);
+            assert.equal(scenarios[0].annotations.pending, true);
             assert.equal(scenarios[0].title, 'First Scenario');
             assert.equal(scenarios[0].steps[0], 'Step A11');
             assert.equal(scenarios[0].steps[1], 'Step 1AA');
-            assert.equal(scenarios[1].annotations.get('pending'), undefined);
+            assert.equal(scenarios[1].annotations.pending, undefined);
             assert.equal(scenarios[1].title, 'Second Scenario');
             assert.equal(scenarios[1].steps[0], 'Step B22');
             assert.equal(scenarios[1].steps[1], 'Step 2BB');
-            assert.equal(scenarios[2].annotations.get('pending'), true);
+            assert.equal(scenarios[2].annotations.pending, true);
             assert.equal(scenarios[2].title, 'Third Scenario');
             assert.equal(scenarios[2].steps[0], 'Step C33');
             assert.equal(scenarios[2].steps[1], 'Step 3CC');
@@ -155,15 +155,15 @@ describe('FeatureParser', function() {
         it('should expand scenarios from annotated multiline example table', function() {
             var scenarios = parse_file('annotated/annotated_multiline_example_table').scenarios;
             assert.equal(scenarios.length, 4);
-            assert.equal(scenarios[0].annotations.get('pending'), true);
+            assert.equal(scenarios[0].annotations.pending, true);
             assert.equal(scenarios[0].title, 'First Scenario');
             assert.equal(scenarios[0].steps[0], 'Step A11');
             assert.equal(scenarios[0].steps[1], 'Step 1AA');
-            assert.equal(scenarios[1].annotations.get('pending'), undefined);
+            assert.equal(scenarios[1].annotations.pending, undefined);
             assert.equal(scenarios[1].title, 'Second Scenario');
             assert.equal(scenarios[1].steps[0], 'Step B22');
             assert.equal(scenarios[1].steps[1], 'Step 2BB');
-            assert.equal(scenarios[2].annotations.get('pending'), true);
+            assert.equal(scenarios[2].annotations.pending, true);
             assert.equal(scenarios[2].title, 'Third Scenario');
             assert.equal(scenarios[2].steps[0], 'Step C33');
             assert.equal(scenarios[2].steps[1], 'Step 3CC');
@@ -172,21 +172,21 @@ describe('FeatureParser', function() {
         it('should merge scenario annotations with example table annotations', function() {
             var scenarios = parse_file('annotated/annotated_example_table').scenarios;
             assert.equal(scenarios.length, 4);
-            assert.equal(scenarios[0].annotations.get('pending'), true);
-            assert.equal(scenarios[0].annotations.get('only'), true);
-            assert.equal(scenarios[1].annotations.get('pending'), undefined);
-            assert.equal(scenarios[1].annotations.get('only'), true);
-            assert.equal(scenarios[2].annotations.get('pending'), true);
-            assert.equal(scenarios[2].annotations.get('only'), true);
+            assert.equal(scenarios[0].annotations.pending, true);
+            assert.equal(scenarios[0].annotations.only, true);
+            assert.equal(scenarios[1].annotations.pending, undefined);
+            assert.equal(scenarios[1].annotations.only, true);
+            assert.equal(scenarios[2].annotations.pending, true);
+            assert.equal(scenarios[2].annotations.only, true);
 
-            scenarios[0].annotations.remove('pending');
-            assert.equal(scenarios[2].annotations.get('pending'), true);
+            delete scenarios[0].annotations.pending;
+            assert.equal(scenarios[2].annotations.pending, true);
         });
 
         it('should not confuse example table annotations and scenario annotations', function() {
             var scenarios = parse_file('annotated/annotated_example_table').scenarios;
             assert.equal(scenarios.length, 4);
-            assert.equal(scenarios[3].annotations.get('crystal'), true);
+            assert.equal(scenarios[3].annotations['crystal'], true);
         });
 
         it('should parse scenario annotations after background', function() {
@@ -343,7 +343,7 @@ describe('FeatureParser', function() {
             assert.equal(scenarios[0].title, 'The Black Spot');
             assert.deepEqual(scenarios[0].steps, ['Given A', 'When B', 'Then C']);
 
-            assert(scenarios[1].annotations.get('brig'), 'Localised scenario was not marked as pending');
+            assert(scenarios[1].annotations['brig'], 'Localised scenario was not marked as pending');
         });
 
         it('should support changing the default language', function() {
@@ -357,7 +357,7 @@ describe('FeatureParser', function() {
             assert.equal(scenarios[0].title, 'The Black Spot');
             assert.deepEqual(scenarios[0].steps, ['Given A', 'When B', 'Then C']);
 
-            assert(scenarios[1].annotations.get('brig'), 'Localised scenario was not marked as pending');
+            assert(scenarios[1].annotations['brig'], 'Localised scenario was not marked as pending');
         });
 
         it('should report missing translations', function() {
