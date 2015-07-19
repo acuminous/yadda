@@ -33,7 +33,7 @@ describe('Dictionary', function() {
         assert_definition(dictionary, '$address_line_1', '(\\d+) (\\w+)');
     });
 
-    it('should report duplicate definitions', function() {
+    it('should report duplicate terms', function() {
         var dictionary = new Dictionary()
             .define('gender', '(male|female)');
 
@@ -81,7 +81,7 @@ describe('Dictionary', function() {
         }, /Cannot merge dictionaries with different prefixes/);
     });
 
-    it('should report duplicate definitions in merged dictionaries', function() {
+    it('should report duplicate terms in merged dictionaries', function() {
         var dictionary1 = new Dictionary().define('gender', /(male|female)/);
         var dictionary2 = new Dictionary().define('gender', /(male|female)/);
 
