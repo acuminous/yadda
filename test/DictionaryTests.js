@@ -91,6 +91,6 @@ describe('Dictionary', function() {
     });
 
     function assert_definition(dictionary, term, expected) {
-        assert.equal(dictionary.expand(term), expected);
+        assert.equal(dictionary.expand(term).pattern, expected);
     }
 });
