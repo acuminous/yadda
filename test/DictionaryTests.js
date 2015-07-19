@@ -39,7 +39,7 @@ describe('Dictionary', function() {
 
         assert.throws(function() {
             dictionary.define('gender', 'anything');
-        }, /Duplicate definition: \[gender\]/);
+        }, /Duplicate term: \[gender\]/);
     });
 
     it('should report cyclic definitions', function() {
@@ -87,7 +87,7 @@ describe('Dictionary', function() {
 
         assert.throws(function() {
             dictionary1.merge(dictionary2);
-        }, /Duplicate definition: \[gender\]/);
+        }, /Duplicate term: \[gender\]/);
     });
 
     function assert_definition(dictionary, term, expected) {
