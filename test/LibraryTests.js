@@ -142,7 +142,7 @@ describe('Library', function() {
     function assert_localisation(library, statements, signature) {
         for (var i = 0; i < statements.length; i++) {
             assert.equal(library.find_compatible_macros(statements[i]).length, 1, statements[i]);
-            assert.equal(library.find_compatible_macros(statements[i])[0].signature, signature, statements[i]);
+            assert.equal(library.find_compatible_macros(statements[i])[0].toString(), signature, statements[i]);
         }
     }
 

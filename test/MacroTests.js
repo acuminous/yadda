@@ -6,6 +6,7 @@ var assert = require('assert');
 var Macro = require('../lib/Macro');
 var Context = require('../lib/Context');
 var EventBus = require('../lib/EventBus');
+var Dictionary = require('../lib/Dictionary');
 var $ = require('../lib/Array');
 var fn = require('../lib/fn');
 
@@ -15,7 +16,7 @@ describe('Macro', function() {
         var execution = new Execution();
         var args = [1, 2, 3, 'callback'];
 
-        new Macro('Easy', /Easy as (\d), (\d), (\d)/, execution.code, {a: 1}).interpret("Easy as 1, 2, 3", new Context({b: 2}), fn.noop);
+        new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.code, {a: 1}).interpret("Easy as 1, 2, 3", new Context({b: 2}), fn.noop);
 
         assert.ok(execution.executed, "The step code was not run");
         assert.deepEqual(execution.args.splice(0, 3), [1, 2, 3]);
@@ -30,13 +31,13 @@ describe('Macro', function() {
             /the quick[xyz] brown[^xyz] fox/,
             /the quick{0,1} brown{1} fox/,
             /the quick\d brown\W fox/
-        ]).each(function(signature) {
-            assert.equal(new Macro('Quick brown fox', signature).levenshtein_signature(), 'the quick brown fox');
+        ]).each(function(pattern) {
+            assert.equal(new Macro('Quick brown fox', parsed_signature(pattern)).levenshtein_signature(), 'the quick brown fox');
         });
     });
 
     it('should default to a no operation function', function(done) {
-        new Macro('blah $a', /blah (.*)/).interpret('blah 1', {}, function() {
+        new Macro('blah $a', parsed_signature(/blah (.*)/)).interpret('blah 1', {}, function() {
             done();
         });
     });
@@ -50,7 +51,7 @@ describe('Macro', function() {
 
         EventBus.instance().on(/EXECUTE/, listener.listen);
 
-        new Macro('Easy', /Easy as (\d), (\d), (\d)/, fn.noop, {a: 1}).interpret("Easy as 1, 2, 3", {b: 2});
+        new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), fn.noop, {a: 1}).interpret("Easy as 1, 2, 3", {b: 2});
 
         assert.equal(1, listener.events.length);
 
@@ -67,12 +68,30 @@ describe('Macro', function() {
         var execution = new Execution();
         var args = [1, 2, 3, 'callback'];
 
-        new Macro('Easy', /Easy as ([^\u0000]*)/, execution.code, {a: 1}).interpret("Easy as 1\n2\n3", new Context({b: 2}), fn.noop);
+        new Macro('Easy', parsed_signature(/Easy as ([^\u0000]*)/), execution.code, {a: 1}).interpret("Easy as 1\n2\n3", new Context({b: 2}), fn.noop);
 
         assert.ok(execution.executed, "The step code was not run");
         assert.deepEqual(execution.args.splice(0, 1), ["1\n2\n3"]);
         assert.deepEqual(execution.ctx, {a: 1, b: 2});
     });
+
+     it('should convert parameters', function() {
+        var execution = new Execution();
+        var args = [1, 2, 3, 'callback'];
+
+        new Macro('Easy', { pattern: /Easy as (\d), (\d), (\d)/, converters: [
+            function(value, cb) { cb(null, value * 2) },
+            function(value, cb) { cb(null, value * 3) },
+            function(value, cb) { cb(null, value * 4) }
+        ]}, execution.code, {a: 1}).interpret("Easy as 1, 2, 3", fn.noop);
+
+        assert.ok(execution.executed, "The step code was not run");
+        assert.deepEqual(execution.args.splice(0, 3), [2, 6, 12]);
+     })
+
+    function parsed_signature(pattern) {
+        return new Dictionary().define('foo', pattern).expand('$foo');
+    }
 
 
     function Execution() {

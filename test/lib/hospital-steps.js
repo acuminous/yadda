@@ -2,6 +2,7 @@
 "use strict";
 
 var assert = require('assert');
+var Dictionary = require('../../lib/index').Dictionary;
 var English = require('../../lib/index').localisation.English;
 var Hospital = require('./hospital').Hospital;
 var Patient = require('./hospital').Patient;
@@ -11,8 +12,12 @@ var Bed = require('./hospital').Bed;
 module.exports.init = function() {
 
     var hospital, ward, patient, bed, he, she = null;
+    var dictionary = new Dictionary()
+        .define('gender', /(male|femail)/)
+        .define('speciality', /(cardiovascular|respiratory)/)
+        .define('x', /(a) (b)/)
 
-    var library = English.library()
+    var library = English.library(dictionary)
 
         .given('that $name is a $gender, $speciality patient at $hospital hospital', function(patient_name, gender, speciality, hospital_name) {
             hospital = hospital ? hospital : new Hospital(hospital_name);

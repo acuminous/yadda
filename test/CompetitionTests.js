@@ -5,30 +5,31 @@
 var assert = require('assert');
 var Macro = require('../lib/Macro');
 var Competition = require('../lib/Competition');
+var Dictionary = require('../lib/Dictionary');
 
 describe('Competition', function() {
 
     it("should decide winner by Levenshtein distance", function() {
-        var best_match = new Macro('best', /given 1 (.*) patient/);
-        var middle_match = new Macro('middle', /given (\d+) (.*) patient(?:s{0,1})/);
-        var worst_match = new Macro('worse', /given (\d+) (.*) (?:patient|patients)/);
+        var best_match = new Macro('best', parsed_signature(/given 1 (.*) patient/));
+        var middle_match = new Macro('middle', parsed_signature(/given (\d+) (.*) patient(?:s{0,1})/));
+        var worst_match = new Macro('worse', parsed_signature(/given (\d+) (.*) (?:patient|patients)/));
         var competition = new Competition('given 1 male patient', [worst_match, best_match, middle_match]);
 
         assert.equal(competition.clear_winner().signature, best_match.signature);
     });
 
     it("should decide winner by Levenshtein distance on multiline", function() {
-        var best_match = new Macro('best', /given 1 ([^\u0000]*) text/);
-        var middle_match = new Macro('middle', /given (\d+) ([^\u0000]*) text (?:s{0,1})/);
-        var worst_match = new Macro('worse', /given (\d+) ([^\u0000]*) (?:text|code)/);
+        var best_match = new Macro('best', parsed_signature(/given 1 ([^\u0000]*) text/));
+        var middle_match = new Macro('middle', parsed_signature(/given (\d+) ([^\u0000]*) text (?:s{0,1})/));
+        var worst_match = new Macro('worse', parsed_signature(/given (\d+) ([^\u0000]*) (?:text|code)/));
         var competition = new Competition('given 1 a\nb\nc text', [worst_match, best_match, middle_match]);
 
         assert.equal(competition.clear_winner().signature, best_match.signature);
     });
 
     it("should support joint winners", function() {
-        var best_match = new Macro('best', /given 1 (.*) patient/);
-        var equal_match = new Macro('equal', /given 1 (.+) patient/);
+        var best_match = new Macro('best', parsed_signature(/given 1 (.*) patient/));
+        var equal_match = new Macro('equal', parsed_signature(/given 1 (.+) patient/));
         var competition = new Competition('given 1 male patient', [best_match, equal_match]);
 
         assert.throws(function() {
@@ -53,4 +54,8 @@ describe('Competition', function() {
             competition.clear_winner();
         }, /Undefined Step: \[given 1 male patient\]/);
     });
+
+    function parsed_signature(pattern) {
+        return new Dictionary().define('foo', pattern).expand('$foo');
+    }
 });

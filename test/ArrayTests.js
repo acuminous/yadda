@@ -31,6 +31,10 @@ describe('Array', function() {
     });
 
     it('should return the last item', function() {
-        assert.equal(3, $([1, 2, 3]).last());
+        assert.equal($([1, 2, 3]).last(), 3);
     });
+
+    it('should fill an array with n items', function() {
+        assert.deepEqual($([]).fill('A', 3).naked(), ['A', 'A', 'A'])
+    })
 });
