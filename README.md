@@ -646,7 +646,6 @@ Where:
                      |                          |   return x * x;
                      |                          | });
     -----------------|--------------------------|-------------------------------
-@Pending
     template strings | var s=`x=${x}            | "use strict";
                      | y=${y}`;                 |
                      |                          | var s = "x=" + x + "\ny=" + y;
