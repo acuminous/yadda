@@ -17,8 +17,8 @@ It's also worth checking out the following tools which use Yadda to provide thei
 * [cucumber-boilerplate](https://github.com/webdriverio/cucumber-boilerplate) - boilerplate project for an easy and powerful setup of Yadda and [WebdriverIO](http://webdriver.io/) with predefined common Webdriver steps
 
 ## Latest Version
-**There are breaking changes from 0.12.x**.
-The current version of Yadda is 0.14.1. Version 0.13.0 broke [moonraker](https://github.com/LateRoomsGroup/moonraker) in a big way, so please disregard that version.
+The current version of Yadda is 0.14.1.</br>
+**There are breaking changes from 0.12.x**. Also version 0.13.0 broke [moonraker](https://github.com/LateRoomsGroup/moonraker) in a big way, so please disregard that version.
 
 Recent changes include:
 * Dictionaries can be used to convert arguments into arbitary types. Integer, float and date converters are provided out of the box.
