@@ -1,0 +1,13 @@
+{
+  "name": "yadda-mocha-sync-example",
+  "version": "0.0.0",
+  "scripts": {
+    "preinstall": "npm --loglevel error link yadda",
+    "test": "node bin/example.js"
+  },
+  "author": "Stephen Cresswell",
+  "license": "Apache2",
+  "devDependencies": {
+    "mocha": "^2.2.5"
+  }
+}
