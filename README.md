@@ -47,7 +47,7 @@ npm install yadda
 ```
 ### Browser based environments (e.g. QUnit)
 ```html
-<script src="./lib/yadda-0.14.1.js"></script>
+<script src="./lib/yadda-0.14.2.js"></script>
 ```
 ## Contributing
 We're always happy to receive pull requests, but please read the [Contributor Notes](https://github.com/acuminous/yadda/wiki/Notes-for-Contributors) first.

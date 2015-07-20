@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.14.2
+* Example table meta fields for incorporating index, line and column values into your scenarios.
+
 ## Yadda 0.14.1
 * Dictionary converters can take multilpe arguments.
 
