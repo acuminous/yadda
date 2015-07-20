@@ -10,8 +10,11 @@ module.exports = (function () {
 
     var case_description;
     var es6_code;
+    var cases = {}
 
-    var dictionary = new Dictionary().define('CODE', /([^\u0000]*)/);
+    var dictionary = new Dictionary()
+        .define('CASE', /(\w+)/, unique)
+        .define('CODE', /([^\u0000]*)/);
     var library = English.library(dictionary)
 
     .given("I need to transpile $CASE", function (s, next) {
@@ -43,6 +46,12 @@ module.exports = (function () {
 
         next();
     });
+
+    function unique(key, next) {
+        if (Object.keys(cases).indexOf(key) >= 0) return next(new Error('case: ' + key + ' is not unique'));
+        cases[key] = key;
+        next(null, key);
+    }
 
     return library;
 })();
