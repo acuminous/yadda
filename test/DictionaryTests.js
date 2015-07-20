@@ -109,8 +109,8 @@ describe('Dictionary', function() {
     });
 
     it('should use the specified converters when specified', function() {
-        var converter1 = function a() {};
-        var converter2 = function b() {};
+        var converter1 = function a(value, cb) {};
+        var converter2 = function b(value, cb) {};
         var dictionary = new Dictionary()
             .define('foo', /(1)/, converter1)
             .define('bar', /(2) (3)/, [converter1, converter2] );
@@ -118,8 +118,8 @@ describe('Dictionary', function() {
     });
 
     it('should allow patterns and terms to be mixed in the same signature', function() {
-        var converter1 = function a() {};
-        var converter2 = function b() {};
+        var converter1 = function a(value, cb) {};
+        var converter2 = function b(value, cb) {};
         var dictionary = new Dictionary()
             .define('foo', /(1)/, converter1)
             .define('bar', /(2) (3)/, [converter1, converter2] );
@@ -146,6 +146,23 @@ describe('Dictionary', function() {
         assert.throws(function() {
             var dictionary = new Dictionary()
                 .define('foo', '(1)', [pass_through_converter, pass_through_converter]);
+        }, /Wrong number of converters for: \[foo\]/);
+    });
+
+    it('should support multi-arg converters', function() {
+        var two_arg_converter = function(a, b, cb) {};
+
+        var dictionary = new Dictionary()
+            .define('foo', '(1) (2)', [two_arg_converter]);
+        assert_converters(dictionary, '$foo', [ two_arg_converter ]);
+    });
+
+    it('should report multi-arg converters with the wrong number of matching groups', function() {
+        var two_arg_converter = function(a, b, cb) {};
+
+        assert.throws(function() {
+            var dictionary = new Dictionary()
+                .define('foo', '(1)', [two_arg_converter]);
         }, /Wrong number of converters for: \[foo\]/);
     });
 

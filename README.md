@@ -17,8 +17,8 @@ It's also worth checking out the following tools which use Yadda to provide thei
 * [cucumber-boilerplate](https://github.com/webdriverio/cucumber-boilerplate) - boilerplate project for an easy and powerful setup of Yadda and [WebdriverIO](http://webdriver.io/) with predefined common Webdriver steps
 
 ## Latest Version
-The current version of Yadda is 0.14.0. **There are breaking changes from 0.12.x**.
-Version 0.13.0 broke [moonraker](https://github.com/LateRoomsGroup/moonraker) in a big way, so please disregard that version.
+**There are breaking changes from 0.12.x**.
+The current version of Yadda is 0.14.1. Version 0.13.0 broke [moonraker](https://github.com/LateRoomsGroup/moonraker) in a big way, so please disregard that version.
 
 Recent changes include:
 * Dictionaries can be used to convert arguments into arbitary types. Integer, float and date converters are provided out of the box.
@@ -326,14 +326,25 @@ You could write
 ```
 A really nice feature of dictionaries is that you can use the to convert step arguments from string to a desired type.
 ```js
-var shared_dictionary = new Yadda.Dictionary()
+var dictionary = new Yadda.Dictionary()
     .define('number', /(\d+)/, Yadda.converters.integer);
 ```
-Not only can this avoid subtle bugs, but can be used to lookup entities, e.g.
+Not only can this avoid subtle type related bugs, but can be used to lookup entities, e.g.
 ```js
-var shared_dictionary = new Yadda.Dictionary()
-    .define('user', /(\d{6})/, findUserById);
+var dictionary = new Yadda.Dictionary()
+    .define('user', /(\d{6})/, function(userId, cb) {
+      findUserById(userId, cb);
+    });
 ```
+You can even write converters that accept multiple arguments
+```js
+var dictionary = new Yadda.Dictionary()
+    .define('6 months', /(\d{6}) (days|months|years)/, function(quantity, units, cb) {
+      cb(null, { quantity: parseInt(quantity), units: units });
+    });
+```
+See the dictionary examples for more details
+
 
 #### Functions
 The function is the code you want to execute for a specific line of text. If you don't specify a function then a no-op

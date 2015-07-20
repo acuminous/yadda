@@ -4,7 +4,6 @@
 var Yadda = require('yadda');
 var English = Yadda.localisation.English;
 var Dictionary = Yadda.Dictionary;
-var assert = require('chai').assert;
 
 module.exports = (function() {
 
@@ -23,7 +22,7 @@ module.exports = (function() {
     })
 
     .then("there (?:are|are still) $NUM green bottles standing on the wall", function(number_of_bottles, next) {
-        assert.equal(number_of_bottles, wall.bottles);
+        if (number_of_bottles !== wall.bottles) return next(new Error('Oh Noes'));
         next();
     });
 

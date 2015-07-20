@@ -9,7 +9,7 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
 
     featureFile(file, function(feature) {
 
-        var library = require('./bottles-library');
+        var library = require('./dictionary-library');
         var yadda = Yadda.createInstance(library);
 
         scenarios(feature.scenarios, function(scenario) {

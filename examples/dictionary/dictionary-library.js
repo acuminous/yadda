@@ -12,7 +12,10 @@ module.exports = (function() {
     var dictionary = new Dictionary()
         .define('integer', /(\d+)/, converters.integer)
         .define('float', /(\d+.\d+)/, converters.float)
-        .define('date', /(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z)/, converters.date);
+        .define('date', /(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z)/, converters.date)
+        .define('period', /(\d+) (days|months|years)/, function(quantity, units, cb) {
+            cb(null, { quantity: parseInt(quantity), units: units });
+        });
     var library = English.library(dictionary)
 
     .define('Expect $integer to be an integer', function(i, next) {
@@ -29,6 +32,12 @@ module.exports = (function() {
 
     .define('Expect $date to be a date', function(d, next) {
         assert.equal(Object.prototype.toString.call(d), '[object Date]');
+        next();
+    })
+
+    .define('Expect $period to have a quantity of $integer and units of $units', function(period, quantity, units, next) {
+        assert.equal(period.quantity, quantity);
+        assert.equal(period.units, units);
         next();
     });
 

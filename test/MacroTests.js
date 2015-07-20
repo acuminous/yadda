@@ -75,9 +75,8 @@ describe('Macro', function() {
         assert.deepEqual(execution.ctx, {a: 1, b: 2});
     });
 
-     it('should convert parameters', function() {
+    it('should convert parameters', function() {
         var execution = new Execution();
-        var args = [1, 2, 3, 'callback'];
 
         new Macro('Easy', { pattern: /Easy as (\d), (\d), (\d)/, converters: [
             function(value, cb) { cb(null, value * 2); },
@@ -87,6 +86,19 @@ describe('Macro', function() {
 
         assert.ok(execution.executed, "The step code was not run");
         assert.deepEqual(execution.args.splice(0, 3), [2, 6, 12]);
+    });
+
+    it('should convert parameters with multi-arg converters', function() {
+        var execution = new Execution();
+
+        new Macro('Easy', { pattern: /Easy as (\d), (\d), (\d), (\d)/, converters: [
+            function(value, cb) { cb(null, value * 2); },
+            function(value1, value2, cb) { cb(null, parseInt(value1) + parseInt(value2)); },
+            function(value, cb) { cb(null, value * 3); }
+        ]}, execution.code, {a: 1}).interpret("Easy as 1, 2, 3, 4", fn.noop);
+
+        assert.ok(execution.executed, "The step code was not run");
+        assert.deepEqual(execution.args.splice(0, 3), [2, 5, 12]);
      });
 
     function parsed_signature(pattern) {
