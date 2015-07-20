@@ -17,10 +17,11 @@ It's also worth checking out the following tools which use Yadda to provide thei
 * [cucumber-boilerplate](https://github.com/webdriverio/cucumber-boilerplate) - boilerplate project for an easy and powerful setup of Yadda and [WebdriverIO](http://webdriver.io/) with predefined common Webdriver steps
 
 ## Latest Version
-The current version of Yadda is 0.14.1.</br>
+The current version of Yadda is 0.14.2</br>
 **There are breaking changes from 0.12.x**. Also version 0.13.0 broke [moonraker](https://github.com/LateRoomsGroup/moonraker) in a big way, so please disregard that version.
 
 Recent changes include:
+* Added example fields meta data
 * Dictionaries can be used to convert arguments into arbitary types. Integer, float and date converters are provided out of the box.
 * An amazing amount of work adding multiline example tables be [thr0w](http://github.com/thr0w).
 * [thr0w](http://github.com/thr0w) also added annotation support to example tables.
@@ -578,9 +579,8 @@ Scenario: should fall in groups of 100
 ```
 
 ### Multiline Example Tables
-Example Tables are supported as of 0.13.0 thanks to a lot of work by [thr0w](http://github.com/thr0w)
+Example Tables are supported as of 0.13.1 thanks to a lot of work by [thr0w](http://github.com/thr0w)
 
-transpile.feature
 ```
 Scenario: [case] Scenario
 
@@ -589,36 +589,66 @@ Scenario: [case] Scenario
     Then EcmaScript5=[EcmaScript5]
 
 Where:
-  case             | EcmaScript6              | EcmaScript5
-  -----------------|--------------------------|-------------------------------
-  arrow function   | var r=arr.map((x)=>x*x); | "use strict";
-                   |                          |
-                   |                          | var r = arr.map(function (x) {
-                   |                          |   return x * x;
-                   |                          | });
-  -----------------|--------------------------|-------------------------------
-  template strings | var s=`x=${x}            | "use strict";
-                   | y=${y}`;                 |
-                   |                          | var s = "x=" + x + "\ny=" + y;
+    case             | EcmaScript6              | EcmaScript5
+    -----------------|--------------------------|-------------------------------
+    arrow function   | var r=arr.map((x)=>x*x); | "use strict";
+                     |                          |
+                     |                          | var r = arr.map(function (x) {
+                     |                          |   return x * x;
+                     |                          | });
+    -----------------|--------------------------|-------------------------------
+    template strings | var s=`x=${x}            | "use strict";
+                     | y=${y}`;                 |
+                     |                          | var s = "x=" + x + "\ny=" + y;
 ```
 If the pipe(|) character appears naturally then use the column separator(┆) \u2056
 
 ### Annoated Example Tables
 Not content with multiline examples tables [thr0w](http://github.com/thr0w) added annoated examples too (these work with both normal and multiline example tables)
 ```
-Feature: 100 Green Bottles
+Scenario: [case] Scenario
 
-Scenario: should fall in groups of [Falling]
+    Given I need to transpile [case]
+    When EcmaScript6=[EcmaScript6]
+    Then EcmaScript5=[EcmaScript5]
 
-   Given 100 green bottles are standing on the wall
-   When [Falling] green bottles accidentally fall
-   Then there are [Remaining] green bottles standing on the wall
-
-   Where:
-      Falling | Remaining
-      2       | 98
-      10      | 90
+Where:
+    case             | EcmaScript6              | EcmaScript5
+    -----------------|--------------------------|-------------------------------
+    arrow function   | var r=arr.map((x)=>x*x); | "use strict";
+                     |                          |
+                     |                          | var r = arr.map(function (x) {
+                     |                          |   return x * x;
+                     |                          | });
+    -----------------|--------------------------|-------------------------------
 @Pending
-      100     | 0
+    template strings | var s=`x=${x}            | "use strict";
+                     | y=${y}`;                 |
+                     |                          | var s = "x=" + x + "\ny=" + y;
+```
+
+### Example Tables Meta Data
+Finally [thr0w](http://github.com/thr0w) decorates the example table with some extra fields, which can be accessed in the normal way.
+This can be useful for debuging large multiline rows
+```
+Scenario: [case] Scenario
+
+    Given I need to transpile [case]
+    [EcmaScript6.index] When EcmaScript6 at [EcmaScript6.start.line]:[EcmaScript6.start.column]=[EcmaScript6]
+    [EcmaScript5.index] Then EcmaScript5 at [EcmaScript5.start.line]:[EcmaScript5.start.column]=[EcmaScript5]
+
+Where:
+    case             | EcmaScript6              | EcmaScript5
+    -----------------|--------------------------|-------------------------------
+    arrow function   | var r=arr.map((x)=>x*x); | "use strict";
+                     |                          |
+                     |                          | var r = arr.map(function (x) {
+                     |                          |   return x * x;
+                     |                          | });
+    -----------------|--------------------------|-------------------------------
+@Pending
+    template strings | var s=`x=${x}            | "use strict";
+                     | y=${y}`;                 |
+                     |                          | var s = "x=" + x + "\ny=" + y;
 ```
 
