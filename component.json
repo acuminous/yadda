@@ -45,6 +45,7 @@
         "lib/localisation/Russian.js",
         "lib/localisation/Spanish.js",
         "lib/localisation/Norwegian.js",
+        "lib/localisation/Portuguese.js",
         "lib/Macro.js",
         "lib/parsers/FeatureParser.js",
         "lib/parsers/FeatureFileParser.js",
