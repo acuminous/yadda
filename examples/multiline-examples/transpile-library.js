@@ -10,7 +10,7 @@ module.exports = (function () {
 
     var case_description;
     var es6_code;
-    var cases = {}
+    var cases = {};
 
     var dictionary = new Dictionary()
         .define('CASE', /(\w+)/, unique)
