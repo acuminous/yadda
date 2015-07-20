@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.14.1
+* Dictionary converters can take multilpe arguments.
+
 ## Yadda 0.14.0
 * Dictionaries can be used to convert arguments into arbitary types. Integer, float and date converters are provided out of the box.
 
