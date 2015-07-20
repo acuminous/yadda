@@ -17,10 +17,11 @@ It's also worth checking out the following tools which use Yadda to provide thei
 * [cucumber-boilerplate](https://github.com/webdriverio/cucumber-boilerplate) - boilerplate project for an easy and powerful setup of Yadda and [WebdriverIO](http://webdriver.io/) with predefined common Webdriver steps
 
 ## Latest Version
-The current version of Yadda is 0.13.1. **There are breaking changes from 0.12.x**.
+The current version of Yadda is 0.14.0. **There are breaking changes from 0.12.x**.
 Version 0.13.0 broke [moonraker](https://github.com/LateRoomsGroup/moonraker) in a big way, so please disregard that version.
 
 Recent changes include:
+* Dictionaries can be used to convert arguments into arbitary types. Integer, float and date converters are provided out of the box.
 * An amazing amount of work adding multiline example tables be [thr0w](http://github.com/thr0w).
 * [thr0w](http://github.com/thr0w) also added annotation support to example tables.
 * Breaking Change: In reworking some of [thr0w's](http://github.com/thr0w) example table code we added a breaking change around example table formating. You'll only notice if you centered column headings. If this feature is important to you then we suggest adding column separators to the outer left and right edges table, e.g.
@@ -305,7 +306,7 @@ will expand to
 Dictionaries can also be merged...
 ```js
 var shared_dictionary = new Yadda.Dictionary()
-    .define('number', /(\d+1)/);
+    .define('number', /(\d+)/);
 
 var feature_specific_dictionary = new Yadda.Dictionary()
     .merge(shared_dictionary)
@@ -322,6 +323,16 @@ You could write
     .given(['$patient is awaiting discharge', '$patient is still waiting discharge'], function(patient) {
         // some code
     });
+```
+A really nice feature of dictionaries is that you can use the to convert step arguments from string to a desired type.
+```js
+var shared_dictionary = new Yadda.Dictionary()
+    .define('number', /(\d+)/, Yadda.converters.integer);
+```
+Not only can this avoid subtle bugs, but can be used to lookup entities, e.g.
+```js
+var shared_dictionary = new Yadda.Dictionary()
+    .define('user', /(\d{6})/, findUserById);
 ```
 
 #### Functions

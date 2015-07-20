@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.14.0
+* Dictionaries can be used to convert arguments into arbitary types. Integer, float and date converters are provided out of the box.
+
 ## Yadda 0.13.1
 * Fixes an issues where the new Annotations class broke moonraker
 
