@@ -35,6 +35,6 @@ describe('Array', function() {
     });
 
     it('should fill an array with n items', function() {
-        assert.deepEqual($([]).fill('A', 3).naked(), ['A', 'A', 'A'])
-    })
+        assert.deepEqual($([]).fill('A', 3).naked(), ['A', 'A', 'A']);
+    });
 });

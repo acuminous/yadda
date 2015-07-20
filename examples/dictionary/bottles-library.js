@@ -12,7 +12,7 @@ module.exports = (function() {
     var dictionary = new Dictionary()
         .define('integer', /(\d+)/, converters.integer)
         .define('float', /(\d+.\d+)/, converters.float)
-        .define('date', /(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z)/, converters.date)
+        .define('date', /(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z)/, converters.date);
     var library = English.library(dictionary)
 
     .define('Expect $integer to be an integer', function(i, next) {
@@ -22,15 +22,15 @@ module.exports = (function() {
     })
 
     .define('Expect $float to be a float', function(f, next) {
-        assert.equal(typeof f, 'number')
-        assert(!(f % 1 === 0));
+        assert.equal(typeof f, 'number');
+        assert(f % 1 !== 0);
         next();
     })
 
     .define('Expect $date to be a date', function(d, next) {
-        assert.equal(Object.prototype.toString.call(d), '[object Date]')
+        assert.equal(Object.prototype.toString.call(d), '[object Date]');
         next();
-    })
+    });
 
     return library;
 })();

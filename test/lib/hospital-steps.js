@@ -15,7 +15,7 @@ module.exports.init = function() {
     var dictionary = new Dictionary()
         .define('gender', /(male|femail)/)
         .define('speciality', /(cardiovascular|respiratory)/)
-        .define('x', /(a) (b)/)
+        .define('x', /(a) (b)/);
 
     var library = English.library(dictionary)
 

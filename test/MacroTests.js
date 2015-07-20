@@ -80,14 +80,14 @@ describe('Macro', function() {
         var args = [1, 2, 3, 'callback'];
 
         new Macro('Easy', { pattern: /Easy as (\d), (\d), (\d)/, converters: [
-            function(value, cb) { cb(null, value * 2) },
-            function(value, cb) { cb(null, value * 3) },
-            function(value, cb) { cb(null, value * 4) }
+            function(value, cb) { cb(null, value * 2); },
+            function(value, cb) { cb(null, value * 3); },
+            function(value, cb) { cb(null, value * 4); }
         ]}, execution.code, {a: 1}).interpret("Easy as 1, 2, 3", fn.noop);
 
         assert.ok(execution.executed, "The step code was not run");
         assert.deepEqual(execution.args.splice(0, 3), [2, 6, 12]);
-     })
+     });
 
     function parsed_signature(pattern) {
         return new Dictionary().define('foo', pattern).expand('$foo');

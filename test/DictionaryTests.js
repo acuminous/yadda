@@ -93,20 +93,20 @@ describe('Dictionary', function() {
 
     it('should return a pass through converter each matching group', function() {
         var dictionary = new Dictionary();
-        assert_converters(dictionary, /(1) (2) (3)/, [ pass_through_converter, pass_through_converter, pass_through_converter ])
-    })
+        assert_converters(dictionary, /(1) (2) (3)/, [ pass_through_converter, pass_through_converter, pass_through_converter ]);
+    });
 
     it('should return a pass through converter each undefined term', function() {
         var dictionary = new Dictionary();
-        assert_converters(dictionary, '$foo $bar', [ pass_through_converter, pass_through_converter ])
-    })
+        assert_converters(dictionary, '$foo $bar', [ pass_through_converter, pass_through_converter ]);
+    });
 
     it('should default to the pass through converter for each matching group in a defined pattern', function() {
         var dictionary = new Dictionary()
             .define('foo', /(1)/)
             .define('bar', /(2) (3)/);
         assert_converters(dictionary, '$foo $bar', [ pass_through_converter, pass_through_converter, pass_through_converter ]);
-    })
+    });
 
     it('should use the specified converters when specified', function() {
         var converter1 = function a() {};
@@ -115,21 +115,39 @@ describe('Dictionary', function() {
             .define('foo', /(1)/, converter1)
             .define('bar', /(2) (3)/, [converter1, converter2] );
         assert_converters(dictionary, '$foo $bar', [ converter1, converter1, converter2 ]);
-    })
+    });
+
+    it('should allow patterns and terms to be mixed in the same signature', function() {
+        var converter1 = function a() {};
+        var converter2 = function b() {};
+        var dictionary = new Dictionary()
+            .define('foo', /(1)/, converter1)
+            .define('bar', /(2) (3)/, [converter1, converter2] );
+        assert_converters(dictionary, '(1) $foo (2) (3) $bar (4) $baz', [
+            pass_through_converter,
+            converter1,
+            pass_through_converter,
+            pass_through_converter,
+            converter1,
+            converter2,
+            pass_through_converter,
+            pass_through_converter
+        ]);
+    });
 
     it('should report expandable terms with converters', function() {
         assert.throws(function() {
             var dictionary = new Dictionary()
-                .define('address_line_1', '$number $street', pass_through_converter)
+                .define('address_line_1', '$number $street', pass_through_converter);
         }, /Expandable terms cannot use converters: \[address_line_1\]/);
-    })
+    });
 
     it('should report terms with wrong number of converters for matching groups', function() {
         assert.throws(function() {
             var dictionary = new Dictionary()
-                .define('foo', '(1)', [pass_through_converter, pass_through_converter])
+                .define('foo', '(1)', [pass_through_converter, pass_through_converter]);
         }, /Wrong number of converters for: \[foo\]/);
-    })
+    });
 
     function assert_pattern(dictionary, pattern, expected) {
         assert.equal(dictionary.expand(pattern).pattern, expected);
