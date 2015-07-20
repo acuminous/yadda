@@ -268,6 +268,19 @@ describe('FeatureParser', function() {
             assert.equal(feature.scenarios[2].steps[0], 'BG X3');
             assert.equal(feature.scenarios[3].steps[0], 'BG Y4');
         });
+
+        it('should add meta fields to example table', function() {
+            var scenarios = parse_file('example_table/meta_fields').scenarios;
+            assert.equal(scenarios.length, 2);
+            assert.equal(scenarios[0].title, 'First Scenario');
+            assert.equal(scenarios[0].steps[0], '1 First 9:5');
+            assert.equal(scenarios[0].steps[1], '1 A 9:14');
+            assert.equal(scenarios[0].steps[2], '1 1 9:23');
+            assert.equal(scenarios[1].title, 'Second Scenario');
+            assert.equal(scenarios[1].steps[0], '2 Second 10:5');
+            assert.equal(scenarios[1].steps[1], '2 B 10:14');
+            assert.equal(scenarios[1].steps[2], '2 2 10:23');
+        });
     });
 
     describe('(Multiline Example Tables)', function() {
@@ -329,6 +342,21 @@ describe('FeatureParser', function() {
             assert.throws(function() {
                 parse_file('example_table/malformed_multiline_example_table_3');
             }, /Dash is unexpected at this time/);
+        });
+
+        it('sshould add meta fields to multiline example table', function() {
+            var scenarios = parse_file('example_table/meta_fields_multiline_example_table').scenarios;
+            assert.equal(scenarios.length, 2);
+
+            assert.equal(scenarios[0].title, 'Meta Fields Multiline Example Table');
+            assert.equal(scenarios[0].steps.length, 2);
+            assert.equal(scenarios[0].steps[0], '1 left 1 9:5');
+            assert.equal(scenarios[0].steps[1], '1 right 1\nright 2 9:14');
+
+            assert.equal(scenarios[1].title, 'Meta Fields Multiline Example Table');
+            assert.equal(scenarios[1].steps.length, 2);
+            assert.equal(scenarios[1].steps[0], '2 left 3\nleft 4 12:5');
+            assert.equal(scenarios[1].steps[1], '2 right 3 12:14');
         });
     });
 
