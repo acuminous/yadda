@@ -486,7 +486,7 @@ Three or more dashes to end the mulltiline step (optional)
 e.g.
 
 ```
-Scenario: Multiline Step Followed By Scenario
+Scenario: Multiline Steps
 
     Good Times
     ----------
@@ -507,7 +507,30 @@ library.define('Good Times $poem', function(poem, next) {
 })
 
 ```
-You can combine multiline steps with dictionary converters to parse CSVs, JSON blobs etc.
+You can combine multiline steps with dictionary converters to parse CSVs, JSON blobs etc. e.g.
+```
+Scenario: CSV handling
+
+    Given a csv
+    -----------
+    First,Last,Age
+    Joe,Bloggs,41
+    John,Smith,23
+```
+
+```js
+var dictionary = new Dictionary().define('csv', /(\w+)/, yourCsvConverter))
+var library = English.library(dictionary);
+
+library.given('a csv $csv', function(csv, next) {
+  /*
+  csv === [
+    { First: 'Joe', Last: 'Bloggs', Age: 41 },
+    { First: 'John', Last: 'Smith', Age: 23 }
+  ]
+  */
+})
+```
 
 ### Annotations
 Annotations can be added to a feature or scenario and may take the form of either single-value tags or key/value pairs.
