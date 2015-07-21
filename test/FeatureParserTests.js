@@ -94,6 +94,66 @@ describe('FeatureParser', function() {
                 parse_file('scenario/missing_scenario');
             }, /A feature must contain one or more scenarios/);
         });
+
+        it('should parse multiline steps', function() {
+            var scenarios = parse_file('scenario/multiline_step_scenario').scenarios;
+            assert.equal(scenarios.length, 1);
+            assert.equal(scenarios[0].title, 'Multiline Step');
+            assert.equal(scenarios[0].steps[0], poem);
+        })
+
+        it('should parse multline steps with no ending dash', function() {
+            var scenarios = parse_file('scenario/multiline_step_scenario_no_ending_dash').scenarios;
+            assert.equal(scenarios.length, 1);
+            assert.equal(scenarios[0].title, 'Multiline Step No Ending Dash');
+            assert.equal(scenarios[0].steps[0], poem);
+        })
+
+        it('should parse multiline steps with followers', function() {
+            var scenarios = parse_file('scenario/multiline_step_scenario_with_followers').scenarios;
+            assert.equal(scenarios.length, 5);
+            assert.equal(scenarios[0].title, 'Multiline Step Followed By Scenario');
+            console.log(scenarios[0].steps[0])
+            assert.equal(scenarios[0].steps[0], poem);
+
+            assert.equal(scenarios[1].title, 'Another scenario');
+
+            assert.equal(scenarios[2].title, 'Multiline Step Followed By Annotation');
+            assert.equal(scenarios[2].steps[0], poem);
+
+            assert.equal(scenarios[3].title, 'Another scenario');
+
+            assert.equal(scenarios[4].title, 'Multiline Step Followed By Example Table');
+            assert.equal(JSON.stringify(scenarios[4].steps[0]), JSON.stringify(poem));
+        })
+
+        it('should maintain indentation while parsing multiline steps', function() {
+            var scenarios = parse_file('scenario/multiline_step_scenario_with_indentation').scenarios;
+            assert.equal(scenarios.length, 1);
+            assert.equal(scenarios[0].title, 'Multiline Step With Indentation');
+            assert.equal(scenarios[0].steps[0], [
+                'LOLCODE HAI',
+                'CAN HAS STDIO?',
+                'PLZ OPEN FILE "LOLCATS.TXT"?',
+                '    AWSUM THX',
+                '        VISIBLE FILE',
+                '    O NOES',
+                '        INVISIBLE "ERROR!"',
+                'KTHXBYE'
+            ].join('\n'));
+        })
+
+        xit('should inject examples into multiline steps', function() {
+
+        })
+
+        xit('should report malformed multiline steps', function() {
+            // Multiline without preceding step
+
+            // Multiline with inconsistent indentation
+
+            // Empty multiline step (consecutive dashes, dash example, dash scenario, dash annotation)
+        })
     });
 
     describe('(Annotations)', function() {
@@ -281,6 +341,15 @@ describe('FeatureParser', function() {
             assert.equal(scenarios[1].steps[1], '2 B 10:14');
             assert.equal(scenarios[1].steps[2], '2 2 10:23');
         });
+
+        it('should expand multiline step scenarios from example table', function() {
+            var scenarios = parse_file('example_table/multiline_step_example_table').scenarios;
+            assert.equal(scenarios.length, 2);
+            assert.equal(scenarios[0].title, 'First Scenario');
+            assert.equal(scenarios[0].steps[0], 'Step A11\n1AA');
+            assert.equal(scenarios[1].title, 'Second Scenario');
+            assert.equal(scenarios[1].steps[0], 'Step B22\n2BB');
+        });
     });
 
     describe('(Multiline Example Tables)', function() {
@@ -437,4 +506,16 @@ describe('FeatureParser', function() {
     function load(filename) {
         return fs.readFileSync(path.join(__dirname, 'features', filename + '.feature'), 'utf8');
     }
+
+    var poem = [
+        'Good Times May we go our separate ways,',
+        'Finding fortune and new friends.',
+        'But let us not forget these days,',
+        'Or let the good times ever end.',
+        '',
+        'A poet with wiser words than mine,',
+        'Wrote that nothing gold can stay.',
+        'These are golden days we\'re in,',
+        'And so are bound to fade away.'
+    ].join('\n');
 });
