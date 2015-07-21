@@ -663,7 +663,7 @@ Where:
                      | y=${y}`;                 |
                      |                          | var s = "x=" + x + "\ny=" + y;
 ```
-If the pipe(|) character appears naturally then use the column separator(┆) \u2056
+If the pipe(|) character appears naturally then use the column separator(┆) \u2506
 
 ### Annoated Example Tables
 Not content with multiline examples tables [thr0w](http://github.com/thr0w) added annoated examples too (these work with both normal and multiline example tables)
