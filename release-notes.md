@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.15.0
+* Breaking Change: Multiline steps in scenarios and backgrounds
+
 ## Yadda 0.14.2
 * Example table meta fields for incorporating index, line and column values into your scenarios.
 
