@@ -502,6 +502,13 @@ Scenario: Multiline Steps
 ```
 The multiline step will be appended to the leading step, so you will need to write your step implementations as follows
 ```js
+var
+
+var dictionary = new Dictionary()
+    .define('poem', /([^\u0000]*)/);
+
+var library = English.library(dictionary);
+
 library.define('Good Times $poem', function(poem, next) {
   // poem === 'Good Times May we go our separate ways,\nFinding fortune and new...'
 })
@@ -519,8 +526,9 @@ Scenario: CSV handling
 ```
 
 ```js
-var dictionary = new Dictionary().define('csv', /(\w+)/, yourCsvConverter))
-var library = English.library(dictionary);
+
+var library = require('./test/steps/bottles-library');
+var yadda = Yadda.createInstance(library);
 
 library.given('a csv $csv', function(csv, next) {
   /*
