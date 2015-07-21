@@ -17,10 +17,12 @@ It's also worth checking out the following tools which use Yadda to provide thei
 * [cucumber-boilerplate](https://github.com/webdriverio/cucumber-boilerplate) - boilerplate project for an easy and powerful setup of Yadda and [WebdriverIO](http://webdriver.io/) with predefined common Webdriver steps
 
 ## Latest Version
-The current version of Yadda is 0.14.2</br>
-**There are breaking changes from 0.12.x**. Also version 0.13.0 broke [moonraker](https://github.com/LateRoomsGroup/moonraker) in a big way, so please disregard that version.
+The current version of Yadda is 0.15.0</br>
+** Breaking changes were introduce in versions 0.15.1 and 0.13.0.</br>
+** Version 0.13.0 broke [moonraker](https://github.com/LateRoomsGroup/moonraker) in a big way and has been deprecated in npm.</br>
 
 Recent changes include:
+* Added multiline step support in scenarios and backgrounds
 * Added example fields meta data
 * Dictionaries can be used to convert arguments into arbitary types. Integer, float and date converters are provided out of the box.
 * An amazing amount of work adding multiline example tables be [thr0w](http://github.com/thr0w).
@@ -469,6 +471,43 @@ Scenario: should fall from the wall
 ```
 
 There can only be a single feature present in a file - it really doesn't make sense to have two, and you will be issued an error if you try to include more than one.
+
+
+### Multiline Steps
+Yadda 0.15.0 added support for multiline steps in both scenarios and backgrounds. The syntax is
+```
+A leading step
+Three or more dashes to start the multiline step
+Line 1
+Line 2
+Line 3
+Three or more dashes to end the mulltiline step (optional)
+```
+e.g.
+
+```
+Scenario: Multiline Step Followed By Scenario
+
+    Good Times
+    ----------
+    May we go our separate ways,
+    Finding fortune and new friends.
+    But let us not forget these days,
+    Or let the good times ever end.
+
+    A poet with wiser words than mine,
+    Wrote that nothing gold can stay.
+    These are golden days we're in,
+    And so are bound to fade away.
+```
+The multiline step will be appended to the leading step, so you will need to write your step implementations as follows
+```js
+library.define('Good Times $poem', function(poem, next) {
+  // poem === 'Good Times May we go our separate ways,\nFinding fortune and new...'
+})
+
+```
+You can combine multiline steps with dictionary converters to parse CSVs, JSON blobs etc.
 
 ### Annotations
 Annotations can be added to a feature or scenario and may take the form of either single-value tags or key/value pairs.

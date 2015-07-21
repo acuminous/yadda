@@ -100,20 +100,20 @@ describe('FeatureParser', function() {
             assert.equal(scenarios.length, 1);
             assert.equal(scenarios[0].title, 'Multiline Step');
             assert.equal(scenarios[0].steps[0], poem);
-        })
+        });
 
         it('should parse multiline steps', function() {
             var scenarios = parse_file('scenario/multiline_step_scenario_with_ending_dash').scenarios;
             assert.equal(scenarios.length, 1);
             assert.equal(scenarios[0].title, 'Multiline Step With Ending Dash');
             assert.equal(scenarios[0].steps[0], poem);
-        })
+        });
 
         it('should parse multiline steps with followers', function() {
             var scenarios = parse_file('scenario/multiline_step_scenario_with_followers').scenarios;
             assert.equal(scenarios.length, 5);
             assert.equal(scenarios[0].title, 'Multiline Step Followed By Scenario');
-            console.log(scenarios[0].steps[0])
+            console.log(scenarios[0].steps[0]);
             assert.equal(scenarios[0].steps[0], poem);
 
             assert.equal(scenarios[1].title, 'Another scenario');
@@ -125,7 +125,7 @@ describe('FeatureParser', function() {
 
             assert.equal(scenarios[4].title, 'Multiline Step Followed By Example Table');
             assert.equal(JSON.stringify(scenarios[4].steps[0]), JSON.stringify(poem));
-        })
+        });
 
         it('should maintain indentation while parsing multiline steps', function() {
             var scenarios = parse_file('scenario/multiline_step_scenario_with_indentation').scenarios;
@@ -141,7 +141,7 @@ describe('FeatureParser', function() {
                 '        INVISIBLE "ERROR!"',
                 'KTHXBYE'
             ].join('\n'));
-        })
+        });
 
         it('should report malformed multiline steps', function() {
 
@@ -164,7 +164,7 @@ describe('FeatureParser', function() {
             assert.throws(function() {
                 parse_file('scenario/malformed_multiline_scenario_5');
             }, /Annotation is unexpected at this time/);
-        })
+        });
     });
 
     describe('(Annotations)', function() {
@@ -489,7 +489,7 @@ describe('FeatureParser', function() {
             assert.equal(scenarios[0].title, 'Simple Scenario');
             assert.equal(scenarios[0].steps[0], poem);
             assert.equal(scenarios[0].steps[1], 'Given A');
-        })
+        });
 
         it('should report background annotations', function() {
             assert.throws(function() {
