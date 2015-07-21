@@ -11,9 +11,10 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
     featureFile(file, function(feature) {
 
         var transpileLibrary = require('./transpile-library');
-        var csvLibrary = require('./csv-library.js');
+        var csvLibrary = require('./csv-library');
+        var poemLibrary = require('./poem-library');
 
-        var yadda = Yadda.createInstance([transpileLibrary, csvLibrary]);
+        var yadda = Yadda.createInstance([transpileLibrary, csvLibrary, poemLibrary]);
 
         scenarios(feature.scenarios, function(scenario) {
             steps(scenario.steps, function(step, done) {
