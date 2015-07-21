@@ -11,4 +11,3 @@ A poet with wiser words than mine,
 Wrote that nothing gold can stay.
 These are golden days we're in,
 And so are bound to fade away.
-----------

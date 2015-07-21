@@ -95,17 +95,17 @@ describe('FeatureParser', function() {
             }, /A feature must contain one or more scenarios/);
         });
 
-        it('should parse multiline steps', function() {
+        it('should parse multline steps with no ending dash', function() {
             var scenarios = parse_file('scenario/multiline_step_scenario').scenarios;
             assert.equal(scenarios.length, 1);
             assert.equal(scenarios[0].title, 'Multiline Step');
             assert.equal(scenarios[0].steps[0], poem);
         })
 
-        it('should parse multline steps with no ending dash', function() {
-            var scenarios = parse_file('scenario/multiline_step_scenario_no_ending_dash').scenarios;
+        it('should parse multiline steps', function() {
+            var scenarios = parse_file('scenario/multiline_step_scenario_with_ending_dash').scenarios;
             assert.equal(scenarios.length, 1);
-            assert.equal(scenarios[0].title, 'Multiline Step No Ending Dash');
+            assert.equal(scenarios[0].title, 'Multiline Step With Ending Dash');
             assert.equal(scenarios[0].steps[0], poem);
         })
 
@@ -482,6 +482,14 @@ describe('FeatureParser', function() {
             var feature = parse_file('background/feature_with_background');
             assert.equal(feature.scenarios[0].steps[0], 'Given A');
         });
+
+        it('shoud parse multiline step background', function() {
+            var scenarios = parse_file('background/background_with_multiline_step').scenarios;
+            assert.equal(scenarios.length, 1);
+            assert.equal(scenarios[0].title, 'Simple Scenario');
+            assert.equal(scenarios[0].steps[0], poem);
+            assert.equal(scenarios[0].steps[1], 'Given A');
+        })
 
         it('should report background annotations', function() {
             assert.throws(function() {
