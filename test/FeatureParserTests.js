@@ -143,16 +143,27 @@ describe('FeatureParser', function() {
             ].join('\n'));
         })
 
-        xit('should inject examples into multiline steps', function() {
+        it('should report malformed multiline steps', function() {
 
-        })
+            assert.throws(function() {
+                parse_file('scenario/malformed_multiline_scenario_1');
+            }, /Dash is unexpected at this time/);
 
-        xit('should report malformed multiline steps', function() {
-            // Multiline without preceding step
+            assert.throws(function() {
+                parse_file('scenario/malformed_multiline_scenario_2');
+            }, /Indentation error/);
 
-            // Multiline with inconsistent indentation
+            assert.throws(function() {
+                parse_file('scenario/malformed_multiline_scenario_3');
+            }, /Dash is unexpected at this time/);
 
-            // Empty multiline step (consecutive dashes, dash example, dash scenario, dash annotation)
+            assert.throws(function() {
+                parse_file('scenario/malformed_multiline_scenario_4');
+            }, /Examples is unexpected at this time/);
+
+            assert.throws(function() {
+                parse_file('scenario/malformed_multiline_scenario_5');
+            }, /Annotation is unexpected at this time/);
         })
     });
 
