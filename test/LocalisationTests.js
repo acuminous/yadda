@@ -202,6 +202,8 @@ describe('Localisation', function() {
 
     it('should support Portuguese', function() {
         var counter = new Counter();
+        debugger;
+
         var library = Yadda.localisation.Portuguese.library()
             .seja('some text 1', counter.count)
             .sejam('some text 2', counter.count)
@@ -210,13 +212,20 @@ describe('Localisation', function() {
             .dados('some text 5', counter.count)
             .dadas('some text 6', counter.count)
             .given('some text 7', counter.count)
+            .given('some text 8', counter.count)
+            .when('some text 9', counter.count)
 
-        .quando('some text 8', counter.count)
-            .se('some text 9', counter.count)
-            .when('some text 10', counter.count)
+        .quando('some text 10', counter.count)
+            .se('some text 11', counter.count)
+            .when('some text 12', counter.count)
+            .when('some text 13', counter.count)
+            .when('some text 14', counter.count)
 
-        .entao('some text 11', counter.count)
-            .then('some text 12', counter.count);
+        .entao('some text 15', counter.count)
+            .then('some text 16', counter.count)
+
+        .entao('some text 17', counter.count)
+        .entao('some text 18', counter.count);
 
         new Interpreter(library).interpret([
             'seja some text 1',
@@ -226,15 +235,21 @@ describe('Localisation', function() {
             'dados some text 5',
             'dadas some text 6',
             'seja some text 7',
+            'e some text 8',
+            'mas some text 9',
 
-            'quando some text 8',
-            'se some text 9',
             'quando some text 10',
+            'se some text 11',
+            'quando some text 12',
+            'e some text 13',
+            'mas some text 14',
 
-            'então some text 11',
-            'entao some text 12'
+            'então some text 15',
+            'entao some text 16',
+            'e some text 17',
+            'mas some text 18'
         ]);
 
-        assert.equal(counter.total(), 12);
+        assert.equal(counter.total(), 18);
     });
 });
