@@ -1,5 +1,9 @@
 # Release Notes
 
+## Yadda 0.15.1
+* Converted README into a gitbook
+* Fixed a minor bug with example tables
+
 ## Yadda 0.15.0
 * Breaking Change: Multiline steps in scenarios and backgrounds
 
