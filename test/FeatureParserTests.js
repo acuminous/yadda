@@ -301,6 +301,14 @@ describe('FeatureParser', function() {
             assert.equal(scenarios[1].steps[1], 'Step 2BB');
         });
 
+
+        it('should stash annotations for following scenarios', function() {
+            var scenarios = parse_file('example_table/example_table_followed_by_annotated_scenario').scenarios;
+            assert.equal(scenarios.length, 3);
+            assert.equal(scenarios[2].title, 'Annotated Scenario');
+            assert(scenarios[2].annotations.pending);
+        });
+
         it('should report malformed singleline example tables', function() {
 
             assert.throws(function() {
@@ -310,6 +318,10 @@ describe('FeatureParser', function() {
             assert.throws(function() {
                 parse_file('example_table/malformed_example_table_2').scenarios;
             }, /Blank is unexpected at this time/);
+
+            assert.throws(function() {
+                parse_file('example_table/malformed_example_table_3').scenarios;
+            }, /Text is unexpected at this time/);
         });
 
         it('should report incomplete example table', function() {
@@ -324,11 +336,11 @@ describe('FeatureParser', function() {
 
             assert.throws(function() {
                 parse_file('example_table/incomplete_example_table_3');
-            }, /Examples table requires one or more rows/);
+            }, /Scenario is unexpected at this time/);
 
             assert.throws(function() {
                 parse_file('example_table/incomplete_example_table_4');
-            }, /Examples table requires one or more rows/);
+            }, /Scenario is unexpected at this time/);
         });
 
         it('should expand feature background from example table', function() {
