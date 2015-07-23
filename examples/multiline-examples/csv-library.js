@@ -10,7 +10,7 @@ var assert = require('assert');
 
 module.exports = (function () {
 
-    var csv
+    var csv;
 
     var dictionary = new Yadda.Dictionary()
             .define('csv', /([^\u0000]*)/, csvConverter)
@@ -29,12 +29,12 @@ module.exports = (function () {
     });
 
     function csvConverter(text, cb) {
-        parse(text, { auto_parse: true, columns: true }, cb)
+        parse(text, { auto_parse: true, columns: true }, cb);
     }
 
     function nameConverter(name, cb) {
         cb(null, _.find(csv, function(row) {
-            return row['First Name'] === name
+            return row['First Name'] === name;
         }));
     }
 

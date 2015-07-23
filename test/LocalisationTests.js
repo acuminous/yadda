@@ -202,7 +202,6 @@ describe('Localisation', function() {
 
     it('should support Portuguese', function() {
         var counter = new Counter();
-        debugger;
 
         var library = Yadda.localisation.Portuguese.library()
             .seja('some text 1', counter.count)
