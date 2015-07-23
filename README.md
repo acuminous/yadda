@@ -9,14 +9,27 @@ Yadda brings _true_ BDD to JavaScript test frameworks such as [Jasmine](http://p
 Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the ordinary language steps to code. Not only are the steps less likely to go stale, but they also provide a valuable abstraction layer and encourage re-use. You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-js), but we find Yadda less invasive and prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is smarter too.
 
 ## Latest Version
-The current version of Yadda is 0.15.0</br>
-**Breaking changes were introduce in versions 0.15.1 and 0.13.0.</br>
+The current version of Yadda is 0.15.1</br>
+**Breaking changes were introduce in versions 0.15.0 and 0.13.0.</br>
 Please refer to the [Release Notes](./release-notes.md) for more details
 
 ## Using Yadda
 Please refer to the the [Yadda User Guide](http://acuminous.gitbooks.io/yadda-user-guide)
 
 ## tl;dr
+=======
+## Installation
+
+### Node based environments (e.g. Mocha)
+```
+npm install yadda
+```
+### Browser based environments (e.g. QUnit)
+```html
+<script src="./lib/yadda-0.15.1.js"></script>
+```
+## Contributing
+We're always happy to receive pull requests, but please read the [Contributor Notes](https://github.com/acuminous/yadda/wiki/Notes-for-Contributors) first.
 
 ### Step 1 - Decide upon a directory structure, e.g.
 ```
