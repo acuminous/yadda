@@ -433,10 +433,10 @@ describe('FeatureParser', function() {
 
             assert.throws(function() {
                 parse_file('example_table/malformed_multiline_example_table_3');
-            }, /Dash is unexpected at this time/);
+            }, /Text is unexpected at this time/);
         });
 
-        it('sshould add meta fields to multiline example table', function() {
+        it('should add meta fields to multiline example table', function() {
             var scenarios = parse_file('example_table/meta_fields_multiline_example_table').scenarios;
             assert.equal(scenarios.length, 2);
 

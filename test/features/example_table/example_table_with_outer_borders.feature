@@ -4,6 +4,8 @@ Scenario: [nth] Scenario
     Step [number][letter][letter]
 
 Examples:
+    ----------------------------
     | nth    | letter | number |
     | First  | A      | 1      |
     | Second | B      | 2      |
+    ----------------------------
