@@ -13,8 +13,8 @@ The current version of Yadda is 0.15.1</br>
 **Breaking changes were introduce in versions 0.15.0 and 0.13.0.**</br>
 Please refer to the [Release Notes](./release-notes.md) for more details
 
-## Using Yadda
-Please refer to the the [Yadda User Guide](http://acuminous.gitbooks.io/yadda-user-guide) or if you'd prefer to get started straight away...
+## Documentation
+Please refer to the the [Yadda User Guide](http://acuminous.gitbooks.io/yadda-user-guide).
 
 ## tl;dr
 
