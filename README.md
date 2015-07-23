@@ -10,11 +10,11 @@ Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it m
 
 ## Latest Version
 The current version of Yadda is 0.15.0</br>
-** Breaking changes were introduce in versions 0.15.1 and 0.13.0.</br>
+**Breaking changes were introduce in versions 0.15.1 and 0.13.0.</br>
 Please refer to the [Release Notes](./release-notes.md) for more details
 
-## Yadda User Guide
-Please see the [Yadda User Guide](http://acuminous.gitbooks.io/yadda-user-guide)
+## Using Yadda
+Please refer to the the [Yadda User Guide](http://acuminous.gitbooks.io/yadda-user-guide)
 
 ## tl;dr
 
