@@ -17,19 +17,6 @@ Please refer to the [Release Notes](./release-notes.md) for more details
 Please refer to the the [Yadda User Guide](http://acuminous.gitbooks.io/yadda-user-guide)
 
 ## tl;dr
-=======
-## Installation
-
-### Node based environments (e.g. Mocha)
-```
-npm install yadda
-```
-### Browser based environments (e.g. QUnit)
-```html
-<script src="./lib/yadda-0.15.1.js"></script>
-```
-## Contributing
-We're always happy to receive pull requests, but please read the [Contributor Notes](https://github.com/acuminous/yadda/wiki/Notes-for-Contributors) first.
 
 ### Step 1 - Decide upon a directory structure, e.g.
 ```
