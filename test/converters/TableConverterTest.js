@@ -40,4 +40,19 @@ describe('Table Converter', function() {
             next();
         });
     });
+
+
+    it("Should report indentation errors", function(next) {
+
+        var text = [
+            'left | middle | right',
+            '  1  |2       |   3  '
+        ].join('\n')
+
+        convert(text, function(err, value) {
+            assert(err);
+            assert.equal(err.message, 'Indentation error');
+            next()
+        });
+    });
 });
