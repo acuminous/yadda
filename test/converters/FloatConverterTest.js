@@ -13,7 +13,7 @@ describe('Float Converter', function() {
             assert.equal(value, 1.1);
             assert.equal(typeof value, 'number');
             next();
-        })
+        });
     });
 
     it("Should error on NaN", function(next) {
@@ -21,7 +21,7 @@ describe('Float Converter', function() {
             assert(err);
             assert.equal(err.message, 'Cannot convert [a] to a float');
             next();
-        })
+        });
     });
 
 });

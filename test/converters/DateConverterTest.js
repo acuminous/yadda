@@ -12,7 +12,7 @@ describe('Date Converter', function() {
             assert.ifError(err);
             assert.equal(value.toISOString(), '2015-07-24T09:23:31.283Z');
             next();
-        })
+        });
     });
 
     it("Should error on invalid date", function(next) {
@@ -20,7 +20,7 @@ describe('Date Converter', function() {
             assert(err);
             assert.equal(err.message, 'Cannot convert [a] to a date');
             next();
-        })
+        });
     });
 
 });

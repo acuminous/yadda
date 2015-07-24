@@ -13,7 +13,7 @@ describe('Integer Converter', function() {
             assert.equal(value, 1);
             assert.equal(typeof value, 'number');
             next();
-        })
+        });
     });
 
     it("Should error on NaN", function(next) {
@@ -21,7 +21,7 @@ describe('Integer Converter', function() {
             assert(err);
             assert.equal(err.message, 'Cannot convert [a] to an integer');
             next();
-        })
+        });
     });
 
 });
