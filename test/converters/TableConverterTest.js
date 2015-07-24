@@ -13,7 +13,7 @@ describe('Table Converter', function() {
             'left | right',
             '1    | 3',
             '2    | 4'
-        ].join('\n')
+        ].join('\n');
 
         convert(text, function(err, value) {
             assert.ifError(err);
@@ -30,7 +30,7 @@ describe('Table Converter', function() {
         var text = [
             'left | middle | right',
             '  1  |   2    |   3  '
-        ].join('\n')
+        ].join('\n');
 
         convert(text, function(err, value) {
             assert.ifError(err);
@@ -47,12 +47,12 @@ describe('Table Converter', function() {
         var text = [
             'left | middle | right',
             '  1  |2       |   3  '
-        ].join('\n')
+        ].join('\n');
 
         convert(text, function(err, value) {
             assert(err);
             assert.equal(err.message, 'Indentation error');
-            next()
+            next();
         });
     });
 });
