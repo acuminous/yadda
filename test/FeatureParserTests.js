@@ -113,7 +113,6 @@ describe('FeatureParser', function() {
             var scenarios = parse_file('scenario/multiline_step_scenario_with_followers').scenarios;
             assert.equal(scenarios.length, 5);
             assert.equal(scenarios[0].title, 'Multiline Step Followed By Scenario');
-            console.log(scenarios[0].steps[0]);
             assert.equal(scenarios[0].steps[0], poem);
 
             assert.equal(scenarios[1].title, 'Another scenario');
