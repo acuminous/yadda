@@ -132,7 +132,8 @@ describe('FeatureParser', function() {
             assert.equal(scenarios.length, 1);
             assert.equal(scenarios[0].title, 'Multiline Step With Indentation');
             assert.equal(scenarios[0].steps[0], [
-                'LOLCODE HAI',
+                'LOLCODE',
+                'HAI',
                 'CAN HAS STDIO?',
                 'PLZ OPEN FILE "LOLCATS.TXT"?',
                 '    AWSUM THX',
@@ -369,9 +370,9 @@ describe('FeatureParser', function() {
             var scenarios = parse_file('example_table/multiline_step_example_table').scenarios;
             assert.equal(scenarios.length, 2);
             assert.equal(scenarios[0].title, 'First Scenario');
-            assert.equal(scenarios[0].steps[0], 'Step A11\n1AA');
+            assert.equal(scenarios[0].steps[0], 'Step\nA11\n1AA');
             assert.equal(scenarios[1].title, 'Second Scenario');
-            assert.equal(scenarios[1].steps[0], 'Step B22\n2BB');
+            assert.equal(scenarios[1].steps[0], 'Step\nB22\n2BB');
         });
     });
 
@@ -539,7 +540,8 @@ describe('FeatureParser', function() {
     }
 
     var poem = [
-        'Good Times May we go our separate ways,',
+        'Good Times',
+        'May we go our separate ways,',
         'Finding fortune and new friends.',
         'But let us not forget these days,',
         'Or let the good times ever end.',
