@@ -54,8 +54,8 @@ describe('Table Converter', function() {
         convert(text, function(err, value) {
             assert.ifError(err);
             assert.equal(value.length, 2);
-            assert.deepEqual(value[0], { 'Henry V': 'Once more unto the\nbreech dear friends', 'Romeo and Juliet': 'What light from yonder\nwindow breaks'})
-            assert.deepEqual(value[1], { 'Henry V': 'And sheathed their\nswords for lack of argument', 'Romeo and Juliet': 'It is the East\nand Juliet is the sun'})
+            assert.deepEqual(value[0], { 'Henry V': 'Once more unto the\nbreech dear friends', 'Romeo and Juliet': 'What light from yonder\nwindow breaks'});
+            assert.deepEqual(value[1], { 'Henry V': 'And sheathed their\nswords for lack of argument', 'Romeo and Juliet': 'It is the East\nand Juliet is the sun'});
             next();
         });
     });
@@ -76,8 +76,8 @@ describe('Table Converter', function() {
         convert(text, function(err, value) {
             assert.ifError(err);
             assert.equal(value.length, 2);
-            assert.deepEqual(value[0], { 'Henry V': '  Once more unto the\n\n  breech dear friends', 'Romeo and Juliet': ' What light from yonder\n\n window breaks'})
-            assert.deepEqual(value[1], { 'Henry V': '  And sheathed their\n  swords for lack of argument', 'Romeo and Juliet': ' It is the East\n and Juliet is the sun'})
+            assert.deepEqual(value[0], { 'Henry V': '  Once more unto the\n\n  breech dear friends', 'Romeo and Juliet': ' What light from yonder\n\n window breaks'});
+            assert.deepEqual(value[1], { 'Henry V': '  And sheathed their\n  swords for lack of argument', 'Romeo and Juliet': ' It is the East\n and Juliet is the sun'});
             next();
         });
     });

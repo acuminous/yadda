@@ -18,7 +18,7 @@ module.exports = (function () {
 
     var library = English.library(dictionary)
 
-    .given("a csv file $csv", function (_csv, next) {
+    .given("a csv file\n$csv", function (_csv, next) {
         csv = _csv;
         next();
     })

@@ -16,7 +16,7 @@ module.exports = (function () {
 
     var library = English.library(dictionary)
 
-    .define("Good Times $poem", function (_poem, next) {
+    .define("Good Times\n$poem", function (_poem, next) {
         poem = _poem;
         next();
     })

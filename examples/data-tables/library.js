@@ -14,11 +14,11 @@ module.exports = (function () {
     var dictionary = new Dictionary()
         .define('totals', /(\d+)/, Yadda.converters.integer)
         .define('list', /([^\u0000]*)/, Yadda.converters.list)
-        .define('table', /([^\u0000]*)/, Yadda.converters.table)
+        .define('table', /([^\u0000]*)/, Yadda.converters.table);
 
     var library = English.library(dictionary)
 
-    .given("a list of integers $list", function(list) {
+    .given("a list of integers\n$list", function(list) {
         list_total = 0;
         for (var i = 0; i < list.length; i++) {
             list_total += parseInt(list[i]);
@@ -29,7 +29,7 @@ module.exports = (function () {
         assert.equal(list_total, expected);
     })
 
-    .given('a table of data $table', function(table) {
+    .given('a table of data\n$table', function(table) {
         table_totals = { left: 0, right: 0 };
         for (var i = 0; i < table.length; i++) {
             table_totals.left += parseInt(table[i].left);
@@ -41,7 +41,7 @@ module.exports = (function () {
         assert.equal(table_totals[key], expected);
     })
 
-    .given('some Shakespeare $table', function(table) {
+    .given('some Shakespeare\n$table', function(table) {
         table_totals = { 'Henry V': 0, 'Romeo and Juliet': 0 };
         for (var i = 0; i < table.length; i++) {
             table_totals['Henry V'] += table['Henry V'].split(/\s/).length;
@@ -50,7 +50,7 @@ module.exports = (function () {
     })
 
     .then('the $extract extract should have $total words', function(extract, expected) {
-        assert.equal(table_totals[key], expected);
+        assert.equal(extract.split(/\W/).length, expected);
     });
 
     return library;

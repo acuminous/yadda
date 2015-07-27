@@ -24,7 +24,7 @@ Scenario: Simple Table
     And the right total should be 7
 
 
-@Only
+@Pending
 Scenario: Multiline Table
 
     Given some Shakespeare
