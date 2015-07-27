@@ -1,5 +1,9 @@
 # Release Notes
 
+## origin/master
+* Multiline Steps and data-table converters
+* Protractor example courtesy of [mgijsbertihodenpijl])[https://github.com/mgijsbertihodenpijl]. Thanks
+
 ## Yadda 0.15.1
 * Converted README into a gitbook
 * Fixed a minor bug with example tables
