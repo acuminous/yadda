@@ -11,5 +11,8 @@
     "test": "node bin/example.js"
   },
   "author": "Martijn Gijsberti Hodenpijl",
-  "license": "Apache2"
+  "license": "Apache2",
+  "devDependencies": {
+    "jasmine-spec-reporter": "^2.4.0"
+  }
 }
