@@ -1,3 +1,7 @@
+/* globals jasmine */
+/* jslint node: true */
+"use strict";
+
 exports.config = {
     framework: 'jasmine2',
     seleniumAddress: 'http://localhost:4444/wd/hub',
@@ -15,4 +19,4 @@ exports.config = {
       var SpecReporter = require('jasmine-spec-reporter');
       jasmine.getEnv().addReporter(new SpecReporter({displayStacktrace: true}));
     }
-}
+};
