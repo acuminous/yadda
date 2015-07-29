@@ -18,6 +18,19 @@ describe('Competition', function() {
         assert.equal(competition.clear_winner().signature, best_match.signature);
     });
 
+    it("should decide by Levenshtein distance even for exact versus substring match", function() {
+        var substring_match = new Macro('substring', parsed_signature(/when the user does X/));
+        var exact_match = new Macro('exact', parsed_signature(/when the user does X with Y/));
+        var competition = new Competition('when the user does X with Y', [substring_match, exact_match]);
+
+        assert.equal(competition.clear_winner().signature, exact_match.signature);
+
+	// order should not affect best match
+        competition = new Competition('when the user does X with Y', [exact_match, substring_match]);
+
+        assert.equal(competition.clear_winner().signature, exact_match.signature);
+    });
+
     it("should decide winner by Levenshtein distance on multiline", function() {
         var best_match = new Macro('best', parsed_signature(/given 1 ([^\u0000]*) text/));
         var middle_match = new Macro('middle', parsed_signature(/given (\d+) ([^\u0000]*) text (?:s{0,1})/));
