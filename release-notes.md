@@ -1,7 +1,7 @@
 # Release Notes
 
-## origin/master
-* Multiline Steps and data-table converters
+## Yadda 0.15.2
+* Multiline Steps and data-table converters (multiline data tables are still a work in progress)
 * Protractor example courtesy of [mgijsbertihodenpijl])[https://github.com/mgijsbertihodenpijl]. Thanks
 
 ## Yadda 0.15.1
