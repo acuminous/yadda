@@ -1,3 +1,5 @@
+Feature: Multline Examples Table
+
 Scenario: [case] Scenario
 
     Given I need to transpile [case]

@@ -1,7 +1,7 @@
 {
-  "name": "multiline-examples",
+  "name": "yadda-multiline-examples-table-example",
   "version": "0.0.1",
-  "description": "Yadda multiline examples sample",
+  "description": "Yadda multiline examples table example",
   "scripts": {
     "preinstall": "npm --loglevel error link yadda",
     "test": "node bin/example.js"
@@ -10,7 +10,6 @@
   "license": "Apache2",
   "dependencies": {
     "babel": "^5.6.14",
-    "csv-parse": "^0.1.3",
     "lodash": "^3.10.0",
     "mocha": "^2.2.5"
   }

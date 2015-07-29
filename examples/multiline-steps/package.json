@@ -1,0 +1,15 @@
+{
+  "name": "yadda-multiline-steps-example",
+  "version": "0.0.1",
+  "description": "Yadda multiline steps example",
+  "scripts": {
+    "preinstall": "npm --loglevel error link yadda",
+    "test": "node bin/example.js"
+  },
+  "license": "Apache2",
+  "dependencies": {
+    "csv-parse": "^0.1.3",
+    "lodash": "^3.10.0",
+    "mocha": "^2.2.5"
+  }
+}

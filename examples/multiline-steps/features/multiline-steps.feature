@@ -1,3 +1,17 @@
+Feature: Multiline Step Examples
+
+
+Scenario: Parse a CSV multiline step
+
+    Given a csv file
+    --------------------------
+    First Name,Second Name,Age
+    John,Smith,41
+    Joe,Blogs,23
+    --------------------------
+    Then John is older than Joe
+
+
 Scenario: Read a Poem
 
     Good Times
