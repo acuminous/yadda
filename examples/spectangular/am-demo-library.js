@@ -5,56 +5,84 @@ var Yadda = require('yadda');
 var Dictionary = Yadda.Dictionary;
 var English = Yadda.localisation.English;
 
+var Spectangular = require('./node_modules/spectangular/dist/spectangular.js');
+var SpectangularMdLibrary = require('./node_modules/spectangular/dist/libraries/md/md.js');
+
+Spectangular.baseUrl = 'https://material.angularjs.org/latest';
+Spectangular.library = SpectangularMdLibrary;
+
 module.exports = (function () {
 
-
-    var list_actions;
-    var grid_actions;
+    var actions = [];
 
     var dictionary = new Dictionary()
-        .define('table', /([^\u0000]*)/, Yadda.converters.table)
-        .define('actions')
+        .define('list', /([^\u0000]*)/, Yadda.converters.list)
+        .define('action', /(Show as (list|grid))$/);
 
-    var actions;
+    //CSS selectors, see https://angular.github.io/protractor/#/api?view=build$$
+    var lists = $$('md-list-item span.md-inline-list-icon-label');
+    var grids = $$('md-list-item  div.md-grid-text');
+
+    function openStartPage() {
+        Spectangular.loadPage('/#/demo/material.components.bottomSheet', '.demo-toolbar');
+    }
+
+    function clickOnButton(action) {
+        Spectangular.button({text: action}).click();
+        return true;
+    }
+
+    function checkNumberOfActions(type) {
+        if (type === 'list') {
+            expect(lists.count()).toBe(actions.length);
+        }
+        if (type === 'grid') {
+            expect(grids.count()).toBe(actions.length);
+        }
+    }
+
+    function checkAction(type, action) {
+        if (type === 'list') {
+            return checkElements(lists, action)
+        }
+        if (type === 'grid') {
+            return checkElements(grids, action);
+        }
+    }
+
+    function checkElements(elements, action) {
+        return elements.filter(function (el) {
+            return el.getText().then(function (text) {
+                return action.trim().toLocaleLowerCase() === text.trim().toLocaleLowerCase();
+            })
+        }).then(function (filteredItems) {
+            if (!filteredItems) {
+                console.log('no filtered items');
+                return false;
+            }
+            if (filteredItems.length === 1) {
+                return true;
+            }
+            console.log('nok length!', filteredItems.length);
+            return false;
+        });
+    }
 
     var library = English.library(dictionary)
-        .given("a table of actions\n$table",function(table){
-            for (var i = 0; i < table.length; i++) {
-                list_actions.push(table[i].left);
-                grid_actions.push(table[i].right);
-            }
+        .given("a list of actions\n$list", function (list) {
+            openStartPage();
+            actions = list;
         })
 
-        .when("I open Google's $LOCALE search page", function (locale, next) {
-            browser.driver.get("http://www.google." + locale + "/");
+        .when("I click on $action", function (action) {
+            clickOnButton(action);
         })
 
-        .then("the title is $TITLE", function (title) {
-            return browser.driver.getTitle().then(function (value) {
-                return value === title;
-            });
-        })
-
-        .then("the $ACTION form exists", function (action) {
-            return browser.driver.isElementPresent(by.css('form[action="/' + action + '"]'));
-        })
-
-        .when("I search for $TERM", function (term) {
-            browser.driver.findElement(by.name('q')).then(function (el) {
-                el.sendKeys(term + '\n');
-            });
-        })
-
-        .then("the search for $TERM was made", function (term) {
-            return browser.driver.getCurrentUrl().then(function (value) {
-                return new RegExp('q=' + term).test(value);
-            });
-        })
-
-        .then("$NUM or more results were returned", function (number) {
-            browser.driver.findElements(by.css('h3.r')).then(function (elements) {
-                return elements.length >= number;
-            });
+        .then("the $type actions are shown", function (type) {
+            checkNumberOfActions(type);
+            actions.forEach(function (action) {
+                expect(checkAction(type, action)).toBe(true);
+            })
         });
 
     return library;

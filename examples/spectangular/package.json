@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "description": "Example of yadda tests with protractor",
   "dependencies": {
-    "protractor": "^2.1.0"
+    "protractor": "^2.1.0",
+    "spectangular": "^0.9.5"
   },
   "scripts": {
     "preinstall": "npm --loglevel error link yadda",
@@ -11,5 +12,8 @@
     "test": "node bin/example.js"
   },
   "author": "Martijn Gijsberti Hodenpijl",
-  "license": "Apache2"
+  "license": "Apache2",
+  "devDependencies": {
+    "jasmine-spec-reporter": "^2.4.0"
+  }
 }

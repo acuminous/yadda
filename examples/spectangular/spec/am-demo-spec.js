@@ -8,7 +8,7 @@ var fs = require('fs');
 
 Yadda.plugins.jasmine.StepLevelPlugin.init();
 
-describe('Google', function () {
+describe('Angular-material', function () {
 
     new Yadda.FeatureFileSearch('features').each(function (file) {
         featureFile(file, function (feature) {
