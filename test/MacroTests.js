@@ -23,6 +23,15 @@ describe('Macro', function() {
         assert.deepEqual(execution.ctx, {a: 1, b: 2});
     });
 
+    it('should include step name in the context', function() {
+        var execution = new Execution();
+        var args = [1, 2, 3, 'callback'];
+
+        new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.code, {a: 1}).interpret("Easy as 1, 2, 3", new Context({b: 2}), fn.noop);
+
+        assert.equal(execution.ctx.step, 'Easy as 1, 2, 3')
+    });
+
     it('should provide a signature that can be used to compare levenshtein distance', function() {
         $([
             /the quick brown fox/,
