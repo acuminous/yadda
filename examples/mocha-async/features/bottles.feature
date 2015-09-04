@@ -1,4 +1,6 @@
-Feature: Mocha Asynchronous Example
+Feature: My awesome product feature
+    As a user I want to use awesome feature
+    So that I can be really happy
 
 Background:
 
