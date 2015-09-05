@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.15.3
+* Step name included in context automatically courtesy of [remkoboschker](https://github.com/remkoboschker). Thanks.
+
 ## Yadda 0.15.2
 * Multiline Steps and data-table converters (multiline data tables are still a work in progress)
 * Protractor example courtesy of [mgijsbertihodenpijl])[https://github.com/mgijsbertihodenpijl]. Thanks
