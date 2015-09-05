@@ -20,7 +20,25 @@ describe('Macro', function() {
 
         assert.ok(execution.executed, "The step code was not run");
         assert.deepEqual(execution.args.splice(0, 3), [1, 2, 3]);
-        assert.deepEqual(execution.ctx, {a: 1, b: 2});
+        assert.deepEqual(execution.ctx, {a: 1, b: 2, step: 'Easy as 1, 2, 3'});
+    });
+
+    it('should include step name in the context', function() {
+        var execution = new Execution();
+        var args = [1, 2, 3, 'callback'];
+
+        new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.code, {a: 1}).interpret("Easy as 1, 2, 3", new Context({b: 2}), fn.noop);
+
+        assert.equal(execution.ctx.step, 'Easy as 1, 2, 3')
+    });
+
+    it('should not override step name in the context if explicitly set', function() {
+        var execution = new Execution();
+        var args = [1, 2, 3, 'callback'];
+
+        new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.code, {a: 1}).interpret("Easy as 1, 2, 3", new Context({b: 2, step: 'Do not override'}), fn.noop);
+
+        assert.equal(execution.ctx.step, 'Do not override')
     });
 
     it('should provide a signature that can be used to compare levenshtein distance', function() {
@@ -58,7 +76,7 @@ describe('Macro', function() {
         var event = listener.events[0];
         assert.equal(event.name, EventBus.ON_EXECUTE);
         assert.equal(event.data.step, 'Easy as 1, 2, 3');
-        assert.deepEqual(event.data.ctx, {a: 1, b: 2});
+        assert.deepEqual(event.data.ctx, {a: 1, b: 2, step: 'Easy as 1, 2, 3'});
         assert.equal(event.data.pattern, "/Easy as (\\d), (\\d), (\\d)/");
         assert.deepEqual(event.data.args.slice(), ["1", "2", "3"]);
         done();
@@ -72,7 +90,7 @@ describe('Macro', function() {
 
         assert.ok(execution.executed, "The step code was not run");
         assert.deepEqual(execution.args.splice(0, 1), ["1\n2\n3"]);
-        assert.deepEqual(execution.ctx, {a: 1, b: 2});
+        assert.deepEqual(execution.ctx, {a: 1, b: 2, step: 'Easy as 1\n2\n3'});
     });
 
     it('should convert parameters', function() {
