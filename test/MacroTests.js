@@ -32,6 +32,15 @@ describe('Macro', function() {
         assert.equal(execution.ctx.step, 'Easy as 1, 2, 3')
     });
 
+    it('should not override step name in the context if explicitly set', function() {
+        var execution = new Execution();
+        var args = [1, 2, 3, 'callback'];
+
+        new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.code, {a: 1}).interpret("Easy as 1, 2, 3", new Context({b: 2, step: 'Do not override'}), fn.noop);
+
+        assert.equal(execution.ctx.step, 'Do not override')
+    });
+
     it('should provide a signature that can be used to compare levenshtein distance', function() {
         $([
             /the quick brown fox/,
