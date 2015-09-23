@@ -25,6 +25,22 @@ describe('Localisation', function() {
         assert.equal(counter.total(), 3);
     });
 
+    it('should support Dutch', function () {
+        var counter = new Counter();
+        var library = Yadda.localisation.Dutch.library()
+            .given('some text 1', counter.count)
+            .when('some text 2', counter.count)
+            .then('some text 4', counter.count);
+
+        new Interpreter(library).interpret([
+            'Gegeven dat some text 1',
+            'Wanneer some text 2',
+            'Dan some text 4'
+        ]);
+
+        assert.equal(counter.total(), 3);
+    });
+
     it('should support French', function() {
         var counter = new Counter();
         var library = Yadda.localisation.French.library()
