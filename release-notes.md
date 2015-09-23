@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.15.4
+* Dutch language support courtesy of [https://github.com/remkoboschker](remkoboschker). Thanks.
+
 ## Yadda 0.15.3
 * Step name included in context automatically courtesy of [remkoboschker](https://github.com/remkoboschker). Thanks.
 
