@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.15.5
+* Fixed but with the mocha ScenarioLevelPlugin which cased all tests to timeout
+
 ## Yadda 0.15.4
 * Dutch language support courtesy of [https://github.com/remkoboschker](remkoboschker). Thanks.
 
