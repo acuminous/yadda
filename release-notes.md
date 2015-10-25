@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.16.0
+* Outer borders on data tables are ignored
+
 ## Yadda 0.15.5
 * Fixed but with the mocha ScenarioLevelPlugin which cased all tests to timeout
 
