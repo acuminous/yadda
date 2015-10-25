@@ -82,6 +82,27 @@ describe('Table Converter', function() {
         });
     });
 
+    it("Should support outer borders", function(next) {
+
+        var text = [
+            ' Henry V                     | Romeo and Juliet       |',
+            '-----------------------------|------------------------|',
+            ' Once more unto the          | What light from yonder |',
+            ' breech dear friends         | window breaks          |',
+            '-----------------------------|------------------------|',
+            ' And sheathed their          | It is the East         |',
+            ' swords for lack of argument | and Juliet is the sun  |'
+        ].join('\n');
+
+        convert(text, function(err, value) {
+            assert.ifError(err);
+            assert.equal(value.length, 2);
+            assert.deepEqual(value[0], { 'Henry V': 'Once more unto the\nbreech dear friends', 'Romeo and Juliet': 'What light from yonder\nwindow breaks'});
+            assert.deepEqual(value[1], { 'Henry V': 'And sheathed their\nswords for lack of argument', 'Romeo and Juliet': 'It is the East\nand Juliet is the sun'});
+            next();
+        });
+    });
+
     it("Should report indentation errors", function(next) {
 
         var text = [
