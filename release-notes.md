@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.16.1
+* Removed bind so phantom works without polyfill
+
 ## Yadda 0.16.0
 * Outer borders on data tables are ignored
 
