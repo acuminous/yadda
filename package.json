@@ -36,7 +36,7 @@
     "Nodeunit"
   ],
   "author": "Stephen Cresswell",
-  "license": "Apache2",
+  "license": "Apache-2.0",
   "readmeFilename": "README.md",
   "gitHead": "4754e8449c4f6d28e6357059287079a44a0dad29"
 }
