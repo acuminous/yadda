@@ -6,6 +6,7 @@ var assert = require('assert');
 var Macro = require('../lib/Macro');
 var Competition = require('../lib/Competition');
 var Dictionary = require('../lib/Dictionary');
+var fn = require('../lib/fn');
 
 describe('Competition', function() {
 
@@ -27,10 +28,24 @@ describe('Competition', function() {
         assert.equal(competition.clear_winner().signature, best_match.signature);
     });
 
+    it("should decide tie breakers by prefering to macro from the same library as the previous winner", function() {
+        var library1 = { name: 'l1' };
+        var library2 = { name: 'l2' };
+        var previous_match = new Macro('previous', parsed_signature(/whatever/), fn.noop, {}, library1);
+        var best_match = new Macro('best', parsed_signature(/given 1 (.*) patient/), fn.noop, {}, library1);
+        var equal_match = new Macro('equal', parsed_signature(/given 1 (.+) patient/), fn.noop, {}, library2);
+        var competition = new Competition('given 1 male patient', [best_match, equal_match], previous_match);
+
+        assert.equal(competition.clear_winner().signature, best_match.signature);
+    });
+
     it("should support joint winners", function() {
-        var best_match = new Macro('best', parsed_signature(/given 1 (.*) patient/));
-        var equal_match = new Macro('equal', parsed_signature(/given 1 (.+) patient/));
-        var competition = new Competition('given 1 male patient', [best_match, equal_match]);
+        var library1 = { name: 'l1' };
+        var library2 = { name: 'l2' };
+        var previous_match = new Macro('previous', parsed_signature(/whatever/), fn.noop, {}, library1);
+        var best_match = new Macro('best', parsed_signature(/given 1 (.*) patient/), fn.noop, {}, library1);
+        var equal_match = new Macro('equal', parsed_signature(/given 1 (.+) patient/), fn.noop, {}, library1);
+        var competition = new Competition('given 1 male patient', [best_match, equal_match], previous_match);
 
         assert.throws(function() {
             competition.clear_winner();

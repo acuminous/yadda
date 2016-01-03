@@ -1,15 +1,17 @@
 {
-    "name": "yadda-casper-example",
-    "version": "0.0.0",
-    "main": "index.js",
-    "dependencies": {
-        "async": "~0.2.9",
-        "process": "~0.5.1"
-    },
-    "scripts": {
-        "preinstall": "npm --loglevel error link yadda",
-        "test": "node ./bin/example.js"
-    },
-    "author": "Stephen Cresswell",
-    "license": "Apache2"
+  "name": "yadda-casper-example",
+  "version": "0.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "async": "~0.2.9",
+    "casperjs": "git@github.com:n1k0/casperjs.git",
+    "phantomjs": "^1.9.19",
+    "process": "~0.5.1"
+  },
+  "scripts": {
+    "preinstall": "npm --loglevel error link yadda",
+    "test": "node ./bin/example.js"
+  },
+  "author": "Stephen Cresswell",
+  "license": "Apache2"
 }
