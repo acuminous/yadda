@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.16.2
+* When yadda find two matching steps with the same Levenshtein distance, it will prefer the one defined in the same library as the previous step.
+
 ## Yadda 0.16.1
 * Removed bind so phantom works without polyfill
 
