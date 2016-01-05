@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.16.3
+* Fixed a [bug](https://github.com/acuminous/yadda/issues/187) introduced in 0.16.2 which meant Yadda picked the more undesirable step when two step implementations in the same library matches the step text.
+
 ## Yadda 0.16.2
 * When yadda find two matching steps with the same Levenshtein distance, it will prefer the one defined in the same library as the previous step.
 
