@@ -3,7 +3,7 @@
 "use strict";
 
 var assert = require('assert');
-var MultiScore = require('../../lib/scores/MultiScore')
+var MultiScore = require('../../lib/scores/MultiScore');
 
 describe('MultiScore', function() {
 
@@ -73,7 +73,7 @@ describe('MultiScore', function() {
         this.value = value;
         this.compare = function(other) {
             return this.value - other.value;
-        }
+        };
     }
 
 });
