@@ -126,6 +126,22 @@ describe('FeatureParser', function() {
             assert.equal(JSON.stringify(scenarios[4].steps[0]), JSON.stringify(poem));
         });
 
+        it('should parse multiple multiline steps in the same scenario', function() {
+            var scenarios = parse_file('scenario/multiline_step_scenario_with_multiple_blocks').scenarios;
+            assert.equal(scenarios.length, 1);
+            assert.equal(scenarios[0].title, 'Multiline Step With Multiple Blocks');
+            assert.equal(scenarios[0].steps[0], ['Verse 1'].concat(poem.split('\n').splice(1, 4)).join('\n'));
+            assert.equal(scenarios[0].steps[1], ['Verse 2'].concat(poem.split('\n').splice(6, 9)).join('\n'));
+        });
+
+        it('should append the final blank line in a multiple step', function() {
+            var scenarios = parse_file('scenario/multiline_step_scenario_with_multiple_blocks_and_blank').scenarios;
+            assert.equal(scenarios.length, 1);
+            assert.equal(scenarios[0].title, 'Multiline Step With Multiple Blocks And Blank');
+            assert.equal(scenarios[0].steps[0], ['Verse 1'].concat(poem.split('\n').splice(1, 4)).concat('').join('\n'));
+            assert.equal(scenarios[0].steps[1], ['Verse 2'].concat(poem.split('\n').splice(6, 9)).concat('').join('\n'));
+        });
+
         it('should maintain indentation while parsing multiline steps', function() {
             var scenarios = parse_file('scenario/multiline_step_scenario_with_indentation').scenarios;
             assert.equal(scenarios.length, 1);
