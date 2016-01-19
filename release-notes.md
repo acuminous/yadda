@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.17.0
+* Fixed a [bug](https://github.com/acuminous/yadda/issues/188) which discarded blank lines at the end of a multline step. If the scenario had multiple multline steps, then an ending blank line in the first step, was injected into the second step.
+
 ## Yadda 0.16.3
 * Fixed a [bug](https://github.com/acuminous/yadda/issues/187) introduced in 0.16.2 which meant Yadda picked the more undesirable step when two step implementations in the same library matches the step text.
 
