@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.17.1
+- Chinese Localisation - thanks [snowyu](https://github.com/snowyu).
+
 ## Yadda 0.17.0
 * Fixed a [bug](https://github.com/acuminous/yadda/issues/188) which discarded blank lines at the end of a multline step. If the scenario had multiple multline steps, then an ending blank line in the first step, was injected into the second step.
 
