@@ -4,17 +4,25 @@
   "description": "A true BDD framework for JavaScript",
   "main": "./lib/index.js",
   "devDependencies": {
-    "mocha": "*",
     "browserify": "10.2.6",
-    "jshint": "^2.5.0"
+    "jshint": "^2.5.0",
+    "karma": "^0.13.22",
+    "karma-browserify": "^5.0.2",
+    "karma-mocha": "^0.2.2",
+    "karma-phantomjs-launcher": "^1.0.0",
+    "mocha": "*",
+    "phantomjs": "^2.1.3",
+    "phantomjs-prebuilt": "^2.1.5",
+    "watchify": "^3.7.0"
   },
   "directories": {
     "example": "examples",
     "test": "test"
   },
   "scripts": {
-    "test": "NODE_ENV=test mocha --recursive --reporter spec test",
-    "istanbul": "NODE_ENV=test istanbul cover _mocha -- -u exports --reporter spec",
+    "test": "mocha --recursive --reporter spec test",
+    "karma": "karma start karma.conf.js",
+    "istanbul": "istanbul cover _mocha -- -u exports --reporter spec",
     "examples": "node bin/examples.js",
     "browserify": "node bin/browserify.js",
     "jshint": "find . -name *.js | grep -vE '/node_modules/|/dist/|/components/|/component-browser/build/|/coverage/|qunit-1.10.0.js' | xargs ./node_modules/.bin/jshint"
