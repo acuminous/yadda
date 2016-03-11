@@ -2,14 +2,16 @@
 /* global describe, it, afterEach */
 "use strict";
 
-var fs = require('fs');
-var path = require('path');
+var fs = require('../lib/shims').fs,
+    proc = require('../lib/shims').process;
+var path = require('../lib/shims').path;
 var assert = require("assert");
 var FeatureParser = require('../lib/index').parsers.FeatureParser;
 var Localisation = require('../lib/index').localisation;
 var Language = require('../lib/index').localisation.Language;
 var Pirate = require('../lib/index').localisation.Pirate;
 var English = require('../lib/index').localisation.English;
+
 
 describe('FeatureParser', function() {
 
@@ -551,6 +553,8 @@ describe('FeatureParser', function() {
     }
 
     function load(filename) {
+        //console.log(path.join(proc.cwd() || "", __dirname))
+        if (__dirname)
         return fs.readFileSync(path.join(__dirname, 'features', filename + '.feature'), 'utf8');
     }
 
