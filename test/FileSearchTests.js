@@ -2,7 +2,7 @@
 /* global describe, it */
 "use strict";
 
-var path = require('path');
+var path = require('../lib/shims').path;
 var assert = require('assert');
 var FileSearch = require('../lib/FileSearch');
 var $ = require('../lib/Array');
