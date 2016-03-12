@@ -553,8 +553,6 @@ describe('FeatureParser', function() {
     }
 
     function load(filename) {
-        //console.log(path.join(proc.cwd() || "", __dirname))
-        if (__dirname)
         return fs.readFileSync(path.join(__dirname, 'features', filename + '.feature'), 'utf8');
     }
 
