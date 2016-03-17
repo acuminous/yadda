@@ -2,9 +2,9 @@
 /* global describe, it */
 "use strict";
 
-var assert = require("assert"),
-    path = require("../../lib/shims").path,
-    proc = require("../../lib/shims").process;
+var assert = require("assert");
+var path = require("../../lib/shims").path;
+var proc = require("../../lib/shims").process;
 
 describe("Path", function () {
 
