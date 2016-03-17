@@ -1,5 +1,9 @@
 # Release Notes
 
+## Yadda 0.17.2
+- Karma support courtesy of [inf3rno](https://github.com/inf3rno). Thanks very much.
+- Removed NODE_ENV=test which caused failures on windows.
+
 ## Yadda 0.17.1
 - Chinese Localisation - thanks [snowyu](https://github.com/snowyu).
 

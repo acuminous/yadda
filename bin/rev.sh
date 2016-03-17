@@ -11,6 +11,7 @@ fi
 
 npm run jshint
 npm test
+npm run karma
 
 sed -i '' -E "s/\"version\": \"$VERSION_PATTERN\"/\"version\": \"$VERSION\"/" package.json
 sed -i '' -E "s/\"version\": \"$VERSION_PATTERN\"/\"version\": \"$VERSION\"/" component.json
