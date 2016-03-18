@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.17.4
+- Fixing a typo
+
 ## Yadda 0.17.3
 - Configurable placeholder characters used in example tables. Requested in [#203](https://github.com/acuminous/yadda/issues/203)
 
