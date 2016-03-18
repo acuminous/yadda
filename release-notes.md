@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.17.3
+- Configurable placeholder characters used in example tables. Requested in [#203](https://github.com/acuminous/yadda/issues/203)
+
 ## Yadda 0.17.2
 - Karma support courtesy of [inf3rno](https://github.com/inf3rno). Thanks very much.
 - Removed NODE_ENV=test which caused failures on windows.
