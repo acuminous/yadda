@@ -13,7 +13,7 @@ var Pirate = require('../lib/index').localisation.Pirate;
 var English = require('../lib/index').localisation.English;
 
 
-describe('FeatureParser', function() {
+describe.only('FeatureParser', function() {
 
     afterEach(function() {
         Localisation.default = English;
@@ -297,6 +297,20 @@ describe('FeatureParser', function() {
             assert.equal(scenarios[1].steps[1], 'Step 2BB');
         });
 
+        it('should expand scenarios from example table with chevrons', function() {
+            var scenarios = parse_file('example_table/example_table_with_chevrons', {
+                leftPlaceholderChar: '<',
+                rightPlaceholderChar: '>'
+            }).scenarios;
+            assert.equal(scenarios.length, 2);
+            assert.equal(scenarios[0].title, 'First Scenario');
+            assert.equal(scenarios[0].steps[0], 'Step A11');
+            assert.equal(scenarios[0].steps[1], 'Step 1AA');
+            assert.equal(scenarios[1].title, 'Second Scenario');
+            assert.equal(scenarios[1].steps[0], 'Step B22');
+            assert.equal(scenarios[1].steps[1], 'Step 2BB');
+        });
+
         it('should expand scenarios from example table using \\u2506 separator', function() {
             var scenarios = parse_file('example_table/example_table_2506').scenarios;
             assert.equal(scenarios.length, 2);
@@ -484,6 +498,18 @@ describe('FeatureParser', function() {
             assert(scenarios[1].annotations.brig, 'Localised scenario was not marked as pending');
         });
 
+        it('should support multiple languages using the options object', function() {
+            var feature = parse_file('localisation/pirate_feature', { language: Pirate });
+            assert.equal(feature.title, 'Treasure Island');
+
+            var scenarios = feature.scenarios;
+            assert.equal(scenarios.length, 2);
+            assert.equal(scenarios[0].title, 'The Black Spot');
+            assert.deepEqual(scenarios[0].steps, ['Given A', 'When B', 'Then C']);
+
+            assert(scenarios[1].annotations.brig, 'Localised scenario was not marked as pending');
+        });
+
         it('should support changing the default language', function() {
             Localisation.default = Pirate;
             var feature = new FeatureParser().parse(load('localisation/pirate_feature'));
@@ -548,8 +574,8 @@ describe('FeatureParser', function() {
         });
     });
 
-    function parse_file(filename, language) {
-        return new FeatureParser(language).parse(load(filename));
+    function parse_file(filename, options) {
+        return new FeatureParser(options).parse(load(filename));
     }
 
     function load(filename) {
