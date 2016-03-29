@@ -13,7 +13,7 @@ var Pirate = require('../lib/index').localisation.Pirate;
 var English = require('../lib/index').localisation.English;
 
 
-describe.only('FeatureParser', function() {
+describe('FeatureParser', function() {
 
     afterEach(function() {
         Localisation.default = English;
