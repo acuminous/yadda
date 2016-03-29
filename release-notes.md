@@ -1,5 +1,10 @@
 # Release Notes
 
+## Yadda 0.17.5
+- Supports mixed async and sync - Thanks [chrisns](https://github.com/chrisns)
+- Steps can return promises - Thanks [chrisns](https://github.com/chrisns)
+- Stopped casper integration throwing an exception when path module could not be found
+
 ## Yadda 0.17.4
 - Fixing a typo
 
