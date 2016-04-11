@@ -47,7 +47,21 @@ describe('Interpreter', function() {
                 'This is ambiguous'
             ]);
         }, /Scenario cannot be interpreted\nThis is defined\nThis is undefined <-- Undefined Step\nThis is ambiguous <-- Ambiguous Step/);
+    });
 
+    it('should favour ambiguous steps from the same library as the previous step', function() {
+
+        var library1 = new Library()
+            .define('Library 1')
+            .define(/[Tt]his is ambiguous/);
+        var library2 = new Library()
+            .define('Library 2')
+            .define(/[tT]his is ambiguous/);
+
+        new Interpreter([library1, library2]).validate([
+            'Library 2',
+            'This is ambiguous'
+        ]);
     });
 
     it('should utilise macros from different libraries', function() {
