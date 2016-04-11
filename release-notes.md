@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.17.6
+- Fixing a bug where the interpreter wasn't favoring an ambiguous step from the same library as the previous step
+
 ## Yadda 0.17.5
 - Supports mixed async and sync - Thanks [chrisns](https://github.com/chrisns)
 - Steps can return promises - Thanks [chrisns](https://github.com/chrisns)
