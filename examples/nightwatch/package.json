@@ -1,0 +1,30 @@
+{
+  "name": "yadda-nightwatch-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "adblock-plus-crx": "^1.11.0",
+    "async": "^1.5.0",
+    "chalk": "^1.1.1",
+    "chromedriver": "2.20.0",
+    "debug": "^2.2.0",
+    "glob": "^6.0.1",
+    "lodash": "^3.10.1",
+    "moment": "^2.10.6",
+    "nightwatch": "^0.8.18",
+    "ramda": "^0.18.0",
+    "request": "^2.67.0",
+    "require-all": "^2.0.0",
+    "selenium-server-standalone-jar": "2.48.2",
+    "yadda": "^0.17.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "pkill -f selenium || true && nightwatch",
+    "jenkins": "node_modules/.bin/nightwatch --env jenkins",
+    "prepush": "npm test"
+  },
+  "author": "",
+  "license": "ISC"
+}

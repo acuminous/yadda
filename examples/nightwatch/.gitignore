@@ -1,0 +1,7 @@
+node_modules
+*.log
+archive/logs/*
+archive/screenshots/*
+archive/reports/*
+!.gitkeep
+
