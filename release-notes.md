@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.17.7
+- [simonihmig](https://github.com/simonihmig) reported and fixed a bug with the step selection routines which caused different behaviour in chrome and phantom.
+
 ## Yadda 0.17.6
 - Fixing a bug where the interpreter wasn't favoring an ambiguous step from the same library as the previous step
 
