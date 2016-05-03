@@ -15,7 +15,7 @@ describe('MultiScore', function() {
             new SimpleScore(0)
         ]);
 
-        assert.ok(m1.beats(m2));
+        assert.ok(m1.compare(m2) > 0);
     });
 
     it('should return false when first sub score loses', function() {
@@ -26,7 +26,7 @@ describe('MultiScore', function() {
             new SimpleScore(1)
         ]);
 
-        assert.ok(!m1.beats(m2));
+        assert.ok(m1.compare(m2) < 0);
     });
 
     it('should ignore subsequent scores after a win', function() {
@@ -39,7 +39,7 @@ describe('MultiScore', function() {
             new SimpleScore(1)
         ]);
 
-        assert.ok(m1.beats(m2));
+        assert.ok(m1.compare(m2) > 0);
     });
 
     it('should ignore subsequent scores after a loss', function() {
@@ -52,7 +52,7 @@ describe('MultiScore', function() {
             new SimpleScore(0)
         ]);
 
-        assert.ok(!m1.beats(m2));
+        assert.ok(m1.compare(m2) < 0);
     });
 
     it('should return true when first sub score draws but second wins', function() {
@@ -65,7 +65,7 @@ describe('MultiScore', function() {
             new SimpleScore(0)
         ]);
 
-        assert.ok(m1.beats(m2));
+        assert.ok(m1.compare(m2) > 0);
     });
 
 
