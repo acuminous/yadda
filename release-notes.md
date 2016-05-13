@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.17.9
+- Registering in bower repo.
+
 ## Yadda 0.17.8
 - Adding the ability to report unused steps. See the report-unused-steps-example.
 
