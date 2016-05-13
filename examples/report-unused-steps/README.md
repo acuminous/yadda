@@ -1,7 +1,7 @@
 ```
 npm install
 npm link
-cd examples/mocha-async
+cd examples/report-unused-steps
 npm install
 npm test
 ```
