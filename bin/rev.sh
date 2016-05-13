@@ -15,6 +15,7 @@ npm run karma
 
 sed -i '' -E "s/\"version\": \"$VERSION_PATTERN\"/\"version\": \"$VERSION\"/" package.json
 sed -i '' -E "s/\"version\": \"$VERSION_PATTERN\"/\"version\": \"$VERSION\"/" component.json
+sed -i '' -E "s/\"version\": \"$VERSION_PATTERN\"/\"version\": \"$VERSION\"/" bower.json
 sed -i '' -E "s/The current version of Yadda is $VERSION_PATTERN/The current version of Yadda is $VERSION/" README.md
 sed -i '' -E "s/yadda-$VERSION_PATTERN.js/yadda-$VERSION.js/" README.md
 sed -i '' -E "s/Yadda $VERSION_PATTERN/Yadda $VERSION/" lib/Yadda.js
