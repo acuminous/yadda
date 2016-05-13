@@ -123,7 +123,7 @@ describe('Library', function() {
         assert.equal(library.find_compatible_macros('Then there are 99 green bottles left').length, 1);
     });
 
-     it('should expand multiline macro signature using specified dictionary', function() {
+    it('should expand multiline macro signature using specified dictionary', function() {
 
         var dictionary = new Dictionary()
             .define('text', /([^\u0000]*)/);
@@ -138,12 +138,10 @@ describe('Library', function() {
         assert.ok(!macro.can_interpret('Given another thing'));
     });
 
-
     function assert_localisation(library, statements, signature) {
         for (var i = 0; i < statements.length; i++) {
             assert.equal(library.find_compatible_macros(statements[i]).length, 1, statements[i]);
             assert.equal(library.find_compatible_macros(statements[i])[0].toString(), signature, statements[i]);
         }
     }
-
 });

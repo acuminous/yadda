@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.17.8
+- Adding the ability to report unused steps. See the report-unused-steps-example.
+
 ## Yadda 0.17.7
 - [simonihmig](https://github.com/simonihmig) reported and fixed a bug with the step selection routines which caused different behaviour in chrome and phantom.
 

@@ -60,8 +60,7 @@ describe('Macro', function() {
         });
     });
 
-
-    it('should notify listeners of macro events', function(done) {
+    it('should notify listeners of execute events', function(done) {
 
         var execution = new Execution();
         var args = [1, 2, 3, 'callback'];
@@ -82,7 +81,25 @@ describe('Macro', function() {
         done();
     });
 
-     it('should interpret a multiline', function() {
+    it('should notify listeners of define events', function(done) {
+
+        var execution = new Execution();
+        var args = [1, 2, 3, 'callback'];
+        var listener = new Listener();
+
+        EventBus.instance().on(/DEFINE/, listener.listen);
+
+        new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), fn.noop, {a: 1}).interpret("Easy as 1, 2, 3", {b: 2});
+
+        assert.equal(1, listener.events.length);
+
+        var event = listener.events[0];
+        assert.equal(event.name, EventBus.ON_DEFINE);
+        assert.equal(event.data.pattern, "/Easy as (\\d), (\\d), (\\d)/");
+        done();
+    });
+
+    it('should interpret a multiline', function() {
         var execution = new Execution();
         var args = [1, 2, 3, 'callback'];
 
