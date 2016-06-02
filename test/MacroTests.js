@@ -12,31 +12,65 @@ var fn = require('../lib/fn');
 
 describe('Macro', function() {
 
-    it('should interpret a line of text', function() {
+    it('should interpret a synchronous step synchronously', function() {
         var execution = new Execution();
-        var args = [1, 2, 3, 'callback'];
 
-        new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.code, {a: 1}).interpret("Easy as 1, 2, 3", new Context({b: 2}), fn.noop);
+        new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.fn, {a: 1}).interpret("Easy as 1, 2, 3", new Context({b: 2}))
 
-        assert.ok(execution.executed, "The step code was not run");
-        assert.deepEqual(execution.args.splice(0, 3), [1, 2, 3]);
+        assert.ok(execution.executed, "The step was not executed");
+        assert.equal(execution.args.length, 3);
+        assert.deepEqual(execution.args, [1, 2, 3]);
         assert.deepEqual(execution.ctx, {a: 1, b: 2, step: 'Easy as 1, 2, 3'});
+    });
+
+    it('should interpret a synchronous step asynchronously', function(done) {
+        var execution = new Execution();
+
+        new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.fn, {a: 1}).interpret("Easy as 1, 2, 3", new Context({b: 2}), function() {
+            assert.ok(execution.executed, "The step was not executed");
+            assert.equal(execution.args.length, 3);
+            assert.deepEqual(execution.args, [1, 2, 3]);
+            assert.deepEqual(execution.ctx, {a: 1, b: 2, step: 'Easy as 1, 2, 3'});
+            done()
+        });
+    });
+
+    it('should interpret an asynchronous step', function(done) {
+        var execution = new Execution();
+
+        new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.afn, {a: 1}).interpret("Easy as 1, 2, 3", new Context({b: 2}), function() {
+            assert.ok(execution.executed, "The step was not executed");
+            assert.equal(execution.args.length, 4);
+            assert.deepEqual(execution.args.splice(0, 3), [1, 2, 3]);
+            assert.deepEqual(execution.ctx, {a: 1, b: 2, step: 'Easy as 1, 2, 3'});
+            done()
+        });
+    });
+
+    it('should execute a promisified step', function(done) {
+        var execution = new Execution();
+
+        new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.promise, {a: 1}).interpret("Easy as 1, 2, 3", new Context({b: 2}), function() {
+            assert.ok(execution.executed, "The step was not executed");
+            assert.equal(execution.args.length, 3);
+            assert.deepEqual(execution.args, [1, 2, 3]);
+            assert.deepEqual(execution.ctx, {a: 1, b: 2, step: 'Easy as 1, 2, 3'});
+            done()
+        });
     });
 
     it('should include step name in the context', function() {
         var execution = new Execution();
-        var args = [1, 2, 3, 'callback'];
 
-        new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.code, {a: 1}).interpret("Easy as 1, 2, 3", new Context({b: 2}), fn.noop);
+        new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.fn, {a: 1}).interpret("Easy as 1, 2, 3", new Context({b: 2}), fn.noop);
 
         assert.equal(execution.ctx.step, 'Easy as 1, 2, 3');
     });
 
     it('should not override step name in the context if explicitly set', function() {
         var execution = new Execution();
-        var args = [1, 2, 3, 'callback'];
 
-        new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.code, {a: 1}).interpret("Easy as 1, 2, 3", new Context({b: 2, step: 'Do not override'}), fn.noop);
+        new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.fn, {a: 1}).interpret("Easy as 1, 2, 3", new Context({b: 2, step: 'Do not override'}), fn.noop);
 
         assert.equal(execution.ctx.step, 'Do not override');
     });
@@ -103,9 +137,9 @@ describe('Macro', function() {
         var execution = new Execution();
         var args = [1, 2, 3, 'callback'];
 
-        new Macro('Easy', parsed_signature(/Easy as ([^\u0000]*)/), execution.code, {a: 1}).interpret("Easy as 1\n2\n3", new Context({b: 2}), fn.noop);
+        new Macro('Easy', parsed_signature(/Easy as ([^\u0000]*)/), execution.fn, {a: 1}).interpret("Easy as 1\n2\n3", new Context({b: 2}), fn.noop);
 
-        assert.ok(execution.executed, "The step code was not run");
+        assert.ok(execution.executed, "The step was not executed");
         assert.deepEqual(execution.args.splice(0, 1), ["1\n2\n3"]);
         assert.deepEqual(execution.ctx, {a: 1, b: 2, step: 'Easy as 1\n2\n3'});
     });
@@ -117,9 +151,9 @@ describe('Macro', function() {
             function(value, cb) { cb(null, value * 2); },
             function(value, cb) { cb(null, value * 3); },
             function(value, cb) { cb(null, value * 4); }
-        ]}, execution.code, {a: 1}).interpret("Easy as 1, 2, 3", fn.noop);
+        ]}, execution.fn, {a: 1}).interpret("Easy as 1, 2, 3", fn.noop);
 
-        assert.ok(execution.executed, "The step code was not run");
+        assert.ok(execution.executed, "The step was not executed");
         assert.deepEqual(execution.args.splice(0, 3), [2, 6, 12]);
     });
 
@@ -130,9 +164,9 @@ describe('Macro', function() {
             function(value, cb) { cb(null, value * 2); },
             function(value1, value2, cb) { cb(null, parseInt(value1) + parseInt(value2)); },
             function(value, cb) { cb(null, value * 3); }
-        ]}, execution.code, {a: 1}).interpret("Easy as 1, 2, 3, 4", fn.noop);
+        ]}, execution.fn, {a: 1}).interpret("Easy as 1, 2, 3, 4", fn.noop);
 
-        assert.ok(execution.executed, "The step code was not run");
+        assert.ok(execution.executed, "The step was not executed");
         assert.deepEqual(execution.args.splice(0, 3), [2, 5, 12]);
      });
 
@@ -148,11 +182,25 @@ describe('Macro', function() {
         this.ctx = undefined;
         var _this = this;
 
-        this.code = function() {
+        this.fn = function(a, b, c) {
             _this.executed = true;
             _this.captureArguments(arguments);
             _this.ctx = this;
         };
+        this.afn = function(a, b, c, next) {
+            _this.executed = true;
+            _this.captureArguments(arguments);
+            _this.ctx = this;
+            next();
+        };
+        this.promise = function(a, b, c) {
+            _this.executed = true;
+            _this.captureArguments(arguments);
+            _this.ctx = this;
+            return { then: function(cb) {
+                cb()
+            }}
+        }
         this.captureArguments = function(args) {
             _this.args = this.toArray(args);
         };
