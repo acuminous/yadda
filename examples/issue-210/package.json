@@ -1,0 +1,18 @@
+{
+  "name": "yadda-mocha-async-thenable-example",
+  "version": "0.0.0",
+  "dependencies": {
+    "bluebird": "^3.4.0",
+    "mocha": "~1.16.2",
+    "pg-promise": "^4.3.8"
+  },
+  "scripts": {
+    "preinstall": "npm --loglevel error link yadda",
+    "test": "node bin/example.js"
+  },
+  "author": "Chris Nesbitt-Smith",
+  "license": "Apache2",
+  "devDependencies": {
+    "mocha": "^1.16.2"
+  }
+}
