@@ -46,8 +46,8 @@ glob.sync("tests/features/**/*.spec").forEach(function(file) {
 })
 
 function describe(subject, next) {
-    if (subject.annotations && subject.annotations.pending) return GLOBAL.describe.skip(subject.title, next)
-    if (subject.annotations && subject.annotations.only) return GLOBAL.describe.only(subject.title, next)
-    GLOBAL.describe(subject.title, next)
+    if (subject.annotations && subject.annotations.pending) return global.describe.skip(subject.title, next)
+    if (subject.annotations && subject.annotations.only) return global.describe.only(subject.title, next)
+    global.describe(subject.title, next)
 }
 
