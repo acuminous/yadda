@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.17.10
+- GLOBAL is dead. Long live global. Fixes [#215](https://github.com/acuminous/yadda/issues/215)
+
 ## Yadda 0.17.9
 - Registering in bower repo.
 
