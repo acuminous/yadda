@@ -65,7 +65,7 @@ describe('Macro', function() {
         });
     });
 
-    it.only('should fail when too few step arguments for asynchronous steps', function(done) {
+    it('should fail when too few step arguments for asynchronous steps', function(done) {
         var execution = new Execution();
 
         assert.throws(function() {
