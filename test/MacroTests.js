@@ -23,6 +23,24 @@ describe('Macro', function() {
         assert.deepEqual(execution.ctx, {a: 1, b: 2, step: 'Easy as 1, 2, 3'});
     });
 
+    it('should tolerate too many step arguments for synchronous steps', function() {
+        var execution = new Execution();
+
+        new Macro('Easy', parsed_signature(/Easy as 1, 2, 3/), execution.fn, {a: 1}).interpret("Easy as 1, 2, 3", new Context({b: 2}))
+
+        assert.ok(execution.executed, "The step was not executed");
+        assert.equal(execution.args.length, 0);
+    });
+
+    it('should tolerate too few step arguments for synchronous steps', function() {
+        var execution = new Execution();
+
+        new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d), (\d)/), execution.fn, {a: 1}).interpret("Easy as 1, 2, 3, 4", new Context({b: 2}))
+
+        assert.ok(execution.executed, "The step was not executed");
+        assert.equal(execution.args.length, 4);
+    });
+
     it('should interpret a synchronous step asynchronously', function(done) {
         var execution = new Execution();
 
@@ -45,6 +63,28 @@ describe('Macro', function() {
             assert.deepEqual(execution.ctx, {a: 1, b: 2, step: 'Easy as 1, 2, 3'});
             done()
         });
+    });
+
+    it.only('should fail when too few step arguments for asynchronous steps', function(done) {
+        var execution = new Execution();
+
+        assert.throws(function() {
+            new Macro('Easy', parsed_signature(/Easy as (\d), (\d), 3/), execution.afn, {a: 1}).interpret("Easy as 1, 2, 3", new Context({b: 2}), function() {
+                assert.ok(false, 'Should have failed')
+            });
+        }, /"callback" argument must be a function/)
+        done()
+    });
+
+    it('should fail when too many step arguments for asynchronous steps', function(done) {
+        var execution = new Execution();
+
+        assert.throws(function() {
+            new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d), (\d)/), execution.afn, {a: 1}).interpret("Easy as 1, 2, 3, 4", new Context({b: 2}), function() {
+                assert.ok(false, 'Should have failed')
+            });
+        }, /"callback" argument must be a function/)
+        done()
     });
 
     it('should execute a promisified step', function(done) {
@@ -191,7 +231,7 @@ describe('Macro', function() {
             _this.executed = true;
             _this.captureArguments(arguments);
             _this.ctx = this;
-            next();
+            setImmediate(next)
         };
         this.promise = function(a, b, c) {
             _this.executed = true;
