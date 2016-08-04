@@ -124,10 +124,10 @@ describe('Interpreter', function() {
     it('should support variadic asynchronous steps', function(done) {
 
         var counter = new Counter();
-        var library = new Library().define({ mode: 'async' }, ['Blah (blah)', 'Blah (blah) (blah)'], function() {
+        var library = new Library().define(['Blah (blah)', 'Blah (blah) (blah)'], function() {
             counter.count()
             arguments[arguments.length - 1]()
-        });
+        }, {}, { mode: 'async' });
 
         new Interpreter(library).interpret([
             'Blah blah',

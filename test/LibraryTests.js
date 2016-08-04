@@ -6,59 +6,48 @@ var assert = require('assert');
 var Library = require('../lib/index').Library;
 var English = require('../lib/index').localisation.English;
 var Dictionary = require('../lib/Dictionary');
+var fn = require('../lib/fn');
 
 describe('Library', function() {
 
     it('should hold String mapped macros', function() {
-        var library = new Library()
-            .define('foo');
-
+        var library = new Library().define('foo');
         assert.ok(library.get_macro('foo'), 'Macro should have been defined');
         assert.ok(library.get_macro(/foo/), 'Macro should have been defined');
     });
 
     it('should hold RegExp mapped macros', function() {
-        var library = new Library()
-            .define(/bar/);
-
+        var library = new Library().define(/bar/);
         assert.ok(library.get_macro(/bar/), 'Macro should have been defined');
         assert.ok(library.get_macro('bar'), 'Macro should have been defined');
     });
 
     it('should support aliased macros', function() {
-        var library = new Library()
-            .define([/bar/, /foo/]);
-
+        var library = new Library().define([/bar/, /foo/]);
         assert.ok(library.get_macro(/bar/), 'Macro should have been defined');
         assert.ok(library.get_macro(/foo/), 'Macro should have been defined');
     });
 
     it('should hold String mapped macros when options are specified', function() {
-        var library = new Library()
-            .define({ mode: 'async' }, 'foo');
-
+        var library = new Library().define('foo', fn.noop, {}, {});
         assert.ok(library.get_macro('foo'), 'Macro should have been defined');
         assert.ok(library.get_macro(/foo/), 'Macro should have been defined');
     });
 
     it('should hold RegExp mapped macros when options are specified', function() {
-        var library = new Library()
-            .define({ mode: 'async' }, /bar/);
+        var library = new Library().define(/bar/, fn.noop, {}, {} );
 
         assert.ok(library.get_macro(/bar/), 'Macro should have been defined');
         assert.ok(library.get_macro('bar'), 'Macro should have been defined');
     });
 
     it('should support aliased macros when options are specified', function() {
-        var library = new Library()
-            .define({ mode: 'async' }, [/bar/, /foo/]);
-
+        var library = new Library().define([/bar/, /foo/], {}, { mode: 'async' });
         assert.ok(library.get_macro(/bar/), 'Macro should have been defined');
         assert.ok(library.get_macro(/foo/), 'Macro should have been defined');
     });
 
     it('should expand macro signature using specified dictionary', function() {
-
         var dictionary = new Dictionary()
             .define('gender', '(male|female)')
             .define('speciality', '(cardiovascular|elderly care)');
