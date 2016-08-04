@@ -126,7 +126,6 @@ describe('Interpreter', function() {
         var counter = new Counter();
         var library = new Library().define({ mode: 'async' }, ['Blah (blah)', 'Blah (blah) (blah)'], function() {
             counter.count()
-            console.log(arguments)
             arguments[arguments.length - 1]()
         });
 
