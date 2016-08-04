@@ -68,23 +68,21 @@ describe('Macro', function() {
     it('should fail when too few step arguments for asynchronous steps', function(done) {
         var execution = new Execution();
 
-        assert.throws(function() {
-            new Macro('Easy', parsed_signature(/Easy as (\d), (\d), 3/), execution.afn, {a: 1}).interpret("Easy as 1, 2, 3", new Context({b: 2}), function() {
-                assert.ok(false, 'Should have failed')
-            });
-        }, /"callback" argument must be a function/)
-        done()
+        new Macro('Easy', parsed_signature(/Easy as (\d), (\d), 3/), execution.afn, {a: 1}).interpret("Easy as 1, 2, 3", new Context({b: 2}), function(err) {
+            assert.ok(err)
+            assert.equal(err.message, '"callback" argument must be a function')
+            done()
+        });
     });
 
     it('should fail when too many step arguments for asynchronous steps', function(done) {
         var execution = new Execution();
 
-        assert.throws(function() {
-            new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d), (\d)/), execution.afn, {a: 1}).interpret("Easy as 1, 2, 3, 4", new Context({b: 2}), function() {
-                assert.ok(false, 'Should have failed')
-            });
-        }, /"callback" argument must be a function/)
-        done()
+        new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d), (\d)/), execution.afn, {a: 1}).interpret("Easy as 1, 2, 3, 4", new Context({b: 2}), function(err) {
+            assert.ok(err)
+            assert.equal(err.message, '"callback" argument must be a function')
+            done()
+        });
     });
 
     it('should support variadic async functions', function(done) {
