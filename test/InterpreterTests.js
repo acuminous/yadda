@@ -121,6 +121,24 @@ describe('Interpreter', function() {
         });
     });
 
+    it('should support variadic asynchronous steps', function(done) {
+
+        var counter = new Counter();
+        var library = new Library().define({ mode: 'async' }, ['Blah (blah)', 'Blah (blah) (blah)'], function() {
+            counter.count()
+            console.log(arguments)
+            arguments[arguments.length - 1]()
+        });
+
+        new Interpreter(library).interpret([
+            'Blah blah',
+            'Blah blah blah'
+        ], {}, function() {
+            assert.equal(counter.total(), 2);
+            done();
+        });
+    });
+
     it('should bind the context to the macro', function(done) {
 
         var context = new Context({foo: 'bar'});

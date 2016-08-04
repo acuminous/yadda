@@ -33,6 +33,30 @@ describe('Library', function() {
         assert.ok(library.get_macro(/foo/), 'Macro should have been defined');
     });
 
+    it('should hold String mapped macros when options are specified', function() {
+        var library = new Library()
+            .define({ mode: 'async' }, 'foo');
+
+        assert.ok(library.get_macro('foo'), 'Macro should have been defined');
+        assert.ok(library.get_macro(/foo/), 'Macro should have been defined');
+    });
+
+    it('should hold RegExp mapped macros when options are specified', function() {
+        var library = new Library()
+            .define({ mode: 'async' }, /bar/);
+
+        assert.ok(library.get_macro(/bar/), 'Macro should have been defined');
+        assert.ok(library.get_macro('bar'), 'Macro should have been defined');
+    });
+
+    it('should support aliased macros when options are specified', function() {
+        var library = new Library()
+            .define({ mode: 'async' }, [/bar/, /foo/]);
+
+        assert.ok(library.get_macro(/bar/), 'Macro should have been defined');
+        assert.ok(library.get_macro(/foo/), 'Macro should have been defined');
+    });
+
     it('should expand macro signature using specified dictionary', function() {
 
         var dictionary = new Dictionary()

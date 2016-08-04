@@ -87,6 +87,18 @@ describe('Macro', function() {
         done()
     });
 
+    it('should support variadic async functions', function(done) {
+        var execution = new Execution();
+
+        new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d), (\d)/), execution.vafn, {a: 1}, undefined, { mode: 'async' }).interpret("Easy as 1, 2, 3, 4", new Context({b: 2}), function() {
+            assert.ok(execution.executed, "The step was not executed");
+            assert.equal(execution.args.length, 5);
+            assert.deepEqual(execution.args.splice(0, 4), [1, 2, 3, 4]);
+            assert.deepEqual(execution.ctx, {a: 1, b: 2, step: 'Easy as 1, 2, 3, 4'});
+            done()
+        });
+    });
+
     it('should execute a promisified step', function(done) {
         var execution = new Execution();
 
@@ -232,6 +244,12 @@ describe('Macro', function() {
             _this.captureArguments(arguments);
             _this.ctx = this;
             setImmediate(next)
+        };
+        this.vafn = function() {
+            _this.executed = true;
+            _this.captureArguments(arguments);
+            _this.ctx = this;
+            setImmediate(arguments[arguments.length - 1])
         };
         this.promise = function(a, b, c) {
             _this.executed = true;
