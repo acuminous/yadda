@@ -45,13 +45,16 @@ describe('Yadda', function() {
         })
     });
 
-    it('should interpret asynchronous returning scenarios', function(done) {
+    it('should interpret asynchronous returning promises', function(done) {
         var executions = 0;
         var library = new Library().define('foo', function() {
             executions++;
             return {
-                then: function(callback) {
-                    callback();
+                then: function(cb) {
+                    cb();
+                    return {
+                        catch: function() {}
+                    }
                 }
             }
         });
@@ -62,13 +65,16 @@ describe('Yadda', function() {
         });
     });
 
-    it('should interpret asynchronous returning scenarios', function(done) {
+    it('should interpret asynchronous returning promises', function(done) {
         var executions = 0;
         var library = new Library().define('foo', function() {
             executions++;
             return {
-                then: function(callback) {
-                    callback();
+                then: function(cb) {
+                    cb();
+                    return {
+                        catch: function() {}
+                    }
                 }
             }
         });

@@ -255,8 +255,13 @@ describe('Macro', function() {
             _this.ctx = this;
             return { then: function(cb) {
                 cb()
+                return {
+                    catch: function(cb) {
+                        _this.caught = true
+                    }
+                }
             }}
-        }
+        };
         this.captureArguments = function(args) {
             _this.args = this.toArray(args);
         };
