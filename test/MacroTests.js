@@ -70,7 +70,7 @@ describe('Macro', function() {
 
         new Macro('Easy', parsed_signature(/Easy as (\d), (\d), 3/), execution.afn, {a: 1}).interpret("Easy as 1, 2, 3", new Context({b: 2}), function(err) {
             assert.ok(err)
-            assert.equal(err.message, '"callback" argument must be a function')
+            assert.ok(/is not a function/.test(err.message))
             done()
         });
     });
@@ -80,7 +80,7 @@ describe('Macro', function() {
 
         new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d), (\d)/), execution.afn, {a: 1}).interpret("Easy as 1, 2, 3, 4", new Context({b: 2}), function(err) {
             assert.ok(err)
-            assert.equal(err.message, '"callback" argument must be a function')
+            assert.ok(/is not a function/.test(err.message))
             done()
         });
     });
@@ -241,13 +241,13 @@ describe('Macro', function() {
             _this.executed = true;
             _this.captureArguments(arguments);
             _this.ctx = this;
-            setImmediate(next)
+            next();
         };
         this.vafn = function() {
             _this.executed = true;
             _this.captureArguments(arguments);
             _this.ctx = this;
-            setImmediate(arguments[arguments.length - 1])
+            arguments[arguments.length - 1]();
         };
         this.promise = function(a, b, c) {
             _this.executed = true;
