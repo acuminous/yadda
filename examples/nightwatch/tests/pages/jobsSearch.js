@@ -31,7 +31,7 @@ module.exports = {
                 var self = this
                 self.waitForElementVisible('@jobListing')
                 return self.api.elements('css selector', '.t-job', function(result) {
-                    self.assert.equal(result.value.length, count)
+                    self.assert.ok(result.value.length >= count)
                 })
             }
         },

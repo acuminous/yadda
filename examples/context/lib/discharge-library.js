@@ -23,7 +23,7 @@ module.exports = (function() {
             var patient = this.ctx.patient;
             patient.discharge.requirements = requirements;
             next();
-        });
+        }, {}, { mode: 'async' });
 
     function toTime(day, time) {
         var offset = day == 'today' ? 0 : ONE_DAY_IN_MILLIS;

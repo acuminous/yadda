@@ -15,7 +15,7 @@ module.exports = (function() {
         .then('I should be shown the search results page', function() {
             this.browser.page.jobsSearch().assertSearchResults()
         })
-        .define('containing a list of $count jobs', function(count) {
+        .define('containing a list of at least $count jobs', function(count) {
             this.browser.page.jobsSearch().assertVisibleJobsCount(count)
         })
         .then('be informed that there are no results', function() {
