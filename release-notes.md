@@ -1,5 +1,9 @@
 # Release Notes
 
+## Yadda 0.18.0
+- Closes #217 (using catch with promises)
+- Closes #216 (improves step sync/async detection)
+
 ## Yadda 0.17.10
 - GLOBAL is dead. Long live global. Fixes [#215](https://github.com/acuminous/yadda/issues/215)
 
