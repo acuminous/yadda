@@ -727,18 +727,19 @@ var Library = function(dictionary) {
     /* jslint shadow: true */
     var dictionary = dictionary || new Dictionary();
     var macros = $();
+    var slice = Array.prototype.slice;
     var _this = this;
 
-    this.define = function(signatures, fn, macro_context) {
+    this.define = function(signatures, fn, macro_context, options) {
         $(signatures).each(function(signature) {
-            define_macro(signature, fn, macro_context);
+            define_macro(signature, fn, macro_context, options);
         });
         return this;
     };
 
-    var define_macro = function(signature, fn, macro_context) {
+    var define_macro = function(signature, fn, macro_context, options) {
         if (_this.get_macro(signature)) throw new Error('Duplicate macro: [' + signature + ']');
-        macros.push(new Macro(signature, dictionary.expand(signature), fn, macro_context, _this));
+        macros.push(new Macro(signature, dictionary.expand(signature), fn, macro_context, _this, options));
     };
 
     this.get_macro = function(signature) {
@@ -783,13 +784,14 @@ var RegularExpression = require('./RegularExpression');
 var EventBus = require('./EventBus');
 
 // Understands how to invoke a step
-var Macro = function(signature, parsed_signature, macro, macro_context, library) {
+var Macro = function(signature, parsed_signature, macro, macro_context, library, options) {
 
     /* jslint shadow: true */
     var signature = normalise(signature);
     var signature_pattern = new RegularExpression(parsed_signature.pattern);
     var macro = macro || fn.async_noop;
     var event_bus = EventBus.instance();
+    var options = options || {};
 
     this.library = library;
 
@@ -806,11 +808,14 @@ var Macro = function(signature, parsed_signature, macro, macro_context, library)
         convert(signature_pattern.groups(step), function(err, args) {
             if (err) return next(err);
             event_bus.send(EventBus.ON_EXECUTE, { step: step, ctx: context.properties, pattern: signature_pattern.toString(), args: args });
-            var result = fn.invoke(macro, context.properties, args.concat(next));
-            if (is_promise(result)) return result.then(function() {
-                next();
-            });
-            if (is_async(args, next)) return next();
+            var result
+            try {
+                result = fn.invoke(macro, context.properties, is_sync(args) ? args : args.concat(next));
+            } catch (err) {
+                return next && next(err)
+            }
+            if (is_promise(result)) return result.then(fn.noargs(next)).catch(next);
+            if (is_sync(args)) return next && next();
         });
     };
 
@@ -831,11 +836,13 @@ var Macro = function(signature, parsed_signature, macro, macro_context, library)
     };
 
     function is_promise(result) {
+        if (options.mode) return options.mode === 'promise';
         return result && result.then;
     }
 
-    function is_async(args, next) {
-        return macro.length === args.length && next;
+    function is_sync(args) {
+        if (options.mode) return options.mode === 'sync';
+        return macro !== fn.async_noop && macro.length !== args.length + 1;
     }
 
     function normalise(signature) {
@@ -1370,6 +1377,12 @@ module.exports = (function() {
 
     function noop() {}
 
+    function noargs(fn) {
+        return function() {
+            return fn()
+        }
+    }
+
     function asynchronize(ctx, fn) {
         return function() {
             var next = slice.call(arguments, arguments.length - 1)[0];
@@ -1381,6 +1394,7 @@ module.exports = (function() {
 
     return {
         noop: noop,
+        noargs: noargs,
         async_noop: asynchronize(null, noop),
         asynchronize: asynchronize,
         is_function: is_function,
