@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.19.0
+- Removed dist from npm package
+
 ## Yadda 0.18.0
 - Closes #217 (using catch with promises)
 - Closes #216 (improves step sync/async detection)
