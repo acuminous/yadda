@@ -1,6 +1,6 @@
 {
   "name": "yadda",
-  "version": "0.19.0",
+  "version": "0.20.0",
   "homepage": "https://github.com/acuminous/yadda",
   "description": "A true BDD framework for JavaScript",
   "main": "lib/index.js",
