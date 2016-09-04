@@ -1,6 +1,6 @@
 {
   "name": "yadda",
-  "version": "0.18.0",
+  "version": "0.19.0",
   "description": "A true BDD framework for JavaScript",
   "main": "./lib/index.js",
   "devDependencies": {
