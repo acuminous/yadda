@@ -1,5 +1,8 @@
 # Release Notes
 
+## Yadda 0.20.0
+- Working around [this](https://github.com/mochajs/mocha/issues/2465) issue with mocha 3.
+
 ## Yadda 0.19.0
 - Removed dist from npm package
 
