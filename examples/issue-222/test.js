@@ -32,7 +32,7 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
         var yadda = Yadda.createInstance(library);
 
         scenarios(feature.scenarios, function(scenario) {
-            steps(scenario.steps, function(step, done) {
+            steps([...flatten(scenario.steps)], function(step, done) {
                 yadda.run(step, done);
             });
         });
