@@ -1,0 +1,55 @@
+
+> yadda-mocha-issue-222@0.0.0 test /Users/steve/Development/acuminous/yadda/examples/issue-222
+> node bin/example.js
+
+
+
+  Mocha Asynchronous Example
+    A bottle falls from the wall
+      ✓ Given a 6 foot wall
+      ✓ Given 100 green bottles are standing on the wall
+      ✓ when 1 green bottle accidentally falls
+      1) then there are 99 green bottles standing on the wall
+
+
+  3 passing (26ms)
+  1 failing
+
+  1) Mocha Asynchronous Example A bottle falls from the wall then there are 99 green bottles standing on the wall:
+
+      AssertionError: 1 == 2
+      + expected - actual
+
+      -1
+      +2
+      
+      at Object.<anonymous> (bottles-library.js:31:16)
+      at Object.invoke (/Users/steve/Development/acuminous/yadda/lib/fn.js:32:19)
+      at /Users/steve/Development/acuminous/yadda/lib/Macro.js:53:29
+      at /Users/steve/Development/acuminous/yadda/lib/Array.js:102:13
+      at /Users/steve/Development/acuminous/yadda/lib/Array.js:77:53
+      at /Users/steve/Development/acuminous/yadda/lib/Array.js:98:17
+      at pass_through_converter (/Users/steve/Development/acuminous/yadda/lib/converters/pass-through-converter.js:21:12)
+      at /Users/steve/Development/acuminous/yadda/lib/Macro.js:96:27
+      at /Users/steve/Development/acuminous/yadda/lib/Macro.js:99:20
+      at /Users/steve/Development/acuminous/yadda/lib/Array.js:95:13
+      at iterate (/Users/steve/Development/acuminous/yadda/lib/Array.js:75:13)
+      at each_async (/Users/steve/Development/acuminous/yadda/lib/Array.js:81:9)
+      at Array.collect_async (/Users/steve/Development/acuminous/yadda/lib/Array.js:94:9)
+      at Array.collect_async (/Users/steve/Development/acuminous/yadda/lib/fn.js:27:23)
+      at convert (/Users/steve/Development/acuminous/yadda/lib/Macro.js:98:12)
+      at Macro.interpret (/Users/steve/Development/acuminous/yadda/lib/Macro.js:48:9)
+      at Interpreter.interpret_step (/Users/steve/Development/acuminous/yadda/lib/Interpreter.js:76:15)
+      at iterator (/Users/steve/Development/acuminous/yadda/lib/Interpreter.js:66:19)
+      at iterate (/Users/steve/Development/acuminous/yadda/lib/Array.js:75:13)
+      at Array.each_async (/Users/steve/Development/acuminous/yadda/lib/Array.js:81:9)
+      at Array.each_async (/Users/steve/Development/acuminous/yadda/lib/fn.js:27:23)
+      at Interpreter.interpret (/Users/steve/Development/acuminous/yadda/lib/Interpreter.js:61:21)
+      at Yadda.yadda (/Users/steve/Development/acuminous/yadda/lib/Yadda.js:41:26)
+      at Yadda.yadda (/Users/steve/Development/acuminous/yadda/lib/Yadda.js:39:85)
+      at test.js:36:23
+      at /Users/steve/Development/acuminous/yadda/lib/plugins/mocha/StepLevelPlugin.js:54:17
+      at Context.<anonymous> (/Users/steve/Development/acuminous/yadda/lib/plugins/mocha/BasePlugin.js:55:13)
+
+
+
