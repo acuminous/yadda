@@ -216,7 +216,7 @@ describe('Macro', function() {
 
         assert.ok(execution.executed, "The step was not executed");
         assert.deepEqual(execution.args.splice(0, 3), [2, 5, 12]);
-     });
+    });
 
     it('should convert parameters with multi-result converters', function() {
         var execution = new Execution();
@@ -229,7 +229,24 @@ describe('Macro', function() {
 
         assert.ok(execution.executed, "The step was not executed");
         assert.deepEqual(execution.args.splice(0, 5), [2, 2, 3, 2, 12]);
-     });
+    });
+
+    it('should yield errors when called asynchronously', function() {
+        new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), function(a, b, c, cb) {
+            throw new Error('Oh Noes!')
+        }).interpret("Easy as 1, 2, 3", {}, function(err) {
+            assert.ok(err)
+            assert.equal(err.message, 'Oh Noes!')
+        })
+    });
+
+    it('should throw errors when called synchronously', function() {
+        assert.throws(function() {
+            new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), function(a, b, c) {
+                throw new Error('Oh Noes!')
+            }).interpret("Easy as 1, 2, 3", {})
+        }, /Oh Noes!/)
+    });
 
     function parsed_signature(pattern) {
         return new Dictionary().define('foo', pattern).expand('$foo');

@@ -183,7 +183,7 @@ describe('Interpreter', function() {
             throw new Error('Oh Noes!')
         });
 
-        new Interpreter(library).interpret('Blah blah blah', function(err) {
+        new Interpreter(library).interpret('Blah blah blah', {}, function(err) {
             assert.ok(err)
             assert.equal(err.message, 'Oh Noes!')
         });
