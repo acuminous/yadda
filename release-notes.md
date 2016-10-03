@@ -1,5 +1,11 @@
 # Release Notes
 
+## Yadda 0.22.0
+- Fixes [bug](https://github.com/acuminous/yadda/issues/223) where errors thrown by synchronous steps were swallowed.
+
+## Yadda 0.21.0
+- Converters can yield multiple values
+
 ## Yadda 0.20.0
 - Working around [this](https://github.com/mochajs/mocha/issues/2465) issue with mocha 3.
 
