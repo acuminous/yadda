@@ -7,7 +7,7 @@
     "adblock-plus-crx": "^1.11.0",
     "async": "^1.5.0",
     "chalk": "^1.1.1",
-    "chromedriver": "2.20.0",
+    "chromedriver": "^2.24.1",
     "debug": "^2.2.0",
     "glob": "^6.0.1",
     "lodash": "^3.10.1",

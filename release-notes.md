@@ -1,5 +1,9 @@
 # Release Notes
 
+## Yadda 0.22.1
+- Fixes [bug](https://github.com/acuminous/yadda/issues/#225) where errors returned by steps in jasmine were swallowed.
+- Removed webdriver examples (webdriver.js is not longer maintained)
+
 ## Yadda 0.22.0
 - Fixes [bug](https://github.com/acuminous/yadda/issues/223) where errors thrown by synchronous steps were swallowed.
 
