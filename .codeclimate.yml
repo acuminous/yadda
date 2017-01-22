@@ -7,8 +7,9 @@ engines:
       languages:
       - javascript
     exclude-paths:
-    - examples/**
+    - bin/**
     - dist/**
+    - examples/**
 
 ratings:
   paths:
