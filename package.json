@@ -20,7 +20,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha --recursive --reporter spec test",
+    "test": "mocha",
     "karma": "karma start karma.conf.js",
     "istanbul": "istanbul cover _mocha -- -u exports --reporter spec",
     "examples": "node bin/examples.js",
