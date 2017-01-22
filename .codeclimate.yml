@@ -6,6 +6,9 @@ engines:
     config:
       languages:
       - javascript
+    exclude-paths:
+    - examples/**
+    - dist/**
 
 ratings:
   paths:
