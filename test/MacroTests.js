@@ -15,7 +15,7 @@ describe('Macro', function() {
     it('should interpret a synchronous step synchronously', function() {
         var execution = new Execution();
 
-        new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.fn, {a: 1}).interpret("Easy as 1, 2, 3", new Context({b: 2}))
+        new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.fn, {a: 1}).interpret("Easy as 1, 2, 3", new Context({b: 2}));
 
         assert.ok(execution.executed, "The step was not executed");
         assert.equal(execution.args.length, 3);
@@ -26,7 +26,7 @@ describe('Macro', function() {
     it('should tolerate too many step arguments for synchronous steps', function() {
         var execution = new Execution();
 
-        new Macro('Easy', parsed_signature(/Easy as 1, 2, 3/), execution.fn, {a: 1}).interpret("Easy as 1, 2, 3", new Context({b: 2}))
+        new Macro('Easy', parsed_signature(/Easy as 1, 2, 3/), execution.fn, {a: 1}).interpret("Easy as 1, 2, 3", new Context({b: 2}));
 
         assert.ok(execution.executed, "The step was not executed");
         assert.equal(execution.args.length, 0);
@@ -35,7 +35,7 @@ describe('Macro', function() {
     it('should tolerate too few step arguments for synchronous steps', function() {
         var execution = new Execution();
 
-        new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d), (\d)/), execution.fn, {a: 1}).interpret("Easy as 1, 2, 3, 4", new Context({b: 2}))
+        new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d), (\d)/), execution.fn, {a: 1}).interpret("Easy as 1, 2, 3, 4", new Context({b: 2}));
 
         assert.ok(execution.executed, "The step was not executed");
         assert.equal(execution.args.length, 4);
@@ -49,7 +49,7 @@ describe('Macro', function() {
             assert.equal(execution.args.length, 3);
             assert.deepEqual(execution.args, [1, 2, 3]);
             assert.deepEqual(execution.ctx, {a: 1, b: 2, step: 'Easy as 1, 2, 3'});
-            done()
+            done();
         });
     });
 
@@ -61,7 +61,7 @@ describe('Macro', function() {
             assert.equal(execution.args.length, 4);
             assert.deepEqual(execution.args.splice(0, 3), [1, 2, 3]);
             assert.deepEqual(execution.ctx, {a: 1, b: 2, step: 'Easy as 1, 2, 3'});
-            done()
+            done();
         });
     });
 
@@ -69,8 +69,8 @@ describe('Macro', function() {
         var execution = new Execution();
 
         new Macro('Easy', parsed_signature(/Easy as (\d), (\d), 3/), execution.afn, {a: 1}).interpret("Easy as 1, 2, 3", new Context({b: 2}), function(err) {
-            assert.ok(err)
-            done()
+            assert.ok(err);
+            done();
         });
     });
 
@@ -78,8 +78,8 @@ describe('Macro', function() {
         var execution = new Execution();
 
         new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d), (\d)/), execution.afn, {a: 1}).interpret("Easy as 1, 2, 3, 4", new Context({b: 2}), function(err) {
-            assert.ok(err)
-            done()
+            assert.ok(err);
+            done();
         });
     });
 
@@ -91,7 +91,7 @@ describe('Macro', function() {
             assert.equal(execution.args.length, 5);
             assert.deepEqual(execution.args.splice(0, 4), [1, 2, 3, 4]);
             assert.deepEqual(execution.ctx, {a: 1, b: 2, step: 'Easy as 1, 2, 3, 4'});
-            done()
+            done();
         });
     });
 
@@ -103,7 +103,7 @@ describe('Macro', function() {
             assert.equal(execution.args.length, 3);
             assert.deepEqual(execution.args, [1, 2, 3]);
             assert.deepEqual(execution.ctx, {a: 1, b: 2, step: 'Easy as 1, 2, 3'});
-            done()
+            done();
         });
     });
 
@@ -233,19 +233,19 @@ describe('Macro', function() {
 
     it('should yield errors when called asynchronously', function() {
         new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), function(a, b, c, cb) {
-            throw new Error('Oh Noes!')
+            throw new Error('Oh Noes!');
         }).interpret("Easy as 1, 2, 3", {}, function(err) {
-            assert.ok(err)
-            assert.equal(err.message, 'Oh Noes!')
-        })
+            assert.ok(err);
+            assert.equal(err.message, 'Oh Noes!');
+        });
     });
 
     it('should throw errors when called synchronously', function() {
         assert.throws(function() {
             new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), function(a, b, c) {
-                throw new Error('Oh Noes!')
-            }).interpret("Easy as 1, 2, 3", {})
-        }, /Oh Noes!/)
+                throw new Error('Oh Noes!');
+            }).interpret("Easy as 1, 2, 3", {});
+        }, /Oh Noes!/);
     });
 
     function parsed_signature(pattern) {
@@ -282,13 +282,13 @@ describe('Macro', function() {
             _this.captureArguments(arguments);
             _this.ctx = this;
             return { then: function(cb) {
-                cb()
+                cb();
                 return {
                     catch: function(cb) {
-                        _this.caught = true
+                        _this.caught = true;
                     }
-                }
-            }}
+                };
+            }};
         };
         this.captureArguments = function(args) {
             _this.args = this.toArray(args);

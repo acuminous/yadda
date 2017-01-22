@@ -125,8 +125,8 @@ describe('Interpreter', function() {
 
         var counter = new Counter();
         var library = new Library().define(['Blah (blah)', 'Blah (blah) (blah)'], function() {
-            counter.count()
-            arguments[arguments.length - 1]()
+            counter.count();
+            arguments[arguments.length - 1]();
         }, {}, { mode: 'async' });
 
         new Interpreter(library).interpret([
@@ -180,12 +180,12 @@ describe('Interpreter', function() {
     it('should catch errors thrown by asynchronous steps where possible', function() {
         var counter = new Counter();
         var library = new Library().define('Blah blah blah', function(next) {
-            throw new Error('Oh Noes!')
+            throw new Error('Oh Noes!');
         });
 
         new Interpreter(library).interpret('Blah blah blah', {}, function(err) {
-            assert.ok(err)
-            assert.equal(err.message, 'Oh Noes!')
+            assert.ok(err);
+            assert.equal(err.message, 'Oh Noes!');
         });
     });
 

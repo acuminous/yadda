@@ -1,0 +1,13 @@
+engines:
+  jshint:
+    enabled: true
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - javascript
+
+ratings:
+  paths:
+  - index.js
+  - lib/**

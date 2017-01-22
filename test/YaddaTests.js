@@ -42,7 +42,7 @@ describe('Yadda', function() {
             assert.ifError(err);
             assert.equal(executions, 2);
             done();
-        })
+        });
     });
 
     it('should interpret asynchronous returning promises', function(done) {
@@ -54,9 +54,9 @@ describe('Yadda', function() {
                     cb();
                     return {
                         catch: function() {}
-                    }
+                    };
                 }
-            }
+            };
         });
         new Yadda(library).yadda('foo', function(err) {
             assert.ifError(err);
@@ -74,9 +74,9 @@ describe('Yadda', function() {
                     cb();
                     return {
                         catch: function() {}
-                    }
+                    };
                 }
-            }
+            };
         });
         new Yadda(library).yadda('foo', function(err) {
             assert.ifError(err);

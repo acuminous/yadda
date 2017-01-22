@@ -5,6 +5,8 @@
   "main": "./lib/index.js",
   "devDependencies": {
     "browserify": "10.2.6",
+    "codeclimate-test-reporter": "^0.4.0",
+    "husky": "^0.13.0",
     "istanbul": "^0.4.5",
     "jshint": "^2.9.4",
     "karma": "^0.13.22",
@@ -22,10 +24,11 @@
   "scripts": {
     "test": "mocha",
     "karma": "karma start karma.conf.js",
-    "istanbul": "istanbul cover _mocha -- -u exports --reporter spec",
+    "istanbul": "istanbul cover -x 'lib/plugins/**' -x 'lib/shims/**' -x 'lib/Platform.js' _mocha --report lcov --report html",
     "examples": "node bin/examples.js",
     "browserify": "node bin/browserify.js",
-    "jshint": "find . -name *.js | grep -vE 'karma.conf.js|/node_modules/|/dist/|/components/|/component-browser/build/|/coverage/|qunit-1.10.0.js' | xargs ./node_modules/.bin/jshint"
+    "jshint": "jshint .",
+    "prepush": "npm run jshint && npm test"
   },
   "repository": {
     "type": "git",
