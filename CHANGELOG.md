@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 - Tidy up
+- Configuring Code Climate
 
 ## [0.22.1]
 - Fixes [bug](https://github.com/acuminous/yadda/issues/#225) where errors returned by steps in jasmine were swallowed.
