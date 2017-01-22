@@ -5,12 +5,11 @@
   "dependencies": {
     "async": "~0.2.9",
     "casperjs": "git@github.com:n1k0/casperjs.git",
-    "phantomjs": "^1.9.19",
-    "process": "~0.5.1"
+    "phantomjs": "^1.9.19"
   },
   "scripts": {
     "preinstall": "npm --loglevel error link yadda",
-    "test": "node ./bin/example.js"
+    "test": "echo something is wrong with npm. Run manually with node ./bin/example.js"
   },
   "author": "Stephen Cresswell",
   "license": "Apache2"

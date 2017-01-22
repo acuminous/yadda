@@ -1,5 +1,4 @@
 # Yadda
-[Jasmine](https://jasmine.github.io/), [Mocha](http://mochajs.org/) and [Vows](http://vowsjs.org) can fall out of date and are a form of duplication.
 
 [![Gitter](https://badges.gitter.im/acuminous/yadda.svg)](https://gitter.im/acuminous/yadda?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![NPM version](https://img.shields.io/npm/v/yadda.svg?style=flat-square)](https://www.npmjs.com/package/yadda)
@@ -11,12 +10,12 @@
 [![Dependency Status](https://david-dm.org/acuminous/yadda.svg)](https://david-dm.org/acuminous/yadda)
 [![devDependencies Status](https://david-dm.org/acuminous/yadda/dev-status.svg)](https://david-dm.org/acuminous/yadda?type=dev)
 
-Yadda brings _true_ BDD to JavaScript frameworks such as [Jasmine](https://jasmine.github.io/), [Mocha](http://mochajs.org/), [QUnit](http://qunitjs.com), [Nodeunit](https://github.com/caolan/nodeunit), [WebdriverIO](http://webdriver.io/) and [CasperJS](http://casperjs.org). By _true_ BDD we mean that the ordinary language (e.g. English) steps are mapped to code, as opposed to simply decorating it. This is important because just like comments, the decorative steps such as those used by
+[Jasmine](https://jasmine.github.io/), [Mocha](http://mochajs.org/) and [Vows](http://vowsjs.org) can fall out of date and are a form of duplication. Yadda brings _true_ BDD to JavaScript frameworks such as [Jasmine](https://jasmine.github.io/), [Mocha](http://mochajs.org/), [QUnit](http://qunitjs.com), [Nodeunit](https://github.com/caolan/nodeunit), [WebdriverIO](http://webdriver.io/) and [CasperJS](http://casperjs.org). By _true_ BDD we mean that the ordinary language (e.g. English) steps are mapped to code, as opposed to simply decorating it. This is important because just like comments, the decorative steps such as those used by
 
 Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it maps the ordinary language steps to code. Not only are the steps less likely to go stale, but they also provide a valuable abstraction layer and encourage re-use. You could of course just use [CucumberJS](https://github.com/cucumber/cucumber-js), but we find Yadda less invasive and prefer it's flexible syntax to Gherkin's. Yadda's conflict resolution is smarter too.
 
 ## Latest Version
-The current version of Yadda is 0.22.1</br>
+The current version of Yadda is 0.22.2</br>
 There are breaking changes (steps default to async rather than synchronous when variadic arguments are used in steps). Please refer to the [Release Notes](./release-notes.md) for more details.
 
 ## Documentation

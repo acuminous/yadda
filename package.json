@@ -28,6 +28,7 @@
     "examples": "node bin/examples.js",
     "browserify": "node bin/browserify.js",
     "jshint": "jshint .",
+    "codeclimate": "codeclimate-test-reporter < coverage/lcov.info",
     "prepush": "npm run jshint && npm test"
   },
   "repository": {
