@@ -13,6 +13,6 @@ ratings:
   - lib/**
 
 exclude-paths:
-  - bin/**
-  - dist/**
-  - examples/**
+  - bin
+  - dist
+  - examples
