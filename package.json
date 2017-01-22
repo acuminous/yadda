@@ -45,6 +45,9 @@
   ],
   "author": "Stephen Cresswell",
   "license": "Apache-2.0",
-  "readmeFilename": "README.md",
-  "gitHead": "4754e8449c4f6d28e6357059287079a44a0dad29"
+  "bugs": {
+    "url": "https://github.com/acuminous/yadda/issues"
+  },
+  "homepage": "http://acuminous.gitbooks.io/yadda-user-guide",
+  "dependencies": {}
 }
