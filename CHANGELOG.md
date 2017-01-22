@@ -1,5 +1,8 @@
 # Change Log
 
+## [Unreleased]
+- Tidy up
+
 ## [0.22.1]
 - Fixes [bug](https://github.com/acuminous/yadda/issues/#225) where errors returned by steps in jasmine were swallowed.
 - Removed webdriver examples (webdriver.js is not longer maintained)
