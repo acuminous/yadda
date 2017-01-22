@@ -8,6 +8,7 @@ engines:
       - javascript
     exclude_paths:
       - test
+      - lib/parsers/FeatureParser
 
 ratings:
   paths:
