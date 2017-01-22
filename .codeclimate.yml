@@ -12,7 +12,7 @@ ratings:
   - index.js
   - lib/**
 
-exclude-paths:
+exclude_paths:
   - bin
   - dist
   - examples

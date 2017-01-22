@@ -1,6 +1,6 @@
 {
     "name": "yadda",
-    "version": "0.22.2",
+    "version": "1.0.0",
     "description": "A true BDD framework for JavaScript",
     "repo": "acuminous/yadda",
     "keywords": [
