@@ -6,12 +6,13 @@ engines:
     config:
       languages:
       - javascript
-    exclude-paths:
-    - bin/**
-    - dist/**
-    - examples/**
 
 ratings:
   paths:
   - index.js
   - lib/**
+
+exclude-paths:
+  - bin/**
+  - dist/**
+  - examples/**
