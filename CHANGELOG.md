@@ -1,6 +1,6 @@
 # Change Log
 
-## [Unreleased]
+## [1.0.1]
 - Switching to eslint
 
 ## [1.0.0]
