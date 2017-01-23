@@ -1,5 +1,3 @@
-/* jslint node: true */
-/* global describe, it */
 "use strict";
 
 var assert = require('assert');
@@ -26,6 +24,7 @@ describe('Array', function() {
             iterations++;
             callback(null, item);
         }, function(err, result) {
+            assert.ifError(err)
             assert.equal(result, 3);
         });
     });

@@ -1,4 +1,3 @@
-/* jslint node: true */
 "use strict";
 
 var Patient = function(full_name) {
@@ -62,7 +61,7 @@ var Ward = function(name) {
     };
 
     this.add_bed = function(bed) {
-        /* jshint boss: true */
+        // eslint-disable-next-line no-return-assign
         return this.beds[bed.number] = bed;
     };
 };
@@ -75,7 +74,8 @@ var Bed = function(ward, number) {
 
     this.admit = function(patient) {
         this.patient = patient;
-        this.patient.template = (this.patient.speciality == this.ward.speciality) ? 'on' : 'off';
+        // eslint-disable-next-line no-return-assign
+        this.patient.template = (this.patient.speciality === this.ward.speciality) ? 'on' : 'off';
     };
 };
 

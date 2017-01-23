@@ -1,6 +1,6 @@
 engines:
-  jshint:
-    enabled: true
+  eslint:
+    enabled: false
   duplication:
     enabled: true
     config:

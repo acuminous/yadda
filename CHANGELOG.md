@@ -1,5 +1,8 @@
 # Change Log
 
+## [Unreleased]
+- Switching to eslint
+
 ## [1.0.0]
 - Tidy up
 - Configuring Code Climate

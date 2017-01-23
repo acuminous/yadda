@@ -1,4 +1,3 @@
-/* jslint node: true */
 "use strict";
 
 var assert = require('assert');
@@ -11,7 +10,7 @@ var Bed = require('./hospital').Bed;
 
 module.exports.init = function() {
 
-    var hospital, ward, patient, bed, he, she = null;
+    var hospital, ward, patient, bed;
     var dictionary = new Dictionary()
         .define('gender', /(male|femail)/)
         .define('speciality', /(cardiovascular|respiratory)/)
@@ -24,7 +23,6 @@ module.exports.init = function() {
             patient = hospital.admit(new Patient(patient_name));
             patient.gender = gender;
             patient.speciality = speciality;
-            she = he = patient;
         })
         .given('that $ward ward is a $speciality ward in $hospital hospital', function(ward_name, speciality, hospital_name) {
             hospital = hospital ? hospital : new Hospital(hospital_name);

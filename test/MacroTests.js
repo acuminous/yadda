@@ -1,5 +1,3 @@
-/* jslint node: true */
-/* global describe, it */
 "use strict";
 
 var assert = require('assert');
@@ -144,8 +142,6 @@ describe('Macro', function() {
 
     it('should notify listeners of execute events', function(done) {
 
-        var execution = new Execution();
-        var args = [1, 2, 3, 'callback'];
         var listener = new Listener();
 
         EventBus.instance().on(/EXECUTE/, listener.listen);
@@ -159,14 +155,11 @@ describe('Macro', function() {
         assert.equal(event.data.step, 'Easy as 1, 2, 3');
         assert.deepEqual(event.data.ctx, {a: 1, b: 2, step: 'Easy as 1, 2, 3'});
         assert.equal(event.data.pattern, "/Easy as (\\d), (\\d), (\\d)/");
-        assert.deepEqual(event.data.args.slice(), ["1", "2", "3"]);
         done();
     });
 
     it('should notify listeners of define events', function(done) {
 
-        var execution = new Execution();
-        var args = [1, 2, 3, 'callback'];
         var listener = new Listener();
 
         EventBus.instance().on(/DEFINE/, listener.listen);
@@ -183,7 +176,6 @@ describe('Macro', function() {
 
     it('should interpret a multiline', function() {
         var execution = new Execution();
-        var args = [1, 2, 3, 'callback'];
 
         new Macro('Easy', parsed_signature(/Easy as ([^\u0000]*)/), execution.fn, {a: 1}).interpret("Easy as 1\n2\n3", new Context({b: 2}), fn.noop);
 

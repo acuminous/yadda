@@ -1,12 +1,8 @@
-/* jslint node: true */
-/* global describe, it */
 "use strict";
 
 var assert = require('assert');
 var Library = require('../lib/index').Library;
 var Yadda = require('../lib/index').Yadda;
-var Interpreter = require('../lib/index').Interpreter;
-var $ = require('../lib/Array');
 
 describe('Yadda', function() {
 

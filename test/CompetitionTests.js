@@ -1,5 +1,3 @@
-/* jslint node: true */
-/* global describe, it */
 "use strict";
 
 var assert = require('assert');
@@ -41,7 +39,6 @@ describe('Competition', function() {
 
     it("should support joint winners", function() {
         var library1 = { name: 'l1' };
-        var library2 = { name: 'l2' };
         var previous_match = new Macro('previous', parsed_signature(/whatever/), fn.noop, {}, library1);
         var best_match = new Macro('best', parsed_signature(/given 1 (.*) patient/), fn.noop, {}, library1);
         var equal_match = new Macro('equal', parsed_signature(/given 1 (.+) patient/), fn.noop, {}, library1);

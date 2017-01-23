@@ -1,8 +1,5 @@
-/* jslint node: true */
-/* global describe, it, beforeEach */
 "use strict";
 
-var hospital = require('./lib/hospital');
 var Yadda = require('../lib/index').Yadda;
 
 describe('Hospital', function() {

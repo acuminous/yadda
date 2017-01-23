@@ -1,6 +1,5 @@
 // The following code requires casper 1.1 after the following commit
 // https://github.com/n1k0/casperjs/commit/2378537a716a492533a279b8e3bc560ae3deca5a
-
 /* jslint node: true */
 /* global casper */
 "use strict";

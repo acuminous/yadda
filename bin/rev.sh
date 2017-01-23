@@ -9,7 +9,7 @@ if [ -z "$VERSION" ]; then
     exit 1
 fi
 
-npm run jshint
+npm run lint
 npm test
 npm run karma
 

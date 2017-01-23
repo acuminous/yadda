@@ -1,5 +1,3 @@
-/* jslint node: true */
-/* global describe, it */
 "use strict";
 
 var assert = require('assert');
@@ -37,7 +35,6 @@ describe('Interpreter', function() {
     });
 
     it('should validate scenarios', function() {
-        var counter = new Counter();
         var library = new Library().define('This is defined').define(/[Tt]his is ambiguous/).define(/[tT]his is ambiguous/);
 
         assert.throws(function() {
@@ -178,7 +175,6 @@ describe('Interpreter', function() {
     });
 
     it('should catch errors thrown by asynchronous steps where possible', function() {
-        var counter = new Counter();
         var library = new Library().define('Blah blah blah', function(next) {
             throw new Error('Oh Noes!');
         });

@@ -1,5 +1,3 @@
-/* jslint node: true */
-/* global describe, it */
 "use strict";
 
 var assert = require('assert');
@@ -137,15 +135,13 @@ describe('Dictionary', function() {
 
     it('should report expandable terms with converters', function() {
         assert.throws(function() {
-            var dictionary = new Dictionary()
-                .define('address_line_1', '$number $street', pass_through_converter);
+            new Dictionary().define('address_line_1', '$number $street', pass_through_converter);
         }, /Expandable terms cannot use converters: \[address_line_1\]/);
     });
 
     it('should report terms with wrong number of converters for matching groups', function() {
         assert.throws(function() {
-            var dictionary = new Dictionary()
-                .define('foo', '(1)', [pass_through_converter, pass_through_converter]);
+            new Dictionary().define('foo', '(1)', [pass_through_converter, pass_through_converter]);
         }, /Wrong number of converters for: \[foo\]/);
     });
 
@@ -161,8 +157,7 @@ describe('Dictionary', function() {
         var two_arg_converter = function(a, b, cb) {};
 
         assert.throws(function() {
-            var dictionary = new Dictionary()
-                .define('foo', '(1)', [two_arg_converter]);
+            new Dictionary().define('foo', '(1)', [two_arg_converter]);
         }, /Wrong number of converters for: \[foo\]/);
     });
 

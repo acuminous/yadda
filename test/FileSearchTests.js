@@ -1,11 +1,8 @@
-/* jslint node: true */
-/* global describe, it */
 "use strict";
 
 var path = require('../lib/shims').path;
 var assert = require('assert');
 var FileSearch = require('../lib/FileSearch');
-var $ = require('../lib/Array');
 
 describe('FileSearch', function() {
 

@@ -1,9 +1,6 @@
-/* jslint node: true */
-/* global describe, it, afterEach */
 "use strict";
 
-var fs = require('../lib/shims').fs,
-    proc = require('../lib/shims').process;
+var fs = require('../lib/shims').fs;
 var path = require('../lib/shims').path;
 var assert = require("assert");
 var FeatureParser = require('../lib/index').parsers.FeatureParser;
