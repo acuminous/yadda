@@ -1,5 +1,8 @@
 # Change Log
 
+## [1.1.1]
+- npms didn't pick up the build
+
 ## [1.1.0]
 - Switching to eslint
 
