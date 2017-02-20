@@ -16,7 +16,7 @@ Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it m
 
 ## Latest Version
 The current version of Yadda is 1.1.1</br>
-There are breaking changes (steps default to async rather than synchronous when variadic arguments are used in steps). Please refer to the [Release Notes](./release-notes.md) for more details.
+There are breaking changes (steps default to async rather than synchronous when variadic arguments are used in steps). Please refer to the [Release Notes](./CHANGELOG.md) for more details.
 
 ## Documentation
 Please refer to the the [Yadda User Guide](http://acuminous.gitbooks.io/yadda-user-guide).
