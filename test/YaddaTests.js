@@ -89,4 +89,36 @@ describe('Yadda', function() {
         yadda.run('foo');
         assert.equal(executions, 1);
     });
+
+    it('should interpret asynchronous variadic steps', function(done) {
+        var executions = 0;
+        var library = new Library().define('foo', function() {
+            var next = arguments[arguments.length - 1];
+            assert.equal(typeof next, 'function');
+            executions++;
+            next();
+        }, {}, { mode: 'async' });
+        new Yadda(library).yadda('foo', function(err) {
+            assert.ifError(err);
+            assert.equal(executions, 1);
+            done();
+        });
+    });
+
+    it('should interpret asynchronous localised variadic steps', function(done) {
+        var executions = 0;
+        var English = require('../lib').localisation.English;
+        var library = new English.library().given('foo', function() {
+            var next = arguments[arguments.length - 1];
+            assert.equal(typeof next, 'function');
+            executions++;
+            next();
+        }, {}, { mode: 'async' });
+
+        new Yadda(library).yadda('Given foo', function(err) {
+            assert.ifError(err);
+            assert.equal(executions, 1);
+            done();
+        });
+    });
 });
