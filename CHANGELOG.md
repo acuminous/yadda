@@ -1,5 +1,8 @@
 # Change Log
 
+## [1.2.0]
+- Passing options through localised steps definition. See #232. Thanks [bogus34](https://github.com/bogus34).
+
 ## [1.1.1]
 - npms didn't pick up the build
 
