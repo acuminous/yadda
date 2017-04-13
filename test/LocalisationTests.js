@@ -126,6 +126,22 @@ describe('Localisation', function() {
         assert.equal(counter.total(), 6);
     });
 
+    it('should support Ukrainian', function() {
+        var counter = new Counter();
+        var library = Yadda.localisation.Ukrainian.library()
+            .given('some text 1', counter.count)
+            .when('some text 2', counter.count)
+            .then('some text 3', counter.count);
+
+        new Interpreter(library).interpret([
+            'дано some text 1',
+            'коли some text 2',
+            'тоді some text 3'
+        ]);
+
+        assert.equal(counter.total(), 3);
+    });
+
     it('should support Polish', function() {
         var counter = new Counter();
         var library = Yadda.localisation.Polish.library()
