@@ -1,5 +1,8 @@
 # Change Log
 
+## [1.3.0]
+- Ukranian Localisation - thanks [dedmazayukr](https://github.com/dedmazayukr).
+
 ## [1.2.0]
 - Passing options through localised steps definition. See #232. Thanks [bogus34](https://github.com/bogus34).
 
