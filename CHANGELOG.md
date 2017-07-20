@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.3.1]
+- Updated dev dependencies
+- Automated codeclimate
+
 ## [1.3.0]
 - Ukranian Localisation - thanks [dedmazayukr](https://github.com/dedmazayukr).
 

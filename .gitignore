@@ -8,3 +8,4 @@ npm-debug.log
 components/
 build/
 .idea
+.codeclimate

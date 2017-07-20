@@ -5,8 +5,11 @@
   "main": "./lib/index.js",
   "devDependencies": {
     "browserify": "10.2.6",
-    "codeclimate-test-reporter": "^0.4.0",
-    "husky": "^0.13.0",
+    "codeclimate-test-reporter": "^0.5.0",
+    "eslint": "^4.2.0",
+    "eslint-config-imperative": "^2.0.1",
+    "eslint-plugin-imperative": "^2.0.0",
+    "husky": "^0.14.3",
     "istanbul": "^0.4.5",
     "karma": "^0.13.22",
     "karma-browserify": "^5.0.2",
@@ -14,10 +17,7 @@
     "karma-phantomjs-launcher": "^1.0.0",
     "mocha": "^3.2.0",
     "phantomjs-prebuilt": "^2.1.5",
-    "watchify": "^3.7.0",
-    "eslint": "^3.12.2",
-    "eslint-config-imperative": "^1.0.0",
-    "eslint-plugin-imperative": "^1.0.0"
+    "watchify": "^3.7.0"
   },
   "directories": {
     "example": "examples",
@@ -31,8 +31,8 @@
     "browserify": "node bin/browserify.js",
     "jshint": "jshint .",
     "lint": "eslint .",
-    "codeclimate": "codeclimate-test-reporter < coverage/lcov.info",
-    "prepush": "npm run lint && npm test"
+    "codeclimate": "(test -e .codeclimate && npm run istanbul && source .codeclimate && codeclimate-test-reporter < coverage/lcov.info) || echo skipping codeclimate",
+    "prepush": "npm run lint && npm test && npm run codeclimate"
   },
   "repository": {
     "type": "git",
