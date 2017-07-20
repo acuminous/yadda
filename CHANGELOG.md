@@ -1,5 +1,8 @@
 # Change Log
 
+## [1.4.0]
+- Updated more dev deps including browserify
+
 ## [1.3.1]
 - Updated dev dependencies
 - Automated codeclimate
