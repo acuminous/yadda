@@ -1,5 +1,8 @@
 # Change Log
 
+## [1.4.1]
+- Updated npmignore
+
 ## [1.4.0]
 - Updated more dev deps including browserify
 
