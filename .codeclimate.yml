@@ -1,3 +1,4 @@
+version: "2"
 engines:
   eslint:
     enabled: false
@@ -10,6 +11,11 @@ engines:
       - test
       - lib/parsers/FeatureParser.js
       - lib/localisation/*
+checks:
+  method-complexity:
+    enabled: false
+  method-lines:
+    enabled: false
 
 ratings:
   paths:
