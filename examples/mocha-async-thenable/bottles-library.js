@@ -13,37 +13,35 @@ module.exports = (function() {
 
     .given("a $NUM foot wall", function(height) {
         return new Promise(function(resolve, reject) {
-            wall = new Wall();
             setTimeout(function() {
+                wall = new Wall();
                 resolve(true);
-            }, 500);
+            }, 100);
         });
     })
 
     .given("$NUM green bottles are standing on the wall", function(number_of_bottles) {
         return new Promise(function(resolve, reject) {
-            wall.bottles = number_of_bottles;
             setTimeout(function() {
+                wall.bottles = number_of_bottles;
                 resolve(true);
-            }, 250);
+            }, 100);
         });
     })
 
     .when("$NUM green bottle accidentally falls", function(number_of_falling_bottles) {
         return new Promise(function(resolve, reject) {
-            wall.fall(number_of_falling_bottles);
             setTimeout(function() {
+                wall.fall(number_of_falling_bottles);
                 resolve(true);
-            }, 125);
+            }, 100);
         });
     })
 
     .then("there (?:are|are still) $NUM green bottles standing on the wall", function(number_of_bottles) {
         return new Promise(function(resolve, reject) {
             assert.equal(number_of_bottles, wall.bottles);
-            setTimeout(function() {
-                resolve(true);
-            }, 75);
+            resolve(true);
         });
     });
 
