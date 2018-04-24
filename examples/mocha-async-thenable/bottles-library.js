@@ -11,26 +11,40 @@ module.exports = (function() {
     var dictionary = new Dictionary().define('NUM', /(\d+)/);
     var library = English.library(dictionary)
 
-    .given("a $NUM foot wall", function(height, next) {
-        wall = new Wall();
-        next();
+    .given("a $NUM foot wall", function(height) {
+        return new Promise(function(resolve, reject) {
+            wall = new Wall();
+            setTimeout(function() {
+                resolve(true);
+            }, 500);
+        });
     })
 
-    .given("$NUM green bottles are standing on the wall", function(number_of_bottles, next) {
-        wall.bottles = number_of_bottles;
-        next();
+    .given("$NUM green bottles are standing on the wall", function(number_of_bottles) {
+        return new Promise(function(resolve, reject) {
+            wall.bottles = number_of_bottles;
+            setTimeout(function() {
+                resolve(true);
+            }, 250);
+        });
     })
 
     .when("$NUM green bottle accidentally falls", function(number_of_falling_bottles) {
         return new Promise(function(resolve, reject) {
             wall.fall(number_of_falling_bottles);
-            resolve(true);
+            setTimeout(function() {
+                resolve(true);
+            }, 125);
         });
     })
 
-    .then("there (?:are|are still) $NUM green bottles standing on the wall", function(number_of_bottles, next) {
-        assert.equal(number_of_bottles, wall.bottles);
-        next();
+    .then("there (?:are|are still) $NUM green bottles standing on the wall", function(number_of_bottles) {
+        return new Promise(function(resolve, reject) {
+            assert.equal(number_of_bottles, wall.bottles);
+            setTimeout(function() {
+                resolve(true);
+            }, 75);
+        });
     });
 
     var Wall = function(bottles) {
