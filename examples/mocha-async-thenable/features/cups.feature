@@ -1,3 +1,4 @@
+@libraries=cups
 Feature: Mocha Asynchronous Thenable Example Using Cups
 
 Background:

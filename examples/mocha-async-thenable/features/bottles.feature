@@ -1,3 +1,4 @@
+@libraries=bottles
 Feature: Mocha Asynchronous Thenable Example Using Bottles
 
 Background:

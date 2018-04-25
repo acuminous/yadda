@@ -9,8 +9,8 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
 
     featureFile(file, function(feature) {
 
-        var library = require('./bottles-library');
-        var yadda = Yadda.createInstance(library);
+        var libraries = require_feature_libraries(feature);
+        var yadda = Yadda.createInstance(libraries);
 
         scenarios(feature.scenarios, function(scenario) {
             steps(scenario.steps, function(step, done) {
@@ -19,3 +19,11 @@ new Yadda.FeatureFileSearch('features').each(function(file) {
         });
     });
 });
+
+function require_feature_libraries(feature) {
+    return feature.annotations.libraries.split(', ').reduce(require_library, []);
+}
+
+function require_library(libraries, library) {
+    return libraries.concat(require('./lib/' + library));
+}
