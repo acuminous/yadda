@@ -20,38 +20,38 @@ module.exports = (function() {
         });
     })
 
-    .given("$NUM green bottles are standing on the wall", function(number_of_bottles) {
+    .given("$NUM green $ITEMS are standing on the wall", function(number_of_items, item_type) {
         return new Promise(function(resolve, reject) {
             setTimeout(function() {
-                wall.bottles = number_of_bottles;
+                wall.items = number_of_items;
                 resolve(true);
             }, 100);
         });
     })
 
-    .when("$NUM green bottle accidentally falls", function(number_of_falling_bottles) {
+    .when("$NUM green $ITEM accidentally falls", function(number_of_falling_items, item_type) {
         return new Promise(function(resolve, reject) {
             setTimeout(function() {
-                wall.fall(number_of_falling_bottles);
+                wall.fall(number_of_falling_items);
                 resolve(true);
             }, 100);
         });
     })
 
-    .then("there (?:are|are still) $NUM green bottles standing on the wall", function(number_of_bottles) {
+    .then("there (?:are|are still) $NUM green $ITEMS standing on the wall", function(number_of_items, item_type) {
         return new Promise(function(resolve, reject) {
-            assert.equal(number_of_bottles, wall.bottles);
+            assert.equal(number_of_items, wall.items);
             resolve(true);
         });
     });
 
-    var Wall = function(bottles) {
-        this.bottles = bottles;
+    var Wall = function(items) {
+        this.items = items;
         this.fall = function(n) {
-            this.bottles -= n;
+            this.items -= n;
         };
         this.returned = function() {
-            this.bottles++;
+            this.items++;
         };
     };
 
