@@ -20,7 +20,7 @@ module.exports = (function() {
         });
     })
 
-    .given("$NUM green cups are standing on the wall", function(number_of_cups, cup_type) {
+    .given("$NUM green cups are standing on the wall", function(number_of_cups) {
         return new Promise(function(resolve, reject) {
             setTimeout(function() {
                 wall.cups = number_of_cups;
@@ -29,7 +29,7 @@ module.exports = (function() {
         });
     })
 
-    .when("$NUM green cup accidentally falls", function(number_of_falling_cups, cup_type) {
+    .when("$NUM green cup accidentally falls", function(number_of_falling_cups) {
         return new Promise(function(resolve, reject) {
             setTimeout(function() {
                 wall.fall(number_of_falling_cups);
@@ -38,11 +38,9 @@ module.exports = (function() {
         });
     })
 
-    .then("there (?:are|are still) $NUM green cups standing on the wall", function(number_of_cups, cup_type) {
-        return new Promise(function(resolve, reject) {
-            assert.equal(number_of_cups, wall.cups);
-            resolve(true);
-        });
+    .then("there (?:are|are still) $NUM green cups standing on the wall", function(number_of_cups, next) {
+        assert.equal(number_of_cups, wall.cups);
+        next();
     });
 
     var Wall = function(cups) {
