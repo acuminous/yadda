@@ -28,6 +28,7 @@ Scenario: [N] bottles are standing on a wall
     Given [N] green bottles are standing on the wall
     when 1 green bottle accidentally falls
     then there are [N-1] green bottles standing on the wall
+    and this test should be skipped
 
     Where:
         N   | N-1
