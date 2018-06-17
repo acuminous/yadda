@@ -2,6 +2,7 @@
 
 ## [1.5.0]
 - Add support of programatically skipping mocha tests when using the step level plugin
+- Fix examples in npm 5
 
 ## [1.4.0]
 - Updated more dev deps including browserify
