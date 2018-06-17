@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Yadda multiline examples sample",
   "scripts": {
-    "preinstall": "npm --loglevel error link yadda",
+    "postinstall": "npm --loglevel error link yadda",
     "test": "node bin/example.js"
   },
   "license": "Apache2",

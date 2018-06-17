@@ -6,7 +6,7 @@
     "jasmine-spec-reporter": "^2.4.0"
   },
   "scripts": {
-    "preinstall": "npm --loglevel error link yadda",
+    "postinstall": "npm --loglevel error link yadda",
     "test": "node bin/example.js"
   },
   "author": "Stephen Cresswell",

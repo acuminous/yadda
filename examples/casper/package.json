@@ -8,7 +8,7 @@
     "phantomjs": "^1.9.19"
   },
   "scripts": {
-    "preinstall": "npm --loglevel error link yadda",
+    "postinstall": "npm --loglevel error link yadda",
     "test": "echo something is wrong with npm. Run manually with node ./bin/example.js"
   },
   "author": "Stephen Cresswell",

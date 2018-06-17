@@ -1,5 +1,8 @@
 # Change Log
 
+## [1.5.0]
+- Add support of programatically skipping mocha tests when using the step level plugin
+
 ## [1.4.0]
 - Updated more dev deps including browserify
 

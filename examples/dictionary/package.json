@@ -5,7 +5,7 @@
     "mocha": "^2.2.5"
   },
   "scripts": {
-    "preinstall": "npm --loglevel error link yadda",
+    "postinstall": "npm --loglevel error link yadda",
     "test": "node bin/example.js"
   },
   "author": "Stephen Cresswell",
