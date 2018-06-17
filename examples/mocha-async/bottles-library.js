@@ -29,6 +29,10 @@ module.exports = (function() {
     .then("there (?:are|are still) $NUM green bottles standing on the wall", function(number_of_bottles, next) {
         assert.equal(number_of_bottles, wall.bottles);
         next();
+    })
+
+    .then("this test should be skipped", function() {
+        this.mocha.skip();
     });
 
     var Wall = function(bottles) {
