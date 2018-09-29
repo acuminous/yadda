@@ -16,7 +16,7 @@
     "karma-phantomjs-launcher": "^1.0.4",
     "mocha": "^3.4.2",
     "phantomjs-prebuilt": "^2.1.16",
-    "watchify": "^3.9.0"
+    "watchify": "^3.11.0"
   },
   "directories": {
     "example": "examples",
