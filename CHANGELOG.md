@@ -1,7 +1,8 @@
 # Change Log
 
-## [Unlreleasd]
+## [Unreleased]
 - Update dependencies
+- Remove examples with insecure depenencies
 
 ## [1.5.0]
 - Add support of programatically skipping mocha tests when using the step level plugin
