@@ -2,7 +2,7 @@
 /* global featureFile, scenarios, steps, jasmine */
 "use strict";
 
-var SpecReporter = require('jasmine-spec-reporter');
+var SpecReporter = require('jasmine-spec-reporter').SpecReporter;
 jasmine.getEnv().addReporter(new SpecReporter());
 
 var Yadda = require('yadda');

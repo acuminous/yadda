@@ -3,13 +3,13 @@
   "version": "0.0.0",
   "main": "index.js",
   "dependencies": {
-    "async": "~0.2.9",
+    "async": "^2.6.1",
     "casperjs": "git@github.com:n1k0/casperjs.git",
-    "phantomjs": "^1.9.19"
+    "phantomjs": "^2.1.7"
   },
   "scripts": {
     "postinstall": "npm --loglevel error link yadda",
-    "test": "echo something is wrong with npm. Run manually with node ./bin/example.js"
+    "test": "node ./bin/example.js"
   },
   "author": "Stephen Cresswell",
   "license": "Apache2"

@@ -8,6 +8,6 @@
   },
   "license": "Apache2",
   "dependencies": {
-    "mocha": "^2.2.5"
+    "mocha": "^5.2.0"
   }
 }

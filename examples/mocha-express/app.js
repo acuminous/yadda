@@ -1,5 +1,6 @@
 "use strict";
 
+var bodyParser = require('body-parser');
 var express = require('express');
 var app = express();
 var routes = ['./routes/server', './routes/bottles'];
@@ -8,7 +9,7 @@ module.exports = (function() {
 
     var server;
 
-    app.use(express.bodyParser());
+    app.use(bodyParser());
 
     routes.forEach(function(route) {
         require(route).init(app);

@@ -1,3 +1,3 @@
 #!/bin/bash
 
-./node_modules/.bin/jasmine --verbose spec/bottles-spec.js
+./node_modules/.bin/jasmine spec/bottles-spec.js

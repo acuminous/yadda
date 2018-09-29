@@ -2,8 +2,8 @@
   "name": "yadda-jasmine-example",
   "version": "0.0.0",
   "dependencies": {
-    "jasmine": "^2.3.1",
-    "jasmine-spec-reporter": "^2.4.0"
+    "jasmine": "^2.99.0",
+    "jasmine-spec-reporter": "^4.2.1"
   },
   "scripts": {
     "postinstall": "npm --loglevel error link yadda",
