@@ -5,9 +5,9 @@
   "main": "./lib/index.js",
   "devDependencies": {
     "browserify": "^14.4.0",
-    "eslint": "^4.2.0",
-    "eslint-config-imperative": "^2.0.1",
-    "eslint-plugin-imperative": "^2.0.0",
+    "eslint": "^5.6.1",
+    "eslint-config-imperative": "^2.1.0",
+    "eslint-plugin-imperative": "^2.1.0",
     "husky": "^0.14.3",
     "istanbul": "^0.4.5",
     "karma": "^3.0.0",
@@ -28,7 +28,6 @@
     "istanbul": "istanbul cover -x 'lib/plugins/**' -x 'lib/shims/**' -x 'lib/Platform.js' _mocha --report lcov --report html",
     "examples": "node bin/examples.js",
     "browserify": "node bin/browserify.js",
-    "jshint": "jshint .",
     "lint": "eslint .",
     "codeclimate": "(test -e .codeclimate && npm run istanbul && source .codeclimate && codeclimate-test-reporter < coverage/lcov.info) || echo skipping codeclimate",
     "prepush": "npm run lint && npm test && npm run codeclimate"
