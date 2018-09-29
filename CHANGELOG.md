@@ -1,6 +1,6 @@
 # Change Log
 
-## [Unreleased]
+## [1.5.1]
 - Update dependencies
 - Remove examples with insecure depenencies
 
