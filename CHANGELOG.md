@@ -2,6 +2,7 @@
 
 ## [2.0.0]
 - Fixes [bug](https://github.com/acuminous/yadda/issues/#243)
+- No longer testing on node 4 and 5
 
 ## [1.5.1]
 - Update dependencies
