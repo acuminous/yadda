@@ -114,9 +114,9 @@ describe('Library', function() {
             'but  there are 99 bottles left'
         ];
 
-        assert_localisation(library, givens, '/(?:[Gg]iven|[Ww]ith|[Aa]nd|[Bb]ut|[Ee]xcept)\\s+a wall with (\\d+) bottles/');
-        assert_localisation(library, whens, '/(?:[Ww]hen|[Ii]f|[Aa]nd|[Bb]ut)\\s+(\\d+) bottle(?:s)? accidentally falls/');
-        assert_localisation(library, thens, '/(?:[Tt]hen|[Ee]xpect|[Aa]nd|[Bb]ut)\\s+there are (\\d+) bottles left/');
+        assert_localisation(library, givens, '/^(?:\\s)*(?:[Gg]iven|[Ww]ith|[Aa]nd|[Bb]ut|[Ee]xcept)\\s+a wall with (\\d+) bottles/');
+        assert_localisation(library, whens, '/^(?:\\s)*(?:[Ww]hen|[Ii]f|[Aa]nd|[Bb]ut)\\s+(\\d+) bottle(?:s)? accidentally falls/');
+        assert_localisation(library, thens, '/^(?:\\s)*(?:[Tt]hen|[Ee]xpect|[Aa]nd|[Bb]ut)\\s+there are (\\d+) bottles left/');
     });
 
     it('should supports localised aliased macros', function() {

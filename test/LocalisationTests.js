@@ -7,6 +7,38 @@ var Counter = require('./Counter');
 
 describe('Localisation', function() {
 
+    it('should match text from the beginning', function () {
+        var counter = new Counter();
+        var library = Yadda.localisation.English.library()
+            .given('a post', function() {
+              assert.fail('Step should not have been matched');
+            })
+            .define(/.*/, counter.count)
+
+        new Interpreter(library).interpret([
+            'Given a patient with anxiety and a post-traumatic stress disorder'
+        ]);
+
+        assert.equal(counter.total(), 1);
+    });
+
+
+    it('should support English', function () {
+        var counter = new Counter();
+        var library = Yadda.localisation.English.library()
+            .given('some text 1', counter.count)
+            .when('some text 2', counter.count)
+            .then('some text 4', counter.count);
+
+        new Interpreter(library).interpret([
+            'given some text 1',
+            'when some text 2',
+            'then some text 4'
+        ]);
+
+        assert.equal(counter.total(), 3);
+    });
+
     it('should support German', function () {
         var counter = new Counter();
         var library = Yadda.localisation.German.library()

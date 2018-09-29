@@ -1,5 +1,8 @@
 # Change Log
 
+## [2.0.0]
+- Fixes [bug](https://github.com/acuminous/yadda/issues/#243)
+
 ## [1.5.1]
 - Update dependencies
 - Remove examples with insecure depenencies
