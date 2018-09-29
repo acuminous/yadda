@@ -5,7 +5,6 @@
   "main": "./lib/index.js",
   "devDependencies": {
     "browserify": "^14.4.0",
-    "codeclimate-test-reporter": "^0.5.0",
     "eslint": "^4.2.0",
     "eslint-config-imperative": "^2.0.1",
     "eslint-plugin-imperative": "^2.0.0",
