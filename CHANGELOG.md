@@ -1,5 +1,8 @@
 # Change Log
 
+## [2.0.1]
+- Fix broken requires. See https://github.com/acuminous/yadda/pull/244. Thanks [nonlux](https://github.com/nonlux)
+
 ## [2.0.0]
 - Fixes [bug](https://github.com/acuminous/yadda/issues/#243)
 - No longer testing on node 4 and 5
