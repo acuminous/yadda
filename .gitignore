@@ -9,3 +9,4 @@ components/
 build/
 .idea
 .codeclimate
+.nyc_output

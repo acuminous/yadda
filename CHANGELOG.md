@@ -1,5 +1,8 @@
 # Change Log
 
+## [2.1.0]
+- Update dependencies
+
 ## [2.0.1]
 - Fix broken requires. See https://github.com/acuminous/yadda/pull/244. Thanks [nonlux](https://github.com/nonlux)
 
