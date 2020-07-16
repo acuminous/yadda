@@ -9,7 +9,7 @@
   "license": "Apache2",
   "dependencies": {
     "csv-parse": "^4.4.6",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "mocha": "^5.2.0"
   },
   "devDependencies": {}
