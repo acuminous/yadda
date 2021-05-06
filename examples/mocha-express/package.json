@@ -15,6 +15,6 @@
     "mocha": "^5.2.0",
     "node-uuid": "~1.4.1",
     "request": "^2.88.0",
-    "underscore": "~1.6.0"
+    "underscore": "~1.12.1"
   }
 }
