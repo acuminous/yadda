@@ -1,7 +1,8 @@
 Prerequisits
-* phantomjs
-* python
-* casperjs (must be from git master, other installed are bugged)
+
+- phantomjs
+- python
+- casperjs (must be from git master, other installed are bugged)
 
 ```
 npm install

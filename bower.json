@@ -4,30 +4,9 @@
   "homepage": "https://github.com/acuminous/yadda",
   "description": "A true BDD framework for JavaScript",
   "main": "lib/index.js",
-  "moduleType": [
-    "node"
-  ],
-  "keywords": [
-    "BDD",
-    "Specification",
-    "Natural",
-    "Test",
-    "Behaviour",
-    "Driven",
-    "Jasmine",
-    "Mocha",
-    "QUnit",
-    "Nodeunit"
-  ],
-  "authors": [
-    "Stephen Cresswell"
-  ],
+  "moduleType": ["node"],
+  "keywords": ["BDD", "Specification", "Natural", "Test", "Behaviour", "Driven", "Jasmine", "Mocha", "QUnit", "Nodeunit"],
+  "authors": ["Stephen Cresswell"],
   "license": "Apache2",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ]
+  "ignore": ["**/.*", "node_modules", "bower_components", "test", "tests"]
 }

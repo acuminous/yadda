@@ -1,13 +1,13 @@
 {
-    "name": "yadda-mocha-mixed-async-sync-example",
-    "version": "0.0.0",
-    "dependencies": {
-        "mocha": "^5.2.0"
-    },
-    "scripts": {
-        "postinstall": "npm --loglevel error link yadda",
-        "test": "node bin/example.js"
-    },
-    "author": "Chris Nesbitt-Smith",
-    "license": "Apache2"
+  "name": "yadda-mocha-mixed-async-sync-example",
+  "version": "0.0.0",
+  "dependencies": {
+    "mocha": "^5.2.0"
+  },
+  "scripts": {
+    "postinstall": "npm --loglevel error link yadda",
+    "test": "node bin/example.js"
+  },
+  "author": "Chris Nesbitt-Smith",
+  "license": "Apache2"
 }

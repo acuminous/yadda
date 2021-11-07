@@ -1,6 +1,6 @@
 /* jslint node: true */
 /* global featureFile, scenarios, steps */
-"use strict";
+'use strict';
 
 /*
 Please note this is just one way to import different libraries per feature
@@ -14,25 +14,23 @@ var path = require('path');
 var Yadda = require('yadda');
 Yadda.plugins.mocha.StepLevelPlugin.init();
 
-new Yadda.FeatureFileSearch('features').each(function(file) {
+new Yadda.FeatureFileSearch('features').each(function (file) {
+  featureFile(file, function (feature) {
+    var libraries = require_feature_libraries(feature);
+    var yadda = Yadda.createInstance(libraries);
 
-    featureFile(file, function(feature) {
-
-        var libraries = require_feature_libraries(feature);
-        var yadda = Yadda.createInstance(libraries);
-
-        scenarios(feature.scenarios, function(scenario) {
-            steps(scenario.steps, function(step, done) {
-                yadda.run(step, done);
-            });
-        });
+    scenarios(feature.scenarios, function (scenario) {
+      steps(scenario.steps, function (step, done) {
+        yadda.run(step, done);
+      });
     });
+  });
 });
 
 function require_feature_libraries(feature) {
-    return feature.annotations.libraries.split(', ').reduce(require_library, []);
+  return feature.annotations.libraries.split(', ').reduce(require_library, []);
 }
 
 function require_library(libraries, library) {
-    return libraries.concat(require('./lib/' + library + '-steps'));
+  return libraries.concat(require('./lib/' + library + '-steps'));
 }

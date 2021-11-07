@@ -1,4 +1,4 @@
-version: "2"
+version: '2'
 engines:
   eslint:
     enabled: false
@@ -6,7 +6,7 @@ engines:
     enabled: true
     config:
       languages:
-      - javascript
+        - javascript
     exclude_paths:
       - test
       - lib/parsers/FeatureParser.js
@@ -19,8 +19,8 @@ checks:
 
 ratings:
   paths:
-  - index.js
-  - lib/**
+    - index.js
+    - lib/**
 
 exclude_paths:
   - bin

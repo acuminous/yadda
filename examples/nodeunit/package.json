@@ -1,13 +1,13 @@
 {
-    "name": "yadda-nodeunit-example",
-    "version": "0.0.0",
-    "dependencies": {
-        "nodeunit": "^0.11.3"
-    },
-    "scripts": {
-        "postinstall": "npm --loglevel error link yadda",
-        "test": "node bin/example.js"
-    },
-    "author": "Stephen Cresswell",
-    "license": "Apache2"
+  "name": "yadda-nodeunit-example",
+  "version": "0.0.0",
+  "dependencies": {
+    "nodeunit": "^0.11.3"
+  },
+  "scripts": {
+    "postinstall": "npm --loglevel error link yadda",
+    "test": "node bin/example.js"
+  },
+  "author": "Stephen Cresswell",
+  "license": "Apache2"
 }

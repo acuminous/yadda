@@ -1,34 +1,33 @@
-"use strict";
+'use strict';
 
 var bodyParser = require('body-parser');
 var express = require('express');
 var app = express();
 var routes = ['./routes/server', './routes/bottles'];
 
-module.exports = (function() {
+module.exports = (function () {
+  var server;
 
-    var server;
+  app.use(bodyParser());
 
-    app.use(bodyParser());
+  routes.forEach(function (route) {
+    require(route).init(app);
+  });
 
-    routes.forEach(function(route) {
-        require(route).init(app);
+  function start(host, port, next) {
+    server = app.listen(port, host, function () {
+      app.on('shutdown_request', stop);
+      app.set('started', new Date());
+      next && next();
     });
+  }
 
-    function start(host, port, next) {
-        server = app.listen(port, host, function() {
-            app.on('shutdown_request', stop);
-            app.set('started', new Date());
-            next && next();
-        });
-    }
+  function stop(next) {
+    server && server.close(next);
+  }
 
-    function stop(next) {
-        server && server.close(next);
-    }
-
-    return {
-        start: start,
-        stop: stop
-    };
+  return {
+    start: start,
+    stop: stop,
+  };
 })();

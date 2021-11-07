@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var browserify = require('browserify');
 var path = require('path');
@@ -7,23 +7,23 @@ var rootpath = process.cwd();
 var pkg = require(path.join(rootpath, 'package.json'));
 
 (function web_bundle() {
-    var bundle = fs.createWriteStream(path.join(rootpath, 'dist', 'yadda-' + pkg.version + '.js'));
+  var bundle = fs.createWriteStream(path.join(rootpath, 'dist', 'yadda-' + pkg.version + '.js'));
 
-    var b = browserify();
-    b.add('./lib/index.js');
-    b.require('./lib/index.js', { expose: 'yadda' });
-    b.ignore('casper');
-    b.bundle().pipe(bundle);
+  var b = browserify();
+  b.add('./lib/index.js');
+  b.require('./lib/index.js', { expose: 'yadda' });
+  b.ignore('casper');
+  b.bundle().pipe(bundle);
 })();
 
 (function umd_bundle() {
-    var bundle = fs.createWriteStream(path.join(rootpath, 'dist', 'yadda-umd-' + pkg.version + '.js'));
+  var bundle = fs.createWriteStream(path.join(rootpath, 'dist', 'yadda-umd-' + pkg.version + '.js'));
 
-    var b = browserify();
-    b.add('./lib/index.js');
+  var b = browserify();
+  b.add('./lib/index.js');
 
-    b.require('./lib/index.js', { expose: 'yadda' });
-    b.ignore('casper');
+  b.require('./lib/index.js', { expose: 'yadda' });
+  b.ignore('casper');
 
-    b.bundle().pipe(bundle);
+  b.bundle().pipe(bundle);
 })();
