@@ -7,8 +7,6 @@
 [![Code Climate](https://codeclimate.com/github/acuminous/yadda/badges/gpa.svg)](https://codeclimate.com/github/acuminous/yadda)
 [![Test Coverage](https://codeclimate.com/github/acuminous/yadda/badges/coverage.svg)](https://codeclimate.com/github/acuminous/yadda/coverage)
 [![Code Style](https://img.shields.io/badge/code%20style-imperative-brightgreen.svg)](https://github.com/acuminous/eslint-config-imperative)
-[![Dependency Status](https://david-dm.org/acuminous/yadda.svg)](https://david-dm.org/acuminous/yadda)
-[![devDependencies Status](https://david-dm.org/acuminous/yadda/dev-status.svg)](https://david-dm.org/acuminous/yadda?type=dev)
 
 [Jasmine](https://jasmine.github.io/), [Mocha](http://mochajs.org/) and [Vows](http://vowsjs.org) can fall out of date and are a form of duplication. Yadda brings _true_ BDD to JavaScript frameworks such as [Jasmine](https://jasmine.github.io/), [Mocha](http://mochajs.org/), [QUnit](http://qunitjs.com), [Nodeunit](https://github.com/caolan/nodeunit), [WebdriverIO](http://webdriver.io/) and [CasperJS](http://casperjs.org). By _true_ BDD we mean that the ordinary language (e.g. English) steps are mapped to code, as opposed to simply decorating it. This is important because just like comments, the decorative steps such as those used by
 
