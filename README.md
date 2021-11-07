@@ -14,7 +14,7 @@ Yadda's BDD implementation is like [Cucumber's](http://cukes.info/) in that it m
 
 ## Latest Version
 
-The current version of Yadda is 2.1.0
+The current version of Yadda is 2.1.1
 
 ## Documentation
 

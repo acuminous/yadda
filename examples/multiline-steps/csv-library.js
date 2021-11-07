@@ -10,7 +10,7 @@ var assert = require('assert');
 module.exports = (function () {
   var csv;
 
-  var dictionary = new Yadda.Dictionary().define('csv', /([^\u0000]*)/, csvConverter).define('name', /(\w+)/, nameConverter);
+  var dictionary = new Dictionary().define('csv', /([^\u0000]*)/, csvConverter).define('name', /(\w+)/, nameConverter);
 
   var library = English.library(dictionary)
 
@@ -25,7 +25,9 @@ module.exports = (function () {
     });
 
   function csvConverter(text, cb) {
-    parse(text, { auto_parse: true, columns: true }, cb);
+    parse(text, { auto_parse: true, columns: true }, function (err, doc, stats) {
+      cb(err, doc);
+    });
   }
 
   function nameConverter(name, cb) {
