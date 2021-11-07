@@ -3,7 +3,7 @@
 [![Gitter](https://badges.gitter.im/acuminous/yadda.svg)](https://gitter.im/acuminous/yadda?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![NPM version](https://img.shields.io/npm/v/yadda.svg?style=flat-square)](https://www.npmjs.com/package/yadda)
 [![NPM downloads](https://img.shields.io/npm/dm/yadda.svg?style=flat-square)](https://www.npmjs.com/package/yadda)
-[![Build Status](https://img.shields.io/travis/acuminous/yadda/master.svg)](https://travis-ci.org/acuminous/yadda)
+[![Node.js CI](https://github.com/acuminous/yadda/workflows/Node.js%20CI/badge.svg)](https://github.com/acuminous/yadda/actions?query=workflow%3A%22Node.js+CI%22)
 [![Code Climate](https://codeclimate.com/github/acuminous/yadda/badges/gpa.svg)](https://codeclimate.com/github/acuminous/yadda)
 [![Test Coverage](https://codeclimate.com/github/acuminous/yadda/badges/coverage.svg)](https://codeclimate.com/github/acuminous/yadda/coverage)
 [![Code Style](https://img.shields.io/badge/code%20style-prettier-brightgreen.svg)](https://github.com/prettier/prettier)
