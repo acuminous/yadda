@@ -4,6 +4,7 @@
 
 - Bump dev dependencies
 - Move to prettier
+- Move to github actions
 
 ## [2.1.0]
 

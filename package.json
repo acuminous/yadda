@@ -35,7 +35,7 @@
     "browserify": "node bin/browserify.js",
     "lint": "eslint .",
     "lint-staged": "lint-staged",
-    "codeclimate": "(test -e .codeclimate && npm run nyc && source .codeclimate && codeclimate-test-reporter < coverage/lcov.info) || echo skipping codeclimate"
+    "coverage": "nyc --report html --reporter lcov --reporter text-summary npm test"
   },
   "repository": {
     "type": "git",
