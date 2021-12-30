@@ -1,5 +1,9 @@
 # Change Log
 
+## [2.2.0]
+
+- Add support for custom example placeholder delimiters to mocha plugin
+
 ## [2.1.1]
 
 - Bump dev dependencies
