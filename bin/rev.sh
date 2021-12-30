@@ -22,4 +22,3 @@ sed -i '' -E "s/Yadda $VERSION_PATTERN/Yadda $VERSION/" lib/Yadda.js
 sed -i '' -E "s/yadda-$VERSION_PATTERN.js/yadda-$VERSION.js/" examples/qunit/test.html
 
 npm run browserify
-npm run examples
