@@ -20,7 +20,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "pkill -f selenium || true && nightwatch",
+    "test": "pkill -f selenium || true && java -version && nightwatch",
     "postinstall": "npm --loglevel error link yadda",
     "jenkins": "node_modules/.bin/nightwatch --env jenkins",
     "prepush": "npm test"

@@ -14,7 +14,7 @@ module.exports = {
       selector: '.t-keyword-search-button',
     },
     jobs: {
-      selector: '.t-job',
+      selector: '.tds-job-card',
     },
     noResults: {
       selector: '.t-no-results',
@@ -30,7 +30,7 @@ module.exports = {
       assertVisibleJobsCount: function (count) {
         var self = this;
         self.waitForElementVisible('@jobListing');
-        return self.api.elements('css selector', '.t-job', function (result) {
+        return self.api.elements('css selector', '.tds-job-card', function (result) {
           self.assert.ok(result.value.length >= count);
         });
       },

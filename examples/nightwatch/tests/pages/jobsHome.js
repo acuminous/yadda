@@ -10,13 +10,13 @@ module.exports = {
       selector: 'main[data-type="jobs-home-live"]',
     },
     keywordsInput: {
-      selector: '.t-search',
+      selector: '#job-hubs-search__keywords',
     },
     searchButton: {
-      selector: '.t-search-button',
+      selector: '.job-hubs-search button',
     },
     searchCount: {
-      selector: '.t-job-search-count',
+      selector: '.seo-number-of-jobs',
     },
   },
   commands: [
