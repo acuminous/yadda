@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "adblock-plus-crx": "^2.1.2",
-    "async": "^2.6.1",
+    "async": "^3.2.2",
     "chalk": "^2.4.1",
     "chromedriver": "^2.42.0",
     "debug": "^4.0.1",
