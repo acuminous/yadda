@@ -1,5 +1,9 @@
 # Change Log
 
+## Unreleased
+
+- Restrict dependabot to direct dependencies
+
 ## [2.2.0]
 
 - Add support for custom example placeholder delimiters to mocha plugin
