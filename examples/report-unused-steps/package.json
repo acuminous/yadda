@@ -2,7 +2,7 @@
   "name": "yadda-report-unused-steps-example",
   "version": "0.0.0",
   "dependencies": {
-    "mocha": "^5.2.0"
+    "mocha": "^10.2.0"
   },
   "scripts": {
     "postinstall": "npm --loglevel error link yadda",
