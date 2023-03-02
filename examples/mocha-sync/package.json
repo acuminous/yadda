@@ -8,6 +8,6 @@
   "author": "Stephen Cresswell",
   "license": "Apache2",
   "devDependencies": {
-    "mocha": "^5.2.0"
+    "mocha": "^10.2.0"
   }
 }
