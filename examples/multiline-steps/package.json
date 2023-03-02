@@ -10,7 +10,7 @@
   "dependencies": {
     "csv-parse": "^4.4.6",
     "lodash": "^4.17.11",
-    "mocha": "^5.2.0"
+    "mocha": "^10.2.0"
   },
   "devDependencies": {}
 }
