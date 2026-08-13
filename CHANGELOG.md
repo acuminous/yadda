@@ -1,6 +1,6 @@
 # Change Log
 
-## Unreleased
+## [2.3.0]
 
 - Add support for the Gherkin `Rule` keyword. Features may now group scenarios under one or more `Rule`s, and each `Rule` may declare its own `Background`. See https://github.com/acuminous/yadda/issues/270
   - The parser output includes a new `rules` array on each feature (empty when a feature has no rules); the existing `scenarios` array is unchanged.
