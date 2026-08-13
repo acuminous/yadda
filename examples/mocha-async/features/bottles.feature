@@ -35,3 +35,19 @@ Scenario: [N] bottles are standing on a wall
         100 | 99
         99  | 98
         10  | 9
+
+Rule: A full wall starts with 100 bottles
+
+    Background:
+
+        Given 100 green bottles are standing on the wall
+
+    Scenario: One falls
+
+        when 1 green bottle accidentally falls
+        then there are 99 green bottles standing on the wall
+
+    Scenario: Ten fall
+
+        when 10 green bottle accidentally falls
+        then there are 90 green bottles standing on the wall

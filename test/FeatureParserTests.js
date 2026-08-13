@@ -500,11 +500,25 @@ describe('FeatureParser', function () {
       assert(scenarios[1].annotations.brig, 'Localised scenario was not marked as pending');
     });
 
+    it('should support localised rules', function () {
+      var feature = parse_file('localisation/pirate_rule', Pirate);
+      assert.equal(feature.title, 'Treasure Island');
+      assert.equal(feature.rules.length, 1);
+      assert.equal(feature.rules[0].title, 'The Pirate Code');
+      assert.equal(feature.rules[0].scenarios[0].title, 'The Black Spot');
+    });
+
     it('should report missing translations', function () {
       var language = new Language('Incomplete', {});
       assert.throws(function () {
         parse_file('feature/multiple_features', language);
       }, /Keyword "feature" has not been translated into Incomplete/);
+    });
+
+    it('should report supported keywords without throwing', function () {
+      var language = new Language('Partial', { feature: '[Ff]eature' });
+      assert.equal(language.supports('feature'), true);
+      assert.equal(language.supports('rule'), false);
     });
   });
 
@@ -526,6 +540,93 @@ describe('FeatureParser', function () {
       assert.throws(function () {
         parse_file('background/malformed_background_annotated');
       }, /Background is unexpected at this time/);
+    });
+  });
+
+  describe('(Rules)', function () {
+    it('should parse a rule with scenarios', function () {
+      var feature = parse_file('rule/feature_with_rule');
+      assert.equal(feature.rules.length, 1);
+      assert.equal(feature.rules[0].title, 'First Rule');
+      assert.equal(feature.rules[0].scenarios.length, 2);
+      assert.equal(feature.rules[0].scenarios[0].title, 'First Scenario');
+      assert.deepEqual(feature.rules[0].scenarios[0].steps, ['Given A', 'When B', 'Then C']);
+      assert.equal(feature.rules[0].scenarios[1].title, 'Second Scenario');
+      assert.deepEqual(feature.rules[0].scenarios[1].steps, ['Given D', 'When E', 'Then F']);
+    });
+
+    it('should keep top level scenarios separate from rule scenarios', function () {
+      var feature = parse_file('rule/feature_with_top_level_and_rule_scenarios');
+      assert.equal(feature.scenarios.length, 1);
+      assert.equal(feature.scenarios[0].title, 'Top Level Scenario');
+      assert.equal(feature.rules.length, 1);
+      assert.equal(feature.rules[0].title, 'A Rule');
+      assert.equal(feature.rules[0].scenarios.length, 1);
+      assert.equal(feature.rules[0].scenarios[0].title, 'Rule Scenario');
+    });
+
+    it('should parse multiple rules', function () {
+      var feature = parse_file('rule/multiple_rules');
+      assert.equal(feature.rules.length, 2);
+      assert.equal(feature.rules[0].title, 'First Rule');
+      assert.equal(feature.rules[1].title, 'Second Rule');
+      assert.equal(feature.rules[0].scenarios[0].title, 'First Scenario');
+      assert.equal(feature.rules[1].scenarios[0].title, 'Second Scenario');
+    });
+
+    it('should parse a rule description', function () {
+      var feature = parse_file('rule/rule_with_description');
+      assert.equal(feature.rules[0].description.join(' - '), 'This rule describes a business constraint - that spans multiple lines');
+    });
+
+    it('should report rule annotations', function () {
+      var feature = parse_file('rule/annotated_rule');
+      assert(feature.rules[0].annotations.only, 'Rule was not annotated');
+    });
+
+    it('should expose an empty rules array when there are no rules', function () {
+      var feature = parse_file('scenario/simple_scenario');
+      assert.deepEqual(feature.rules, []);
+      assert.equal(feature.scenarios.length, 1);
+    });
+
+    it('should not recognise rules in languages without a rule keyword', function () {
+      var language = new Language('NoRule', {
+        feature: '[Ff]eature',
+        scenario: '[Ss]cenario',
+        background: '[Bb]ackground',
+        examples: '[Ee]xamples',
+        pending: '[Pp]ending',
+        only: '[Oo]nly',
+        given: '[Gg]iven',
+        when: '[Ww]hen',
+        then: '[Tt]hen',
+      });
+      var feature = parse_file('scenario/simple_scenario', language);
+      assert.equal(feature.scenarios.length, 1);
+      assert.deepEqual(feature.rules, []);
+    });
+  });
+
+  describe('(Rule Backgrounds)', function () {
+    it('should prepend feature and rule background steps to rule scenarios', function () {
+      var feature = parse_file('rule/rule_with_background');
+      var scenario = feature.rules[0].scenarios[0];
+      assert.deepEqual(scenario.steps, ['Given feature background step', 'Given rule background step', 'Given A', 'When B', 'Then C']);
+    });
+  });
+
+  describe('(Malformed Rules)', function () {
+    it('should reject a rule without scenarios', function () {
+      assert.throws(function () {
+        parse_file('rule/empty_rule');
+      }, /Rule requires one or more scenarios/);
+    });
+
+    it('should reject a rule immediately following a scenario-less rule', function () {
+      assert.throws(function () {
+        parse_file('rule/nested_rule');
+      }, /Rule requires one or more scenarios/);
     });
   });
 

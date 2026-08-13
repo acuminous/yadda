@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Add support for the Gherkin `Rule` keyword. Features may now group scenarios under one or more `Rule`s, and each `Rule` may declare its own `Background`. See https://github.com/acuminous/yadda/issues/270
+  - The parser output includes a new `rules` array on each feature (empty when a feature has no rules); the existing `scenarios` array is unchanged.
+  - The mocha/jasmine plugins expose new `rule`/`rules` container globals for iterating a feature's rules.
+  - Note: a line beginning with `Rule:` is now parsed as the Rule keyword rather than as text. In the unlikely event this affects an existing feature file, reword the step.
 - Restrict dependabot to direct dependencies
 
 ## [2.2.0]

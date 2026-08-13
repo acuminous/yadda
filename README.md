@@ -125,3 +125,47 @@ module.exports = function (bottles) {
       ✓ When 1 green bottle accidentally falls
       ✓ Then there are 99 green bottles standing on the wall
 ```
+
+## Rules
+
+Yadda supports the Gherkin `Rule` keyword for grouping scenarios that belong to a single business rule. A `Rule` may declare its own `Background`, whose steps are prepended (after any feature-level `Background`) to each of the rule's scenarios.
+
+```
+Feature: Highlander
+
+  Background:
+
+    Given a game with 2 immortals
+
+  Rule: There can be only one
+
+    Background:
+
+      Given the immortals fight
+
+    Scenario: One remains
+
+      Then there is 1 immortal left
+```
+
+Parsed features expose a `rules` array alongside the top level `scenarios` array (scenarios declared before the first `Rule` remain in `scenarios`). The mocha/jasmine plugins provide `rule`/`rules` globals so rules nest as their own `describe` block:
+
+```js
+featureFile(file, function (feature) {
+  var yadda = Yadda.createInstance(library);
+
+  scenarios(feature.scenarios, function (scenario) {
+    steps(scenario.steps, function (step, done) {
+      yadda.run(step, done);
+    });
+  });
+
+  rules(feature.rules, function (rule) {
+    scenarios(rule.scenarios, function (scenario) {
+      steps(scenario.steps, function (step, done) {
+        yadda.run(step, done);
+      });
+    });
+  });
+});
+```
