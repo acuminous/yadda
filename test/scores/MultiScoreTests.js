@@ -1,5 +1,3 @@
-'use strict';
-
 var assert = require('assert');
 var MultiScore = require('../../lib/scores/MultiScore');
 

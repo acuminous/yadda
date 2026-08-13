@@ -1,5 +1,3 @@
-'use strict';
-
 var Patient = function (full_name) {
   this.first_name = full_name.split(' ')[0];
   this.last_name = full_name.split(' ')[1];

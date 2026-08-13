@@ -1,5 +1,3 @@
-'use strict';
-
 var Pirate = require('../../lib/localisation/Pirate');
 var Dictionary = require('../../lib/Dictionary');
 var assert = require('assert');

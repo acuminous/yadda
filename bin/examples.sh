@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Links the local yadda build, then installs and runs every example under examples/.
+
 set -e
 
 npm link

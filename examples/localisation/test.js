@@ -1,7 +1,5 @@
 /* jslint node: true */
 /* global featureFile, scenarios, steps */
-'use strict';
-
 var Yadda = require('yadda');
 Yadda.localisation.default = Yadda.localisation.Pirate;
 Yadda.plugins.mocha.StepLevelPlugin.init();

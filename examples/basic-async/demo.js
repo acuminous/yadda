@@ -1,5 +1,3 @@
-'use strict';
-
 var Yadda = require('yadda');
 var library = require('./lib/bottles-library');
 

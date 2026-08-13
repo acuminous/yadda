@@ -1,5 +1,3 @@
-'use strict';
-
 var assert = require('assert');
 var StepParser = require('../lib/index').parsers.StepParser;
 

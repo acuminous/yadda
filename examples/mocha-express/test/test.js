@@ -1,7 +1,5 @@
 /* jslint node: true */
 /* global before, after, featureFile, scenarios, steps */
-'use strict';
-
 var url = require('url');
 var request = require('request');
 var app = require('../app');

@@ -1,5 +1,3 @@
-'use strict';
-
 var assert = require('assert');
 var convert = require('../../lib/converters/table-converter');
 

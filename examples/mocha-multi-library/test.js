@@ -1,7 +1,5 @@
 /* jslint node: true */
 /* global featureFile, scenarios, steps */
-'use strict';
-
 /*
 Please note this is just one way to import different libraries per feature
 The downsides of this approach are that it pollutes the specification

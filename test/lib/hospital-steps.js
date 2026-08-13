@@ -1,5 +1,3 @@
-'use strict';
-
 var assert = require('assert');
 var Dictionary = require('../../lib/index').Dictionary;
 var English = require('../../lib/index').localisation.English;

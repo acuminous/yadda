@@ -1,5 +1,3 @@
-'use strict';
-
 var assert = require('assert');
 var Library = require('../lib/index').Library;
 var Yadda = require('../lib/index').Yadda;

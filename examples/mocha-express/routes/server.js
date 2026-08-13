@@ -1,5 +1,3 @@
-'use strict';
-
 var events = require('events');
 
 module.exports = (function () {
