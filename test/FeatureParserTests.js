@@ -1,3 +1,7 @@
+var nodeTest = require('node:test');
+var describe = nodeTest.describe;
+var it = nodeTest.it;
+var afterEach = nodeTest.afterEach;
 var fs = require('fs');
 var path = require('path');
 var assert = require('assert');

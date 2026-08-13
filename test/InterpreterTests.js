@@ -1,3 +1,6 @@
+var nodeTest = require('node:test');
+var describe = nodeTest.describe;
+var it = nodeTest.it;
 var assert = require('assert');
 var Yadda = require('../lib/index');
 var Interpreter = Yadda.Interpreter;
@@ -83,7 +86,7 @@ describe('Interpreter', function () {
     }, /Undefined Step: \[Blah blah blah\]/);
   });
 
-  it('should interpret steps asynchronously', function (done) {
+  it('should interpret steps asynchronously', function (t, done) {
     var counter = new Counter();
     var library = new Library().define('Blah blah blah', counter.count);
 
@@ -93,7 +96,7 @@ describe('Interpreter', function () {
     });
   });
 
-  it('should support variadic asynchronous steps', function (done) {
+  it('should support variadic asynchronous steps', function (t, done) {
     var counter = new Counter();
     var library = new Library().define(
       ['Blah (blah)', 'Blah (blah) (blah)'],
@@ -111,7 +114,7 @@ describe('Interpreter', function () {
     });
   });
 
-  it('should bind the context to the macro', function (done) {
+  it('should bind the context to the macro', function (t, done) {
     var context = new Context({ foo: 'bar' });
     var library = new Library().define('Blah blah blah', function (next) {
       assert.equal(this.foo, 'bar');
@@ -121,7 +124,7 @@ describe('Interpreter', function () {
     new Interpreter(library).interpret(['Blah blah blah', 'Blah blah blah'], context, done);
   });
 
-  it('should notify listeners of interpreter events', function (done) {
+  it('should notify listeners of interpreter events', function (t, done) {
     var library = new Library().define('Blah blah blah');
     var interpreter = new Interpreter(library);
     var listener = new Listener();

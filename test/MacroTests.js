@@ -1,3 +1,6 @@
+var nodeTest = require('node:test');
+var describe = nodeTest.describe;
+var it = nodeTest.it;
 var assert = require('assert');
 var Macro = require('../lib/Macro');
 var Context = require('../lib/Context');
@@ -36,7 +39,7 @@ describe('Macro', function () {
     assert.equal(execution.args.length, 4);
   });
 
-  it('should interpret a synchronous step asynchronously', function (done) {
+  it('should interpret a synchronous step asynchronously', function (t, done) {
     var execution = new Execution();
 
     new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.fn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }), function () {
@@ -48,7 +51,7 @@ describe('Macro', function () {
     });
   });
 
-  it('should interpret an asynchronous step', function (done) {
+  it('should interpret an asynchronous step', function (t, done) {
     var execution = new Execution();
 
     new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.afn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }), function () {
@@ -60,7 +63,7 @@ describe('Macro', function () {
     });
   });
 
-  it('should fail when too few step arguments for asynchronous steps', function (done) {
+  it('should fail when too few step arguments for asynchronous steps', function (t, done) {
     var execution = new Execution();
 
     new Macro('Easy', parsed_signature(/Easy as (\d), (\d), 3/), execution.afn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }), function (err) {
@@ -69,7 +72,7 @@ describe('Macro', function () {
     });
   });
 
-  it('should fail when too many step arguments for asynchronous steps', function (done) {
+  it('should fail when too many step arguments for asynchronous steps', function (t, done) {
     var execution = new Execution();
 
     new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d), (\d)/), execution.afn, { a: 1 }).interpret('Easy as 1, 2, 3, 4', new Context({ b: 2 }), function (err) {
@@ -78,7 +81,7 @@ describe('Macro', function () {
     });
   });
 
-  it('should support variadic async functions', function (done) {
+  it('should support variadic async functions', function (t, done) {
     var execution = new Execution();
 
     new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d), (\d)/), execution.vafn, { a: 1 }, undefined, { mode: 'async' }).interpret('Easy as 1, 2, 3, 4', new Context({ b: 2 }), function () {
@@ -90,7 +93,7 @@ describe('Macro', function () {
     });
   });
 
-  it('should execute a promisified step', function (done) {
+  it('should execute a promisified step', function (t, done) {
     var execution = new Execution();
 
     new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.promise, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }), function () {
@@ -124,13 +127,13 @@ describe('Macro', function () {
     });
   });
 
-  it('should default to a no operation function', function (done) {
+  it('should default to a no operation function', function (t, done) {
     new Macro('blah $a', parsed_signature(/blah (.*)/)).interpret('blah 1', {}, function () {
       done();
     });
   });
 
-  it('should notify listeners of execute events', function (done) {
+  it('should notify listeners of execute events', function (t, done) {
     var listener = new Listener();
 
     EventBus.instance().on(/EXECUTE/, listener.listen);
@@ -147,7 +150,7 @@ describe('Macro', function () {
     done();
   });
 
-  it('should notify listeners of define events', function (done) {
+  it('should notify listeners of define events', function (t, done) {
     var listener = new Listener();
 
     EventBus.instance().on(/DEFINE/, listener.listen);

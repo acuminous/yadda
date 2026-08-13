@@ -1,0 +1,11 @@
+pre-commit:
+  commands:
+    format:
+      glob: '*.js'
+      run: npx prettier --write {staged_files}
+      stage_fixed: true
+
+pre-push:
+  commands:
+    test:
+      run: node --test 'test/**/*.js'

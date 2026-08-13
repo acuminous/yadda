@@ -1,3 +1,6 @@
+var nodeTest = require('node:test');
+var describe = nodeTest.describe;
+var it = nodeTest.it;
 var assert = require('assert');
 var Library = require('../lib/index').Library;
 var Yadda = require('../lib/index').Yadda;
@@ -12,7 +15,7 @@ describe('Yadda', function () {
     assert.equal(executions, 1);
   });
 
-  it('should interpret asynchronous scenarios', function (done) {
+  it('should interpret asynchronous scenarios', function (t, done) {
     var executions = 0;
     var library = new Library().define('foo', function (next) {
       executions++;
@@ -25,7 +28,7 @@ describe('Yadda', function () {
     });
   });
 
-  it('should interpret a mix of asynchronous and synchronous scenarios', function (done) {
+  it('should interpret a mix of asynchronous and synchronous scenarios', function (t, done) {
     var executions = 0;
     var library = new Library()
       .define('foo', function (next) {
@@ -42,7 +45,7 @@ describe('Yadda', function () {
     });
   });
 
-  it('should interpret asynchronous returning promises', function (done) {
+  it('should interpret asynchronous returning promises', function (t, done) {
     var executions = 0;
     var library = new Library().define('foo', function () {
       executions++;
@@ -62,7 +65,7 @@ describe('Yadda', function () {
     });
   });
 
-  it('should interpret asynchronous returning promises', function (done) {
+  it('should interpret asynchronous returning promises', function (t, done) {
     var executions = 0;
     var library = new Library().define('foo', function () {
       executions++;
@@ -93,7 +96,7 @@ describe('Yadda', function () {
     assert.equal(executions, 1);
   });
 
-  it('should interpret asynchronous variadic steps', function (done) {
+  it('should interpret asynchronous variadic steps', function (t, done) {
     var executions = 0;
     var library = new Library().define(
       'foo',
@@ -113,7 +116,7 @@ describe('Yadda', function () {
     });
   });
 
-  it('should interpret asynchronous localised variadic steps', function (done) {
+  it('should interpret asynchronous localised variadic steps', function (t, done) {
     var executions = 0;
     var English = require('../lib').localisation.English;
     var library = new English.library().given(

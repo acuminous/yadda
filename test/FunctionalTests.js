@@ -1,3 +1,7 @@
+var nodeTest = require('node:test');
+var describe = nodeTest.describe;
+var it = nodeTest.it;
+var beforeEach = nodeTest.beforeEach;
 var Yadda = require('../lib/index').Yadda;
 
 describe('Hospital', function () {

@@ -1,3 +1,6 @@
+var nodeTest = require('node:test');
+var describe = nodeTest.describe;
+var it = nodeTest.it;
 var assert = require('assert');
 var Yadda = require('../lib/index');
 var Interpreter = Yadda.Interpreter;
