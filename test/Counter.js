@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports = function () {
   var tally = 0;
 

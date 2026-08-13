@@ -1,5 +1,27 @@
 # Change Log
 
+## [3.0.0]
+
+Yadda 3.0 is a breaking modernization that makes Yadda **Node-only** and removes a large amount of dead tooling.
+
+### Breaking
+
+- Dropped in-browser support and bundling. The `browserify` npm script and `bin/browserify.js` are gone; no new `dist/` bundles are produced (the existing archive remains in git for hotlinkers). See https://github.com/acuminous/yadda/issues/320
+- Removed `lib/Platform.js` and its `Platform` export from `lib/index.js`. The container is always `global`. See https://github.com/acuminous/yadda/issues/321
+- Removed `lib/shims/` and its `shims` export from `lib/index.js`. Node's `fs`/`path`/`process` are required directly. See https://github.com/acuminous/yadda/issues/322
+- Removed the CasperJS plugin (`lib/plugins/casper`). CasperJS is abandoned and depended on the removed PhantomJS/browser support.
+- Removed the version string from `String(yadda)`. The version's source of truth is now `package.json`. See https://github.com/acuminous/yadda/issues/323
+
+### Removed
+
+- Bower and Component package manager configs (`bower.json`, `component.json`). See https://github.com/acuminous/yadda/issues/314, https://github.com/acuminous/yadda/issues/315
+- karma and PhantomJS (`karma.conf.js`, the `karma` npm script, and related devDependencies). See https://github.com/acuminous/yadda/issues/316
+- The nightwatch, qunit, and nodeunit examples. See https://github.com/acuminous/yadda/issues/317, https://github.com/acuminous/yadda/issues/318, https://github.com/acuminous/yadda/issues/319
+- nyc and its coverage npm scripts (coverage moves to `node:test` built-in coverage). See https://github.com/acuminous/yadda/issues/325
+- The `bin/rev.sh` release script (replaced by npm's version lifecycle). See https://github.com/acuminous/yadda/issues/326
+- The CodeQL workflow. See https://github.com/acuminous/yadda/issues/327
+- All `'use strict'` directives. See https://github.com/acuminous/yadda/issues/324
+
 ## [2.3.0]
 
 - Add support for the Gherkin `Rule` keyword. Features may now group scenarios under one or more `Rule`s, and each `Rule` may declare its own `Background`. See https://github.com/acuminous/yadda/issues/270

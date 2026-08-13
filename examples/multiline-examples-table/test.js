@@ -1,7 +1,5 @@
 /* jslint node: true */
 /* global featureFile, scenarios, steps */
-'use strict';
-
 var parse = require('csv-parse');
 var Yadda = require('yadda');
 Yadda.plugins.mocha.StepLevelPlugin.init();

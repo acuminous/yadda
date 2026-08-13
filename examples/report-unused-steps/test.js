@@ -1,7 +1,5 @@
 /* jslint node: true */
 /* global featureFile, scenarios, steps */
-'use strict';
-
 var Yadda = require('yadda');
 var EventBus = Yadda.EventBus;
 Yadda.plugins.mocha.StepLevelPlugin.init();

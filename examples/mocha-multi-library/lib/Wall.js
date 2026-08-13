@@ -1,5 +1,3 @@
-'use strict';
-
 var Wall = function (items) {
   this.items = items;
   this.fall = function (n) {

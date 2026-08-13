@@ -1,5 +1,3 @@
-'use strict';
-
 var assert = require('assert');
 var EventBus = require('../lib/EventBus');
 

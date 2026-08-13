@@ -1,5 +1,3 @@
-'use strict';
-
 var assert = require('assert');
 var Dictionary = require('../lib/index').Dictionary;
 var pass_through_converter = require('../lib/converters/pass-through-converter');

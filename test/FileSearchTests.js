@@ -1,6 +1,4 @@
-'use strict';
-
-var path = require('../lib/shims').path;
+var path = require('path');
 var assert = require('assert');
 var FileSearch = require('../lib/FileSearch');
 

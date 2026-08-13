@@ -1,7 +1,5 @@
 /* jslint node: true */
 /* global featureFile, scenarios, steps */
-'use strict';
-
 var Yadda = require('yadda');
 var English = Yadda.localisation.English;
 var assert = require('assert');

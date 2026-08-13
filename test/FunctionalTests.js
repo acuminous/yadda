@@ -1,5 +1,3 @@
-'use strict';
-
 var Yadda = require('../lib/index').Yadda;
 
 describe('Hospital', function () {

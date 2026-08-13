@@ -1,5 +1,3 @@
-'use strict';
-
 var assert = require('assert');
 var Macro = require('../lib/Macro');
 var Context = require('../lib/Context');

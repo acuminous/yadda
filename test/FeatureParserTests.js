@@ -1,7 +1,5 @@
-'use strict';
-
-var fs = require('../lib/shims').fs;
-var path = require('../lib/shims').path;
+var fs = require('fs');
+var path = require('path');
 var assert = require('assert');
 var FeatureParser = require('../lib/index').parsers.FeatureParser;
 var Localisation = require('../lib/index').localisation;
