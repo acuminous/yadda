@@ -1,3 +1,6 @@
+var nodeTest = require('node:test');
+var describe = nodeTest.describe;
+var it = nodeTest.it;
 var assert = require('assert');
 var Dictionary = require('../lib/index').Dictionary;
 var pass_through_converter = require('../lib/converters/pass-through-converter');

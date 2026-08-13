@@ -1,3 +1,6 @@
+var nodeTest = require('node:test');
+var describe = nodeTest.describe;
+var it = nodeTest.it;
 var assert = require('assert');
 var EventBus = require('../lib/EventBus');
 
@@ -41,12 +44,12 @@ describe('EventBus', function () {
     assert.equal(0, listener.events.length);
   });
 
-  it('should execute callbacks without event data', function (done) {
+  it('should execute callbacks without event data', function (t, done) {
     var listener = new Listener();
     bus.on(/f.*/, listener.listen).send('bar', done);
   });
 
-  it('should execute callbacks with event data', function (done) {
+  it('should execute callbacks with event data', function (t, done) {
     var listener = new Listener();
     bus.on(/f.*/, listener.listen).send('bar', {}, done);
   });

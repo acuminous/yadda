@@ -12,6 +12,12 @@ Yadda 3.0 is a breaking modernization that makes Yadda **Node-only** and removes
 - Removed the CasperJS plugin (`lib/plugins/casper`). CasperJS is abandoned and depended on the removed PhantomJS/browser support.
 - Removed the version string from `String(yadda)`. The version's source of truth is now `package.json`. See https://github.com/acuminous/yadda/issues/323
 
+### Changed
+
+- Migrated the library's own test suite from mocha to Node's built-in `node:test` runner, run via `node --test`. The mocha/jasmine plugins Yadda ships to users are unaffected. See https://github.com/acuminous/yadda/issues/328
+- Coverage now uses `node --test --experimental-test-coverage` with the built-in lcov reporter (`npm run coverage`), replacing nyc. See https://github.com/acuminous/yadda/issues/329
+- Replaced husky and lint-staged with lefthook (`lefthook.yml`): pre-commit formats staged JS, pre-push runs the tests. Also removed the stale husky-v4 config block from `package.json`. See https://github.com/acuminous/yadda/issues/331
+
 ### Removed
 
 - Bower and Component package manager configs (`bower.json`, `component.json`). See https://github.com/acuminous/yadda/issues/314, https://github.com/acuminous/yadda/issues/315

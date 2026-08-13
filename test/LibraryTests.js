@@ -1,3 +1,6 @@
+var nodeTest = require('node:test');
+var describe = nodeTest.describe;
+var it = nodeTest.it;
 var assert = require('assert');
 var Library = require('../lib/index').Library;
 var English = require('../lib/index').localisation.English;
