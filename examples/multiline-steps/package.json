@@ -4,13 +4,11 @@
   "description": "Yadda multiline steps example",
   "scripts": {
     "postinstall": "npm --loglevel error link yadda",
-    "test": "node bin/example.js"
+    "test": "node --test test.js"
   },
   "license": "Apache2",
   "dependencies": {
     "csv-parse": "^4.4.6",
-    "lodash": "^4.17.11",
-    "mocha": "^5.2.0"
-  },
-  "devDependencies": {}
+    "lodash": "^4.17.11"
+  }
 }

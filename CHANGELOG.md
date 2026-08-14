@@ -18,6 +18,7 @@ Yadda 3.0 is a breaking modernization that makes Yadda **Node-only** and removes
 ### Changed
 
 - Migrated the library's own test suite from mocha to Node's built-in `node:test` runner, run via `node --test`. The mocha/jasmine plugins Yadda ships to users are unaffected. See https://github.com/acuminous/yadda/issues/328
+- Migrated the non-mocha examples (context, context-param, data-tables, dictionary, localisation, multiline-examples-table, multiline-steps, report-unused-steps, resuable-scenarios) from mocha to the `node:test` plugin. Each now runs via `node --test test.js`, dropping the `mocha` dependency and the `bin/example.*` spawn shims. The `mocha-*` examples are retained to demonstrate the mocha plugin. See https://github.com/acuminous/yadda/issues/335
 - Coverage now uses `node --test --experimental-test-coverage` with the built-in lcov reporter (`npm run coverage`), replacing nyc. See https://github.com/acuminous/yadda/issues/329
 - Replaced husky and lint-staged with lefthook (`lefthook.yml`): pre-commit formats staged JS, pre-push runs the tests. Also removed the stale husky-v4 config block from `package.json`. See https://github.com/acuminous/yadda/issues/331
 - Modernised `lib` to ES6 syntax (`const`/`let`, arrow functions, default parameters). This is syntax-only — Yadda stays CommonJS and keeps its closure-based object pattern rather than moving to `class`. See https://github.com/acuminous/yadda/issues/332
@@ -28,6 +29,7 @@ Yadda 3.0 is a breaking modernization that makes Yadda **Node-only** and removes
 
 - `ContextBoundMacro`/`ContextBoundLibrary` and `BaseMacro`/`BaseLibrary`. The former default `Macro`/`Library` are now the concrete `ContextBound*` types (steps bound to `this`), and both they and the new `ContextParam*` variant extend a neutral `Base*` that carries the shared logic. See https://github.com/acuminous/yadda/issues/334
 - `ContextParamLibrary`, a `ContextBoundLibrary` sibling whose steps receive the scenario context as their first argument instead of via `this`. This makes step definitions usable as arrow functions. See https://github.com/acuminous/yadda/issues/334
+- A `nodetest` plugin (`Yadda.plugins.nodetest`) with `StepLevelPlugin`/`ScenarioLevelPlugin`, wiring feature files into Node's built-in `node:test` runner. Unlike the mocha plugin it returns the `featureFile`/`scenarios`/`steps` helpers rather than assigning globals, since `node:test` has no global injection. A runtime `this.skip()` throws internally so the remaining steps in the scenario are skipped, matching the mocha plugin's behaviour. See https://github.com/acuminous/yadda/issues/335
 
 ### Deprecated
 

@@ -1,17 +1,14 @@
-/* jslint node: true */
-/* global featureFile, scenarios, steps */
-var parse = require('csv-parse');
-var Yadda = require('yadda');
-Yadda.plugins.mocha.StepLevelPlugin.init();
+const Yadda = require('yadda');
+const { featureFile, scenarios, steps } = Yadda.plugins.nodetest.StepLevelPlugin.init();
 
-new Yadda.FeatureFileSearch('features').each(function (file) {
-  featureFile(file, function (feature) {
-    var transpileLibrary = require('./transpile-library');
+new Yadda.FeatureFileSearch('features').each((file) => {
+  featureFile(file, (feature) => {
+    const transpileLibrary = require('./transpile-library');
 
-    var yadda = Yadda.createInstance(transpileLibrary);
+    const yadda = Yadda.createInstance(transpileLibrary);
 
-    scenarios(feature.scenarios, function (scenario) {
-      steps(scenario.steps, function (step, done) {
+    scenarios(feature.scenarios, (scenario) => {
+      steps(scenario.steps, (step, done) => {
         yadda.run(step, done);
       });
     });

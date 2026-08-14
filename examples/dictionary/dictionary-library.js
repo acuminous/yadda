@@ -1,4 +1,3 @@
-/* jslint node: true */
 var Yadda = require('yadda');
 var English = Yadda.localisation.English;
 var Dictionary = Yadda.Dictionary;
