@@ -41,6 +41,7 @@ Yadda 3.0 is a breaking modernization that makes Yadda **Node-only** and removes
 - Bower and Component package manager configs (`bower.json`, `component.json`). See https://github.com/acuminous/yadda/issues/314, https://github.com/acuminous/yadda/issues/315
 - karma and PhantomJS (`karma.conf.js`, the `karma` npm script, and related devDependencies). See https://github.com/acuminous/yadda/issues/316
 - The nightwatch, qunit, and nodeunit examples. See https://github.com/acuminous/yadda/issues/317, https://github.com/acuminous/yadda/issues/318, https://github.com/acuminous/yadda/issues/319
+- The mocha-express example. It demonstrated no Yadda-specific behaviour beyond driving a live server, which the Puppeteer/Playwright examples cover, and pulled in abandoned dependencies (`request`, `node-uuid`, `async`, `underscore`). See https://github.com/acuminous/yadda/issues/336
 - nyc and its coverage npm scripts (coverage moves to `node:test` built-in coverage). See https://github.com/acuminous/yadda/issues/325
 - The `bin/rev.sh` release script (replaced by npm's version lifecycle). See https://github.com/acuminous/yadda/issues/326
 - The CodeQL workflow. See https://github.com/acuminous/yadda/issues/327
