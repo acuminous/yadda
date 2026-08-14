@@ -1,5 +1,5 @@
 {
-  "name": "yadda-context-example",
+  "name": "yadda-context-bound-example",
   "version": "0.0.0",
   "scripts": {
     "postinstall": "npm --loglevel error link yadda",

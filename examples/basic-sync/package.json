@@ -1,5 +1,5 @@
 {
-  "name": "yadda-basic-example",
+  "name": "yadda-basic-sync-example",
   "version": "0.0.0",
   "scripts": {
     "postinstall": "npm --loglevel error link yadda",
