@@ -8,5 +8,6 @@ npm-debug.log
 components/
 build/
 .idea
-.codeclimate
-.nyc_output
+lcov.info
+test-results/
+playwright-report/

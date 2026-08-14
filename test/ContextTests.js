@@ -1,10 +1,9 @@
-'use strict';
+const { describe, it } = require('node:test');
+const { deepEqual: deq } = require('node:assert');
+const Context = require('../lib/Context');
 
-var assert = require('assert');
-var Context = require('../lib/Context');
-
-describe('Context', function () {
-  it('should merge objects', function () {
+describe('Context', () => {
+  it('should merge objects', () => {
     assert_merge_context({ a: 1 }, undefined, { a: 1 });
     assert_merge_context({ a: 1 }, null, { a: 1 });
     assert_merge_context({ a: 1 }, {}, { a: 1 });
@@ -18,11 +17,11 @@ describe('Context', function () {
     assert_merge_context({ a: 2 }, { a: 1 }, { a: 1 });
   });
 
-  it('should merge contexts', function () {
-    assert.deepEqual(new Context({ a: 1 }).merge(new Context({ b: 2 })).properties, new Context({ a: 1, b: 2 }).properties);
+  it('should merge contexts', () => {
+    deq(new Context({ a: 1 }).merge(new Context({ b: 2 })).properties, new Context({ a: 1, b: 2 }).properties);
   });
 
-  var assert_merge_context = function (thing1, thing2, expected) {
-    assert.deepEqual(new Context(thing1).merge(thing2).properties, expected);
+  const assert_merge_context = (thing1, thing2, expected) => {
+    deq(new Context(thing1).merge(thing2).properties, expected);
   };
 });

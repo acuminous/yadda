@@ -1,23 +1,22 @@
-'use strict';
+const { describe, it } = require('node:test');
+const { equal: eq, ok, ifError } = require('node:assert');
+const convert = require('../../lib/converters/float-converter');
 
-var assert = require('assert');
-var convert = require('../../lib/converters/float-converter');
-
-describe('Float Converter', function () {
-  it('Should convert strings to float', function (next) {
-    convert('1.1', function (err, value) {
-      assert.ifError(err);
-      assert.equal(value, 1.1);
-      assert.equal(typeof value, 'number');
-      next();
+describe('Float Converter', () => {
+  it('Should convert strings to float', (_t, done) => {
+    convert('1.1', (err, value) => {
+      ifError(err);
+      eq(value, 1.1);
+      eq(typeof value, 'number');
+      done();
     });
   });
 
-  it('Should error on NaN', function (next) {
-    convert('a', function (err, value) {
-      assert(err);
-      assert.equal(err.message, 'Cannot convert [a] to a float');
-      next();
+  it('Should error on NaN', (_t, done) => {
+    convert('a', (err, _value) => {
+      ok(err);
+      eq(err.message, 'Cannot convert [a] to a float');
+      done();
     });
   });
 });

@@ -1,6 +1,4 @@
-'use strict';
-
-var Patient = function (full_name) {
+const Patient = function (full_name) {
   this.first_name = full_name.split(' ')[0];
   this.last_name = full_name.split(' ')[1];
   this.full_name = full_name;
@@ -9,7 +7,7 @@ var Patient = function (full_name) {
   this.template;
 };
 
-var Hospital = function (name) {
+const Hospital = function (name) {
   this.name = name;
   this.patients = {};
   this.wards = {};
@@ -42,8 +40,8 @@ var Hospital = function (name) {
   };
 
   this.get_bed = function (number) {
-    var bed;
-    for (var ward in this.wards) {
+    let bed;
+    for (const ward in this.wards) {
       bed = this.wards[ward].get_bed(number);
       if (bed) break;
     }
@@ -51,7 +49,7 @@ var Hospital = function (name) {
   };
 };
 
-var Ward = function (name) {
+const Ward = function (name) {
   this.name = name;
   this.speciality;
   this.beds = {};
@@ -61,12 +59,12 @@ var Ward = function (name) {
   };
 
   this.add_bed = function (bed) {
-    // eslint-disable-next-line no-return-assign
-    return (this.beds[bed.number] = bed);
+    this.beds[bed.number] = bed;
+    return bed;
   };
 };
 
-var Bed = function (ward, number) {
+const Bed = function (ward, number) {
   this.ward = ward;
   this.number = number;
   this.gender;
@@ -74,7 +72,6 @@ var Bed = function (ward, number) {
 
   this.admit = function (patient) {
     this.patient = patient;
-    // eslint-disable-next-line no-return-assign
     this.patient.template = this.patient.speciality === this.ward.speciality ? 'on' : 'off';
   };
 };

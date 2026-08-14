@@ -1,23 +1,22 @@
-'use strict';
+const { describe, it } = require('node:test');
+const { equal: eq, ok, ifError } = require('node:assert');
+const convert = require('../../lib/converters/integer-converter');
 
-var assert = require('assert');
-var convert = require('../../lib/converters/integer-converter');
-
-describe('Integer Converter', function () {
-  it('Should convert strings to integers', function (next) {
-    convert('1', function (err, value) {
-      assert.ifError(err);
-      assert.equal(value, 1);
-      assert.equal(typeof value, 'number');
-      next();
+describe('Integer Converter', () => {
+  it('Should convert strings to integers', (_t, done) => {
+    convert('1', (err, value) => {
+      ifError(err);
+      eq(value, 1);
+      eq(typeof value, 'number');
+      done();
     });
   });
 
-  it('Should error on NaN', function (next) {
-    convert('a', function (err, value) {
-      assert(err);
-      assert.equal(err.message, 'Cannot convert [a] to an integer');
-      next();
+  it('Should error on NaN', (_t, done) => {
+    convert('a', (err, _value) => {
+      ok(err);
+      eq(err.message, 'Cannot convert [a] to an integer');
+      done();
     });
   });
 });

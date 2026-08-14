@@ -1,25 +1,23 @@
-'use strict';
-
-var Yadda = require('yadda');
-var English = Yadda.localisation.English;
-var assert = require('assert');
-var format = require('util').format;
+const Yadda = require('yadda');
+const English = Yadda.localisation.English;
+const assert = require('assert');
+const format = require('util').format;
 
 module.exports = (function () {
-  var wall;
+  let wall;
 
-  var library = English.library()
-    .given('$NUM green bottles are standing on the wall', function (number_of_bottles, next) {
+  const library = English.localise(new Yadda.ContextParamLibrary())
+    .given('$NUM green bottles are standing on the wall', (ctx, number_of_bottles, next) => {
       wall = new Wall(number_of_bottles);
       wall.printStatus();
       next();
     })
-    .when('$NUM green bottle accidentally falls', function (number_of_falling_bottles, next) {
+    .when('$NUM green bottle accidentally falls', (ctx, number_of_falling_bottles, next) => {
       wall.fall(number_of_falling_bottles);
       console.log('%s bottle falls', number_of_falling_bottles);
       next();
     })
-    .then('there are $NUM green bottles standing on the wall', function (number_of_bottles, next) {
+    .then('there are $NUM green bottles standing on the wall', (ctx, number_of_bottles, next) => {
       if (number_of_bottles != wall.bottles) return next(new Error(format('Expected %d but got %d', number_of_bottles, wall.bottles)));
       wall.printStatus();
       next();

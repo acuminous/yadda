@@ -1,67 +1,66 @@
-'use strict';
+const { describe, it } = require('node:test');
+const { equal: eq, throws } = require('node:assert');
+const ContextBoundMacro = require('../lib/ContextBoundMacro');
+const Competition = require('../lib/Competition');
+const Dictionary = require('../lib/Dictionary');
+const fn = require('../lib/fn');
 
-var assert = require('assert');
-var Macro = require('../lib/Macro');
-var Competition = require('../lib/Competition');
-var Dictionary = require('../lib/Dictionary');
-var fn = require('../lib/fn');
+describe('Competition', () => {
+  it('should decide winner by Levenshtein distance', () => {
+    const best_match = new ContextBoundMacro('best', parsed_signature(/given 1 (.*) patient/));
+    const middle_match = new ContextBoundMacro('middle', parsed_signature(/given (\d+) (.*) patient(?:s{0,1})/));
+    const worst_match = new ContextBoundMacro('worse', parsed_signature(/given (\d+) (.*) (?:patient|patients)/));
+    const competition = new Competition('given 1 male patient', [worst_match, best_match, middle_match]);
 
-describe('Competition', function () {
-  it('should decide winner by Levenshtein distance', function () {
-    var best_match = new Macro('best', parsed_signature(/given 1 (.*) patient/));
-    var middle_match = new Macro('middle', parsed_signature(/given (\d+) (.*) patient(?:s{0,1})/));
-    var worst_match = new Macro('worse', parsed_signature(/given (\d+) (.*) (?:patient|patients)/));
-    var competition = new Competition('given 1 male patient', [worst_match, best_match, middle_match]);
-
-    assert.equal(competition.clear_winner().signature, best_match.signature);
+    eq(competition.clear_winner().signature, best_match.signature);
   });
 
-  it('should decide winner by Levenshtein distance on multiline', function () {
-    var best_match = new Macro('best', parsed_signature(/given 1 ([^\u0000]*) text/));
-    var middle_match = new Macro('middle', parsed_signature(/given (\d+) ([^\u0000]*) text (?:s{0,1})/));
-    var worst_match = new Macro('worse', parsed_signature(/given (\d+) ([^\u0000]*) (?:text|code)/));
-    var competition = new Competition('given 1 a\nb\nc text', [worst_match, best_match, middle_match]);
+  it('should decide winner by Levenshtein distance on multiline', () => {
+    const best_match = new ContextBoundMacro('best', parsed_signature(/given 1 ([^\u0000]*) text/));
+    const middle_match = new ContextBoundMacro('middle', parsed_signature(/given (\d+) ([^\u0000]*) text (?:s{0,1})/));
+    const worst_match = new ContextBoundMacro('worse', parsed_signature(/given (\d+) ([^\u0000]*) (?:text|code)/));
+    const competition = new Competition('given 1 a\nb\nc text', [worst_match, best_match, middle_match]);
 
-    assert.equal(competition.clear_winner().signature, best_match.signature);
+    eq(competition.clear_winner().signature, best_match.signature);
   });
 
-  it('should decide tie breakers by prefering to macro from the same library as the previous winner', function () {
-    var library1 = { name: 'l1' };
-    var library2 = { name: 'l2' };
-    var previous_match = new Macro('previous', parsed_signature(/whatever/), fn.noop, {}, library1);
-    var best_match = new Macro('best', parsed_signature(/given 1 (.*) patient/), fn.noop, {}, library1);
-    var equal_match = new Macro('equal', parsed_signature(/given 1 (.+) patient/), fn.noop, {}, library2);
-    var competition = new Competition('given 1 male patient', [best_match, equal_match], previous_match);
+  it('should decide tie breakers by prefering to macro from the same library as the previous winner', () => {
+    const library1 = { name: 'l1' };
+    const library2 = { name: 'l2' };
+    const previous_match = new ContextBoundMacro('previous', parsed_signature(/whatever/), fn.noop, {}, library1);
+    const best_match = new ContextBoundMacro('best', parsed_signature(/given 1 (.*) patient/), fn.noop, {}, library1);
+    const equal_match = new ContextBoundMacro('equal', parsed_signature(/given 1 (.+) patient/), fn.noop, {}, library2);
+    const competition = new Competition('given 1 male patient', [best_match, equal_match], previous_match);
 
-    assert.equal(competition.clear_winner().signature, best_match.signature);
+    eq(competition.clear_winner().signature, best_match.signature);
   });
 
-  it('should support joint winners', function () {
-    var library1 = { name: 'l1' };
-    var previous_match = new Macro('previous', parsed_signature(/whatever/), fn.noop, {}, library1);
-    var best_match = new Macro('best', parsed_signature(/given 1 (.*) patient/), fn.noop, {}, library1);
-    var equal_match = new Macro('equal', parsed_signature(/given 1 (.+) patient/), fn.noop, {}, library1);
-    var competition = new Competition('given 1 male patient', [best_match, equal_match], previous_match);
+  it('should support joint winners', () => {
+    const library1 = { name: 'l1' };
+    const previous_match = new ContextBoundMacro('previous', parsed_signature(/whatever/), fn.noop, {}, library1);
+    const best_match = new ContextBoundMacro('best', parsed_signature(/given 1 (.*) patient/), fn.noop, {}, library1);
+    const equal_match = new ContextBoundMacro('equal', parsed_signature(/given 1 (.+) patient/), fn.noop, {}, library1);
+    const competition = new Competition('given 1 male patient', [best_match, equal_match], previous_match);
 
-    assert.throws(function () {
+    throws(() => {
       competition.clear_winner();
     }, /Ambiguous Step: \[given 1 male patient\]. Patterns \[\/best\/, \/equal\/\] match equally well./);
   });
 
-  it('should support multiline joint winners', function () {
-    var best_match = new Macro('best', /given ([^\u0000]*) text/);
-    var equal_match = new Macro('equal', /given ([^\u0000]+) text/);
-    var competition = new Competition('given 1\n2\n3 text', [best_match, equal_match]);
+  it('should support multiline joint winners', () => {
+    const best_match = new ContextBoundMacro('best', /given ([^\u0000]*) text/);
+    const equal_match = new ContextBoundMacro('equal', /given ([^\u0000]+) text/);
+    const competition = new Competition('given 1\n2\n3 text', [best_match, equal_match]);
 
-    assert.throws(function () {
+    throws(() => {
       competition.clear_winner();
     }, /Ambiguous Step: \[given 1\n2\n3 text\]. Patterns \[\/best\/, \/equal\/\] match equally well./);
   });
 
-  it('Should support no winner', function () {
-    var competition = new Competition('given 1 male patient', []);
+  it('Should support no winner', () => {
+    const competition = new Competition('given 1 male patient', []);
 
-    assert.throws(function () {
+    throws(() => {
       competition.clear_winner();
     }, /Undefined Step: \[given 1 male patient\]/);
   });

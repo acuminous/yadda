@@ -1,0 +1,14 @@
+{
+  "name": "yadda-playwright-example",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Driving a browser with Yadda and Playwright",
+  "scripts": {
+    "pretest": "playwright install chromium",
+    "test": "playwright test"
+  },
+  "dependencies": {
+    "@playwright/test": "^1.48.0",
+    "yadda": "file:../.."
+  }
+}

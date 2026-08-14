@@ -1,37 +1,34 @@
-/* jslint node: true */
-/* global featureFile, scenarios, steps */
-'use strict';
+const { after } = require('node:test');
+const Yadda = require('yadda');
+const EventBus = Yadda.EventBus;
+const { featureFile, scenarios, steps } = Yadda.plugins.nodetest.StepLevelPlugin.init();
 
-var Yadda = require('yadda');
-var EventBus = Yadda.EventBus;
-Yadda.plugins.mocha.StepLevelPlugin.init();
-
-var unused = {};
+const unused = {};
 
 EventBus.instance()
-  .on(EventBus.ON_DEFINE, function (event) {
+  .on(EventBus.ON_DEFINE, (event) => {
     unused[event.data.pattern] = event.data.signature;
   })
-  .on(EventBus.ON_EXECUTE, function (event) {
+  .on(EventBus.ON_EXECUTE, (event) => {
     delete unused[event.data.pattern];
   });
 
-new Yadda.FeatureFileSearch('features').each(function (file) {
-  featureFile(file, function (feature) {
-    var library = require('./bottles-library');
-    var yadda = Yadda.createInstance(library);
+new Yadda.FeatureFileSearch('features').each((file) => {
+  featureFile(file, (feature) => {
+    const library = require('./bottles-library');
+    const yadda = Yadda.createInstance(library);
 
-    scenarios(feature.scenarios, function (scenario) {
-      steps(scenario.steps, function (step, done) {
+    scenarios(feature.scenarios, (scenario) => {
+      steps(scenario.steps, (step, done) => {
         yadda.run(step, done);
       });
     });
   });
 });
 
-after(function () {
+after(() => {
   console.log('Unused steps');
-  for (var pattern in unused) {
+  for (const pattern in unused) {
     console.log(pattern);
   }
 });
