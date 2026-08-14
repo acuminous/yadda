@@ -8,7 +8,7 @@ module.exports = (function () {
   var poem;
   var dictionary = new Dictionary().define('NUM', /(\d+)/, Yadda.converters.integer).define('poem', /([^\u0000]*)/);
 
-  var library = English.library(dictionary)
+  var library = English.localise(new Yadda.ContextBoundLibrary(dictionary))
 
     .define('Good Times\n$poem', function (_poem, next) {
       poem = _poem;

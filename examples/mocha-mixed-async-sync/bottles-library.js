@@ -6,7 +6,7 @@ var assert = require('assert');
 module.exports = (function () {
   var wall;
   var dictionary = new Dictionary().define('NUM', /(\d+)/);
-  var library = English.library(dictionary)
+  var library = English.localise(new Yadda.ContextBoundLibrary(dictionary))
 
     .given('a $NUM foot wall', function (height, next) {
       wall = new Wall();

@@ -7,7 +7,7 @@ module.exports = (function () {
     Sue: 'F',
   };
 
-  var library = new Yadda.Library()
+  var library = new Yadda.ContextBoundLibrary()
 
     .define('$patientName is a patient at $hospitalName hospital.', function (patientName, hospitalName, next) {
       this.ctx.patient = {

@@ -7,7 +7,7 @@ var format = require('util').format;
 module.exports = (function () {
   var wall;
   var dictionary = new Dictionary().define('NUM', /(\d+)/);
-  var library = English.library(dictionary)
+  var library = English.localise(new Yadda.ContextBoundLibrary(dictionary))
 
     .define('Sing $NUM $COLOUR bottles', function (number_of_bottles, colour, next) {
       this.yadda.run([format('Given %d %s bottles are standing on the wall', number_of_bottles, colour), format('When 1 %s bottle accidentally falls', colour), format('Then there are %d %s bottles standing on the wall', number_of_bottles - 1, colour)], next);

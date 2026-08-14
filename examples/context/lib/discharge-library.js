@@ -4,7 +4,7 @@ var assert = require('assert');
 module.exports = (function () {
   var ONE_DAY_IN_MILLIS = 24 * 60 * 60 * 1000;
 
-  var library = new Yadda.Library()
+  var library = new Yadda.ContextBoundLibrary()
 
     .define('His condition has improved sufficiently for him to be scheduled for discharge (today|tomorrow) at $time.', function (day, time, next) {
       var patient = this.ctx.patient;
