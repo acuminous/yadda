@@ -1,12 +1,12 @@
 const { describe, it } = require('node:test');
 const { equal: eq, fail } = require('node:assert');
-const { Interpreter, Library, localisation } = require('../lib/index');
+const { Interpreter, ContextBoundLibrary, localisation } = require('../lib/index');
 const Counter = require('./Counter');
 
 describe('Localisation', () => {
   it('should match text from the beginning', () => {
     const counter = new Counter();
-    const library = localisation.English.localise(new Library())
+    const library = localisation.English.localise(new ContextBoundLibrary())
       .given('a post', () => {
         fail('Step should not have been matched');
       })
@@ -19,7 +19,7 @@ describe('Localisation', () => {
 
   it('should support English', () => {
     const counter = new Counter();
-    const library = localisation.English.localise(new Library()).given('some text 1', counter.count).when('some text 2', counter.count).then('some text 4', counter.count);
+    const library = localisation.English.localise(new ContextBoundLibrary()).given('some text 1', counter.count).when('some text 2', counter.count).then('some text 4', counter.count);
 
     new Interpreter(library).interpret(['given some text 1', 'when some text 2', 'then some text 4']);
 
@@ -28,7 +28,7 @@ describe('Localisation', () => {
 
   it('should support German', () => {
     const counter = new Counter();
-    const library = localisation.German.localise(new Library()).given('some text 1', counter.count).when('some text 2', counter.count).then('some text 4', counter.count);
+    const library = localisation.German.localise(new ContextBoundLibrary()).given('some text 1', counter.count).when('some text 2', counter.count).then('some text 4', counter.count);
 
     new Interpreter(library).interpret(['angenommen some text 1', 'wenn some text 2', 'dann some text 4']);
 
@@ -37,7 +37,7 @@ describe('Localisation', () => {
 
   it('should support Dutch', () => {
     const counter = new Counter();
-    const library = localisation.Dutch.localise(new Library()).given('some text 1', counter.count).when('some text 2', counter.count).then('some text 4', counter.count);
+    const library = localisation.Dutch.localise(new ContextBoundLibrary()).given('some text 1', counter.count).when('some text 2', counter.count).then('some text 4', counter.count);
 
     new Interpreter(library).interpret(['Gegeven dat some text 1', 'Wanneer some text 2', 'Dan some text 4']);
 
@@ -46,7 +46,7 @@ describe('Localisation', () => {
 
   it('should support French', () => {
     const counter = new Counter();
-    const library = localisation.French.localise(new Library())
+    const library = localisation.French.localise(new ContextBoundLibrary())
       .soit('some text 1', counter.count)
       .etantdonnees('some text 2', counter.count)
       .etantdonnee('some text 3', counter.count)
@@ -67,7 +67,7 @@ describe('Localisation', () => {
 
   it('should support Norwegian', () => {
     const counter = new Counter();
-    const library = localisation.Norwegian.localise(new Library())
+    const library = localisation.Norwegian.localise(new ContextBoundLibrary())
       .gitt('some text 1', counter.count)
       .given('some text 2', counter.count)
 
@@ -84,7 +84,7 @@ describe('Localisation', () => {
 
   it('should support Piracy', () => {
     const counter = new Counter();
-    const library = localisation.Pirate.localise(new Library())
+    const library = localisation.Pirate.localise(new ContextBoundLibrary())
       .giveth('some text 1', counter.count)
       .given('some text 2', counter.count)
 
@@ -101,7 +101,7 @@ describe('Localisation', () => {
 
   it('should support Ukrainian', () => {
     const counter = new Counter();
-    const library = localisation.Ukrainian.localise(new Library()).given('some text 1', counter.count).when('some text 2', counter.count).then('some text 3', counter.count);
+    const library = localisation.Ukrainian.localise(new ContextBoundLibrary()).given('some text 1', counter.count).when('some text 2', counter.count).then('some text 3', counter.count);
 
     new Interpreter(library).interpret(['дано some text 1', 'коли some text 2', 'тоді some text 3']);
 
@@ -110,7 +110,7 @@ describe('Localisation', () => {
 
   it('should support Polish', () => {
     const counter = new Counter();
-    const library = localisation.Polish.localise(new Library())
+    const library = localisation.Polish.localise(new ContextBoundLibrary())
       .zakladajac('some text 1', counter.count)
       .majac('some text 2', counter.count)
       .given('some text 3', counter.count)
@@ -131,7 +131,7 @@ describe('Localisation', () => {
 
   it('should support Spanish', () => {
     const counter = new Counter();
-    const library = localisation.Spanish.localise(new Library())
+    const library = localisation.Spanish.localise(new ContextBoundLibrary())
       .sea('some text 1', counter.count)
       .sean('some text 2', counter.count)
       .dado('some text 3', counter.count)
@@ -154,7 +154,7 @@ describe('Localisation', () => {
 
   it('should support Russian', () => {
     const counter = new Counter();
-    const library = localisation.Russian.localise(new Library()).given('some text 1', counter.count).when('some text 2', counter.count).then('some text 4', counter.count);
+    const library = localisation.Russian.localise(new ContextBoundLibrary()).given('some text 1', counter.count).when('some text 2', counter.count).then('some text 4', counter.count);
 
     new Interpreter(library).interpret(['допустим some text 1', 'если some text 2', 'то some text 4']);
 
@@ -164,7 +164,7 @@ describe('Localisation', () => {
   it('should support Portuguese', () => {
     const counter = new Counter();
 
-    const library = localisation.Portuguese.localise(new Library())
+    const library = localisation.Portuguese.localise(new ContextBoundLibrary())
       .seja('some text 1', counter.count)
       .sejam('some text 2', counter.count)
       .dado('some text 3', counter.count)

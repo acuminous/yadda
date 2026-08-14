@@ -5,7 +5,7 @@ var Wall = require('./wall');
 var assert = require('assert');
 
 module.exports = (function () {
-  var library = English.localise(new Yadda.Library(dictionary));
+  var library = English.localise(new Yadda.ContextBoundLibrary(dictionary));
 
   // Define common steps here
 

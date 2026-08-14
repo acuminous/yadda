@@ -13,7 +13,7 @@ module.exports = (function () {
     .define('period', /(\d+) (days|months|years)/, function (quantity, units, cb) {
       cb(null, { quantity: parseInt(quantity), units: units });
     });
-  var library = English.localise(new Yadda.Library(dictionary))
+  var library = English.localise(new Yadda.ContextBoundLibrary(dictionary))
 
     .define('Expect $integer to be an integer', function (i, next) {
       assert.equal(typeof i, 'number');

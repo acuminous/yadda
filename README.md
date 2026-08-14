@@ -56,7 +56,7 @@ const English = Yadda.localisation.English;
 const Wall = require('../../lib/wall'); // The library that you wish to test
 
 module.exports = (function () {
-  return English.localise(new Yadda.Library())
+  return English.localise(new Yadda.ContextBoundLibrary())
     .given('$NUM green bottles are standing on the wall', function (number, next) {
       wall = new Wall(number);
       next();

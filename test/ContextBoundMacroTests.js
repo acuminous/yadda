@@ -1,17 +1,17 @@
 const { describe, it } = require('node:test');
 const { equal: eq, deepEqual: deq, ok, throws } = require('node:assert');
-const Macro = require('../lib/Macro');
+const ContextBoundMacro = require('../lib/ContextBoundMacro');
 const Context = require('../lib/Context');
 const EventBus = require('../lib/EventBus');
 const Dictionary = require('../lib/Dictionary');
 const $ = require('../lib/Array');
 const fn = require('../lib/fn');
 
-describe('Macro', () => {
+describe('ContextBoundMacro', () => {
   it('should interpret a synchronous step synchronously', () => {
     const execution = new Execution();
 
-    new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.fn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }));
+    new ContextBoundMacro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.fn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }));
 
     ok(execution.executed, 'The step was not executed');
     eq(execution.args.length, 3);
@@ -22,7 +22,7 @@ describe('Macro', () => {
   it('should tolerate too many step arguments for synchronous steps', () => {
     const execution = new Execution();
 
-    new Macro('Easy', parsed_signature(/Easy as 1, 2, 3/), execution.fn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }));
+    new ContextBoundMacro('Easy', parsed_signature(/Easy as 1, 2, 3/), execution.fn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }));
 
     ok(execution.executed, 'The step was not executed');
     eq(execution.args.length, 0);
@@ -31,7 +31,7 @@ describe('Macro', () => {
   it('should tolerate too few step arguments for synchronous steps', () => {
     const execution = new Execution();
 
-    new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d), (\d)/), execution.fn, { a: 1 }).interpret('Easy as 1, 2, 3, 4', new Context({ b: 2 }));
+    new ContextBoundMacro('Easy', parsed_signature(/Easy as (\d), (\d), (\d), (\d)/), execution.fn, { a: 1 }).interpret('Easy as 1, 2, 3, 4', new Context({ b: 2 }));
 
     ok(execution.executed, 'The step was not executed');
     eq(execution.args.length, 4);
@@ -40,7 +40,7 @@ describe('Macro', () => {
   it('should interpret a synchronous step asynchronously', (_t, done) => {
     const execution = new Execution();
 
-    new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.fn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }), () => {
+    new ContextBoundMacro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.fn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }), () => {
       ok(execution.executed, 'The step was not executed');
       eq(execution.args.length, 3);
       deq(execution.args, [1, 2, 3]);
@@ -52,7 +52,7 @@ describe('Macro', () => {
   it('should interpret an asynchronous step', (_t, done) => {
     const execution = new Execution();
 
-    new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.afn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }), () => {
+    new ContextBoundMacro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.afn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }), () => {
       ok(execution.executed, 'The step was not executed');
       eq(execution.args.length, 4);
       deq(execution.args.splice(0, 3), [1, 2, 3]);
@@ -64,7 +64,7 @@ describe('Macro', () => {
   it('should fail when too few step arguments for asynchronous steps', (_t, done) => {
     const execution = new Execution();
 
-    new Macro('Easy', parsed_signature(/Easy as (\d), (\d), 3/), execution.afn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }), (err) => {
+    new ContextBoundMacro('Easy', parsed_signature(/Easy as (\d), (\d), 3/), execution.afn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }), (err) => {
       ok(err);
       done();
     });
@@ -73,7 +73,7 @@ describe('Macro', () => {
   it('should fail when too many step arguments for asynchronous steps', (_t, done) => {
     const execution = new Execution();
 
-    new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d), (\d)/), execution.afn, { a: 1 }).interpret('Easy as 1, 2, 3, 4', new Context({ b: 2 }), (err) => {
+    new ContextBoundMacro('Easy', parsed_signature(/Easy as (\d), (\d), (\d), (\d)/), execution.afn, { a: 1 }).interpret('Easy as 1, 2, 3, 4', new Context({ b: 2 }), (err) => {
       ok(err);
       done();
     });
@@ -82,7 +82,7 @@ describe('Macro', () => {
   it('should support variadic async functions', (_t, done) => {
     const execution = new Execution();
 
-    new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d), (\d)/), execution.vafn, { a: 1 }, undefined, { mode: 'async' }).interpret('Easy as 1, 2, 3, 4', new Context({ b: 2 }), () => {
+    new ContextBoundMacro('Easy', parsed_signature(/Easy as (\d), (\d), (\d), (\d)/), execution.vafn, { a: 1 }, undefined, { mode: 'async' }).interpret('Easy as 1, 2, 3, 4', new Context({ b: 2 }), () => {
       ok(execution.executed, 'The step was not executed');
       eq(execution.args.length, 5);
       deq(execution.args.splice(0, 4), [1, 2, 3, 4]);
@@ -94,7 +94,7 @@ describe('Macro', () => {
   it('should execute a promisified step', (_t, done) => {
     const execution = new Execution();
 
-    new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.promise, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }), () => {
+    new ContextBoundMacro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.promise, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }), () => {
       ok(execution.executed, 'The step was not executed');
       eq(execution.args.length, 3);
       deq(execution.args, [1, 2, 3]);
@@ -106,7 +106,7 @@ describe('Macro', () => {
   it('should include step name in the context', () => {
     const execution = new Execution();
 
-    new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.fn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }), fn.noop);
+    new ContextBoundMacro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.fn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }), fn.noop);
 
     eq(execution.ctx.step, 'Easy as 1, 2, 3');
   });
@@ -114,19 +114,19 @@ describe('Macro', () => {
   it('should not override step name in the context if explicitly set', () => {
     const execution = new Execution();
 
-    new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.fn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2, step: 'Do not override' }), fn.noop);
+    new ContextBoundMacro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.fn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2, step: 'Do not override' }), fn.noop);
 
     eq(execution.ctx.step, 'Do not override');
   });
 
   it('should provide a signature that can be used to compare levenshtein distance', () => {
     $([/the quick brown fox/, /the quick.* brown.* fox/, /the quick(.*) brown(?:.*) fox/, /the quick[xyz] brown[^xyz] fox/, /the quick{0,1} brown{1} fox/, /the quick\d brown\W fox/]).each((pattern) => {
-      eq(new Macro('Quick brown fox', parsed_signature(pattern)).levenshtein_signature(), 'the quick brown fox');
+      eq(new ContextBoundMacro('Quick brown fox', parsed_signature(pattern)).levenshtein_signature(), 'the quick brown fox');
     });
   });
 
   it('should default to a no operation function', (_t, done) => {
-    new Macro('blah $a', parsed_signature(/blah (.*)/)).interpret('blah 1', {}, () => {
+    new ContextBoundMacro('blah $a', parsed_signature(/blah (.*)/)).interpret('blah 1', {}, () => {
       done();
     });
   });
@@ -136,7 +136,7 @@ describe('Macro', () => {
 
     EventBus.instance().on(/EXECUTE/, listener.listen);
 
-    new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), fn.noop, { a: 1 }).interpret('Easy as 1, 2, 3', { b: 2 });
+    new ContextBoundMacro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), fn.noop, { a: 1 }).interpret('Easy as 1, 2, 3', { b: 2 });
 
     eq(1, listener.events.length);
 
@@ -153,7 +153,7 @@ describe('Macro', () => {
 
     EventBus.instance().on(/DEFINE/, listener.listen);
 
-    new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), fn.noop, { a: 1 }).interpret('Easy as 1, 2, 3', { b: 2 });
+    new ContextBoundMacro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), fn.noop, { a: 1 }).interpret('Easy as 1, 2, 3', { b: 2 });
 
     eq(1, listener.events.length);
 
@@ -166,7 +166,7 @@ describe('Macro', () => {
   it('should interpret a multiline', () => {
     const execution = new Execution();
 
-    new Macro('Easy', parsed_signature(/Easy as ([^\u0000]*)/), execution.fn, { a: 1 }).interpret('Easy as 1\n2\n3', new Context({ b: 2 }), fn.noop);
+    new ContextBoundMacro('Easy', parsed_signature(/Easy as ([^\u0000]*)/), execution.fn, { a: 1 }).interpret('Easy as 1\n2\n3', new Context({ b: 2 }), fn.noop);
 
     ok(execution.executed, 'The step was not executed');
     deq(execution.args.splice(0, 1), ['1\n2\n3']);
@@ -176,7 +176,7 @@ describe('Macro', () => {
   it('should convert parameters', () => {
     const execution = new Execution();
 
-    new Macro(
+    new ContextBoundMacro(
       'Easy',
       {
         pattern: /Easy as (\d), (\d), (\d)/,
@@ -203,7 +203,7 @@ describe('Macro', () => {
   it('should convert parameters with multi-arg converters', () => {
     const execution = new Execution();
 
-    new Macro(
+    new ContextBoundMacro(
       'Easy',
       {
         pattern: /Easy as (\d), (\d), (\d), (\d)/,
@@ -230,7 +230,7 @@ describe('Macro', () => {
   it('should convert parameters with multi-result converters', () => {
     const execution = new Execution();
 
-    new Macro(
+    new ContextBoundMacro(
       'Easy',
       {
         pattern: /Easy as (\d), (\d), (\d), (\d)/,
@@ -255,7 +255,7 @@ describe('Macro', () => {
   });
 
   it('should yield errors when called asynchronously', () => {
-    new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), (_a, _b, _c, _cb) => {
+    new ContextBoundMacro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), (_a, _b, _c, _cb) => {
       throw new Error('Oh Noes!');
     }).interpret('Easy as 1, 2, 3', {}, (err) => {
       ok(err);
@@ -265,7 +265,7 @@ describe('Macro', () => {
 
   it('should throw errors when called synchronously', () => {
     throws(() => {
-      new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), (_a, _b, _c) => {
+      new ContextBoundMacro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), (_a, _b, _c) => {
         throw new Error('Oh Noes!');
       }).interpret('Easy as 1, 2, 3', {});
     }, /Oh Noes!/);

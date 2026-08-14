@@ -6,7 +6,7 @@ module.exports = (function () {
 
   var dictionary = new Yadda.Dictionary().define('NUM', /(\d+)/);
 
-  var library = new Yadda.Library(dictionary).define('He was admitted to the $speciality ward with $complaint $num days ago.', function (speciality, complaint, daysAgo, next) {
+  var library = new Yadda.ContextBoundLibrary(dictionary).define('He was admitted to the $speciality ward with $complaint $num days ago.', function (speciality, complaint, daysAgo, next) {
     var patient = this.ctx.patient;
     patient.speciality = speciality;
     patient.complaint = complaint;

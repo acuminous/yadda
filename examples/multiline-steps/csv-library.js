@@ -10,7 +10,7 @@ module.exports = (function () {
 
   var dictionary = new Dictionary().define('csv', /([^\u0000]*)/, csvConverter).define('name', /(\w+)/, nameConverter);
 
-  var library = English.localise(new Yadda.Library(dictionary))
+  var library = English.localise(new Yadda.ContextBoundLibrary(dictionary))
 
     .given('a csv file\n$csv', function (_csv, next) {
       csv = _csv;

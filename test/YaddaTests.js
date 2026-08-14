@@ -1,11 +1,11 @@
 const { describe, it } = require('node:test');
 const { equal: eq, ifError } = require('node:assert');
-const { Library, Yadda } = require('../lib/index');
+const { ContextBoundLibrary, Yadda } = require('../lib/index');
 
 describe('Yadda', () => {
   it('should interpret synchronous scenarios', () => {
     let executions = 0;
-    const library = new Library().define('foo', () => {
+    const library = new ContextBoundLibrary().define('foo', () => {
       executions++;
     });
     new Yadda(library).yadda('foo');
@@ -14,7 +14,7 @@ describe('Yadda', () => {
 
   it('should interpret asynchronous scenarios', (_t, done) => {
     let executions = 0;
-    const library = new Library().define('foo', (next) => {
+    const library = new ContextBoundLibrary().define('foo', (next) => {
       executions++;
       next();
     });
@@ -27,7 +27,7 @@ describe('Yadda', () => {
 
   it('should interpret a mix of asynchronous and synchronous scenarios', (_t, done) => {
     let executions = 0;
-    const library = new Library()
+    const library = new ContextBoundLibrary()
       .define('foo', (next) => {
         executions++;
         next();
@@ -44,7 +44,7 @@ describe('Yadda', () => {
 
   it('should interpret asynchronous returning promises', (_t, done) => {
     let executions = 0;
-    const library = new Library().define('foo', () => {
+    const library = new ContextBoundLibrary().define('foo', () => {
       executions++;
       return {
         then: (cb) => {
@@ -64,7 +64,7 @@ describe('Yadda', () => {
 
   it('should interpret asynchronous returning promises', (_t, done) => {
     let executions = 0;
-    const library = new Library().define('foo', () => {
+    const library = new ContextBoundLibrary().define('foo', () => {
       executions++;
       return {
         then: (cb) => {
@@ -85,7 +85,7 @@ describe('Yadda', () => {
   it('should cater for people who dont find the recursive api amusing', () => {
     const Yadda = require('../lib/index');
     let executions = 0;
-    const library = new Yadda.Library().define('foo', () => {
+    const library = new Yadda.ContextBoundLibrary().define('foo', () => {
       executions++;
     });
     const yadda = Yadda.createInstance(library);
@@ -95,7 +95,7 @@ describe('Yadda', () => {
 
   it('should interpret asynchronous variadic steps', (_t, done) => {
     let executions = 0;
-    const library = new Library().define(
+    const library = new ContextBoundLibrary().define(
       'foo',
       function () {
         const next = arguments[arguments.length - 1];
@@ -116,7 +116,7 @@ describe('Yadda', () => {
   it('should interpret asynchronous localised variadic steps', (_t, done) => {
     let executions = 0;
     const { English } = require('../lib').localisation;
-    const library = English.localise(new Library()).given(
+    const library = English.localise(new ContextBoundLibrary()).given(
       'foo',
       function () {
         const next = arguments[arguments.length - 1];

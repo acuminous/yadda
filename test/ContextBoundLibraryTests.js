@@ -1,44 +1,44 @@
 const { describe, it } = require('node:test');
 const { equal: eq, ok, throws } = require('node:assert');
-const { Library, localisation } = require('../lib/index');
+const { ContextBoundLibrary, localisation } = require('../lib/index');
 const { English } = localisation;
 const Dictionary = require('../lib/Dictionary');
 const fn = require('../lib/fn');
 
-describe('Library', () => {
+describe('ContextBoundLibrary', () => {
   it('should hold String mapped macros', () => {
-    const library = new Library().define('foo');
+    const library = new ContextBoundLibrary().define('foo');
     ok(library.get_macro('foo'), 'Macro should have been defined');
     ok(library.get_macro(/foo/), 'Macro should have been defined');
   });
 
   it('should hold RegExp mapped macros', () => {
-    const library = new Library().define(/bar/);
+    const library = new ContextBoundLibrary().define(/bar/);
     ok(library.get_macro(/bar/), 'Macro should have been defined');
     ok(library.get_macro('bar'), 'Macro should have been defined');
   });
 
   it('should support aliased macros', () => {
-    const library = new Library().define([/bar/, /foo/]);
+    const library = new ContextBoundLibrary().define([/bar/, /foo/]);
     ok(library.get_macro(/bar/), 'Macro should have been defined');
     ok(library.get_macro(/foo/), 'Macro should have been defined');
   });
 
   it('should hold String mapped macros when options are specified', () => {
-    const library = new Library().define('foo', fn.noop, {}, {});
+    const library = new ContextBoundLibrary().define('foo', fn.noop, {}, {});
     ok(library.get_macro('foo'), 'Macro should have been defined');
     ok(library.get_macro(/foo/), 'Macro should have been defined');
   });
 
   it('should hold RegExp mapped macros when options are specified', () => {
-    const library = new Library().define(/bar/, fn.noop, {}, {});
+    const library = new ContextBoundLibrary().define(/bar/, fn.noop, {}, {});
 
     ok(library.get_macro(/bar/), 'Macro should have been defined');
     ok(library.get_macro('bar'), 'Macro should have been defined');
   });
 
   it('should support aliased macros when options are specified', () => {
-    const library = new Library().define([/bar/, /foo/], {}, { mode: 'async' });
+    const library = new ContextBoundLibrary().define([/bar/, /foo/], {}, { mode: 'async' });
     ok(library.get_macro(/bar/), 'Macro should have been defined');
     ok(library.get_macro(/foo/), 'Macro should have been defined');
   });
@@ -46,7 +46,7 @@ describe('Library', () => {
   it('should expand macro signature using specified dictionary', () => {
     const dictionary = new Dictionary().define('gender', '(male|female)').define('speciality', '(cardiovascular|elderly care)');
 
-    const library = new Library(dictionary).define('Given a $gender, $speciality patient called $name');
+    const library = new ContextBoundLibrary(dictionary).define('Given a $gender, $speciality patient called $name');
 
     const macro = library.get_macro('Given a $gender, $speciality patient called $name');
     ok(macro.can_interpret('Given a male, cardiovascular patient called Bob'));
@@ -55,7 +55,7 @@ describe('Library', () => {
   });
 
   it('should report duplicate macros', () => {
-    const library = English.localise(new Library()).define(/bar/);
+    const library = English.localise(new ContextBoundLibrary()).define(/bar/);
 
     throws(() => {
       library.define(/bar/);
@@ -63,7 +63,7 @@ describe('Library', () => {
   });
 
   it('should find all compatible macros', () => {
-    const library = new Library()
+    const library = new ContextBoundLibrary()
       .define(/^food$/)
       .define(/^foo.*$/)
       .define(/^f.*$/);
@@ -74,7 +74,7 @@ describe('Library', () => {
   });
 
   it('should be localised', () => {
-    const library = English.localise(new Library())
+    const library = English.localise(new ContextBoundLibrary())
       .given(/^a wall with (\d+) bottles/)
       .when(/^(\d+) bottle(?:s)? accidentally falls/)
       .then(/^there are (\d+) bottles left/);
@@ -91,7 +91,7 @@ describe('Library', () => {
   });
 
   it('should supports localised aliased macros', () => {
-    const library = English.localise(new Library())
+    const library = English.localise(new ContextBoundLibrary())
       .given([/^a wall with (\d+) bottles/, /^a wall with (\d+) green bottles/])
       .when([/^(\d+) bottle(?:s)? accidentally falls/, /^(\d+) green bottle(?:s)? accidentally falls/])
       .then([/^there are (\d+) bottles left/, /^there are (\d+) green bottles left/]);
@@ -107,7 +107,7 @@ describe('Library', () => {
   it('should expand multiline macro signature using specified dictionary', () => {
     const dictionary = new Dictionary().define('text', /([^\u0000]*)/);
 
-    const library = new Library(dictionary).define('Given a text $text');
+    const library = new ContextBoundLibrary(dictionary).define('Given a text $text');
 
     const macro = library.get_macro('Given a text $text');
     ok(macro.can_interpret('Given a text ')); // empty

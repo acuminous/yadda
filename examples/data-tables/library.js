@@ -12,7 +12,7 @@ module.exports = (function () {
     .define('list', /([^\u0000]*)/, Yadda.converters.list)
     .define('table', /([^\u0000]*)/, Yadda.converters.table);
 
-  var library = English.localise(new Yadda.Library(dictionary))
+  var library = English.localise(new Yadda.ContextBoundLibrary(dictionary))
 
     .given('a list of integers\n$list', function (list) {
       list_total = 0;

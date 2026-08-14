@@ -1,5 +1,5 @@
 const { equal: eq } = require('node:assert');
-const { Dictionary, Library, localisation } = require('../../lib/index');
+const { Dictionary, ContextBoundLibrary, localisation } = require('../../lib/index');
 const { English } = localisation;
 const { Hospital, Patient, Ward, Bed } = require('./hospital');
 
@@ -10,7 +10,7 @@ module.exports.init = () => {
     .define('speciality', /(cardiovascular|respiratory)/)
     .define('x', /(a) (b)/);
 
-  const library = English.localise(new Library(dictionary))
+  const library = English.localise(new ContextBoundLibrary(dictionary))
 
     .given('that $name is a $gender, $speciality patient at $hospital hospital', (patient_name, gender, speciality, hospital_name) => {
       hospital = hospital ? hospital : new Hospital(hospital_name);

@@ -5,7 +5,7 @@ var assert = require('assert');
 module.exports = (function () {
   var wall;
 
-  var library = English.localise(new Yadda.Library())
+  var library = English.localise(new Yadda.ContextBoundLibrary())
     .given('$NUM green bottles are standing on the wall', function (number_of_bottles) {
       wall = new Wall(number_of_bottles);
       wall.printStatus();
