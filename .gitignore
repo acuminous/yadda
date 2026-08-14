@@ -9,3 +9,5 @@ components/
 build/
 .idea
 lcov.info
+test-results/
+playwright-report/

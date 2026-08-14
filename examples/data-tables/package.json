@@ -4,10 +4,7 @@
   "description": "Yadda multiline examples sample",
   "scripts": {
     "postinstall": "npm --loglevel error link yadda",
-    "test": "node bin/example.js"
+    "test": "node --test test.js"
   },
-  "license": "Apache2",
-  "dependencies": {
-    "mocha": "^5.2.0"
-  }
+  "license": "Apache2"
 }

@@ -18,6 +18,9 @@ Yadda 3.0 is a breaking modernization that makes Yadda **Node-only** and removes
 ### Changed
 
 - Migrated the library's own test suite from mocha to Node's built-in `node:test` runner, run via `node --test`. The mocha/jasmine plugins Yadda ships to users are unaffected. See https://github.com/acuminous/yadda/issues/328
+- Migrated the non-mocha examples (context-bound, context-param, data-tables, dictionary, localisation, multiline-examples-table, multiline-steps, report-unused-steps, resuable-scenarios) from mocha to the `node:test` plugin. Each now runs via `node --test test.js`, dropping the `mocha` dependency and the `bin/example.*` spawn shims. The `mocha-*` examples are retained to demonstrate the mocha plugin. See https://github.com/acuminous/yadda/issues/335
+- Migrated the `mocha-multi-library` example to the `node:test` plugin and renamed it to `multi-library`, since it demonstrates per-feature library selection rather than any mocha-specific behaviour. See https://github.com/acuminous/yadda/issues/335
+- Migrated the `mocha-async-thenable` example to the `node:test` plugin and renamed it to `async-thenable`, since it demonstrates steps returning a promise rather than any mocha-specific behaviour. See https://github.com/acuminous/yadda/issues/335
 - Coverage now uses `node --test --experimental-test-coverage` with the built-in lcov reporter (`npm run coverage`), replacing nyc. See https://github.com/acuminous/yadda/issues/329
 - Replaced husky and lint-staged with lefthook (`lefthook.yml`): pre-commit formats staged JS, pre-push runs the tests. Also removed the stale husky-v4 config block from `package.json`. See https://github.com/acuminous/yadda/issues/331
 - Modernised `lib` to ES6 syntax (`const`/`let`, arrow functions, default parameters). This is syntax-only — Yadda stays CommonJS and keeps its closure-based object pattern rather than moving to `class`. See https://github.com/acuminous/yadda/issues/332
@@ -28,6 +31,9 @@ Yadda 3.0 is a breaking modernization that makes Yadda **Node-only** and removes
 
 - `ContextBoundMacro`/`ContextBoundLibrary` and `BaseMacro`/`BaseLibrary`. The former default `Macro`/`Library` are now the concrete `ContextBound*` types (steps bound to `this`), and both they and the new `ContextParam*` variant extend a neutral `Base*` that carries the shared logic. See https://github.com/acuminous/yadda/issues/334
 - `ContextParamLibrary`, a `ContextBoundLibrary` sibling whose steps receive the scenario context as their first argument instead of via `this`. This makes step definitions usable as arrow functions. See https://github.com/acuminous/yadda/issues/334
+- A `nodetest` plugin (`Yadda.plugins.nodetest`) with `StepLevelPlugin`/`ScenarioLevelPlugin`, wiring feature files into Node's built-in `node:test` runner. Unlike the mocha plugin it returns the `featureFile`/`scenarios`/`steps` helpers rather than assigning globals, since `node:test` has no global injection. A runtime `this.skip()` throws internally so the remaining steps in the scenario are skipped, matching the mocha plugin's behaviour. See https://github.com/acuminous/yadda/issues/335
+- A Playwright example (`examples/playwright`), driving a browser form with Yadda from inside Playwright's own runner (one test per scenario, one `test.step` per step). It demonstrates keeping CSS selectors in the step definitions via a parameterised `I specify $count $field` step, so the feature file stays in business language. See https://github.com/acuminous/yadda/issues/338
+- A Puppeteer example (`examples/puppeteer`), driving the same browser form. Puppeteer has no test runner of its own, so this example brings the `nodetest` plugin and owns the browser lifecycle through `node:test` hooks (launch once, a fresh page per scenario). It shares the parameterised-step abstraction with the Playwright example. See https://github.com/acuminous/yadda/issues/337
 
 ### Deprecated
 
@@ -38,6 +44,7 @@ Yadda 3.0 is a breaking modernization that makes Yadda **Node-only** and removes
 - Bower and Component package manager configs (`bower.json`, `component.json`). See https://github.com/acuminous/yadda/issues/314, https://github.com/acuminous/yadda/issues/315
 - karma and PhantomJS (`karma.conf.js`, the `karma` npm script, and related devDependencies). See https://github.com/acuminous/yadda/issues/316
 - The nightwatch, qunit, and nodeunit examples. See https://github.com/acuminous/yadda/issues/317, https://github.com/acuminous/yadda/issues/318, https://github.com/acuminous/yadda/issues/319
+- The mocha-express example. It demonstrated no Yadda-specific behaviour beyond driving a live server, which the Puppeteer/Playwright examples cover, and pulled in abandoned dependencies (`request`, `node-uuid`, `async`, `underscore`). See https://github.com/acuminous/yadda/issues/336
 - nyc and its coverage npm scripts (coverage moves to `node:test` built-in coverage). See https://github.com/acuminous/yadda/issues/325
 - The `bin/rev.sh` release script (replaced by npm's version lifecycle). See https://github.com/acuminous/yadda/issues/326
 - The CodeQL workflow. See https://github.com/acuminous/yadda/issues/327

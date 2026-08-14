@@ -1,16 +1,14 @@
-/* jslint node: true */
-/* global featureFile, scenarios, steps */
-var Yadda = require('yadda');
-Yadda.plugins.mocha.StepLevelPlugin.init();
+const Yadda = require('yadda');
+const { featureFile, scenarios, steps } = Yadda.plugins.nodetest.StepLevelPlugin.init();
 
-new Yadda.FeatureFileSearch('features').each(function (file) {
-  featureFile(file, function (feature) {
-    var library = require('./library');
+new Yadda.FeatureFileSearch('features').each((file) => {
+  featureFile(file, (feature) => {
+    const library = require('./library');
 
-    var yadda = Yadda.createInstance(library);
+    const yadda = Yadda.createInstance(library);
 
-    scenarios(feature.scenarios, function (scenario) {
-      steps(scenario.steps, function (step) {
+    scenarios(feature.scenarios, (scenario) => {
+      steps(scenario.steps, (step) => {
         yadda.run(step);
       });
     });

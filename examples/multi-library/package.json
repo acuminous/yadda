@@ -1,0 +1,10 @@
+{
+  "name": "yadda-multi-library-example",
+  "version": "0.0.0",
+  "scripts": {
+    "postinstall": "npm --loglevel error link yadda",
+    "test": "node --test test.js"
+  },
+  "author": "Stephen Cresswell",
+  "license": "Apache2"
+}
