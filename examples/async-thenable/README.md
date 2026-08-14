@@ -1,7 +1,7 @@
 ```
 npm install
 npm link
-cd examples/mocha-async-thenable
+cd examples/async-thenable
 npm install
 npm test
 ```

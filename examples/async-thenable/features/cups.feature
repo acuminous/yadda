@@ -1,4 +1,4 @@
-Feature: Mocha Asynchronous Thenable Example Using Cups
+Feature: Asynchronous Thenable Example Using Cups
 
 Background:
 

@@ -1,4 +1,4 @@
-Feature: Mocha Asynchronous Thenable Example Using Bottles
+Feature: Asynchronous Thenable Example Using Bottles
 
 Background:
 
