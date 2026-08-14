@@ -3,8 +3,12 @@
   "version": "3.0.0",
   "description": "A true BDD framework for JavaScript",
   "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "exports": {
-    ".": "./lib/index.js",
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    },
     "./package.json": "./package.json"
   },
   "engines": {

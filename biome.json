@@ -29,6 +29,16 @@
   },
   "overrides": [
     {
+      "includes": ["lib/index.d.ts"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noExplicitAny": "off"
+          }
+        }
+      }
+    },
+    {
       "includes": ["lib/parsers/FeatureParser.js", "lib/parsers/feature/**"],
       "linter": {
         "rules": {
