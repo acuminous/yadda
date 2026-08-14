@@ -1,13 +1,13 @@
-var Yadda = require('yadda');
-var assert = require('assert');
+const Yadda = require('yadda');
+const assert = require('assert');
 
 module.exports = (function () {
-  var gender = {
+  const gender = {
     Fred: 'M',
     Sue: 'F',
   };
 
-  var library = new Yadda.ContextBoundLibrary()
+  const library = new Yadda.ContextBoundLibrary()
 
     .define('$patientName is a patient at $hospitalName hospital.', function (patientName, hospitalName, next) {
       this.ctx.patient = {
@@ -32,8 +32,8 @@ module.exports = (function () {
     })
 
     .define('His chart should reflect all of the above', function (next) {
-      var patient = this.ctx.patient;
-      var chart = patient.chart();
+      const patient = this.ctx.patient;
+      const chart = patient.chart();
       assert.equal(chart.name, patient.name);
       assert.equal(chart.gender, patient.gender);
       assert.equal(chart.speciality, patient.speciality);

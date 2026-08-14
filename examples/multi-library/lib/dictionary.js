@@ -1,5 +1,5 @@
-var Yadda = require('yadda');
-var Dictionary = Yadda.Dictionary;
+const Yadda = require('yadda');
+const Dictionary = Yadda.Dictionary;
 
 module.exports = (function () {
   return new Dictionary().define('NUM', /(\d+)/);

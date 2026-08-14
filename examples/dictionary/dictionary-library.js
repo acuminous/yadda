@@ -1,18 +1,18 @@
-var Yadda = require('yadda');
-var English = Yadda.localisation.English;
-var Dictionary = Yadda.Dictionary;
-var converters = Yadda.converters;
-var assert = require('assert');
+const Yadda = require('yadda');
+const English = Yadda.localisation.English;
+const Dictionary = Yadda.Dictionary;
+const converters = Yadda.converters;
+const assert = require('assert');
 
 module.exports = (function () {
-  var dictionary = new Dictionary()
+  const dictionary = new Dictionary()
     .define('integer', /(\d+)/, converters.integer)
     .define('float', /(\d+.\d+)/, converters.float)
     .define('date', /(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z)/, converters.date)
     .define('period', /(\d+) (days|months|years)/, function (quantity, units, cb) {
       cb(null, { quantity: parseInt(quantity), units: units });
     });
-  var library = English.localise(new Yadda.ContextBoundLibrary(dictionary))
+  const library = English.localise(new Yadda.ContextBoundLibrary(dictionary))
 
     .define('Expect $integer to be an integer', function (i, next) {
       assert.equal(typeof i, 'number');

@@ -1,14 +1,14 @@
-var Yadda = require('yadda');
-var English = Yadda.localisation.English;
-var Dictionary = Yadda.Dictionary;
-var parse = require('csv-parse');
-var assert = require('assert');
+const Yadda = require('yadda');
+const English = Yadda.localisation.English;
+const Dictionary = Yadda.Dictionary;
+const parse = require('csv-parse');
+const assert = require('assert');
 
 module.exports = (function () {
-  var poem;
-  var dictionary = new Dictionary().define('NUM', /(\d+)/, Yadda.converters.integer).define('poem', /([^\u0000]*)/);
+  let poem;
+  const dictionary = new Dictionary().define('NUM', /(\d+)/, Yadda.converters.integer).define('poem', /([^\u0000]*)/);
 
-  var library = English.localise(new Yadda.ContextBoundLibrary(dictionary))
+  const library = English.localise(new Yadda.ContextBoundLibrary(dictionary))
 
     .define('Good Times\n$poem', function (_poem, next) {
       poem = _poem;

@@ -1,16 +1,16 @@
-var Yadda = require('yadda');
-var English = Yadda.localisation.English;
-var Dictionary = Yadda.Dictionary;
-var parse = require('csv-parse');
-var _ = require('lodash');
-var assert = require('assert');
+const Yadda = require('yadda');
+const English = Yadda.localisation.English;
+const Dictionary = Yadda.Dictionary;
+const parse = require('csv-parse');
+const _ = require('lodash');
+const assert = require('assert');
 
 module.exports = (function () {
-  var csv;
+  let csv;
 
-  var dictionary = new Dictionary().define('csv', /([^\u0000]*)/, csvConverter).define('name', /(\w+)/, nameConverter);
+  const dictionary = new Dictionary().define('csv', /([^\u0000]*)/, csvConverter).define('name', /(\w+)/, nameConverter);
 
-  var library = English.localise(new Yadda.ContextBoundLibrary(dictionary))
+  const library = English.localise(new Yadda.ContextBoundLibrary(dictionary))
 
     .given('a csv file\n$csv', function (_csv, next) {
       csv = _csv;

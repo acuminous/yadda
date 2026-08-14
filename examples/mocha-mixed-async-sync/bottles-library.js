@@ -1,12 +1,12 @@
-var Yadda = require('yadda');
-var English = Yadda.localisation.English;
-var Dictionary = Yadda.Dictionary;
-var assert = require('assert');
+const Yadda = require('yadda');
+const English = Yadda.localisation.English;
+const Dictionary = Yadda.Dictionary;
+const assert = require('assert');
 
 module.exports = (function () {
-  var wall;
-  var dictionary = new Dictionary().define('NUM', /(\d+)/);
-  var library = English.localise(new Yadda.ContextBoundLibrary(dictionary))
+  let wall;
+  const dictionary = new Dictionary().define('NUM', /(\d+)/);
+  const library = English.localise(new Yadda.ContextBoundLibrary(dictionary))
 
     .given('a $NUM foot wall', function (height, next) {
       wall = new Wall();
@@ -27,7 +27,7 @@ module.exports = (function () {
       next();
     });
 
-  var Wall = function (bottles) {
+  const Wall = function (bottles) {
     this.bottles = bottles;
     this.fall = function (n) {
       this.bottles -= n;

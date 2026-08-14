@@ -1,11 +1,11 @@
-var Yadda = require('yadda');
-var English = Yadda.localisation.English;
-var assert = require('assert');
+const Yadda = require('yadda');
+const English = Yadda.localisation.English;
+const assert = require('assert');
 
 module.exports = (function () {
-  var wall;
+  let wall;
 
-  var library = English.localise(new Yadda.ContextBoundLibrary())
+  const library = English.localise(new Yadda.ContextBoundLibrary())
     .given('$NUM green bottles are standing on the wall', function (number_of_bottles) {
       wall = new Wall(number_of_bottles);
       wall.printStatus();

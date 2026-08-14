@@ -1,4 +1,4 @@
-var Wall = function (items) {
+const Wall = function (items) {
   this.items = items;
   this.fall = function (n) {
     this.items -= n;

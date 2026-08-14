@@ -1,5 +1,5 @@
-var Yadda = require('yadda');
-var assert = require('assert');
+const Yadda = require('yadda');
+const assert = require('assert');
 
 // A ContextParamLibrary passes the scenario context as the first argument to
 // every step, so steps can be written as arrow functions and never need `this`.

@@ -1,14 +1,14 @@
-var Yadda = require('yadda');
-var assert = require('assert');
+const Yadda = require('yadda');
+const assert = require('assert');
 
 module.exports = (function () {
-  var ONE_DAY_IN_MILLIS = 24 * 60 * 60 * 1000;
+  const ONE_DAY_IN_MILLIS = 24 * 60 * 60 * 1000;
 
-  var library = new Yadda.ContextBoundLibrary()
+  const library = new Yadda.ContextBoundLibrary()
 
     .define('His condition has improved sufficiently for him to be scheduled for discharge (today|tomorrow) at $time.', function (day, time, next) {
-      var patient = this.ctx.patient;
-      var timestamp = toTime(day, time);
+      const patient = this.ctx.patient;
+      const timestamp = toTime(day, time);
       patient.ward.scheduleDischarge(patient, timestamp);
       next();
     })
@@ -16,9 +16,9 @@ module.exports = (function () {
     .define(
       ['He requires a $requirement', 'He requires a $requirement and some $requirement.'],
       function () {
-        var next = Array.prototype.pop.apply(arguments);
-        var requirements = Array.prototype.slice.apply(arguments);
-        var patient = this.ctx.patient;
+        const next = Array.prototype.pop.apply(arguments);
+        const requirements = Array.prototype.slice.apply(arguments);
+        const patient = this.ctx.patient;
         patient.discharge.requirements = requirements;
         next();
       },
@@ -27,7 +27,7 @@ module.exports = (function () {
     );
 
   function toTime(day, time) {
-    var offset = day == 'today' ? 0 : ONE_DAY_IN_MILLIS;
+    const offset = day == 'today' ? 0 : ONE_DAY_IN_MILLIS;
     return Date.parse(new Date().toString().replace(/\d{2}:\d{2}:\d{2}/, time + ':00')) + offset;
   }
 

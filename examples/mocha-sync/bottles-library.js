@@ -1,14 +1,14 @@
-var Yadda = require('yadda');
-var English = Yadda.localisation.English;
-var Dictionary = Yadda.Dictionary;
-var assert = require('assert');
+const Yadda = require('yadda');
+const English = Yadda.localisation.English;
+const Dictionary = Yadda.Dictionary;
+const assert = require('assert');
 
 module.exports = (function () {
-  var wall;
+  let wall;
 
-  var dictionary = new Dictionary().define('NUM', /(\d+)/);
+  const dictionary = new Dictionary().define('NUM', /(\d+)/);
 
-  var library = English.localise(new Yadda.ContextBoundLibrary(dictionary))
+  const library = English.localise(new Yadda.ContextBoundLibrary(dictionary))
 
     .given('$NUM green bottles are standing on the wall', function (number_of_bottles) {
       wall = new Wall(number_of_bottles);
@@ -22,7 +22,7 @@ module.exports = (function () {
       assert.equal(number_of_bottles, wall.bottles);
     });
 
-  var Wall = function (bottles) {
+  const Wall = function (bottles) {
     this.bottles = bottles;
     this.fall = function (n) {
       this.bottles -= n;
