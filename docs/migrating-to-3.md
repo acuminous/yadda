@@ -43,6 +43,26 @@ Yadda.localisation.English.localise(new Yadda.ContextParamLibrary())
 
 `Yadda.Library` remains a deprecated alias for `ContextBoundLibrary`, so existing code keeps working. Migrate to `ContextParamLibrary` at your leisure.
 
+## Removed: the localisation `.library()` shorthand
+
+2.x let you construct and localise a library in a single call:
+
+```js
+// 2.x — no longer works
+const library = Yadda.localisation.English.library(dictionary)
+  .given('a user called $name', function (name) { /* ... */ });
+```
+
+That `.library([dictionary])` factory has been **removed**. Construct the library yourself and pass it to `localise()`:
+
+```js
+// 3.0
+const library = Yadda.localisation.English.localise(new Yadda.ContextParamLibrary(dictionary))
+  .given('a user called $name', (ctx, name) => { /* ... */ });
+```
+
+`localise()` returns the same library, so the chained `given`/`when`/`then`/`define` calls are unchanged. This is also the point at which you choose between [`ContextParamLibrary` and `ContextBoundLibrary`](step-libraries.md#choosing-a-library-type); the old shorthand always produced a context-bound library.
+
 ## Metadata
 
 - The package is now licensed **ISC** (previously declared Apache-2.0) and ships a `LICENSE` file.
