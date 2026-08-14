@@ -12,12 +12,16 @@ Yadda 3.0 is a breaking modernization that makes Yadda **Node-only** and removes
 - Removed the CasperJS plugin (`lib/plugins/casper`). CasperJS is abandoned and depended on the removed PhantomJS/browser support.
 - Removed the version string from `String(yadda)`. The version's source of truth is now `package.json`. See https://github.com/acuminous/yadda/issues/323
 - The localised `library` factory (e.g. `English.library()`) is now a plain function, not a constructor. Call it without `new` — `new English.library()` no longer works. See https://github.com/acuminous/yadda/issues/332
+- A specification may now begin with `Rule:` or `Background:`, which starts an implicit feature — consistent with how a specification could already begin with `Scenario:`. Previously these threw "Rule/Background is unexpected at this time". See https://github.com/acuminous/yadda/issues/332
 
 ### Changed
 
 - Migrated the library's own test suite from mocha to Node's built-in `node:test` runner, run via `node --test`. The mocha/jasmine plugins Yadda ships to users are unaffected. See https://github.com/acuminous/yadda/issues/328
 - Coverage now uses `node --test --experimental-test-coverage` with the built-in lcov reporter (`npm run coverage`), replacing nyc. See https://github.com/acuminous/yadda/issues/329
 - Replaced husky and lint-staged with lefthook (`lefthook.yml`): pre-commit formats staged JS, pre-push runs the tests. Also removed the stale husky-v4 config block from `package.json`. See https://github.com/acuminous/yadda/issues/331
+- Modernised `lib` to ES6 syntax (`const`/`let`, arrow functions, default parameters). This is syntax-only — Yadda stays CommonJS and keeps its closure-based object pattern rather than moving to `class`. See https://github.com/acuminous/yadda/issues/332
+- Extracted the `FeatureParser` nested constructors (Specification, Feature, Rule, Background, Scenario, Examples, Annotations, Handlers) into `lib/parsers/feature/`, sharing an explicit registry instead of relying on closure variable hoisting. See https://github.com/acuminous/yadda/issues/332
+- Enabled Biome's `recommended` linter preset. A few rules are disabled by design: `noArguments` (several factories intentionally use `arguments`), `noThenProperty` (Gherkin's localised keywords include `then`), `noControlCharactersInRegex`, and — for the parser subsystem only — `noUnusedFunctionParameters` and `noAssignInExpressions`, which reflect its uniform handler signature and match-assign idiom. See https://github.com/acuminous/yadda/issues/332
 
 ### Removed
 
