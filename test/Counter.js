@@ -3,7 +3,7 @@ module.exports = function () {
 
   this.count = (next) => {
     tally++;
-    next?.();
+    next && next();
   };
 
   this.total = () => tally;
