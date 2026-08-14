@@ -2,7 +2,7 @@ pre-commit:
   commands:
     format:
       glob: '*.js'
-      run: npx biome check --write {staged_files}
+      run: npx biome check --write --no-errors-on-unmatched {staged_files}
       stage_fixed: true
 
 pre-push:
