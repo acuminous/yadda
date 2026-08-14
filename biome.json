@@ -29,17 +29,14 @@
   },
   "overrides": [
     {
-      "includes": ["lib/parsers/FeatureParser.js"],
+      "includes": ["lib/parsers/FeatureParser.js", "lib/parsers/feature/**"],
       "linter": {
         "rules": {
           "correctness": {
-            "noInvalidUseBeforeDeclaration": "off",
-            "noUnusedFunctionParameters": "off",
-            "noUnusedVariables": "off"
+            "noUnusedFunctionParameters": "off"
           },
           "suspicious": {
-            "noAssignInExpressions": "off",
-            "noRedeclare": "off"
+            "noAssignInExpressions": "off"
           }
         }
       }

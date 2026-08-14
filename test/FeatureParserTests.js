@@ -543,6 +543,13 @@ describe('FeatureParser', () => {
         parse_file('background/malformed_background_annotated');
       }, /Background is unexpected at this time/);
     });
+
+    it('should parse a background without an enclosing feature', () => {
+      var scenarios = parse_file('background/background_without_feature').scenarios;
+      assert.equal(scenarios.length, 1);
+      assert.equal(scenarios[0].title, 'Simple Scenario');
+      assert.deepEqual(scenarios[0].steps, ['Given A', 'Given B', 'When C', 'Then D']);
+    });
   });
 
   describe('(Rules)', () => {
@@ -590,6 +597,15 @@ describe('FeatureParser', () => {
       var feature = parse_file('scenario/simple_scenario');
       assert.deepEqual(feature.rules, []);
       assert.equal(feature.scenarios.length, 1);
+    });
+
+    it('should parse a rule without an enclosing feature', () => {
+      var feature = parse_file('rule/rule_without_feature');
+      assert.equal(feature.rules.length, 1);
+      assert.equal(feature.rules[0].title, 'First Rule');
+      assert.equal(feature.rules[0].scenarios.length, 1);
+      assert.equal(feature.rules[0].scenarios[0].title, 'First Scenario');
+      assert.deepEqual(feature.rules[0].scenarios[0].steps, ['Given A', 'When B', 'Then C']);
     });
 
     it('should not recognise rules in languages without a rule keyword', () => {
