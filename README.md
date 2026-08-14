@@ -1,11 +1,11 @@
 # Yadda
 
-[![Gitter](https://badges.gitter.im/acuminous/yadda.svg)](https://gitter.im/acuminous/yadda?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![NPM version](https://img.shields.io/npm/v/yadda.svg?style=flat-square)](https://www.npmjs.com/package/yadda)
 [![NPM downloads](https://img.shields.io/npm/dm/yadda.svg?style=flat-square)](https://www.npmjs.com/package/yadda)
 [![Node.js CI](https://github.com/acuminous/yadda/workflows/Node.js%20CI/badge.svg)](https://github.com/acuminous/yadda/actions?query=workflow%3A%22Node.js+CI%22)
 [![codecov](https://codecov.io/gh/acuminous/yadda/graph/badge.svg?token=Sg3wvzHCp6)](https://codecov.io/gh/acuminous/yadda)
 [![Code Style](https://img.shields.io/badge/code%20style-biome-brightgreen.svg)](https://biomejs.dev/)
+[![Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen.svg)](https://github.com/acuminous/yadda/blob/master/package.json)
 
 Yadda brings _true_ BDD to JavaScript test frameworks such as [Jasmine](https://jasmine.github.io/), [Mocha](http://mochajs.org/) and [WebdriverIO](http://webdriver.io/). By _true_ BDD we mean that the ordinary language (e.g. English) steps are mapped to code, as opposed to simply decorating it. This is important because just like comments, the decorative steps such as those used by [Jasmine](https://jasmine.github.io/), [Mocha](http://mochajs.org/) and [Vows](http://vowsjs.org) can fall out of date and are a form of duplication.
 
