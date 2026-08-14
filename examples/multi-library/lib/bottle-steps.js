@@ -1,10 +1,8 @@
-/* jslint node: true */
-/* global featureFile, scenarios, steps */
 var Yadda = require('yadda');
 var English = Yadda.localisation.English;
 var assert = require('assert');
 var dictionary = require('./dictionary');
-var Wall = require('./wall');
+var Wall = require('./Wall');
 
 module.exports = (function () {
   var wall;

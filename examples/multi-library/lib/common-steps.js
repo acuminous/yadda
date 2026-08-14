@@ -1,7 +1,7 @@
 var Yadda = require('yadda');
 var English = Yadda.localisation.English;
 var dictionary = require('./dictionary');
-var Wall = require('./wall');
+var Wall = require('./Wall');
 var assert = require('assert');
 
 module.exports = (function () {

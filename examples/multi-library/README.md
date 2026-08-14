@@ -1,7 +1,7 @@
 ```
 npm install
 npm link
-cd examples/mocha-multi-library
+cd examples/multi-library
 npm install
 npm test
 ```
