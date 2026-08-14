@@ -25,7 +25,6 @@
         "noUnusedFunctionParameters": "off"
       },
       "suspicious": {
-        "noAssignInExpressions": "off",
         "noControlCharactersInRegex": "off",
         "noThenProperty": "off"
       }
@@ -41,6 +40,7 @@
             "noUnusedVariables": "off"
           },
           "suspicious": {
+            "noAssignInExpressions": "off",
             "noRedeclare": "off"
           }
         }
@@ -52,6 +52,9 @@
         "rules": {
           "correctness": {
             "noInnerDeclarations": "off"
+          },
+          "suspicious": {
+            "noAssignInExpressions": "off"
           }
         }
       }
