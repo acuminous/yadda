@@ -10,14 +10,14 @@ module.exports = (function () {
 
   const dictionary = new Dictionary().define('csv', /([^\u0000]*)/, csvConverter).define('name', /(\w+)/, nameConverter);
 
-  const library = English.localise(new Yadda.ContextBoundLibrary(dictionary))
+  const library = English.localise(new Yadda.ContextParamLibrary(dictionary))
 
-    .given('a csv file\n$csv', function (_csv, next) {
+    .given('a csv file\n$csv', (ctx, _csv, next) => {
       csv = _csv;
       next();
     })
 
-    .then('$name is older than $name', function (user1, user2, next) {
+    .then('$name is older than $name', (ctx, user1, user2, next) => {
       assert(user1.Age > user2.Age);
       next();
     });

@@ -9,19 +9,19 @@ module.exports = (function () {
   const cases = {};
 
   const dictionary = new Dictionary().define('CASE', /(\w+)/, unique).define('CODE', /([^\u0000]*)/);
-  const library = English.localise(new Yadda.ContextBoundLibrary(dictionary))
+  const library = English.localise(new Yadda.ContextParamLibrary(dictionary))
 
-    .given('I need to transpile $CASE', function (s, next) {
+    .given('I need to transpile $CASE', (ctx, s, next) => {
       case_description = s;
       next();
     })
 
-    .when('EcmaScript6=$CODE', function (code, next) {
+    .when('EcmaScript6=$CODE', (ctx, code, next) => {
       es6_code = code;
       next();
     })
 
-    .then('EcmaScript5=$CODE', function (expected_es5_code, next) {
+    .then('EcmaScript5=$CODE', (ctx, expected_es5_code, next) => {
       const result = babel.transform(es6_code, {
         filename: case_description,
         compact: false,

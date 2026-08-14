@@ -5,16 +5,16 @@ const assert = require('assert');
 module.exports = (function () {
   let wall;
 
-  const library = English.localise(new Yadda.ContextBoundLibrary())
-    .given('$NUM green bottles are standing on the wall', function (number_of_bottles) {
+  const library = English.localise(new Yadda.ContextParamLibrary())
+    .given('$NUM green bottles are standing on the wall', (ctx, number_of_bottles) => {
       wall = new Wall(number_of_bottles);
       wall.printStatus();
     })
-    .when('$NUM green bottle accidentally falls', function (number_of_falling_bottles) {
+    .when('$NUM green bottle accidentally falls', (ctx, number_of_falling_bottles) => {
       wall.fall(number_of_falling_bottles);
       console.log('%s bottle falls', number_of_falling_bottles);
     })
-    .then('there are $NUM green bottles standing on the wall', function (number_of_bottles) {
+    .then('there are $NUM green bottles standing on the wall', (ctx, number_of_bottles) => {
       assert.equal(number_of_bottles, wall.bottles);
       wall.printStatus();
     });

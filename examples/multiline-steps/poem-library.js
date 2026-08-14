@@ -8,14 +8,14 @@ module.exports = (function () {
   let poem;
   const dictionary = new Dictionary().define('NUM', /(\d+)/, Yadda.converters.integer).define('poem', /([^\u0000]*)/);
 
-  const library = English.localise(new Yadda.ContextBoundLibrary(dictionary))
+  const library = English.localise(new Yadda.ContextParamLibrary(dictionary))
 
-    .define('Good Times\n$poem', function (_poem, next) {
+    .define('Good Times\n$poem', (ctx, _poem, next) => {
       poem = _poem;
       next();
     })
 
-    .define('Has $NUM verses', function (verses, next) {
+    .define('Has $NUM verses', (ctx, verses, next) => {
       assert(poem.split(/\n\n/).length === 2);
       next();
     });

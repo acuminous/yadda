@@ -6,23 +6,23 @@ const assert = require('assert');
 module.exports = (function () {
   let wall;
   const dictionary = new Dictionary().define('NUM', /(\d+)/);
-  const library = English.localise(new Yadda.ContextBoundLibrary(dictionary))
+  const library = English.localise(new Yadda.ContextParamLibrary(dictionary))
 
-    .given('a $NUM foot wall', function (height, next) {
+    .given('a $NUM foot wall', (ctx, height, next) => {
       wall = new Wall();
       next();
     })
 
-    .given('$NUM green bottles are standing on the wall', function (number_of_bottles, next) {
+    .given('$NUM green bottles are standing on the wall', (ctx, number_of_bottles, next) => {
       wall.bottles = number_of_bottles;
       next();
     })
 
-    .when('$NUM green bottle accidentally falls', function (number_of_falling_bottles) {
+    .when('$NUM green bottle accidentally falls', (ctx, number_of_falling_bottles) => {
       wall.fall(number_of_falling_bottles);
     })
 
-    .then('there (?:are|are still) $NUM green bottles standing on the wall', function (number_of_bottles, next) {
+    .then('there (?:are|are still) $NUM green bottles standing on the wall', (ctx, number_of_bottles, next) => {
       assert.equal(number_of_bottles, wall.bottles);
       next();
     });

@@ -8,17 +8,17 @@ module.exports = (function () {
 
   const dictionary = new Dictionary().define('NUM', /(\d+)/);
 
-  const library = English.localise(new Yadda.ContextBoundLibrary(dictionary))
+  const library = English.localise(new Yadda.ContextParamLibrary(dictionary))
 
-    .given('$NUM green bottles are standing on the wall', function (number_of_bottles) {
+    .given('$NUM green bottles are standing on the wall', (ctx, number_of_bottles) => {
       wall = new Wall(number_of_bottles);
     })
 
-    .when('$NUM green bottle accidentally falls', function (number_of_falling_bottles) {
+    .when('$NUM green bottle accidentally falls', (ctx, number_of_falling_bottles) => {
       wall.fall(number_of_falling_bottles);
     })
 
-    .then('there (?:are|are still) $NUM green bottles standing on the wall', function (number_of_bottles) {
+    .then('there (?:are|are still) $NUM green bottles standing on the wall', (ctx, number_of_bottles) => {
       assert.equal(number_of_bottles, wall.bottles);
     });
 

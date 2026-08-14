@@ -6,9 +6,9 @@ const assert = require('assert');
 module.exports = (function () {
   let wall;
   const dictionary = new Dictionary().define('NUM', /(\d+)/);
-  const library = English.localise(new Yadda.ContextBoundLibrary(dictionary))
+  const library = English.localise(new Yadda.ContextParamLibrary(dictionary))
 
-    .given('a $NUM foot wall', function (height) {
+    .given('a $NUM foot wall', (ctx, height) => {
       return new Promise(function (resolve, reject) {
         setTimeout(function () {
           wall = new Wall();
@@ -17,7 +17,7 @@ module.exports = (function () {
       });
     })
 
-    .given('$NUM green $ITEMS are standing on the wall', function (number_of_items, item_type) {
+    .given('$NUM green $ITEMS are standing on the wall', (ctx, number_of_items, item_type) => {
       return new Promise(function (resolve, reject) {
         setTimeout(function () {
           wall.items = number_of_items;
@@ -26,7 +26,7 @@ module.exports = (function () {
       });
     })
 
-    .when('$NUM green $ITEM accidentally falls', function (number_of_falling_items, item_type) {
+    .when('$NUM green $ITEM accidentally falls', (ctx, number_of_falling_items, item_type) => {
       return new Promise(function (resolve, reject) {
         setTimeout(function () {
           wall.fall(number_of_falling_items);
@@ -35,7 +35,7 @@ module.exports = (function () {
       });
     })
 
-    .then('there (?:are|are still) $NUM green $ITEMS standing on the wall', function (number_of_items, item_type) {
+    .then('there (?:are|are still) $NUM green $ITEMS standing on the wall', (ctx, number_of_items, item_type) => {
       return new Promise(function (resolve, reject) {
         assert.equal(number_of_items, wall.items);
         resolve(true);

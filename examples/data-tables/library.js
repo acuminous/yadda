@@ -12,20 +12,20 @@ module.exports = (function () {
     .define('list', /([^\u0000]*)/, Yadda.converters.list)
     .define('table', /([^\u0000]*)/, Yadda.converters.table);
 
-  const library = English.localise(new Yadda.ContextBoundLibrary(dictionary))
+  const library = English.localise(new Yadda.ContextParamLibrary(dictionary))
 
-    .given('a list of integers\n$list', function (list) {
+    .given('a list of integers\n$list', (ctx, list) => {
       list_total = 0;
       for (let i = 0; i < list.length; i++) {
         list_total += parseInt(list[i]);
       }
     })
 
-    .then('the total should be $total', function (expected) {
+    .then('the total should be $total', (ctx, expected) => {
       assert.equal(list_total, expected);
     })
 
-    .given('a table of data\n$table', function (table) {
+    .given('a table of data\n$table', (ctx, table) => {
       table_totals = { left: 0, right: 0 };
       for (let i = 0; i < table.length; i++) {
         table_totals.left += parseInt(table[i].left);
@@ -33,11 +33,11 @@ module.exports = (function () {
       }
     })
 
-    .then('the $key total should be $total', function (key, expected) {
+    .then('the $key total should be $total', (ctx, key, expected) => {
       assert.equal(table_totals[key], expected);
     })
 
-    .given('some Shakespeare\n$table', function (table) {
+    .given('some Shakespeare\n$table', (ctx, table) => {
       table_totals = { 'Henry V': 0, 'Romeo and Juliet': 0 };
       for (let i = 0; i < table.length; i++) {
         table_totals['Henry V'] += table['Henry V'].split(/\s/).length;
@@ -45,7 +45,7 @@ module.exports = (function () {
       }
     })
 
-    .then('the $extract extract should have $total words', function (extract, expected) {
+    .then('the $extract extract should have $total words', (ctx, extract, expected) => {
       assert.equal(extract.split(/\W/).length, expected);
     });
 
