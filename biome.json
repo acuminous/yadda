@@ -21,9 +21,6 @@
       "complexity": {
         "noArguments": "off"
       },
-      "correctness": {
-        "noUnusedFunctionParameters": "off"
-      },
       "suspicious": {
         "noControlCharactersInRegex": "off",
         "noThenProperty": "off"
@@ -37,6 +34,7 @@
         "rules": {
           "correctness": {
             "noInvalidUseBeforeDeclaration": "off",
+            "noUnusedFunctionParameters": "off",
             "noUnusedVariables": "off"
           },
           "suspicious": {
@@ -51,7 +49,8 @@
       "linter": {
         "rules": {
           "correctness": {
-            "noInnerDeclarations": "off"
+            "noInnerDeclarations": "off",
+            "noUnusedFunctionParameters": "off"
           },
           "suspicious": {
             "noAssignInExpressions": "off"
