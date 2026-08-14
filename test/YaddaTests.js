@@ -107,7 +107,7 @@ describe('Yadda', function () {
         next();
       },
       {},
-      { mode: 'async' }
+      { mode: 'async' },
     );
     new Yadda(library).yadda('foo', function (err) {
       assert.ifError(err);
@@ -128,7 +128,7 @@ describe('Yadda', function () {
         next();
       },
       {},
-      { mode: 'async' }
+      { mode: 'async' },
     );
 
     new Yadda(library).yadda('Given foo', function (err) {

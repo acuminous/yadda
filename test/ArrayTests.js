@@ -11,19 +11,19 @@ describe('Array', function () {
       $([1, [2], 3])
         .flatten()
         .naked(),
-      [1, 2, 3]
+      [1, 2, 3],
     );
     assert.deepEqual(
       $([1, [[2], 3]])
         .flatten()
         .naked(),
-      [1, 2, 3]
+      [1, 2, 3],
     );
     assert.deepEqual(
       $([1, [[2], 3]], [])
         .flatten()
         .naked(),
-      [1, 2, 3]
+      [1, 2, 3],
     );
   });
 
@@ -44,7 +44,7 @@ describe('Array', function () {
       function (err, result) {
         assert.ifError(err);
         assert.equal(result, 3);
-      }
+      },
     );
   });
 

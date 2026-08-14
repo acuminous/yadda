@@ -105,7 +105,7 @@ describe('Interpreter', function () {
         arguments[arguments.length - 1]();
       },
       {},
-      { mode: 'async' }
+      { mode: 'async' },
     );
 
     new Interpreter(library).interpret(['Blah blah', 'Blah blah blah'], {}, function () {
@@ -139,7 +139,7 @@ describe('Interpreter', function () {
         name: EventBus.ON_SCENARIO,
         data: { scenario: 'Blah blah blah', ctx: { foo: 'bar' } },
       },
-      listener.events[0]
+      listener.events[0],
     );
 
     assert_event(
@@ -147,7 +147,7 @@ describe('Interpreter', function () {
         name: EventBus.ON_STEP,
         data: { step: 'Blah blah blah', ctx: { foo: 'bar' } },
       },
-      listener.events[1]
+      listener.events[1],
     );
 
     done();
