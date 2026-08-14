@@ -16,7 +16,10 @@ const url = `file://${path.join(__dirname, 'app', 'bottles.html')}`;
 // how state is cleared between scenarios.
 let browser;
 before(async () => {
-  browser = await puppeteer.launch({ headless: !!process.env.CI });
+  // CI runners (Ubuntu 23.10+) disable unprivileged user namespaces, so
+  // Chromium's sandbox can't start — disable it when running headless on CI.
+  const args = process.env.CI ? ['--no-sandbox'] : [];
+  browser = await puppeteer.launch({ headless: !!process.env.CI, args });
 });
 after(async () => {
   await browser.close();
