@@ -25,8 +25,7 @@
         "noInnerDeclarations": "off",
         "noInvalidUseBeforeDeclaration": "off",
         "noUnusedFunctionParameters": "off",
-        "noUnusedVariables": "off",
-        "useParseIntRadix": "off"
+        "noUnusedVariables": "off"
       },
       "suspicious": {
         "noAssignInExpressions": "off",

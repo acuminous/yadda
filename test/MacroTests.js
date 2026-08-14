@@ -214,7 +214,7 @@ describe('Macro', () => {
             cb(null, value * 2);
           },
           (value1, value2, cb) => {
-            cb(null, parseInt(value1) + parseInt(value2));
+            cb(null, parseInt(value1, 10) + parseInt(value2, 10));
           },
           (value, cb) => {
             cb(null, value * 3);
@@ -241,7 +241,7 @@ describe('Macro', () => {
             cb(null, value * 2);
           },
           (value1, value2, cb) => {
-            cb(null, parseInt(value1), parseInt(value2), parseInt(value1));
+            cb(null, parseInt(value1, 10), parseInt(value2, 10), parseInt(value1, 10));
           },
           (value, cb) => {
             cb(null, value * 3);
