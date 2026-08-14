@@ -32,6 +32,7 @@ Yadda 3.0 is a breaking modernization that makes Yadda **Node-only** and removes
 - `ContextBoundMacro`/`ContextBoundLibrary` and `BaseMacro`/`BaseLibrary`. The former default `Macro`/`Library` are now the concrete `ContextBound*` types (steps bound to `this`), and both they and the new `ContextParam*` variant extend a neutral `Base*` that carries the shared logic. See https://github.com/acuminous/yadda/issues/334
 - `ContextParamLibrary`, a `ContextBoundLibrary` sibling whose steps receive the scenario context as their first argument instead of via `this`. This makes step definitions usable as arrow functions. See https://github.com/acuminous/yadda/issues/334
 - A `nodetest` plugin (`Yadda.plugins.nodetest`) with `StepLevelPlugin`/`ScenarioLevelPlugin`, wiring feature files into Node's built-in `node:test` runner. Unlike the mocha plugin it returns the `featureFile`/`scenarios`/`steps` helpers rather than assigning globals, since `node:test` has no global injection. A runtime `this.skip()` throws internally so the remaining steps in the scenario are skipped, matching the mocha plugin's behaviour. See https://github.com/acuminous/yadda/issues/335
+- A Playwright example (`examples/playwright`), driving a browser form with Yadda from inside Playwright's own runner (one test per scenario, one `test.step` per step). It demonstrates keeping CSS selectors in the step definitions via a parameterised `I specify $count $field` step, so the feature file stays in business language. See https://github.com/acuminous/yadda/issues/338
 
 ### Deprecated
 
