@@ -14,6 +14,5 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
-      - run: npx prettier --check .
-      - run: npm run lint
+      - run: npx biome ci
       - run: npm test

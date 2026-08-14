@@ -59,7 +59,6 @@ var Ward = function (name) {
   };
 
   this.add_bed = function (bed) {
-    // eslint-disable-next-line no-return-assign
     return (this.beds[bed.number] = bed);
   };
 };
@@ -72,7 +71,6 @@ var Bed = function (ward, number) {
 
   this.admit = function (patient) {
     this.patient = patient;
-    // eslint-disable-next-line no-return-assign
     this.patient.template = this.patient.speciality === this.ward.speciality ? 'on' : 'off';
   };
 };

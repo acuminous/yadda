@@ -195,7 +195,7 @@ describe('Macro', function () {
         ],
       },
       execution.fn,
-      { a: 1 }
+      { a: 1 },
     ).interpret('Easy as 1, 2, 3', fn.noop);
 
     assert.ok(execution.executed, 'The step was not executed');
@@ -222,7 +222,7 @@ describe('Macro', function () {
         ],
       },
       execution.fn,
-      { a: 1 }
+      { a: 1 },
     ).interpret('Easy as 1, 2, 3, 4', fn.noop);
 
     assert.ok(execution.executed, 'The step was not executed');
@@ -249,7 +249,7 @@ describe('Macro', function () {
         ],
       },
       execution.fn,
-      { a: 1 }
+      { a: 1 },
     ).interpret('Easy as 1, 2, 3, 4', fn.noop);
 
     assert.ok(execution.executed, 'The step was not executed');

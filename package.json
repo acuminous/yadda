@@ -4,11 +4,8 @@
   "description": "A true BDD framework for JavaScript",
   "main": "./lib/index.js",
   "devDependencies": {
-    "eslint": "^8.2.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "lefthook": "^1.7.0",
-    "prettier": "2.4.1"
+    "@biomejs/biome": "^2.5.8",
+    "lefthook": "^1.7.0"
   },
   "directories": {
     "example": "examples",
@@ -18,7 +15,8 @@
     "test": "node --test 'test/**/*.js'",
     "coverage": "node --test --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info 'test/**/*.js'",
     "examples": "node bin/examples.js",
-    "lint": "eslint ."
+    "lint": "biome check",
+    "format": "biome check --write"
   },
   "repository": {
     "type": "git",
