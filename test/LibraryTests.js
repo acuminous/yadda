@@ -55,7 +55,7 @@ describe('Library', () => {
   });
 
   it('should report duplicate macros', () => {
-    const library = English.library().define(/bar/);
+    const library = English.localise(new Library()).define(/bar/);
 
     throws(() => {
       library.define(/bar/);
@@ -74,7 +74,7 @@ describe('Library', () => {
   });
 
   it('should be localised', () => {
-    const library = English.library()
+    const library = English.localise(new Library())
       .given(/^a wall with (\d+) bottles/)
       .when(/^(\d+) bottle(?:s)? accidentally falls/)
       .then(/^there are (\d+) bottles left/);
@@ -91,7 +91,7 @@ describe('Library', () => {
   });
 
   it('should supports localised aliased macros', () => {
-    const library = English.library()
+    const library = English.localise(new Library())
       .given([/^a wall with (\d+) bottles/, /^a wall with (\d+) green bottles/])
       .when([/^(\d+) bottle(?:s)? accidentally falls/, /^(\d+) green bottle(?:s)? accidentally falls/])
       .then([/^there are (\d+) bottles left/, /^there are (\d+) green bottles left/]);

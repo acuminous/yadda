@@ -10,7 +10,7 @@ var url = require('url');
 module.exports = (function () {
   var bottles;
   var dictionary = new Dictionary().define('NUM', /(\d+)/);
-  var library = English.library(dictionary)
+  var library = English.localise(new Yadda.Library(dictionary))
 
     .given('$NUM green bottles are standing on the wall', function (number_of_bottles, next) {
       var data = _.chain(number_of_bottles)

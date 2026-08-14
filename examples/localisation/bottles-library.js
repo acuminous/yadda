@@ -1,4 +1,5 @@
 var Pirate = require('../../lib/localisation/Pirate');
+var Library = require('../../lib/Library');
 var Dictionary = require('../../lib/Dictionary');
 var assert = require('assert');
 
@@ -7,7 +8,7 @@ module.exports = (function () {
 
   var dictionary = new Dictionary().define('NUM', /(\d+)/);
 
-  var library = Pirate.library(dictionary)
+  var library = Pirate.localise(new Library(dictionary))
 
     .given('$NUM green bottles are standing on the wall', function (number_of_bottles, next) {
       wall = new Wall(number_of_bottles);

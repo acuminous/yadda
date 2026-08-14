@@ -9,7 +9,7 @@ var Wall = require('./wall');
 module.exports = (function () {
   var wall;
 
-  var library = English.library(dictionary)
+  var library = English.localise(new Yadda.Library(dictionary))
 
     .given('$NUM green bottles are standing on the wall', function (number_of_bottles, next) {
       wall = new Wall(number_of_bottles);

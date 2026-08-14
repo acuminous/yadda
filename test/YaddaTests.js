@@ -116,7 +116,7 @@ describe('Yadda', () => {
   it('should interpret asynchronous localised variadic steps', (_t, done) => {
     let executions = 0;
     const { English } = require('../lib').localisation;
-    const library = English.library().given(
+    const library = English.localise(new Library()).given(
       'foo',
       function () {
         const next = arguments[arguments.length - 1];

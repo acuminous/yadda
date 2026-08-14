@@ -9,7 +9,7 @@ module.exports = (function () {
   var cases = {};
 
   var dictionary = new Dictionary().define('CASE', /(\w+)/, unique).define('CODE', /([^\u0000]*)/);
-  var library = English.library(dictionary)
+  var library = English.localise(new Yadda.Library(dictionary))
 
     .given('I need to transpile $CASE', function (s, next) {
       case_description = s;

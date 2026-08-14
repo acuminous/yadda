@@ -50,12 +50,13 @@ Scenario: Should fall from the wall
 ./test/steps/bottles-library.js
 
 ```js
-var assert = require('assert');
-var English = require('yadda').localisation.English;
-var Wall = require('../../lib/wall'); // The library that you wish to test
+const assert = require('assert');
+const Yadda = require('yadda');
+const English = Yadda.localisation.English;
+const Wall = require('../../lib/wall'); // The library that you wish to test
 
 module.exports = (function () {
-  return English.library()
+  return English.localise(new Yadda.Library())
     .given('$NUM green bottles are standing on the wall', function (number, next) {
       wall = new Wall(number);
       next();
@@ -78,13 +79,13 @@ module.exports = (function () {
 ./bottles-test.js
 
 ```js
-var Yadda = require('yadda');
+const Yadda = require('yadda');
 Yadda.plugins.mocha.StepLevelPlugin.init();
 
 new Yadda.FeatureFileSearch('./test/features').each(function (file) {
   featureFile(file, function (feature) {
-    var library = require('./test/steps/bottles-library');
-    var yadda = Yadda.createInstance(library);
+    const library = require('./test/steps/bottles-library');
+    const yadda = Yadda.createInstance(library);
 
     scenarios(feature.scenarios, function (scenario) {
       steps(scenario.steps, function (step, done) {
@@ -146,7 +147,7 @@ Parsed features expose a `rules` array alongside the top level `scenarios` array
 
 ```js
 featureFile(file, function (feature) {
-  var yadda = Yadda.createInstance(library);
+  const yadda = Yadda.createInstance(library);
 
   scenarios(feature.scenarios, function (scenario) {
     steps(scenario.steps, function (step, done) {

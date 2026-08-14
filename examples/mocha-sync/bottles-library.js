@@ -8,7 +8,7 @@ module.exports = (function () {
 
   var dictionary = new Dictionary().define('NUM', /(\d+)/);
 
-  var library = English.library(dictionary)
+  var library = English.localise(new Yadda.Library(dictionary))
 
     .given('$NUM green bottles are standing on the wall', function (number_of_bottles) {
       wall = new Wall(number_of_bottles);
