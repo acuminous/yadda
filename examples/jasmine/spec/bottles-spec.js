@@ -1,5 +1,3 @@
-/* jslint node: true */
-/* global featureFile, scenarios, steps, jasmine */
 var SpecReporter = require('jasmine-spec-reporter').SpecReporter;
 jasmine.getEnv().addReporter(new SpecReporter());
 
