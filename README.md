@@ -7,14 +7,14 @@
 [![Code Style](https://img.shields.io/badge/code%20style-biome-brightgreen.svg)](https://biomejs.dev/)
 [![Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen.svg)](https://github.com/acuminous/yadda/blob/master/package.json)
 
-Yadda brings _true_ BDD to JavaScript test frameworks such as [node:test](https://nodejs.org/api/test.html), [Mocha](https://mochajs.org/) and [Jasmine](https://jasmine.github.io/). By _true_ BDD we mean that the ordinary language (e.g. English) steps are **mapped to code**, rather than merely decorating it. This matters because — just like comments — the decorative steps used by tools such as Jasmine and Mocha can fall out of date and are a form of duplication.
+Yadda brings _true_ BDD to JavaScript test frameworks such as [node:test](https://nodejs.org/api/test.html), [Mocha](https://mochajs.org/) and [Jasmine](https://jasmine.github.io/). By _true_ BDD we mean that the ordinary language (e.g. English) steps are **mapped to code**, rather than merely decorating it. This matters because just like comments the decorative steps used by tools such as Jasmine and Mocha can fall out of date and are a form of duplication.
 
 ## Why Yadda?
 
-- **Mature and stable.** Yadda has been around since 2012 and its API has long since settled. It's battle-tested in real-world suites, and 3.0 is a modernization — dropping dead tooling and going Node-only — rather than a redesign.
-- **Zero dependencies.** Yadda installs nothing else into your `node_modules`. No transitive supply chain, no version conflicts.
+- **Mature and stable.** Yadda has been around since 2012 and its API has long since settled. It's battle-tested in real-world suites.
+- **Zero dependencies.** Yadda installs nothing else into your `node_modules`. No transitive supply chain, no version conflicts, less maintenance.
 - **Small, well-factored codebase.** Just over 2,000 lines of source (excluding tests and examples), built from deliberately tiny functions averaging a few lines each — mostly the feature parser and runner plugins, atop a smaller interpreter core. It is easy to read, easy to reason about, and easy to extend.
-- **High test coverage.** Covered by ~200 tests at ~87% line / ~98% branch coverage, run against current LTS and current Node.js releases.
+- **High test coverage.** Covered by ~200 meaningful tests at ~87% line / ~98% branch coverage, run against current LTS and current Node.js releases.
 - **True BDD.** Steps map to real functions, so your specifications cannot silently drift away from the behaviour they describe.
 - **Unopinionated.** Yadda is not a test runner or a test framework — its one job is to map lines of text to function calls. It plugs into the runner you already use.
 
