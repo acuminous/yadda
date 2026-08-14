@@ -1,9 +1,6 @@
-const nodeTest = require('node:test');
-const describe = nodeTest.describe;
-const it = nodeTest.it;
-const assert = require('node:assert');
-const Library = require('../lib/index').Library;
-const Yadda = require('../lib/index').Yadda;
+const { describe, it } = require('node:test');
+const { equal: eq, ifError } = require('node:assert');
+const { Library, Yadda } = require('../lib/index');
 
 describe('Yadda', () => {
   it('should interpret synchronous scenarios', () => {
@@ -12,7 +9,7 @@ describe('Yadda', () => {
       executions++;
     });
     new Yadda(library).yadda('foo');
-    assert.equal(executions, 1);
+    eq(executions, 1);
   });
 
   it('should interpret asynchronous scenarios', (_t, done) => {
@@ -22,8 +19,8 @@ describe('Yadda', () => {
       next();
     });
     new Yadda(library).yadda('foo', (err) => {
-      assert.ifError(err);
-      assert.equal(executions, 1);
+      ifError(err);
+      eq(executions, 1);
       done();
     });
   });
@@ -39,8 +36,8 @@ describe('Yadda', () => {
         executions++;
       });
     new Yadda(library).yadda(['foo', 'bar'], (err) => {
-      assert.ifError(err);
-      assert.equal(executions, 2);
+      ifError(err);
+      eq(executions, 2);
       done();
     });
   });
@@ -59,8 +56,8 @@ describe('Yadda', () => {
       };
     });
     new Yadda(library).yadda('foo', (err) => {
-      assert.ifError(err);
-      assert.equal(executions, 1);
+      ifError(err);
+      eq(executions, 1);
       done();
     });
   });
@@ -79,8 +76,8 @@ describe('Yadda', () => {
       };
     });
     new Yadda(library).yadda('foo', (err) => {
-      assert.ifError(err);
-      assert.equal(executions, 1);
+      ifError(err);
+      eq(executions, 1);
       done();
     });
   });
@@ -93,7 +90,7 @@ describe('Yadda', () => {
     });
     const yadda = Yadda.createInstance(library);
     yadda.run('foo');
-    assert.equal(executions, 1);
+    eq(executions, 1);
   });
 
   it('should interpret asynchronous variadic steps', (_t, done) => {
@@ -102,7 +99,7 @@ describe('Yadda', () => {
       'foo',
       function () {
         const next = arguments[arguments.length - 1];
-        assert.equal(typeof next, 'function');
+        eq(typeof next, 'function');
         executions++;
         next();
       },
@@ -110,20 +107,20 @@ describe('Yadda', () => {
       { mode: 'async' },
     );
     new Yadda(library).yadda('foo', (err) => {
-      assert.ifError(err);
-      assert.equal(executions, 1);
+      ifError(err);
+      eq(executions, 1);
       done();
     });
   });
 
   it('should interpret asynchronous localised variadic steps', (_t, done) => {
     let executions = 0;
-    const English = require('../lib').localisation.English;
+    const { English } = require('../lib').localisation;
     const library = English.library().given(
       'foo',
       function () {
         const next = arguments[arguments.length - 1];
-        assert.equal(typeof next, 'function');
+        eq(typeof next, 'function');
         executions++;
         next();
       },
@@ -132,8 +129,8 @@ describe('Yadda', () => {
     );
 
     new Yadda(library).yadda('Given foo', (err) => {
-      assert.ifError(err);
-      assert.equal(executions, 1);
+      ifError(err);
+      eq(executions, 1);
       done();
     });
   });

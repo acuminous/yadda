@@ -1,7 +1,5 @@
-const nodeTest = require('node:test');
-const describe = nodeTest.describe;
-const it = nodeTest.it;
-const assert = require('node:assert');
+const { describe, it } = require('node:test');
+const { equal: eq, deepEqual: deq, ok, ifError } = require('node:assert');
 const convert = require('../../lib/converters/table-converter');
 
 describe('Table Converter', () => {
@@ -9,10 +7,10 @@ describe('Table Converter', () => {
     const text = ['left | right', '1    | 3', '2    | 4'].join('\n');
 
     convert(text, (err, value) => {
-      assert.ifError(err);
-      assert.equal(value.length, 2);
-      assert.deepEqual(value[0], { left: '1', right: '3' });
-      assert.deepEqual(value[1], { left: '2', right: '4' });
+      ifError(err);
+      eq(value.length, 2);
+      deq(value[0], { left: '1', right: '3' });
+      deq(value[1], { left: '2', right: '4' });
       done();
     });
   });
@@ -21,9 +19,9 @@ describe('Table Converter', () => {
     const text = ['left | middle | right', '  1  |   2    |   3  '].join('\n');
 
     convert(text, (err, value) => {
-      assert.ifError(err);
-      assert.equal(value.length, 1);
-      assert.deepEqual(value[0], { left: '  1', middle: '  2', right: '  3' });
+      ifError(err);
+      eq(value.length, 1);
+      deq(value[0], { left: '  1', middle: '  2', right: '  3' });
       done();
     });
   });
@@ -40,10 +38,10 @@ describe('Table Converter', () => {
     ].join('\n');
 
     convert(text, (err, value) => {
-      assert.ifError(err);
-      assert.equal(value.length, 2);
-      assert.deepEqual(value[0], { 'Henry V': 'Once more unto the\nbreech dear friends', 'Romeo and Juliet': 'What light from yonder\nwindow breaks' });
-      assert.deepEqual(value[1], { 'Henry V': 'And sheathed their\nswords for lack of argument', 'Romeo and Juliet': 'It is the East\nand Juliet is the sun' });
+      ifError(err);
+      eq(value.length, 2);
+      deq(value[0], { 'Henry V': 'Once more unto the\nbreech dear friends', 'Romeo and Juliet': 'What light from yonder\nwindow breaks' });
+      deq(value[1], { 'Henry V': 'And sheathed their\nswords for lack of argument', 'Romeo and Juliet': 'It is the East\nand Juliet is the sun' });
       done();
     });
   });
@@ -61,10 +59,10 @@ describe('Table Converter', () => {
     ].join('\n');
 
     convert(text, (err, value) => {
-      assert.ifError(err);
-      assert.equal(value.length, 2);
-      assert.deepEqual(value[0], { 'Henry V': '  Once more unto the\n\n  breech dear friends', 'Romeo and Juliet': ' What light from yonder\n\n window breaks' });
-      assert.deepEqual(value[1], { 'Henry V': '  And sheathed their\n  swords for lack of argument', 'Romeo and Juliet': ' It is the East\n and Juliet is the sun' });
+      ifError(err);
+      eq(value.length, 2);
+      deq(value[0], { 'Henry V': '  Once more unto the\n\n  breech dear friends', 'Romeo and Juliet': ' What light from yonder\n\n window breaks' });
+      deq(value[1], { 'Henry V': '  And sheathed their\n  swords for lack of argument', 'Romeo and Juliet': ' It is the East\n and Juliet is the sun' });
       done();
     });
   });
@@ -81,10 +79,10 @@ describe('Table Converter', () => {
     ].join('\n');
 
     convert(text, (err, value) => {
-      assert.ifError(err);
-      assert.equal(value.length, 2);
-      assert.deepEqual(value[0], { 'Henry V': 'Once more unto the\nbreech dear friends', 'Romeo and Juliet': 'What light from yonder\nwindow breaks' });
-      assert.deepEqual(value[1], { 'Henry V': 'And sheathed their\nswords for lack of argument', 'Romeo and Juliet': 'It is the East\nand Juliet is the sun' });
+      ifError(err);
+      eq(value.length, 2);
+      deq(value[0], { 'Henry V': 'Once more unto the\nbreech dear friends', 'Romeo and Juliet': 'What light from yonder\nwindow breaks' });
+      deq(value[1], { 'Henry V': 'And sheathed their\nswords for lack of argument', 'Romeo and Juliet': 'It is the East\nand Juliet is the sun' });
       done();
     });
   });
@@ -93,8 +91,8 @@ describe('Table Converter', () => {
     const text = ['left | middle | right', '  1  |2       |   3  '].join('\n');
 
     convert(text, (err, _value) => {
-      assert(err);
-      assert.equal(err.message, 'Indentation error');
+      ok(err);
+      eq(err.message, 'Indentation error');
       done();
     });
   });

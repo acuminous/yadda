@@ -1,7 +1,5 @@
-const nodeTest = require('node:test');
-const describe = nodeTest.describe;
-const it = nodeTest.it;
-const assert = require('node:assert');
+const { describe, it } = require('node:test');
+const { equal: eq, deepEqual: deq, ok, throws } = require('node:assert');
 const Macro = require('../lib/Macro');
 const Context = require('../lib/Context');
 const EventBus = require('../lib/EventBus');
@@ -15,10 +13,10 @@ describe('Macro', () => {
 
     new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.fn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }));
 
-    assert.ok(execution.executed, 'The step was not executed');
-    assert.equal(execution.args.length, 3);
-    assert.deepEqual(execution.args, [1, 2, 3]);
-    assert.deepEqual(execution.ctx, { a: 1, b: 2, step: 'Easy as 1, 2, 3' });
+    ok(execution.executed, 'The step was not executed');
+    eq(execution.args.length, 3);
+    deq(execution.args, [1, 2, 3]);
+    deq(execution.ctx, { a: 1, b: 2, step: 'Easy as 1, 2, 3' });
   });
 
   it('should tolerate too many step arguments for synchronous steps', () => {
@@ -26,8 +24,8 @@ describe('Macro', () => {
 
     new Macro('Easy', parsed_signature(/Easy as 1, 2, 3/), execution.fn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }));
 
-    assert.ok(execution.executed, 'The step was not executed');
-    assert.equal(execution.args.length, 0);
+    ok(execution.executed, 'The step was not executed');
+    eq(execution.args.length, 0);
   });
 
   it('should tolerate too few step arguments for synchronous steps', () => {
@@ -35,18 +33,18 @@ describe('Macro', () => {
 
     new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d), (\d)/), execution.fn, { a: 1 }).interpret('Easy as 1, 2, 3, 4', new Context({ b: 2 }));
 
-    assert.ok(execution.executed, 'The step was not executed');
-    assert.equal(execution.args.length, 4);
+    ok(execution.executed, 'The step was not executed');
+    eq(execution.args.length, 4);
   });
 
   it('should interpret a synchronous step asynchronously', (_t, done) => {
     const execution = new Execution();
 
     new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.fn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }), () => {
-      assert.ok(execution.executed, 'The step was not executed');
-      assert.equal(execution.args.length, 3);
-      assert.deepEqual(execution.args, [1, 2, 3]);
-      assert.deepEqual(execution.ctx, { a: 1, b: 2, step: 'Easy as 1, 2, 3' });
+      ok(execution.executed, 'The step was not executed');
+      eq(execution.args.length, 3);
+      deq(execution.args, [1, 2, 3]);
+      deq(execution.ctx, { a: 1, b: 2, step: 'Easy as 1, 2, 3' });
       done();
     });
   });
@@ -55,10 +53,10 @@ describe('Macro', () => {
     const execution = new Execution();
 
     new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.afn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }), () => {
-      assert.ok(execution.executed, 'The step was not executed');
-      assert.equal(execution.args.length, 4);
-      assert.deepEqual(execution.args.splice(0, 3), [1, 2, 3]);
-      assert.deepEqual(execution.ctx, { a: 1, b: 2, step: 'Easy as 1, 2, 3' });
+      ok(execution.executed, 'The step was not executed');
+      eq(execution.args.length, 4);
+      deq(execution.args.splice(0, 3), [1, 2, 3]);
+      deq(execution.ctx, { a: 1, b: 2, step: 'Easy as 1, 2, 3' });
       done();
     });
   });
@@ -67,7 +65,7 @@ describe('Macro', () => {
     const execution = new Execution();
 
     new Macro('Easy', parsed_signature(/Easy as (\d), (\d), 3/), execution.afn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }), (err) => {
-      assert.ok(err);
+      ok(err);
       done();
     });
   });
@@ -76,7 +74,7 @@ describe('Macro', () => {
     const execution = new Execution();
 
     new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d), (\d)/), execution.afn, { a: 1 }).interpret('Easy as 1, 2, 3, 4', new Context({ b: 2 }), (err) => {
-      assert.ok(err);
+      ok(err);
       done();
     });
   });
@@ -85,10 +83,10 @@ describe('Macro', () => {
     const execution = new Execution();
 
     new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d), (\d)/), execution.vafn, { a: 1 }, undefined, { mode: 'async' }).interpret('Easy as 1, 2, 3, 4', new Context({ b: 2 }), () => {
-      assert.ok(execution.executed, 'The step was not executed');
-      assert.equal(execution.args.length, 5);
-      assert.deepEqual(execution.args.splice(0, 4), [1, 2, 3, 4]);
-      assert.deepEqual(execution.ctx, { a: 1, b: 2, step: 'Easy as 1, 2, 3, 4' });
+      ok(execution.executed, 'The step was not executed');
+      eq(execution.args.length, 5);
+      deq(execution.args.splice(0, 4), [1, 2, 3, 4]);
+      deq(execution.ctx, { a: 1, b: 2, step: 'Easy as 1, 2, 3, 4' });
       done();
     });
   });
@@ -97,10 +95,10 @@ describe('Macro', () => {
     const execution = new Execution();
 
     new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.promise, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }), () => {
-      assert.ok(execution.executed, 'The step was not executed');
-      assert.equal(execution.args.length, 3);
-      assert.deepEqual(execution.args, [1, 2, 3]);
-      assert.deepEqual(execution.ctx, { a: 1, b: 2, step: 'Easy as 1, 2, 3' });
+      ok(execution.executed, 'The step was not executed');
+      eq(execution.args.length, 3);
+      deq(execution.args, [1, 2, 3]);
+      deq(execution.ctx, { a: 1, b: 2, step: 'Easy as 1, 2, 3' });
       done();
     });
   });
@@ -110,7 +108,7 @@ describe('Macro', () => {
 
     new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.fn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }), fn.noop);
 
-    assert.equal(execution.ctx.step, 'Easy as 1, 2, 3');
+    eq(execution.ctx.step, 'Easy as 1, 2, 3');
   });
 
   it('should not override step name in the context if explicitly set', () => {
@@ -118,12 +116,12 @@ describe('Macro', () => {
 
     new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.fn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2, step: 'Do not override' }), fn.noop);
 
-    assert.equal(execution.ctx.step, 'Do not override');
+    eq(execution.ctx.step, 'Do not override');
   });
 
   it('should provide a signature that can be used to compare levenshtein distance', () => {
     $([/the quick brown fox/, /the quick.* brown.* fox/, /the quick(.*) brown(?:.*) fox/, /the quick[xyz] brown[^xyz] fox/, /the quick{0,1} brown{1} fox/, /the quick\d brown\W fox/]).each((pattern) => {
-      assert.equal(new Macro('Quick brown fox', parsed_signature(pattern)).levenshtein_signature(), 'the quick brown fox');
+      eq(new Macro('Quick brown fox', parsed_signature(pattern)).levenshtein_signature(), 'the quick brown fox');
     });
   });
 
@@ -140,13 +138,13 @@ describe('Macro', () => {
 
     new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), fn.noop, { a: 1 }).interpret('Easy as 1, 2, 3', { b: 2 });
 
-    assert.equal(1, listener.events.length);
+    eq(1, listener.events.length);
 
     const event = listener.events[0];
-    assert.equal(event.name, EventBus.ON_EXECUTE);
-    assert.equal(event.data.step, 'Easy as 1, 2, 3');
-    assert.deepEqual(event.data.ctx, { a: 1, b: 2, step: 'Easy as 1, 2, 3' });
-    assert.equal(event.data.pattern, '/Easy as (\\d), (\\d), (\\d)/');
+    eq(event.name, EventBus.ON_EXECUTE);
+    eq(event.data.step, 'Easy as 1, 2, 3');
+    deq(event.data.ctx, { a: 1, b: 2, step: 'Easy as 1, 2, 3' });
+    eq(event.data.pattern, '/Easy as (\\d), (\\d), (\\d)/');
     done();
   });
 
@@ -157,11 +155,11 @@ describe('Macro', () => {
 
     new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), fn.noop, { a: 1 }).interpret('Easy as 1, 2, 3', { b: 2 });
 
-    assert.equal(1, listener.events.length);
+    eq(1, listener.events.length);
 
     const event = listener.events[0];
-    assert.equal(event.name, EventBus.ON_DEFINE);
-    assert.equal(event.data.pattern, '/Easy as (\\d), (\\d), (\\d)/');
+    eq(event.name, EventBus.ON_DEFINE);
+    eq(event.data.pattern, '/Easy as (\\d), (\\d), (\\d)/');
     done();
   });
 
@@ -170,9 +168,9 @@ describe('Macro', () => {
 
     new Macro('Easy', parsed_signature(/Easy as ([^\u0000]*)/), execution.fn, { a: 1 }).interpret('Easy as 1\n2\n3', new Context({ b: 2 }), fn.noop);
 
-    assert.ok(execution.executed, 'The step was not executed');
-    assert.deepEqual(execution.args.splice(0, 1), ['1\n2\n3']);
-    assert.deepEqual(execution.ctx, { a: 1, b: 2, step: 'Easy as 1\n2\n3' });
+    ok(execution.executed, 'The step was not executed');
+    deq(execution.args.splice(0, 1), ['1\n2\n3']);
+    deq(execution.ctx, { a: 1, b: 2, step: 'Easy as 1\n2\n3' });
   });
 
   it('should convert parameters', () => {
@@ -198,8 +196,8 @@ describe('Macro', () => {
       { a: 1 },
     ).interpret('Easy as 1, 2, 3', fn.noop);
 
-    assert.ok(execution.executed, 'The step was not executed');
-    assert.deepEqual(execution.args.splice(0, 3), [2, 6, 12]);
+    ok(execution.executed, 'The step was not executed');
+    deq(execution.args.splice(0, 3), [2, 6, 12]);
   });
 
   it('should convert parameters with multi-arg converters', () => {
@@ -225,8 +223,8 @@ describe('Macro', () => {
       { a: 1 },
     ).interpret('Easy as 1, 2, 3, 4', fn.noop);
 
-    assert.ok(execution.executed, 'The step was not executed');
-    assert.deepEqual(execution.args.splice(0, 3), [2, 5, 12]);
+    ok(execution.executed, 'The step was not executed');
+    deq(execution.args.splice(0, 3), [2, 5, 12]);
   });
 
   it('should convert parameters with multi-result converters', () => {
@@ -252,21 +250,21 @@ describe('Macro', () => {
       { a: 1 },
     ).interpret('Easy as 1, 2, 3, 4', fn.noop);
 
-    assert.ok(execution.executed, 'The step was not executed');
-    assert.deepEqual(execution.args.splice(0, 5), [2, 2, 3, 2, 12]);
+    ok(execution.executed, 'The step was not executed');
+    deq(execution.args.splice(0, 5), [2, 2, 3, 2, 12]);
   });
 
   it('should yield errors when called asynchronously', () => {
     new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), (_a, _b, _c, _cb) => {
       throw new Error('Oh Noes!');
     }).interpret('Easy as 1, 2, 3', {}, (err) => {
-      assert.ok(err);
-      assert.equal(err.message, 'Oh Noes!');
+      ok(err);
+      eq(err.message, 'Oh Noes!');
     });
   });
 
   it('should throw errors when called synchronously', () => {
-    assert.throws(() => {
+    throws(() => {
       new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), (_a, _b, _c) => {
         throw new Error('Oh Noes!');
       }).interpret('Easy as 1, 2, 3', {});

@@ -1,7 +1,5 @@
-const nodeTest = require('node:test');
-const describe = nodeTest.describe;
-const it = nodeTest.it;
-const assert = require('node:assert');
+const { describe, it } = require('node:test');
+const { equal: eq, throws } = require('node:assert');
 const Macro = require('../lib/Macro');
 const Competition = require('../lib/Competition');
 const Dictionary = require('../lib/Dictionary');
@@ -14,7 +12,7 @@ describe('Competition', () => {
     const worst_match = new Macro('worse', parsed_signature(/given (\d+) (.*) (?:patient|patients)/));
     const competition = new Competition('given 1 male patient', [worst_match, best_match, middle_match]);
 
-    assert.equal(competition.clear_winner().signature, best_match.signature);
+    eq(competition.clear_winner().signature, best_match.signature);
   });
 
   it('should decide winner by Levenshtein distance on multiline', () => {
@@ -23,7 +21,7 @@ describe('Competition', () => {
     const worst_match = new Macro('worse', parsed_signature(/given (\d+) ([^\u0000]*) (?:text|code)/));
     const competition = new Competition('given 1 a\nb\nc text', [worst_match, best_match, middle_match]);
 
-    assert.equal(competition.clear_winner().signature, best_match.signature);
+    eq(competition.clear_winner().signature, best_match.signature);
   });
 
   it('should decide tie breakers by prefering to macro from the same library as the previous winner', () => {
@@ -34,7 +32,7 @@ describe('Competition', () => {
     const equal_match = new Macro('equal', parsed_signature(/given 1 (.+) patient/), fn.noop, {}, library2);
     const competition = new Competition('given 1 male patient', [best_match, equal_match], previous_match);
 
-    assert.equal(competition.clear_winner().signature, best_match.signature);
+    eq(competition.clear_winner().signature, best_match.signature);
   });
 
   it('should support joint winners', () => {
@@ -44,7 +42,7 @@ describe('Competition', () => {
     const equal_match = new Macro('equal', parsed_signature(/given 1 (.+) patient/), fn.noop, {}, library1);
     const competition = new Competition('given 1 male patient', [best_match, equal_match], previous_match);
 
-    assert.throws(() => {
+    throws(() => {
       competition.clear_winner();
     }, /Ambiguous Step: \[given 1 male patient\]. Patterns \[\/best\/, \/equal\/\] match equally well./);
   });
@@ -54,7 +52,7 @@ describe('Competition', () => {
     const equal_match = new Macro('equal', /given ([^\u0000]+) text/);
     const competition = new Competition('given 1\n2\n3 text', [best_match, equal_match]);
 
-    assert.throws(() => {
+    throws(() => {
       competition.clear_winner();
     }, /Ambiguous Step: \[given 1\n2\n3 text\]. Patterns \[\/best\/, \/equal\/\] match equally well./);
   });
@@ -62,7 +60,7 @@ describe('Competition', () => {
   it('Should support no winner', () => {
     const competition = new Competition('given 1 male patient', []);
 
-    assert.throws(() => {
+    throws(() => {
       competition.clear_winner();
     }, /Undefined Step: \[given 1 male patient\]/);
   });

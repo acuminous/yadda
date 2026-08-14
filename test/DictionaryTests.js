@@ -1,8 +1,6 @@
-const nodeTest = require('node:test');
-const describe = nodeTest.describe;
-const it = nodeTest.it;
-const assert = require('node:assert');
-const Dictionary = require('../lib/index').Dictionary;
+const { describe, it } = require('node:test');
+const { equal: eq, throws } = require('node:assert');
+const { Dictionary } = require('../lib/index');
 const pass_through_converter = require('../lib/converters/pass-through-converter');
 
 describe('Dictionary', () => {
@@ -27,7 +25,7 @@ describe('Dictionary', () => {
   it('should report duplicate terms', () => {
     const dictionary = new Dictionary().define('gender', '(male|female)');
 
-    assert.throws(() => {
+    throws(() => {
       dictionary.define('gender', 'anything');
     }, /Duplicate term: \[gender\]/);
   });
@@ -35,11 +33,11 @@ describe('Dictionary', () => {
   it('should report cyclic definitions', () => {
     const dictionary = new Dictionary().define('direct', '$direct').define('indirect', '$intermediary').define('intermediary', '$indirect');
 
-    assert.throws(() => {
+    throws(() => {
       dictionary.expand('$direct');
     }, /Circular Definition: \[direct\]/);
 
-    assert.throws(() => {
+    throws(() => {
       dictionary.expand('$indirect');
     }, /Circular Definition: \[indirect, intermediary\]/);
   });
@@ -63,7 +61,7 @@ describe('Dictionary', () => {
     const dictionary1 = new Dictionary('$');
     const dictionary2 = new Dictionary(':');
 
-    assert.throws(() => {
+    throws(() => {
       dictionary1.merge(dictionary2);
     }, /Cannot merge dictionaries with different prefixes/);
   });
@@ -72,7 +70,7 @@ describe('Dictionary', () => {
     const dictionary1 = new Dictionary().define('gender', /(male|female)/);
     const dictionary2 = new Dictionary().define('gender', /(male|female)/);
 
-    assert.throws(() => {
+    throws(() => {
       dictionary1.merge(dictionary2);
     }, /Duplicate term: \[gender\]/);
   });
@@ -107,13 +105,13 @@ describe('Dictionary', () => {
   });
 
   it('should report expandable terms with converters', () => {
-    assert.throws(() => {
+    throws(() => {
       new Dictionary().define('address_line_1', '$number $street', pass_through_converter);
     }, /Expandable terms cannot use converters: \[address_line_1\]/);
   });
 
   it('should report terms with wrong number of converters for matching groups', () => {
-    assert.throws(() => {
+    throws(() => {
       new Dictionary().define('foo', '(1)', [pass_through_converter, pass_through_converter]);
     }, /Wrong number of converters for: \[foo\]/);
   });
@@ -128,20 +126,20 @@ describe('Dictionary', () => {
   it('should report multi-arg converters with the wrong number of matching groups', () => {
     const two_arg_converter = (_a, _b, _cb) => {};
 
-    assert.throws(() => {
+    throws(() => {
       new Dictionary().define('foo', '(1)', [two_arg_converter]);
     }, /Wrong number of converters for: \[foo\]/);
   });
 
   function assert_pattern(dictionary, pattern, expected) {
-    assert.equal(dictionary.expand(pattern).pattern, expected);
+    eq(dictionary.expand(pattern).pattern, expected);
   }
 
   function assert_converters(dictionary, pattern, expected) {
     const converters = dictionary.expand(pattern).converters;
-    assert.equal(converters.length, expected.length);
+    eq(converters.length, expected.length);
     for (let i = 0; i < expected.length; i++) {
-      assert.equal(converters[i].toString(), expected[i].toString());
+      eq(converters[i].toString(), expected[i].toString());
     }
   }
 });

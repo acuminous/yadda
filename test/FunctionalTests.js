@@ -1,8 +1,5 @@
-const nodeTest = require('node:test');
-const describe = nodeTest.describe;
-const it = nodeTest.it;
-const beforeEach = nodeTest.beforeEach;
-const Yadda = require('../lib/index').Yadda;
+const { describe, it, beforeEach } = require('node:test');
+const { Yadda } = require('../lib/index');
 
 describe('Hospital', () => {
   let yadda;

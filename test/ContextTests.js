@@ -1,7 +1,5 @@
-const nodeTest = require('node:test');
-const describe = nodeTest.describe;
-const it = nodeTest.it;
-const assert = require('node:assert');
+const { describe, it } = require('node:test');
+const { deepEqual: deq } = require('node:assert');
 const Context = require('../lib/Context');
 
 describe('Context', () => {
@@ -20,10 +18,10 @@ describe('Context', () => {
   });
 
   it('should merge contexts', () => {
-    assert.deepEqual(new Context({ a: 1 }).merge(new Context({ b: 2 })).properties, new Context({ a: 1, b: 2 }).properties);
+    deq(new Context({ a: 1 }).merge(new Context({ b: 2 })).properties, new Context({ a: 1, b: 2 }).properties);
   });
 
   const assert_merge_context = (thing1, thing2, expected) => {
-    assert.deepEqual(new Context(thing1).merge(thing2).properties, expected);
+    deq(new Context(thing1).merge(thing2).properties, expected);
   };
 });

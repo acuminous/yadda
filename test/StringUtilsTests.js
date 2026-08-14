@@ -1,19 +1,17 @@
-const nodeTest = require('node:test');
-const describe = nodeTest.describe;
-const it = nodeTest.it;
-const assert = require('node:assert');
+const { describe, it } = require('node:test');
+const { equal: eq, ok } = require('node:assert');
 const StringUtils = require('../lib/StringUtils');
 
 describe('StringUtils', () => {
   it('should detect blank strings', () => {
-    assert.ok(StringUtils.isBlank(''));
-    assert.ok(StringUtils.isBlank(' '));
-    assert.ok(StringUtils.isNotBlank('x'));
-    assert.ok(StringUtils.isNotBlank(' x '));
+    ok(StringUtils.isBlank(''));
+    ok(StringUtils.isBlank(' '));
+    ok(StringUtils.isNotBlank('x'));
+    ok(StringUtils.isNotBlank(' x '));
   });
 
   it('should return the indentation size', () => {
-    assert.equal(StringUtils.indentation(''), 0);
-    assert.equal(StringUtils.indentation(' '), 1);
+    eq(StringUtils.indentation(''), 0);
+    eq(StringUtils.indentation(' '), 1);
   });
 });

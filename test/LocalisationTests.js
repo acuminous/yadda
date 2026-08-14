@@ -1,55 +1,52 @@
-const nodeTest = require('node:test');
-const describe = nodeTest.describe;
-const it = nodeTest.it;
-const assert = require('node:assert');
-const Yadda = require('../lib/index');
-const Interpreter = Yadda.Interpreter;
+const { describe, it } = require('node:test');
+const { equal: eq, fail } = require('node:assert');
+const { Interpreter, localisation } = require('../lib/index');
 const Counter = require('./Counter');
 
 describe('Localisation', () => {
   it('should match text from the beginning', () => {
     const counter = new Counter();
-    const library = Yadda.localisation.English.library()
+    const library = localisation.English.library()
       .given('a post', () => {
-        assert.fail('Step should not have been matched');
+        fail('Step should not have been matched');
       })
       .define(/.*/, counter.count);
 
     new Interpreter(library).interpret(['Given a patient with anxiety and a post-traumatic stress disorder']);
 
-    assert.equal(counter.total(), 1);
+    eq(counter.total(), 1);
   });
 
   it('should support English', () => {
     const counter = new Counter();
-    const library = Yadda.localisation.English.library().given('some text 1', counter.count).when('some text 2', counter.count).then('some text 4', counter.count);
+    const library = localisation.English.library().given('some text 1', counter.count).when('some text 2', counter.count).then('some text 4', counter.count);
 
     new Interpreter(library).interpret(['given some text 1', 'when some text 2', 'then some text 4']);
 
-    assert.equal(counter.total(), 3);
+    eq(counter.total(), 3);
   });
 
   it('should support German', () => {
     const counter = new Counter();
-    const library = Yadda.localisation.German.library().given('some text 1', counter.count).when('some text 2', counter.count).then('some text 4', counter.count);
+    const library = localisation.German.library().given('some text 1', counter.count).when('some text 2', counter.count).then('some text 4', counter.count);
 
     new Interpreter(library).interpret(['angenommen some text 1', 'wenn some text 2', 'dann some text 4']);
 
-    assert.equal(counter.total(), 3);
+    eq(counter.total(), 3);
   });
 
   it('should support Dutch', () => {
     const counter = new Counter();
-    const library = Yadda.localisation.Dutch.library().given('some text 1', counter.count).when('some text 2', counter.count).then('some text 4', counter.count);
+    const library = localisation.Dutch.library().given('some text 1', counter.count).when('some text 2', counter.count).then('some text 4', counter.count);
 
     new Interpreter(library).interpret(['Gegeven dat some text 1', 'Wanneer some text 2', 'Dan some text 4']);
 
-    assert.equal(counter.total(), 3);
+    eq(counter.total(), 3);
   });
 
   it('should support French', () => {
     const counter = new Counter();
-    const library = Yadda.localisation.French.library()
+    const library = localisation.French.library()
       .soit('some text 1', counter.count)
       .etantdonnees('some text 2', counter.count)
       .etantdonnee('some text 3', counter.count)
@@ -65,12 +62,12 @@ describe('Localisation', () => {
 
     new Interpreter(library).interpret(['soit some text 1', 'étant données some text 2', 'étant donnée some text 3', 'étant donné some text 4', 'soit some text 5', 'quand some text 6', 'lorsque some text 7', 'quand some text 8', 'alors some text 9', 'alors some text 10']);
 
-    assert.equal(counter.total(), 10);
+    eq(counter.total(), 10);
   });
 
   it('should support Norwegian', () => {
     const counter = new Counter();
-    const library = Yadda.localisation.Norwegian.library()
+    const library = localisation.Norwegian.library()
       .gitt('some text 1', counter.count)
       .given('some text 2', counter.count)
 
@@ -82,12 +79,12 @@ describe('Localisation', () => {
 
     new Interpreter(library).interpret(['gitt some text 1', 'gitt some text 2', 'når some text 3', 'når some text 4', 'så some text 5', 'så some text 6']);
 
-    assert.equal(counter.total(), 6);
+    eq(counter.total(), 6);
   });
 
   it('should support Piracy', () => {
     const counter = new Counter();
-    const library = Yadda.localisation.Pirate.library()
+    const library = localisation.Pirate.library()
       .giveth('some text 1', counter.count)
       .given('some text 2', counter.count)
 
@@ -99,21 +96,21 @@ describe('Localisation', () => {
 
     new Interpreter(library).interpret(['giveth some text 1', 'giveth some text 2', 'whence some text 3', 'whence some text 4', 'thence some text 5', 'thence some text 6']);
 
-    assert.equal(counter.total(), 6);
+    eq(counter.total(), 6);
   });
 
   it('should support Ukrainian', () => {
     const counter = new Counter();
-    const library = Yadda.localisation.Ukrainian.library().given('some text 1', counter.count).when('some text 2', counter.count).then('some text 3', counter.count);
+    const library = localisation.Ukrainian.library().given('some text 1', counter.count).when('some text 2', counter.count).then('some text 3', counter.count);
 
     new Interpreter(library).interpret(['дано some text 1', 'коли some text 2', 'тоді some text 3']);
 
-    assert.equal(counter.total(), 3);
+    eq(counter.total(), 3);
   });
 
   it('should support Polish', () => {
     const counter = new Counter();
-    const library = Yadda.localisation.Polish.library()
+    const library = localisation.Polish.library()
       .zakladajac('some text 1', counter.count)
       .majac('some text 2', counter.count)
       .given('some text 3', counter.count)
@@ -129,12 +126,12 @@ describe('Localisation', () => {
 
     new Interpreter(library).interpret(['zakładając some text 1', 'mając some text 2', 'zakładając some text 3', 'jeżeli some text 4', 'jeśli some text 5', 'gdy some text 6', 'kiedy some text 7', 'jeżeli some text 8', 'wtedy some text 9', 'wtedy some text 10']);
 
-    assert.equal(counter.total(), 10);
+    eq(counter.total(), 10);
   });
 
   it('should support Spanish', () => {
     const counter = new Counter();
-    const library = Yadda.localisation.Spanish.library()
+    const library = localisation.Spanish.library()
       .sea('some text 1', counter.count)
       .sean('some text 2', counter.count)
       .dado('some text 3', counter.count)
@@ -152,22 +149,22 @@ describe('Localisation', () => {
 
     new Interpreter(library).interpret(['sea some text 1', 'sean some text 2', 'dado some text 3', 'dada some text 4', 'dados some text 5', 'dadas some text 6', 'sea some text 7', 'cuando some text 8', 'si some text 9', 'cuando some text 10', 'entonces some text 11', 'entonces some text 12']);
 
-    assert.equal(counter.total(), 12);
+    eq(counter.total(), 12);
   });
 
   it('should support Russian', () => {
     const counter = new Counter();
-    const library = Yadda.localisation.Russian.library().given('some text 1', counter.count).when('some text 2', counter.count).then('some text 4', counter.count);
+    const library = localisation.Russian.library().given('some text 1', counter.count).when('some text 2', counter.count).then('some text 4', counter.count);
 
     new Interpreter(library).interpret(['допустим some text 1', 'если some text 2', 'то some text 4']);
 
-    assert.equal(counter.total(), 3);
+    eq(counter.total(), 3);
   });
 
   it('should support Portuguese', () => {
     const counter = new Counter();
 
-    const library = Yadda.localisation.Portuguese.library()
+    const library = localisation.Portuguese.library()
       .seja('some text 1', counter.count)
       .sejam('some text 2', counter.count)
       .dado('some text 3', counter.count)
@@ -213,6 +210,6 @@ describe('Localisation', () => {
       'mas some text 18',
     ]);
 
-    assert.equal(counter.total(), 18);
+    eq(counter.total(), 18);
   });
 });

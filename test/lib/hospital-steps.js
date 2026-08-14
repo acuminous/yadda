@@ -1,10 +1,7 @@
-const assert = require('node:assert');
-const Dictionary = require('../../lib/index').Dictionary;
-const English = require('../../lib/index').localisation.English;
-const Hospital = require('./hospital').Hospital;
-const Patient = require('./hospital').Patient;
-const Ward = require('./hospital').Ward;
-const Bed = require('./hospital').Bed;
+const { equal: eq } = require('node:assert');
+const { Dictionary, localisation } = require('../../lib/index');
+const { English } = localisation;
+const { Hospital, Patient, Ward, Bed } = require('./hospital');
 
 module.exports.init = () => {
   let hospital, ward, patient, bed;
@@ -37,7 +34,7 @@ module.exports.init = () => {
     })
     .then('$name is marked as $template template', (name, template) => {
       patient = name.match(/he|she/) ? patient : hospital.get_patient(name);
-      assert.equal(patient.template, template);
+      eq(patient.template, template);
     });
 
   return library;

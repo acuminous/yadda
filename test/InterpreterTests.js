@@ -1,13 +1,6 @@
-const nodeTest = require('node:test');
-const describe = nodeTest.describe;
-const it = nodeTest.it;
-const assert = require('node:assert');
-const Yadda = require('../lib/index');
-const Interpreter = Yadda.Interpreter;
-const EventBus = Yadda.EventBus;
-const Library = Yadda.Library;
-const Dictionary = Yadda.Dictionary;
-const Context = Yadda.Context;
+const { describe, it } = require('node:test');
+const { equal: eq, deepEqual: deq, ok, throws } = require('node:assert');
+const { Interpreter, EventBus, Library, Dictionary, Context } = require('../lib/index');
 const Counter = require('./Counter');
 
 describe('Interpreter', () => {
@@ -17,7 +10,7 @@ describe('Interpreter', () => {
 
     new Interpreter(library).interpret('Blah blah blah');
 
-    assert.equal(counter.total(), 1);
+    eq(counter.total(), 1);
   });
 
   it('should interpret a multiline script', () => {
@@ -26,7 +19,7 @@ describe('Interpreter', () => {
 
     new Interpreter(library).interpret(['Blah blah blah', 'Blah blah blah']);
 
-    assert.equal(counter.total(), 2);
+    eq(counter.total(), 2);
   });
 
   it('should validate scenarios', () => {
@@ -35,7 +28,7 @@ describe('Interpreter', () => {
       .define(/[Tt]his is ambiguous/)
       .define(/[tT]his is ambiguous/);
 
-    assert.throws(() => {
+    throws(() => {
       new Interpreter(library).validate(['This is defined', 'This is undefined', 'This is ambiguous']);
     }, /Scenario cannot be interpreted\nThis is defined\nThis is undefined <-- Undefined Step\nThis is ambiguous <-- Ambiguous Step/);
   });
@@ -54,7 +47,7 @@ describe('Interpreter', () => {
 
     new Interpreter([library_1, library_2]).interpret(['Blah blah blah', 'Whatever']);
 
-    assert.equal(counter.total(), 2);
+    eq(counter.total(), 2);
   });
 
   it('should expanded terms to discern macros', () => {
@@ -71,17 +64,17 @@ describe('Interpreter', () => {
       });
 
     new Interpreter(library).interpret('Given a female patient called Carol');
-    assert.equal('Carol', patient_name);
+    eq('Carol', patient_name);
 
     new Interpreter(library).interpret('Given a cardio patient called Bobby');
-    assert.equal('Bobby', patient_name);
+    eq('Bobby', patient_name);
   });
 
   it('should report undefined steps', () => {
     const library = new Library();
     const interpreter = new Interpreter(library);
 
-    assert.throws(() => {
+    throws(() => {
       interpreter.interpret('Blah blah blah');
     }, /Undefined Step: \[Blah blah blah\]/);
   });
@@ -91,7 +84,7 @@ describe('Interpreter', () => {
     const library = new Library().define('Blah blah blah', counter.count);
 
     new Interpreter(library).interpret(['Blah blah blah', 'Blah blah blah'], {}, () => {
-      assert.equal(counter.total(), 2);
+      eq(counter.total(), 2);
       done();
     });
   });
@@ -109,7 +102,7 @@ describe('Interpreter', () => {
     );
 
     new Interpreter(library).interpret(['Blah blah', 'Blah blah blah'], {}, () => {
-      assert.equal(counter.total(), 2);
+      eq(counter.total(), 2);
       done();
     });
   });
@@ -117,7 +110,7 @@ describe('Interpreter', () => {
   it('should bind the context to the macro', (_t, done) => {
     const context = new Context({ foo: 'bar' });
     const library = new Library().define('Blah blah blah', function (next) {
-      assert.equal(this.foo, 'bar');
+      eq(this.foo, 'bar');
       next();
     });
 
@@ -132,7 +125,7 @@ describe('Interpreter', () => {
 
     interpreter.interpret('Blah blah blah', new Context({ foo: 'bar' }));
 
-    assert.equal(2, listener.events.length);
+    eq(2, listener.events.length);
 
     assert_event(
       {
@@ -159,8 +152,8 @@ describe('Interpreter', () => {
     });
 
     new Interpreter(library).interpret('Blah blah blah', {}, (err) => {
-      assert.ok(err);
-      assert.equal(err.message, 'Oh Noes!');
+      ok(err);
+      eq(err.message, 'Oh Noes!');
     });
   });
 
@@ -172,8 +165,8 @@ describe('Interpreter', () => {
   }
 
   function assert_event(expected, actual) {
-    assert.ok(actual);
-    assert.equal(expected.name, actual.name);
-    assert.deepEqual(expected.data, actual.data);
+    ok(actual);
+    eq(expected.name, actual.name);
+    deq(expected.data, actual.data);
   }
 });

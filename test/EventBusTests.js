@@ -1,7 +1,5 @@
-const nodeTest = require('node:test');
-const describe = nodeTest.describe;
-const it = nodeTest.it;
-const assert = require('node:assert');
+const { describe, it } = require('node:test');
+const { equal: eq, deepEqual: deq, ok } = require('node:assert');
 const EventBus = require('../lib/EventBus');
 
 describe('EventBus', () => {
@@ -11,7 +9,7 @@ describe('EventBus', () => {
     const listener = new Listener();
     bus.on('foo', listener.listen).send('foo');
 
-    assert.equal(1, listener.events.length);
+    eq(1, listener.events.length);
     assert_event('foo', {}, listener.events[0]);
   });
 
@@ -19,7 +17,7 @@ describe('EventBus', () => {
     const listener = new Listener();
     bus.on('foo', listener.listen).send('foo', { foo: 'bar' });
 
-    assert.equal(1, listener.events.length);
+    eq(1, listener.events.length);
     assert_event('foo', { foo: 'bar' }, listener.events[0]);
   });
 
@@ -28,20 +26,20 @@ describe('EventBus', () => {
     const listener2 = new Listener();
     bus.on('foo', listener1.listen).on('foo', listener2.listen).send('foo');
 
-    assert.equal(1, listener1.events.length);
-    assert.equal(1, listener2.events.length);
+    eq(1, listener1.events.length);
+    eq(1, listener2.events.length);
   });
 
   it('should send all matching events to a listener', () => {
     const listener = new Listener();
     bus.on(/f.*/, listener.listen).send('foo');
-    assert.equal(1, listener.events.length);
+    eq(1, listener.events.length);
   });
 
   it('should not send unmatched events to a listener', () => {
     const listener = new Listener();
     bus.on(/f.*/, listener.listen).send('bar');
-    assert.equal(0, listener.events.length);
+    eq(0, listener.events.length);
   });
 
   it('should execute callbacks without event data', (_t, done) => {
@@ -62,8 +60,8 @@ describe('EventBus', () => {
   }
 
   function assert_event(name, data, event) {
-    assert.ok(event);
-    assert.equal(name, event.name);
-    assert.deepEqual(data, event.data);
+    ok(event);
+    eq(name, event.name);
+    deq(data, event.data);
   }
 });
