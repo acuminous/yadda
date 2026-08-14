@@ -657,7 +657,7 @@ describe('FeatureParser', () => {
   }
 
   function load(filename) {
-    return fs.readFileSync(path.join(__dirname, 'features', filename + '.feature'), 'utf8');
+    return fs.readFileSync(path.join(__dirname, 'features', `${filename}.feature`), 'utf8');
   }
 
   var poem = [

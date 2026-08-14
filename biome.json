@@ -30,8 +30,7 @@
         "useParseIntRadix": "off"
       },
       "style": {
-        "useNodejsImportProtocol": "off",
-        "useTemplate": "off"
+        "useNodejsImportProtocol": "off"
       },
       "suspicious": {
         "noAssignInExpressions": "off",
