@@ -22,7 +22,6 @@
         "noArguments": "off"
       },
       "correctness": {
-        "noInnerDeclarations": "off",
         "noInvalidUseBeforeDeclaration": "off",
         "noUnusedFunctionParameters": "off"
       },
