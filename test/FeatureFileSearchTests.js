@@ -1,8 +1,8 @@
 var nodeTest = require('node:test');
 var describe = nodeTest.describe;
 var it = nodeTest.it;
-var path = require('path');
-var assert = require('assert');
+var path = require('node:path');
+var assert = require('node:assert');
 var FeatureFileSearch = require('../lib/FeatureFileSearch');
 
 describe('FeatureFileSearch', () => {

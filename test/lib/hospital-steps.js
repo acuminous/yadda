@@ -1,4 +1,4 @@
-var assert = require('assert');
+var assert = require('node:assert');
 var Dictionary = require('../../lib/index').Dictionary;
 var English = require('../../lib/index').localisation.English;
 var Hospital = require('./hospital').Hospital;

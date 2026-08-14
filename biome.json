@@ -29,9 +29,6 @@
         "noUnusedVariables": "off",
         "useParseIntRadix": "off"
       },
-      "style": {
-        "useNodejsImportProtocol": "off"
-      },
       "suspicious": {
         "noAssignInExpressions": "off",
         "noControlCharactersInRegex": "off",

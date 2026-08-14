@@ -1,7 +1,7 @@
 var nodeTest = require('node:test');
 var describe = nodeTest.describe;
 var it = nodeTest.it;
-var assert = require('assert');
+var assert = require('node:assert');
 var convert = require('../../lib/converters/date-converter');
 
 describe('Date Converter', () => {
