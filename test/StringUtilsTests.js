@@ -1,8 +1,8 @@
-var nodeTest = require('node:test');
-var describe = nodeTest.describe;
-var it = nodeTest.it;
-var assert = require('node:assert');
-var StringUtils = require('../lib/StringUtils');
+const nodeTest = require('node:test');
+const describe = nodeTest.describe;
+const it = nodeTest.it;
+const assert = require('node:assert');
+const StringUtils = require('../lib/StringUtils');
 
 describe('StringUtils', () => {
   it('should detect blank strings', () => {

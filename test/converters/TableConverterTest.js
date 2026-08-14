@@ -1,12 +1,12 @@
-var nodeTest = require('node:test');
-var describe = nodeTest.describe;
-var it = nodeTest.it;
-var assert = require('node:assert');
-var convert = require('../../lib/converters/table-converter');
+const nodeTest = require('node:test');
+const describe = nodeTest.describe;
+const it = nodeTest.it;
+const assert = require('node:assert');
+const convert = require('../../lib/converters/table-converter');
 
 describe('Table Converter', () => {
-  it('Should convert strings to data tables', (t, done) => {
-    var text = ['left | right', '1    | 3', '2    | 4'].join('\n');
+  it('Should convert strings to data tables', (_t, done) => {
+    const text = ['left | right', '1    | 3', '2    | 4'].join('\n');
 
     convert(text, (err, value) => {
       assert.ifError(err);
@@ -17,8 +17,8 @@ describe('Table Converter', () => {
     });
   });
 
-  it('Should maintain indentation', (t, done) => {
-    var text = ['left | middle | right', '  1  |   2    |   3  '].join('\n');
+  it('Should maintain indentation', (_t, done) => {
+    const text = ['left | middle | right', '  1  |   2    |   3  '].join('\n');
 
     convert(text, (err, value) => {
       assert.ifError(err);
@@ -28,8 +28,8 @@ describe('Table Converter', () => {
     });
   });
 
-  it('Should support multiline rows', (t, done) => {
-    var text = [
+  it('Should support multiline rows', (_t, done) => {
+    const text = [
       'Henry V                     | Romeo and Juliet',
       '----------------------------|------------------------',
       'Once more unto the          | What light from yonder',
@@ -48,8 +48,8 @@ describe('Table Converter', () => {
     });
   });
 
-  it('Should maintain indentation for multiline rows', (t, done) => {
-    var text = [
+  it('Should maintain indentation for multiline rows', (_t, done) => {
+    const text = [
       'Henry V                       | Romeo and Juliet',
       '------------------------------|------------------------',
       '  Once more unto the          |  What light from yonder',
@@ -69,8 +69,8 @@ describe('Table Converter', () => {
     });
   });
 
-  it('Should support outer borders', (t, done) => {
-    var text = [
+  it('Should support outer borders', (_t, done) => {
+    const text = [
       ' Henry V                     | Romeo and Juliet       |',
       '-----------------------------|------------------------|',
       ' Once more unto the          | What light from yonder |',
@@ -89,10 +89,10 @@ describe('Table Converter', () => {
     });
   });
 
-  it('Should report indentation errors', (t, done) => {
-    var text = ['left | middle | right', '  1  |2       |   3  '].join('\n');
+  it('Should report indentation errors', (_t, done) => {
+    const text = ['left | middle | right', '  1  |2       |   3  '].join('\n');
 
-    convert(text, (err, value) => {
+    convert(text, (err, _value) => {
       assert(err);
       assert.equal(err.message, 'Indentation error');
       done();

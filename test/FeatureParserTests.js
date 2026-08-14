@@ -1,15 +1,15 @@
-var nodeTest = require('node:test');
-var describe = nodeTest.describe;
-var it = nodeTest.it;
-var afterEach = nodeTest.afterEach;
-var fs = require('node:fs');
-var path = require('node:path');
-var assert = require('node:assert');
-var FeatureParser = require('../lib/index').parsers.FeatureParser;
-var Localisation = require('../lib/index').localisation;
-var Language = require('../lib/index').localisation.Language;
-var Pirate = require('../lib/index').localisation.Pirate;
-var English = require('../lib/index').localisation.English;
+const nodeTest = require('node:test');
+const describe = nodeTest.describe;
+const it = nodeTest.it;
+const afterEach = nodeTest.afterEach;
+const fs = require('node:fs');
+const path = require('node:path');
+const assert = require('node:assert');
+const FeatureParser = require('../lib/index').parsers.FeatureParser;
+const Localisation = require('../lib/index').localisation;
+const Language = require('../lib/index').localisation.Language;
+const Pirate = require('../lib/index').localisation.Pirate;
+const English = require('../lib/index').localisation.English;
 
 describe('FeatureParser', () => {
   afterEach(() => {
@@ -18,12 +18,12 @@ describe('FeatureParser', () => {
 
   describe('(Features)', () => {
     it('should parse feature title', () => {
-      var feature = parse_file('feature/simple_feature');
+      const feature = parse_file('feature/simple_feature');
       assert.equal(feature.title, 'Simple Feature');
     });
 
     it('should parse feature descriptions', () => {
-      var feature = parse_file('feature/feature_description');
+      const feature = parse_file('feature/feature_description');
       assert.equal(feature.title, 'Feature Description');
       assert.equal(feature.description.join(' - '), 'As a wood chopper - I want to maintain a sharp axe - So that I can chop wood');
     });
@@ -43,21 +43,21 @@ describe('FeatureParser', () => {
 
   describe('(Scenarios)', () => {
     it('should parse a simple scenario', () => {
-      var scenarios = parse_file('scenario/simple_scenario').scenarios;
+      const scenarios = parse_file('scenario/simple_scenario').scenarios;
       assert.equal(scenarios.length, 1);
       assert.equal(scenarios[0].title, 'Simple Scenario');
       assert.deepEqual(scenarios[0].steps, ['Given A', 'When B', 'Then C']);
     });
 
     it('should parse a complex scenario', () => {
-      var scenarios = parse_file('scenario/complex_scenario').scenarios;
+      const scenarios = parse_file('scenario/complex_scenario').scenarios;
       assert.equal(scenarios.length, 1);
       assert.equal(scenarios[0].title, 'Complex Scenario');
       assert.deepEqual(scenarios[0].steps, ['Given A', 'When B', 'Then C']);
     });
 
     it('should parse multiple scenarios', () => {
-      var scenarios = parse_file('scenario/multiple_scenarios').scenarios;
+      const scenarios = parse_file('scenario/multiple_scenarios').scenarios;
       assert.equal(scenarios.length, 2);
       assert.equal(scenarios[0].title, 'First Scenario');
       assert.equal(scenarios[1].title, 'Second Scenario');
@@ -93,21 +93,21 @@ describe('FeatureParser', () => {
     });
 
     it('should parse multline steps with no ending dash', () => {
-      var scenarios = parse_file('scenario/multiline_step_scenario').scenarios;
+      const scenarios = parse_file('scenario/multiline_step_scenario').scenarios;
       assert.equal(scenarios.length, 1);
       assert.equal(scenarios[0].title, 'Multiline Step');
       assert.equal(scenarios[0].steps[0], poem);
     });
 
     it('should parse multiline steps', () => {
-      var scenarios = parse_file('scenario/multiline_step_scenario_with_ending_dash').scenarios;
+      const scenarios = parse_file('scenario/multiline_step_scenario_with_ending_dash').scenarios;
       assert.equal(scenarios.length, 1);
       assert.equal(scenarios[0].title, 'Multiline Step With Ending Dash');
       assert.equal(scenarios[0].steps[0], poem);
     });
 
     it('should parse multiline steps with followers', () => {
-      var scenarios = parse_file('scenario/multiline_step_scenario_with_followers').scenarios;
+      const scenarios = parse_file('scenario/multiline_step_scenario_with_followers').scenarios;
       assert.equal(scenarios.length, 5);
       assert.equal(scenarios[0].title, 'Multiline Step Followed By Scenario');
       assert.equal(scenarios[0].steps[0], poem);
@@ -124,7 +124,7 @@ describe('FeatureParser', () => {
     });
 
     it('should parse multiple multiline steps in the same scenario', () => {
-      var scenarios = parse_file('scenario/multiline_step_scenario_with_multiple_blocks').scenarios;
+      const scenarios = parse_file('scenario/multiline_step_scenario_with_multiple_blocks').scenarios;
       assert.equal(scenarios.length, 1);
       assert.equal(scenarios[0].title, 'Multiline Step With Multiple Blocks');
       assert.equal(scenarios[0].steps[0], ['Verse 1'].concat(poem.split('\n').splice(1, 4)).join('\n'));
@@ -132,7 +132,7 @@ describe('FeatureParser', () => {
     });
 
     it('should append the final blank line in a multiple step', () => {
-      var scenarios = parse_file('scenario/multiline_step_scenario_with_multiple_blocks_and_blank').scenarios;
+      const scenarios = parse_file('scenario/multiline_step_scenario_with_multiple_blocks_and_blank').scenarios;
       assert.equal(scenarios.length, 1);
       assert.equal(scenarios[0].title, 'Multiline Step With Multiple Blocks And Blank');
       assert.equal(scenarios[0].steps[0], ['Verse 1'].concat(poem.split('\n').splice(1, 4)).concat('').join('\n'));
@@ -140,7 +140,7 @@ describe('FeatureParser', () => {
     });
 
     it('should maintain indentation while parsing multiline steps', () => {
-      var scenarios = parse_file('scenario/multiline_step_scenario_with_indentation').scenarios;
+      const scenarios = parse_file('scenario/multiline_step_scenario_with_indentation').scenarios;
       assert.equal(scenarios.length, 1);
       assert.equal(scenarios[0].title, 'Multiline Step With Indentation');
       assert.equal(scenarios[0].steps[0], ['LOLCODE', 'HAI', 'CAN HAS STDIO?', 'PLZ OPEN FILE "LOLCATS.TXT"?', '    AWSUM THX', '        VISIBLE FILE', '    O NOES', '        INVISIBLE "ERROR!"', 'KTHXBYE'].join('\n'));
@@ -171,7 +171,7 @@ describe('FeatureParser', () => {
 
   describe('(Annotations)', () => {
     it('should parse feature annotations', () => {
-      var feature = parse_file('annotated/annotated_feature');
+      const feature = parse_file('annotated/annotated_feature');
       assert.equal(feature.annotations.keyword1, 'value1');
       assert.equal(feature.annotations.keyword2, 'value2');
       assert(feature.annotations.keyword3);
@@ -179,7 +179,7 @@ describe('FeatureParser', () => {
     });
 
     it('should trim feature annotations', () => {
-      var feature = parse_file('annotated/untrimmed_annotated_feature');
+      const feature = parse_file('annotated/untrimmed_annotated_feature');
       assert.equal(feature.annotations.keyword1, 'value1');
       assert.equal(feature.annotations.keyword2, 'value2');
       assert(feature.annotations.keyword3);
@@ -187,7 +187,7 @@ describe('FeatureParser', () => {
     });
 
     it('should parse scenario annotations', () => {
-      var feature = parse_file('annotated/annotated_scenario');
+      const feature = parse_file('annotated/annotated_scenario');
       assert.equal(Object.keys(feature.annotations).length, 0);
       assert.equal(feature.scenarios[0].annotations.keyword1, 'value1');
       assert.equal(feature.scenarios[0].annotations.keyword2, 'value2');
@@ -195,7 +195,7 @@ describe('FeatureParser', () => {
     });
 
     it('should trim scenario annotations', () => {
-      var feature = parse_file('annotated/untrimmed_annotated_scenario');
+      const feature = parse_file('annotated/untrimmed_annotated_scenario');
       assert.equal(Object.keys(feature.annotations).length, 0);
       assert.equal(feature.scenarios[0].annotations.keyword1, 'value1');
       assert.equal(feature.scenarios[0].annotations.keyword2, 'value2');
@@ -203,13 +203,13 @@ describe('FeatureParser', () => {
     });
 
     it('should support annotations with non alphanumerics', () => {
-      var feature = parse_file('annotated/annotated_feature_non_alphanumeric');
+      const feature = parse_file('annotated/annotated_feature_non_alphanumeric');
       assert.equal(feature.annotations['keyword+1'], 'value1');
       assert.equal(feature.scenarios[0].annotations['keyword-1'], 'value1');
     });
 
     it('should expand scenarios from annotated singleline example table', () => {
-      var scenarios = parse_file('annotated/annotated_example_table').scenarios;
+      const scenarios = parse_file('annotated/annotated_example_table').scenarios;
       assert.equal(scenarios.length, 4);
       assert.equal(scenarios[0].annotations.pending, true);
       assert.equal(scenarios[0].title, 'First Scenario');
@@ -226,7 +226,7 @@ describe('FeatureParser', () => {
     });
 
     it('should expand scenarios from annotated multiline example table', () => {
-      var scenarios = parse_file('annotated/annotated_multiline_example_table').scenarios;
+      const scenarios = parse_file('annotated/annotated_multiline_example_table').scenarios;
       assert.equal(scenarios.length, 4);
       assert.equal(scenarios[0].annotations.pending, true);
       assert.equal(scenarios[0].title, 'First Scenario');
@@ -243,7 +243,7 @@ describe('FeatureParser', () => {
     });
 
     it('should merge scenario annotations with example table annotations', () => {
-      var scenarios = parse_file('annotated/annotated_example_table').scenarios;
+      const scenarios = parse_file('annotated/annotated_example_table').scenarios;
       assert.equal(scenarios.length, 4);
       assert.equal(scenarios[0].annotations.pending, true);
       assert.equal(scenarios[0].annotations.only, true);
@@ -257,20 +257,20 @@ describe('FeatureParser', () => {
     });
 
     it('should not confuse example table annotations and scenario annotations', () => {
-      var scenarios = parse_file('annotated/annotated_example_table').scenarios;
+      const scenarios = parse_file('annotated/annotated_example_table').scenarios;
       assert.equal(scenarios.length, 4);
       assert.equal(scenarios[3].annotations.crystal, true);
     });
 
     it('should parse scenario annotations after background', () => {
-      var feature = parse_file('annotated/annotated_scenario_after_background');
+      const feature = parse_file('annotated/annotated_scenario_after_background');
       assert.equal(feature.scenarios[0].steps[0], 'Given A');
     });
   });
 
   describe('(Single line Example Tables)', () => {
     it('should expand scenarios from example table', () => {
-      var scenarios = parse_file('example_table/example_table').scenarios;
+      const scenarios = parse_file('example_table/example_table').scenarios;
       assert.equal(scenarios.length, 2);
       assert.equal(scenarios[0].title, 'First Scenario');
       assert.equal(scenarios[0].steps[0], 'Step A11');
@@ -281,7 +281,7 @@ describe('FeatureParser', () => {
     });
 
     it('should expand scenarios from example table with chevrons', () => {
-      var scenarios = parse_file('example_table/example_table_with_chevrons', {
+      const scenarios = parse_file('example_table/example_table_with_chevrons', {
         leftPlaceholderChar: '<',
         rightPlaceholderChar: '>',
       }).scenarios;
@@ -295,7 +295,7 @@ describe('FeatureParser', () => {
     });
 
     it('should expand scenarios from example table using \\u2506 separator', () => {
-      var scenarios = parse_file('example_table/example_table_2506').scenarios;
+      const scenarios = parse_file('example_table/example_table_2506').scenarios;
       assert.equal(scenarios.length, 2);
       assert.equal(scenarios[0].title, 'First Scenario');
       assert.equal(scenarios[0].steps[0], 'Step A11');
@@ -306,7 +306,7 @@ describe('FeatureParser', () => {
     });
 
     it('should expand scenarios from example table with outer borders', () => {
-      var scenarios = parse_file('example_table/example_table_with_outer_borders').scenarios;
+      const scenarios = parse_file('example_table/example_table_with_outer_borders').scenarios;
       assert.equal(scenarios.length, 2);
       assert.equal(scenarios[0].title, 'First Scenario');
       assert.equal(scenarios[0].steps[0], 'Step A11');
@@ -317,7 +317,7 @@ describe('FeatureParser', () => {
     });
 
     it('should stash annotations for following scenarios', () => {
-      var scenarios = parse_file('example_table/example_table_followed_by_annotated_scenario').scenarios;
+      const scenarios = parse_file('example_table/example_table_followed_by_annotated_scenario').scenarios;
       assert.equal(scenarios.length, 3);
       assert.equal(scenarios[2].title, 'Annotated Scenario');
       assert(scenarios[2].annotations.pending);
@@ -356,7 +356,7 @@ describe('FeatureParser', () => {
     });
 
     it('should expand feature background from example table', () => {
-      var feature = parse_file('example_table/feature_with_background_and_example_table');
+      const feature = parse_file('example_table/feature_with_background_and_example_table');
       assert.equal(feature.scenarios.length, 4);
       assert.equal(feature.scenarios[0].steps[0], 'BG A1');
       assert.equal(feature.scenarios[1].steps[0], 'BG B2');
@@ -365,7 +365,7 @@ describe('FeatureParser', () => {
     });
 
     it('should add meta fields to example table', () => {
-      var scenarios = parse_file('example_table/meta_fields').scenarios;
+      const scenarios = parse_file('example_table/meta_fields').scenarios;
       assert.equal(scenarios.length, 2);
       assert.equal(scenarios[0].title, 'First Scenario');
       assert.equal(scenarios[0].steps[0], '1 First 9:5');
@@ -378,7 +378,7 @@ describe('FeatureParser', () => {
     });
 
     it('should expand multiline step scenarios from example table', () => {
-      var scenarios = parse_file('example_table/multiline_step_example_table').scenarios;
+      const scenarios = parse_file('example_table/multiline_step_example_table').scenarios;
       assert.equal(scenarios.length, 2);
       assert.equal(scenarios[0].title, 'First Scenario');
       assert.equal(scenarios[0].steps[0], 'Step\nA11\n1AA');
@@ -389,7 +389,7 @@ describe('FeatureParser', () => {
 
   describe('(Multiline Example Tables)', () => {
     it('should expand scenarios from simple multiline example table', () => {
-      var scenarios = parse_file('example_table/simple_multiline_example_table').scenarios;
+      const scenarios = parse_file('example_table/simple_multiline_example_table').scenarios;
       assert.equal(scenarios.length, 2);
 
       assert.equal(scenarios[0].title, 'Simple Multiline Example Table');
@@ -404,7 +404,7 @@ describe('FeatureParser', () => {
     });
 
     it('should expand scenarios from complex multiline examples', () => {
-      var scenarios = parse_file('example_table/complex_multiline_example_table').scenarios;
+      const scenarios = parse_file('example_table/complex_multiline_example_table').scenarios;
       assert.equal(scenarios.length, 2);
 
       assert.equal(scenarios[0].title, 'Complex Multiline Example Table');
@@ -419,7 +419,7 @@ describe('FeatureParser', () => {
     });
 
     it('should expand scenarios from multiline example table with outer border', () => {
-      var scenarios = parse_file('example_table/multiline_example_table_with_outer_border').scenarios;
+      const scenarios = parse_file('example_table/multiline_example_table_with_outer_border').scenarios;
       assert.equal(scenarios.length, 2);
 
       assert.equal(scenarios[0].title, 'Multiline Example Table With Outer Border');
@@ -448,7 +448,7 @@ describe('FeatureParser', () => {
     });
 
     it('should add meta fields to multiline example table', () => {
-      var scenarios = parse_file('example_table/meta_fields_multiline_example_table').scenarios;
+      const scenarios = parse_file('example_table/meta_fields_multiline_example_table').scenarios;
       assert.equal(scenarios.length, 2);
 
       assert.equal(scenarios[0].title, 'Meta Fields Multiline Example Table');
@@ -465,10 +465,10 @@ describe('FeatureParser', () => {
 
   describe('(Localisation)', () => {
     it('should support multiple languages', () => {
-      var feature = parse_file('localisation/pirate_feature', Pirate);
+      const feature = parse_file('localisation/pirate_feature', Pirate);
       assert.equal(feature.title, 'Treasure Island');
 
-      var scenarios = feature.scenarios;
+      const scenarios = feature.scenarios;
       assert.equal(scenarios.length, 2);
       assert.equal(scenarios[0].title, 'The Black Spot');
       assert.deepEqual(scenarios[0].steps, ['Given A', 'When B', 'Then C']);
@@ -477,10 +477,10 @@ describe('FeatureParser', () => {
     });
 
     it('should support multiple languages using the options object', () => {
-      var feature = parse_file('localisation/pirate_feature', { language: Pirate });
+      const feature = parse_file('localisation/pirate_feature', { language: Pirate });
       assert.equal(feature.title, 'Treasure Island');
 
-      var scenarios = feature.scenarios;
+      const scenarios = feature.scenarios;
       assert.equal(scenarios.length, 2);
       assert.equal(scenarios[0].title, 'The Black Spot');
       assert.deepEqual(scenarios[0].steps, ['Given A', 'When B', 'Then C']);
@@ -490,11 +490,11 @@ describe('FeatureParser', () => {
 
     it('should support changing the default language', () => {
       Localisation.default = Pirate;
-      var feature = new FeatureParser().parse(load('localisation/pirate_feature'));
+      const feature = new FeatureParser().parse(load('localisation/pirate_feature'));
 
       assert.equal(feature.title, 'Treasure Island');
 
-      var scenarios = feature.scenarios;
+      const scenarios = feature.scenarios;
       assert.equal(scenarios.length, 2);
       assert.equal(scenarios[0].title, 'The Black Spot');
       assert.deepEqual(scenarios[0].steps, ['Given A', 'When B', 'Then C']);
@@ -503,7 +503,7 @@ describe('FeatureParser', () => {
     });
 
     it('should support localised rules', () => {
-      var feature = parse_file('localisation/pirate_rule', Pirate);
+      const feature = parse_file('localisation/pirate_rule', Pirate);
       assert.equal(feature.title, 'Treasure Island');
       assert.equal(feature.rules.length, 1);
       assert.equal(feature.rules[0].title, 'The Pirate Code');
@@ -511,14 +511,14 @@ describe('FeatureParser', () => {
     });
 
     it('should report missing translations', () => {
-      var language = new Language('Incomplete', {});
+      const language = new Language('Incomplete', {});
       assert.throws(() => {
         parse_file('feature/multiple_features', language);
       }, /Keyword "feature" has not been translated into Incomplete/);
     });
 
     it('should report supported keywords without throwing', () => {
-      var language = new Language('Partial', { feature: '[Ff]eature' });
+      const language = new Language('Partial', { feature: '[Ff]eature' });
       assert.equal(language.supports('feature'), true);
       assert.equal(language.supports('rule'), false);
     });
@@ -526,12 +526,12 @@ describe('FeatureParser', () => {
 
   describe('(Feature Backgrounds)', () => {
     it('should parse feature background', () => {
-      var feature = parse_file('background/feature_with_background');
+      const feature = parse_file('background/feature_with_background');
       assert.equal(feature.scenarios[0].steps[0], 'Given A');
     });
 
     it('shoud parse multiline step background', () => {
-      var scenarios = parse_file('background/background_with_multiline_step').scenarios;
+      const scenarios = parse_file('background/background_with_multiline_step').scenarios;
       assert.equal(scenarios.length, 1);
       assert.equal(scenarios[0].title, 'Simple Scenario');
       assert.equal(scenarios[0].steps[0], poem);
@@ -545,7 +545,7 @@ describe('FeatureParser', () => {
     });
 
     it('should parse a background without an enclosing feature', () => {
-      var scenarios = parse_file('background/background_without_feature').scenarios;
+      const scenarios = parse_file('background/background_without_feature').scenarios;
       assert.equal(scenarios.length, 1);
       assert.equal(scenarios[0].title, 'Simple Scenario');
       assert.deepEqual(scenarios[0].steps, ['Given A', 'Given B', 'When C', 'Then D']);
@@ -554,7 +554,7 @@ describe('FeatureParser', () => {
 
   describe('(Rules)', () => {
     it('should parse a rule with scenarios', () => {
-      var feature = parse_file('rule/feature_with_rule');
+      const feature = parse_file('rule/feature_with_rule');
       assert.equal(feature.rules.length, 1);
       assert.equal(feature.rules[0].title, 'First Rule');
       assert.equal(feature.rules[0].scenarios.length, 2);
@@ -565,7 +565,7 @@ describe('FeatureParser', () => {
     });
 
     it('should keep top level scenarios separate from rule scenarios', () => {
-      var feature = parse_file('rule/feature_with_top_level_and_rule_scenarios');
+      const feature = parse_file('rule/feature_with_top_level_and_rule_scenarios');
       assert.equal(feature.scenarios.length, 1);
       assert.equal(feature.scenarios[0].title, 'Top Level Scenario');
       assert.equal(feature.rules.length, 1);
@@ -575,7 +575,7 @@ describe('FeatureParser', () => {
     });
 
     it('should parse multiple rules', () => {
-      var feature = parse_file('rule/multiple_rules');
+      const feature = parse_file('rule/multiple_rules');
       assert.equal(feature.rules.length, 2);
       assert.equal(feature.rules[0].title, 'First Rule');
       assert.equal(feature.rules[1].title, 'Second Rule');
@@ -584,23 +584,23 @@ describe('FeatureParser', () => {
     });
 
     it('should parse a rule description', () => {
-      var feature = parse_file('rule/rule_with_description');
+      const feature = parse_file('rule/rule_with_description');
       assert.equal(feature.rules[0].description.join(' - '), 'This rule describes a business constraint - that spans multiple lines');
     });
 
     it('should report rule annotations', () => {
-      var feature = parse_file('rule/annotated_rule');
+      const feature = parse_file('rule/annotated_rule');
       assert(feature.rules[0].annotations.only, 'Rule was not annotated');
     });
 
     it('should expose an empty rules array when there are no rules', () => {
-      var feature = parse_file('scenario/simple_scenario');
+      const feature = parse_file('scenario/simple_scenario');
       assert.deepEqual(feature.rules, []);
       assert.equal(feature.scenarios.length, 1);
     });
 
     it('should parse a rule without an enclosing feature', () => {
-      var feature = parse_file('rule/rule_without_feature');
+      const feature = parse_file('rule/rule_without_feature');
       assert.equal(feature.rules.length, 1);
       assert.equal(feature.rules[0].title, 'First Rule');
       assert.equal(feature.rules[0].scenarios.length, 1);
@@ -609,7 +609,7 @@ describe('FeatureParser', () => {
     });
 
     it('should not recognise rules in languages without a rule keyword', () => {
-      var language = new Language('NoRule', {
+      const language = new Language('NoRule', {
         feature: '[Ff]eature',
         scenario: '[Ss]cenario',
         background: '[Bb]ackground',
@@ -620,7 +620,7 @@ describe('FeatureParser', () => {
         when: '[Ww]hen',
         then: '[Tt]hen',
       });
-      var feature = parse_file('scenario/simple_scenario', language);
+      const feature = parse_file('scenario/simple_scenario', language);
       assert.equal(feature.scenarios.length, 1);
       assert.deepEqual(feature.rules, []);
     });
@@ -628,8 +628,8 @@ describe('FeatureParser', () => {
 
   describe('(Rule Backgrounds)', () => {
     it('should prepend feature and rule background steps to rule scenarios', () => {
-      var feature = parse_file('rule/rule_with_background');
-      var scenario = feature.rules[0].scenarios[0];
+      const feature = parse_file('rule/rule_with_background');
+      const scenario = feature.rules[0].scenarios[0];
       assert.deepEqual(scenario.steps, ['Given feature background step', 'Given rule background step', 'Given A', 'When B', 'Then C']);
     });
   });
@@ -650,8 +650,8 @@ describe('FeatureParser', () => {
 
   describe('(Comments)', () => {
     it('should support single line comments', () => {
-      var feature = parse_file('comment/singleline_comment');
-      var scenarios = feature.scenarios;
+      const feature = parse_file('comment/singleline_comment');
+      const scenarios = feature.scenarios;
       assert.equal(feature.title, 'Single Line Comments Feature');
       assert.equal(scenarios.length, 1);
       assert.equal(scenarios[0].title, 'Single Line Comments Scenario');
@@ -659,8 +659,8 @@ describe('FeatureParser', () => {
     });
 
     it('should parse multiline comments', () => {
-      var feature = parse_file('comment/multiline_comment');
-      var scenarios = feature.scenarios;
+      const feature = parse_file('comment/multiline_comment');
+      const scenarios = feature.scenarios;
       assert.equal(feature.title, 'Simple Feature');
       assert.equal(scenarios.length, 1);
       assert.equal(scenarios[0].title, 'Simple Scenario');
@@ -676,7 +676,7 @@ describe('FeatureParser', () => {
     return fs.readFileSync(path.join(__dirname, 'features', `${filename}.feature`), 'utf8');
   }
 
-  var poem = [
+  const poem = [
     'Good Times',
     'May we go our separate ways,',
     'Finding fortune and new friends.',

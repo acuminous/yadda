@@ -1,19 +1,19 @@
-var assert = require('node:assert');
-var Dictionary = require('../../lib/index').Dictionary;
-var English = require('../../lib/index').localisation.English;
-var Hospital = require('./hospital').Hospital;
-var Patient = require('./hospital').Patient;
-var Ward = require('./hospital').Ward;
-var Bed = require('./hospital').Bed;
+const assert = require('node:assert');
+const Dictionary = require('../../lib/index').Dictionary;
+const English = require('../../lib/index').localisation.English;
+const Hospital = require('./hospital').Hospital;
+const Patient = require('./hospital').Patient;
+const Ward = require('./hospital').Ward;
+const Bed = require('./hospital').Bed;
 
 module.exports.init = () => {
-  var hospital, ward, patient, bed;
-  var dictionary = new Dictionary()
+  let hospital, ward, patient, bed;
+  const dictionary = new Dictionary()
     .define('gender', /(male|femail)/)
     .define('speciality', /(cardiovascular|respiratory)/)
     .define('x', /(a) (b)/);
 
-  var library = English.library(dictionary)
+  const library = English.library(dictionary)
 
     .given('that $name is a $gender, $speciality patient at $hospital hospital', (patient_name, gender, speciality, hospital_name) => {
       hospital = hospital ? hospital : new Hospital(hospital_name);
@@ -26,7 +26,7 @@ module.exports.init = () => {
       ward = hospital.is_ward(ward_name) ? hospital.get_ward(ward_name) : hospital.add_ward(new Ward(ward_name));
       ward.speciality = speciality;
     })
-    .given('that bed $number is a $gender bed in $ward ward', (number, gender, ward_name) => {
+    .given('that bed $number is a $gender bed in $ward ward', (number, gender, _ward_name) => {
       bed = ward.get_bed(number) ? ward.get_bed(number) : ward.add_bed(new Bed(ward, number));
       bed.gender = gender;
     })

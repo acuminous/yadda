@@ -1,9 +1,9 @@
-var nodeTest = require('node:test');
-var describe = nodeTest.describe;
-var it = nodeTest.it;
-var assert = require('node:assert');
-var Dictionary = require('../lib/index').Dictionary;
-var pass_through_converter = require('../lib/converters/pass-through-converter');
+const nodeTest = require('node:test');
+const describe = nodeTest.describe;
+const it = nodeTest.it;
+const assert = require('node:assert');
+const Dictionary = require('../lib/index').Dictionary;
+const pass_through_converter = require('../lib/converters/pass-through-converter');
 
 describe('Dictionary', () => {
   it('should default to a wild card match', () => {
@@ -11,7 +11,7 @@ describe('Dictionary', () => {
   });
 
   it('should expand simple terms', () => {
-    var dictionary = new Dictionary().define('gender', '(male|female)').define('speciality', /(cardiovascular|elderly care)/);
+    const dictionary = new Dictionary().define('gender', '(male|female)').define('speciality', /(cardiovascular|elderly care)/);
 
     assert_pattern(dictionary, '$gender', '(male|female)');
     assert_pattern(dictionary, '$speciality', '(cardiovascular|elderly care)');
@@ -19,13 +19,13 @@ describe('Dictionary', () => {
   });
 
   it('should expand complex terms', () => {
-    var dictionary = new Dictionary().define('address_line_1', '$number $street').define('number', /(\d+)/).define('street', /(\w+)/);
+    const dictionary = new Dictionary().define('address_line_1', '$number $street').define('number', /(\d+)/).define('street', /(\w+)/);
 
     assert_pattern(dictionary, '$address_line_1', '(\\d+) (\\w+)');
   });
 
   it('should report duplicate terms', () => {
-    var dictionary = new Dictionary().define('gender', '(male|female)');
+    const dictionary = new Dictionary().define('gender', '(male|female)');
 
     assert.throws(() => {
       dictionary.define('gender', 'anything');
@@ -33,7 +33,7 @@ describe('Dictionary', () => {
   });
 
   it('should report cyclic definitions', () => {
-    var dictionary = new Dictionary().define('direct', '$direct').define('indirect', '$intermediary').define('intermediary', '$indirect');
+    const dictionary = new Dictionary().define('direct', '$direct').define('indirect', '$intermediary').define('intermediary', '$indirect');
 
     assert.throws(() => {
       dictionary.expand('$direct');
@@ -45,23 +45,23 @@ describe('Dictionary', () => {
   });
 
   it('should merge with another dictionary', () => {
-    var dictionary1 = new Dictionary().define('gender', /(male|female)/);
-    var dictionary2 = new Dictionary().define('speciality', /(cardiovascular|elderly care)/);
-    var dictionary3 = dictionary1.merge(dictionary2);
+    const dictionary1 = new Dictionary().define('gender', /(male|female)/);
+    const dictionary2 = new Dictionary().define('speciality', /(cardiovascular|elderly care)/);
+    const dictionary3 = dictionary1.merge(dictionary2);
 
     assert_pattern(dictionary3, '$gender', '(male|female)');
     assert_pattern(dictionary3, '$speciality', '(cardiovascular|elderly care)');
   });
 
   it('should maintain prefix when merging dictionaries', () => {
-    var dictionary1 = new Dictionary(':').define('gender', /(male|female)/);
-    var dictionary2 = new Dictionary(':').merge(dictionary1);
+    const dictionary1 = new Dictionary(':').define('gender', /(male|female)/);
+    const dictionary2 = new Dictionary(':').merge(dictionary1);
     assert_pattern(dictionary2, ':gender', '(male|female)');
   });
 
   it('should not merge dictionaries with different prefixes', () => {
-    var dictionary1 = new Dictionary('$');
-    var dictionary2 = new Dictionary(':');
+    const dictionary1 = new Dictionary('$');
+    const dictionary2 = new Dictionary(':');
 
     assert.throws(() => {
       dictionary1.merge(dictionary2);
@@ -69,8 +69,8 @@ describe('Dictionary', () => {
   });
 
   it('should report duplicate terms in merged dictionaries', () => {
-    var dictionary1 = new Dictionary().define('gender', /(male|female)/);
-    var dictionary2 = new Dictionary().define('gender', /(male|female)/);
+    const dictionary1 = new Dictionary().define('gender', /(male|female)/);
+    const dictionary2 = new Dictionary().define('gender', /(male|female)/);
 
     assert.throws(() => {
       dictionary1.merge(dictionary2);
@@ -78,31 +78,31 @@ describe('Dictionary', () => {
   });
 
   it('should return a pass through converter each matching group', () => {
-    var dictionary = new Dictionary();
+    const dictionary = new Dictionary();
     assert_converters(dictionary, /(1) (2) (3)/, [pass_through_converter, pass_through_converter, pass_through_converter]);
   });
 
   it('should return a pass through converter each undefined term', () => {
-    var dictionary = new Dictionary();
+    const dictionary = new Dictionary();
     assert_converters(dictionary, '$foo $bar', [pass_through_converter, pass_through_converter]);
   });
 
   it('should default to the pass through converter for each matching group in a defined pattern', () => {
-    var dictionary = new Dictionary().define('foo', /(1)/).define('bar', /(2) (3)/);
+    const dictionary = new Dictionary().define('foo', /(1)/).define('bar', /(2) (3)/);
     assert_converters(dictionary, '$foo $bar', [pass_through_converter, pass_through_converter, pass_through_converter]);
   });
 
   it('should use the specified converters when specified', () => {
-    var converter1 = function a(value, cb) {};
-    var converter2 = function b(value, cb) {};
-    var dictionary = new Dictionary().define('foo', /(1)/, converter1).define('bar', /(2) (3)/, [converter1, converter2]);
+    const converter1 = function a(_value, _cb) {};
+    const converter2 = function b(_value, _cb) {};
+    const dictionary = new Dictionary().define('foo', /(1)/, converter1).define('bar', /(2) (3)/, [converter1, converter2]);
     assert_converters(dictionary, '$foo $bar', [converter1, converter1, converter2]);
   });
 
   it('should allow patterns and terms to be mixed in the same signature', () => {
-    var converter1 = function a(value, cb) {};
-    var converter2 = function b(value, cb) {};
-    var dictionary = new Dictionary().define('foo', /(1)/, converter1).define('bar', /(2) (3)/, [converter1, converter2]);
+    const converter1 = function a(_value, _cb) {};
+    const converter2 = function b(_value, _cb) {};
+    const dictionary = new Dictionary().define('foo', /(1)/, converter1).define('bar', /(2) (3)/, [converter1, converter2]);
     assert_converters(dictionary, '(1) $foo (2) (3) $bar (4) $baz', [pass_through_converter, converter1, pass_through_converter, pass_through_converter, converter1, converter2, pass_through_converter, pass_through_converter]);
   });
 
@@ -119,14 +119,14 @@ describe('Dictionary', () => {
   });
 
   it('should support multi-arg converters', () => {
-    var two_arg_converter = (a, b, cb) => {};
+    const two_arg_converter = (_a, _b, _cb) => {};
 
-    var dictionary = new Dictionary().define('foo', '(1) (2)', [two_arg_converter]);
+    const dictionary = new Dictionary().define('foo', '(1) (2)', [two_arg_converter]);
     assert_converters(dictionary, '$foo', [two_arg_converter]);
   });
 
   it('should report multi-arg converters with the wrong number of matching groups', () => {
-    var two_arg_converter = (a, b, cb) => {};
+    const two_arg_converter = (_a, _b, _cb) => {};
 
     assert.throws(() => {
       new Dictionary().define('foo', '(1)', [two_arg_converter]);
@@ -138,9 +138,9 @@ describe('Dictionary', () => {
   }
 
   function assert_converters(dictionary, pattern, expected) {
-    var converters = dictionary.expand(pattern).converters;
+    const converters = dictionary.expand(pattern).converters;
     assert.equal(converters.length, expected.length);
-    for (var i = 0; i < expected.length; i++) {
+    for (let i = 0; i < expected.length; i++) {
       assert.equal(converters[i].toString(), expected[i].toString());
     }
   }

@@ -1,19 +1,19 @@
-var nodeTest = require('node:test');
-var describe = nodeTest.describe;
-var it = nodeTest.it;
-var assert = require('node:assert');
-var Yadda = require('../lib/index');
-var Interpreter = Yadda.Interpreter;
-var EventBus = Yadda.EventBus;
-var Library = Yadda.Library;
-var Dictionary = Yadda.Dictionary;
-var Context = Yadda.Context;
-var Counter = require('./Counter');
+const nodeTest = require('node:test');
+const describe = nodeTest.describe;
+const it = nodeTest.it;
+const assert = require('node:assert');
+const Yadda = require('../lib/index');
+const Interpreter = Yadda.Interpreter;
+const EventBus = Yadda.EventBus;
+const Library = Yadda.Library;
+const Dictionary = Yadda.Dictionary;
+const Context = Yadda.Context;
+const Counter = require('./Counter');
 
 describe('Interpreter', () => {
   it('should interpret a single line script', () => {
-    var counter = new Counter();
-    var library = new Library().define('Blah blah blah', counter.count);
+    const counter = new Counter();
+    const library = new Library().define('Blah blah blah', counter.count);
 
     new Interpreter(library).interpret('Blah blah blah');
 
@@ -21,8 +21,8 @@ describe('Interpreter', () => {
   });
 
   it('should interpret a multiline script', () => {
-    var counter = new Counter();
-    var library = new Library().define('Blah blah blah', counter.count);
+    const counter = new Counter();
+    const library = new Library().define('Blah blah blah', counter.count);
 
     new Interpreter(library).interpret(['Blah blah blah', 'Blah blah blah']);
 
@@ -30,7 +30,7 @@ describe('Interpreter', () => {
   });
 
   it('should validate scenarios', () => {
-    var library = new Library()
+    const library = new Library()
       .define('This is defined')
       .define(/[Tt]his is ambiguous/)
       .define(/[tT]his is ambiguous/);
@@ -41,16 +41,16 @@ describe('Interpreter', () => {
   });
 
   it('should favour ambiguous steps from the same library as the previous step', () => {
-    var library1 = new Library().define('Library 1').define(/[Tt]his is ambiguous/);
-    var library2 = new Library().define('Library 2').define(/[tT]his is ambiguous/);
+    const library1 = new Library().define('Library 1').define(/[Tt]his is ambiguous/);
+    const library2 = new Library().define('Library 2').define(/[tT]his is ambiguous/);
 
     new Interpreter([library1, library2]).validate(['Library 2', 'This is ambiguous']);
   });
 
   it('should utilise macros from different libraries', () => {
-    var counter = new Counter();
-    var library_1 = new Library().define('Blah blah blah', counter.count);
-    var library_2 = new Library().define('Whatever', counter.count);
+    const counter = new Counter();
+    const library_1 = new Library().define('Blah blah blah', counter.count);
+    const library_2 = new Library().define('Whatever', counter.count);
 
     new Interpreter([library_1, library_2]).interpret(['Blah blah blah', 'Whatever']);
 
@@ -58,15 +58,15 @@ describe('Interpreter', () => {
   });
 
   it('should expanded terms to discern macros', () => {
-    var patient_name;
+    let patient_name;
 
-    var dictionary = new Dictionary().define('gender', '(male|female)').define('speciality', '(cardio|elderly care)');
+    const dictionary = new Dictionary().define('gender', '(male|female)').define('speciality', '(cardio|elderly care)');
 
-    var library = new Library(dictionary)
-      .define('Given a $gender patient called $name', (gender, name) => {
+    const library = new Library(dictionary)
+      .define('Given a $gender patient called $name', (_gender, name) => {
         patient_name = name;
       })
-      .define('Given a $speciality patient called $name', (speciality, name) => {
+      .define('Given a $speciality patient called $name', (_speciality, name) => {
         patient_name = name;
       });
 
@@ -78,17 +78,17 @@ describe('Interpreter', () => {
   });
 
   it('should report undefined steps', () => {
-    var library = new Library();
-    var interpreter = new Interpreter(library);
+    const library = new Library();
+    const interpreter = new Interpreter(library);
 
     assert.throws(() => {
       interpreter.interpret('Blah blah blah');
     }, /Undefined Step: \[Blah blah blah\]/);
   });
 
-  it('should interpret steps asynchronously', (t, done) => {
-    var counter = new Counter();
-    var library = new Library().define('Blah blah blah', counter.count);
+  it('should interpret steps asynchronously', (_t, done) => {
+    const counter = new Counter();
+    const library = new Library().define('Blah blah blah', counter.count);
 
     new Interpreter(library).interpret(['Blah blah blah', 'Blah blah blah'], {}, () => {
       assert.equal(counter.total(), 2);
@@ -96,9 +96,9 @@ describe('Interpreter', () => {
     });
   });
 
-  it('should support variadic asynchronous steps', (t, done) => {
-    var counter = new Counter();
-    var library = new Library().define(
+  it('should support variadic asynchronous steps', (_t, done) => {
+    const counter = new Counter();
+    const library = new Library().define(
       ['Blah (blah)', 'Blah (blah) (blah)'],
       function () {
         counter.count();
@@ -114,9 +114,9 @@ describe('Interpreter', () => {
     });
   });
 
-  it('should bind the context to the macro', (t, done) => {
-    var context = new Context({ foo: 'bar' });
-    var library = new Library().define('Blah blah blah', function (next) {
+  it('should bind the context to the macro', (_t, done) => {
+    const context = new Context({ foo: 'bar' });
+    const library = new Library().define('Blah blah blah', function (next) {
       assert.equal(this.foo, 'bar');
       next();
     });
@@ -124,10 +124,10 @@ describe('Interpreter', () => {
     new Interpreter(library).interpret(['Blah blah blah', 'Blah blah blah'], context, done);
   });
 
-  it('should notify listeners of interpreter events', (t, done) => {
-    var library = new Library().define('Blah blah blah');
-    var interpreter = new Interpreter(library);
-    var listener = new Listener();
+  it('should notify listeners of interpreter events', (_t, done) => {
+    const library = new Library().define('Blah blah blah');
+    const interpreter = new Interpreter(library);
+    const listener = new Listener();
     EventBus.instance().on(/STEP|SCENARIO/, listener.listen);
 
     interpreter.interpret('Blah blah blah', new Context({ foo: 'bar' }));
@@ -154,7 +154,7 @@ describe('Interpreter', () => {
   });
 
   it('should catch errors thrown by asynchronous steps where possible', () => {
-    var library = new Library().define('Blah blah blah', (next) => {
+    const library = new Library().define('Blah blah blah', (_next) => {
       throw new Error('Oh Noes!');
     });
 

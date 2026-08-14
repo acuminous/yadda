@@ -22,7 +22,6 @@
         "noArguments": "off"
       },
       "suspicious": {
-        "noControlCharactersInRegex": "off",
         "noThenProperty": "off"
       }
     }
@@ -45,12 +44,8 @@
       "includes": ["test/**"],
       "linter": {
         "rules": {
-          "correctness": {
-            "noInnerDeclarations": "off",
-            "noUnusedFunctionParameters": "off"
-          },
           "suspicious": {
-            "noAssignInExpressions": "off"
+            "noControlCharactersInRegex": "off"
           }
         }
       }

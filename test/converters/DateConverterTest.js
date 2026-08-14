@@ -1,11 +1,11 @@
-var nodeTest = require('node:test');
-var describe = nodeTest.describe;
-var it = nodeTest.it;
-var assert = require('node:assert');
-var convert = require('../../lib/converters/date-converter');
+const nodeTest = require('node:test');
+const describe = nodeTest.describe;
+const it = nodeTest.it;
+const assert = require('node:assert');
+const convert = require('../../lib/converters/date-converter');
 
 describe('Date Converter', () => {
-  it('Should convert strings to date', (t, done) => {
+  it('Should convert strings to date', (_t, done) => {
     convert('2015-07-24T09:23:31.283Z', (err, value) => {
       assert.ifError(err);
       assert.equal(value.toISOString(), '2015-07-24T09:23:31.283Z');
@@ -13,8 +13,8 @@ describe('Date Converter', () => {
     });
   });
 
-  it('Should error on invalid date', (t, done) => {
-    convert('a', (err, value) => {
+  it('Should error on invalid date', (_t, done) => {
+    convert('a', (err, _value) => {
       assert(err);
       assert.equal(err.message, 'Cannot convert [a] to a date');
       done();

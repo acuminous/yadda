@@ -1,14 +1,14 @@
-var nodeTest = require('node:test');
-var describe = nodeTest.describe;
-var it = nodeTest.it;
-var assert = require('node:assert');
-var EventBus = require('../lib/EventBus');
+const nodeTest = require('node:test');
+const describe = nodeTest.describe;
+const it = nodeTest.it;
+const assert = require('node:assert');
+const EventBus = require('../lib/EventBus');
 
 describe('EventBus', () => {
-  var bus = EventBus.instance();
+  const bus = EventBus.instance();
 
   it('should carry an event to a listener', () => {
-    var listener = new Listener();
+    const listener = new Listener();
     bus.on('foo', listener.listen).send('foo');
 
     assert.equal(1, listener.events.length);
@@ -16,7 +16,7 @@ describe('EventBus', () => {
   });
 
   it('should allow events to include data', () => {
-    var listener = new Listener();
+    const listener = new Listener();
     bus.on('foo', listener.listen).send('foo', { foo: 'bar' });
 
     assert.equal(1, listener.events.length);
@@ -24,8 +24,8 @@ describe('EventBus', () => {
   });
 
   it('should carry an event to multiple listeners', () => {
-    var listener1 = new Listener();
-    var listener2 = new Listener();
+    const listener1 = new Listener();
+    const listener2 = new Listener();
     bus.on('foo', listener1.listen).on('foo', listener2.listen).send('foo');
 
     assert.equal(1, listener1.events.length);
@@ -33,24 +33,24 @@ describe('EventBus', () => {
   });
 
   it('should send all matching events to a listener', () => {
-    var listener = new Listener();
+    const listener = new Listener();
     bus.on(/f.*/, listener.listen).send('foo');
     assert.equal(1, listener.events.length);
   });
 
   it('should not send unmatched events to a listener', () => {
-    var listener = new Listener();
+    const listener = new Listener();
     bus.on(/f.*/, listener.listen).send('bar');
     assert.equal(0, listener.events.length);
   });
 
-  it('should execute callbacks without event data', (t, done) => {
-    var listener = new Listener();
+  it('should execute callbacks without event data', (_t, done) => {
+    const listener = new Listener();
     bus.on(/f.*/, listener.listen).send('bar', done);
   });
 
-  it('should execute callbacks with event data', (t, done) => {
-    var listener = new Listener();
+  it('should execute callbacks with event data', (_t, done) => {
+    const listener = new Listener();
     bus.on(/f.*/, listener.listen).send('bar', {}, done);
   });
 

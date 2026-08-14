@@ -1,5 +1,5 @@
 module.exports = function () {
-  var tally = 0;
+  let tally = 0;
 
   this.count = (next) => {
     tally++;

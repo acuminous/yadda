@@ -1,63 +1,63 @@
-var nodeTest = require('node:test');
-var describe = nodeTest.describe;
-var it = nodeTest.it;
-var assert = require('node:assert');
-var Library = require('../lib/index').Library;
-var English = require('../lib/index').localisation.English;
-var Dictionary = require('../lib/Dictionary');
-var fn = require('../lib/fn');
+const nodeTest = require('node:test');
+const describe = nodeTest.describe;
+const it = nodeTest.it;
+const assert = require('node:assert');
+const Library = require('../lib/index').Library;
+const English = require('../lib/index').localisation.English;
+const Dictionary = require('../lib/Dictionary');
+const fn = require('../lib/fn');
 
 describe('Library', () => {
   it('should hold String mapped macros', () => {
-    var library = new Library().define('foo');
+    const library = new Library().define('foo');
     assert.ok(library.get_macro('foo'), 'Macro should have been defined');
     assert.ok(library.get_macro(/foo/), 'Macro should have been defined');
   });
 
   it('should hold RegExp mapped macros', () => {
-    var library = new Library().define(/bar/);
+    const library = new Library().define(/bar/);
     assert.ok(library.get_macro(/bar/), 'Macro should have been defined');
     assert.ok(library.get_macro('bar'), 'Macro should have been defined');
   });
 
   it('should support aliased macros', () => {
-    var library = new Library().define([/bar/, /foo/]);
+    const library = new Library().define([/bar/, /foo/]);
     assert.ok(library.get_macro(/bar/), 'Macro should have been defined');
     assert.ok(library.get_macro(/foo/), 'Macro should have been defined');
   });
 
   it('should hold String mapped macros when options are specified', () => {
-    var library = new Library().define('foo', fn.noop, {}, {});
+    const library = new Library().define('foo', fn.noop, {}, {});
     assert.ok(library.get_macro('foo'), 'Macro should have been defined');
     assert.ok(library.get_macro(/foo/), 'Macro should have been defined');
   });
 
   it('should hold RegExp mapped macros when options are specified', () => {
-    var library = new Library().define(/bar/, fn.noop, {}, {});
+    const library = new Library().define(/bar/, fn.noop, {}, {});
 
     assert.ok(library.get_macro(/bar/), 'Macro should have been defined');
     assert.ok(library.get_macro('bar'), 'Macro should have been defined');
   });
 
   it('should support aliased macros when options are specified', () => {
-    var library = new Library().define([/bar/, /foo/], {}, { mode: 'async' });
+    const library = new Library().define([/bar/, /foo/], {}, { mode: 'async' });
     assert.ok(library.get_macro(/bar/), 'Macro should have been defined');
     assert.ok(library.get_macro(/foo/), 'Macro should have been defined');
   });
 
   it('should expand macro signature using specified dictionary', () => {
-    var dictionary = new Dictionary().define('gender', '(male|female)').define('speciality', '(cardiovascular|elderly care)');
+    const dictionary = new Dictionary().define('gender', '(male|female)').define('speciality', '(cardiovascular|elderly care)');
 
-    var library = new Library(dictionary).define('Given a $gender, $speciality patient called $name');
+    const library = new Library(dictionary).define('Given a $gender, $speciality patient called $name');
 
-    var macro = library.get_macro('Given a $gender, $speciality patient called $name');
+    const macro = library.get_macro('Given a $gender, $speciality patient called $name');
     assert.ok(macro.can_interpret('Given a male, cardiovascular patient called Bob'));
     assert.ok(macro.can_interpret('Given a female, elderly care patient called Carol'));
     assert.ok(!macro.can_interpret('Given a ugly, angry patient called Max'));
   });
 
   it('should report duplicate macros', () => {
-    var library = English.library().define(/bar/);
+    const library = English.library().define(/bar/);
 
     assert.throws(() => {
       library.define(/bar/);
@@ -65,7 +65,7 @@ describe('Library', () => {
   });
 
   it('should find all compatible macros', () => {
-    var library = new Library()
+    const library = new Library()
       .define(/^food$/)
       .define(/^foo.*$/)
       .define(/^f.*$/);
@@ -76,16 +76,16 @@ describe('Library', () => {
   });
 
   it('should be localised', () => {
-    var library = English.library()
+    const library = English.library()
       .given(/^a wall with (\d+) bottles/)
       .when(/^(\d+) bottle(?:s)? accidentally falls/)
       .then(/^there are (\d+) bottles left/);
 
-    var givens = ['Given a wall with 100 bottles', 'given a wall with 100 bottles', 'And a wall with 100 bottles', 'and a wall with 100 bottles', 'with   a wall with 100 bottles'];
+    const givens = ['Given a wall with 100 bottles', 'given a wall with 100 bottles', 'And a wall with 100 bottles', 'and a wall with 100 bottles', 'with   a wall with 100 bottles'];
 
-    var whens = ['When 1 bottle accidentally falls', 'when 1 bottle accidentally falls', 'and 1 bottle accidentally falls', 'And 1 bottle accidentally falls', 'but  1 bottle accidentally falls'];
+    const whens = ['When 1 bottle accidentally falls', 'when 1 bottle accidentally falls', 'and 1 bottle accidentally falls', 'And 1 bottle accidentally falls', 'but  1 bottle accidentally falls'];
 
-    var thens = ['Then there are 99 bottles left', 'then there are 99 bottles left', 'And there are 99 bottles left', 'and there are 99 bottles left', 'Expect there are 99 bottles left', 'expect there are 99 bottles left', 'but  there are 99 bottles left'];
+    const thens = ['Then there are 99 bottles left', 'then there are 99 bottles left', 'And there are 99 bottles left', 'and there are 99 bottles left', 'Expect there are 99 bottles left', 'expect there are 99 bottles left', 'but  there are 99 bottles left'];
 
     assert_localisation(library, givens, '/^(?:\\s)*(?:[Gg]iven|[Ww]ith|[Aa]nd|[Bb]ut|[Ee]xcept)\\s+a wall with (\\d+) bottles/');
     assert_localisation(library, whens, '/^(?:\\s)*(?:[Ww]hen|[Ii]f|[Aa]nd|[Bb]ut)\\s+(\\d+) bottle(?:s)? accidentally falls/');
@@ -93,7 +93,7 @@ describe('Library', () => {
   });
 
   it('should supports localised aliased macros', () => {
-    var library = English.library()
+    const library = English.library()
       .given([/^a wall with (\d+) bottles/, /^a wall with (\d+) green bottles/])
       .when([/^(\d+) bottle(?:s)? accidentally falls/, /^(\d+) green bottle(?:s)? accidentally falls/])
       .then([/^there are (\d+) bottles left/, /^there are (\d+) green bottles left/]);
@@ -107,11 +107,11 @@ describe('Library', () => {
   });
 
   it('should expand multiline macro signature using specified dictionary', () => {
-    var dictionary = new Dictionary().define('text', /([^\u0000]*)/);
+    const dictionary = new Dictionary().define('text', /([^\u0000]*)/);
 
-    var library = new Library(dictionary).define('Given a text $text');
+    const library = new Library(dictionary).define('Given a text $text');
 
-    var macro = library.get_macro('Given a text $text');
+    const macro = library.get_macro('Given a text $text');
     assert.ok(macro.can_interpret('Given a text ')); // empty
     assert.ok(macro.can_interpret('Given a text 1')); // oneline
     assert.ok(macro.can_interpret('Given a text 1\n2\n3')); // multiline
@@ -119,7 +119,7 @@ describe('Library', () => {
   });
 
   function assert_localisation(library, statements, signature) {
-    for (var i = 0; i < statements.length; i++) {
+    for (let i = 0; i < statements.length; i++) {
       assert.equal(library.find_compatible_macros(statements[i]).length, 1, statements[i]);
       assert.equal(library.find_compatible_macros(statements[i])[0].toString(), signature, statements[i]);
     }

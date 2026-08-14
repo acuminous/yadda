@@ -1,8 +1,8 @@
-var nodeTest = require('node:test');
-var describe = nodeTest.describe;
-var it = nodeTest.it;
-var assert = require('node:assert');
-var $ = require('../lib/Array');
+const nodeTest = require('node:test');
+const describe = nodeTest.describe;
+const it = nodeTest.it;
+const assert = require('node:assert');
+const $ = require('../lib/Array');
 
 describe('Array', () => {
   it('should flatten a nested array', () => {
@@ -32,8 +32,8 @@ describe('Array', () => {
   });
 
   it('should iterate asynchronously', () => {
-    var items = [1, 2, 3];
-    var iterations = 0;
+    const items = [1, 2, 3];
+    let iterations = 0;
     $(items).each_async(
       (item, index, callback) => {
         assert.equal(item, items[iterations]);

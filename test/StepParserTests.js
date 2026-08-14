@@ -1,14 +1,14 @@
-var nodeTest = require('node:test');
-var describe = nodeTest.describe;
-var it = nodeTest.it;
-var assert = require('node:assert');
-var StepParser = require('../lib/index').parsers.StepParser;
+const nodeTest = require('node:test');
+const describe = nodeTest.describe;
+const it = nodeTest.it;
+const assert = require('node:assert');
+const StepParser = require('../lib/index').parsers.StepParser;
 
 describe('StepParser', () => {
   it('should parse steps', () => {
-    var parser = new StepParser();
-    var text = ['Given A', '', '   When B   ', '   ', 'Then C'].join('\n');
-    var steps = parser.parse(text);
+    const parser = new StepParser();
+    const text = ['Given A', '', '   When B   ', '   ', 'Then C'].join('\n');
+    const steps = parser.parse(text);
 
     assert.equal(steps.length, 3);
     assert.equal(steps[0], 'Given A');

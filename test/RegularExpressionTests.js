@@ -1,8 +1,8 @@
-var nodeTest = require('node:test');
-var describe = nodeTest.describe;
-var it = nodeTest.it;
-var assert = require('node:assert');
-var RegularExpression = require('../lib/RegularExpression');
+const nodeTest = require('node:test');
+const describe = nodeTest.describe;
+const it = nodeTest.it;
+const assert = require('node:assert');
+const RegularExpression = require('../lib/RegularExpression');
 
 describe('RegularExpression', () => {
   it('should base equality on underlying RegExp source', () => {
@@ -13,8 +13,8 @@ describe('RegularExpression', () => {
   });
 
   it('should provide matching groups', () => {
-    var words = new RegularExpression(/(\d+) (\w+)/g);
-    var groups = words.groups('1 the 2 quick 3 brown 4 fox');
+    const words = new RegularExpression(/(\d+) (\w+)/g);
+    const groups = words.groups('1 the 2 quick 3 brown 4 fox');
     assert.equal(groups.length, 8);
     assert.equal(groups[0], '1');
     assert.equal(groups[1], 'the');
@@ -22,8 +22,8 @@ describe('RegularExpression', () => {
   });
 
   it('should provide multiline', () => {
-    var words = new RegularExpression(/text: ([^\u0000]*)/);
-    var groups = words.groups('text: 1\n2\n3');
+    const words = new RegularExpression(/text: ([^\u0000]*)/);
+    const groups = words.groups('text: 1\n2\n3');
     assert.equal(groups.length, 1);
     assert.equal(groups[0], '1\n2\n3');
   });

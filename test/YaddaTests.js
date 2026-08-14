@@ -1,23 +1,23 @@
-var nodeTest = require('node:test');
-var describe = nodeTest.describe;
-var it = nodeTest.it;
-var assert = require('node:assert');
-var Library = require('../lib/index').Library;
-var Yadda = require('../lib/index').Yadda;
+const nodeTest = require('node:test');
+const describe = nodeTest.describe;
+const it = nodeTest.it;
+const assert = require('node:assert');
+const Library = require('../lib/index').Library;
+const Yadda = require('../lib/index').Yadda;
 
 describe('Yadda', () => {
   it('should interpret synchronous scenarios', () => {
-    var executions = 0;
-    var library = new Library().define('foo', () => {
+    let executions = 0;
+    const library = new Library().define('foo', () => {
       executions++;
     });
     new Yadda(library).yadda('foo');
     assert.equal(executions, 1);
   });
 
-  it('should interpret asynchronous scenarios', (t, done) => {
-    var executions = 0;
-    var library = new Library().define('foo', (next) => {
+  it('should interpret asynchronous scenarios', (_t, done) => {
+    let executions = 0;
+    const library = new Library().define('foo', (next) => {
       executions++;
       next();
     });
@@ -28,9 +28,9 @@ describe('Yadda', () => {
     });
   });
 
-  it('should interpret a mix of asynchronous and synchronous scenarios', (t, done) => {
-    var executions = 0;
-    var library = new Library()
+  it('should interpret a mix of asynchronous and synchronous scenarios', (_t, done) => {
+    let executions = 0;
+    const library = new Library()
       .define('foo', (next) => {
         executions++;
         next();
@@ -45,9 +45,9 @@ describe('Yadda', () => {
     });
   });
 
-  it('should interpret asynchronous returning promises', (t, done) => {
-    var executions = 0;
-    var library = new Library().define('foo', () => {
+  it('should interpret asynchronous returning promises', (_t, done) => {
+    let executions = 0;
+    const library = new Library().define('foo', () => {
       executions++;
       return {
         then: (cb) => {
@@ -65,9 +65,9 @@ describe('Yadda', () => {
     });
   });
 
-  it('should interpret asynchronous returning promises', (t, done) => {
-    var executions = 0;
-    var library = new Library().define('foo', () => {
+  it('should interpret asynchronous returning promises', (_t, done) => {
+    let executions = 0;
+    const library = new Library().define('foo', () => {
       executions++;
       return {
         then: (cb) => {
@@ -86,22 +86,22 @@ describe('Yadda', () => {
   });
 
   it('should cater for people who dont find the recursive api amusing', () => {
-    var Yadda = require('../lib/index');
-    var executions = 0;
-    var library = new Yadda.Library().define('foo', () => {
+    const Yadda = require('../lib/index');
+    let executions = 0;
+    const library = new Yadda.Library().define('foo', () => {
       executions++;
     });
-    var yadda = Yadda.createInstance(library);
+    const yadda = Yadda.createInstance(library);
     yadda.run('foo');
     assert.equal(executions, 1);
   });
 
-  it('should interpret asynchronous variadic steps', (t, done) => {
-    var executions = 0;
-    var library = new Library().define(
+  it('should interpret asynchronous variadic steps', (_t, done) => {
+    let executions = 0;
+    const library = new Library().define(
       'foo',
       function () {
-        var next = arguments[arguments.length - 1];
+        const next = arguments[arguments.length - 1];
         assert.equal(typeof next, 'function');
         executions++;
         next();
@@ -116,13 +116,13 @@ describe('Yadda', () => {
     });
   });
 
-  it('should interpret asynchronous localised variadic steps', (t, done) => {
-    var executions = 0;
-    var English = require('../lib').localisation.English;
-    var library = English.library().given(
+  it('should interpret asynchronous localised variadic steps', (_t, done) => {
+    let executions = 0;
+    const English = require('../lib').localisation.English;
+    const library = English.library().given(
       'foo',
       function () {
-        var next = arguments[arguments.length - 1];
+        const next = arguments[arguments.length - 1];
         assert.equal(typeof next, 'function');
         executions++;
         next();

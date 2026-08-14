@@ -1,15 +1,15 @@
-var nodeTest = require('node:test');
-var describe = nodeTest.describe;
-var it = nodeTest.it;
-var assert = require('node:assert');
-var Yadda = require('../lib/index');
-var Interpreter = Yadda.Interpreter;
-var Counter = require('./Counter');
+const nodeTest = require('node:test');
+const describe = nodeTest.describe;
+const it = nodeTest.it;
+const assert = require('node:assert');
+const Yadda = require('../lib/index');
+const Interpreter = Yadda.Interpreter;
+const Counter = require('./Counter');
 
 describe('Localisation', () => {
   it('should match text from the beginning', () => {
-    var counter = new Counter();
-    var library = Yadda.localisation.English.library()
+    const counter = new Counter();
+    const library = Yadda.localisation.English.library()
       .given('a post', () => {
         assert.fail('Step should not have been matched');
       })
@@ -21,8 +21,8 @@ describe('Localisation', () => {
   });
 
   it('should support English', () => {
-    var counter = new Counter();
-    var library = Yadda.localisation.English.library().given('some text 1', counter.count).when('some text 2', counter.count).then('some text 4', counter.count);
+    const counter = new Counter();
+    const library = Yadda.localisation.English.library().given('some text 1', counter.count).when('some text 2', counter.count).then('some text 4', counter.count);
 
     new Interpreter(library).interpret(['given some text 1', 'when some text 2', 'then some text 4']);
 
@@ -30,8 +30,8 @@ describe('Localisation', () => {
   });
 
   it('should support German', () => {
-    var counter = new Counter();
-    var library = Yadda.localisation.German.library().given('some text 1', counter.count).when('some text 2', counter.count).then('some text 4', counter.count);
+    const counter = new Counter();
+    const library = Yadda.localisation.German.library().given('some text 1', counter.count).when('some text 2', counter.count).then('some text 4', counter.count);
 
     new Interpreter(library).interpret(['angenommen some text 1', 'wenn some text 2', 'dann some text 4']);
 
@@ -39,8 +39,8 @@ describe('Localisation', () => {
   });
 
   it('should support Dutch', () => {
-    var counter = new Counter();
-    var library = Yadda.localisation.Dutch.library().given('some text 1', counter.count).when('some text 2', counter.count).then('some text 4', counter.count);
+    const counter = new Counter();
+    const library = Yadda.localisation.Dutch.library().given('some text 1', counter.count).when('some text 2', counter.count).then('some text 4', counter.count);
 
     new Interpreter(library).interpret(['Gegeven dat some text 1', 'Wanneer some text 2', 'Dan some text 4']);
 
@@ -48,8 +48,8 @@ describe('Localisation', () => {
   });
 
   it('should support French', () => {
-    var counter = new Counter();
-    var library = Yadda.localisation.French.library()
+    const counter = new Counter();
+    const library = Yadda.localisation.French.library()
       .soit('some text 1', counter.count)
       .etantdonnees('some text 2', counter.count)
       .etantdonnee('some text 3', counter.count)
@@ -69,8 +69,8 @@ describe('Localisation', () => {
   });
 
   it('should support Norwegian', () => {
-    var counter = new Counter();
-    var library = Yadda.localisation.Norwegian.library()
+    const counter = new Counter();
+    const library = Yadda.localisation.Norwegian.library()
       .gitt('some text 1', counter.count)
       .given('some text 2', counter.count)
 
@@ -86,8 +86,8 @@ describe('Localisation', () => {
   });
 
   it('should support Piracy', () => {
-    var counter = new Counter();
-    var library = Yadda.localisation.Pirate.library()
+    const counter = new Counter();
+    const library = Yadda.localisation.Pirate.library()
       .giveth('some text 1', counter.count)
       .given('some text 2', counter.count)
 
@@ -103,8 +103,8 @@ describe('Localisation', () => {
   });
 
   it('should support Ukrainian', () => {
-    var counter = new Counter();
-    var library = Yadda.localisation.Ukrainian.library().given('some text 1', counter.count).when('some text 2', counter.count).then('some text 3', counter.count);
+    const counter = new Counter();
+    const library = Yadda.localisation.Ukrainian.library().given('some text 1', counter.count).when('some text 2', counter.count).then('some text 3', counter.count);
 
     new Interpreter(library).interpret(['дано some text 1', 'коли some text 2', 'тоді some text 3']);
 
@@ -112,8 +112,8 @@ describe('Localisation', () => {
   });
 
   it('should support Polish', () => {
-    var counter = new Counter();
-    var library = Yadda.localisation.Polish.library()
+    const counter = new Counter();
+    const library = Yadda.localisation.Polish.library()
       .zakladajac('some text 1', counter.count)
       .majac('some text 2', counter.count)
       .given('some text 3', counter.count)
@@ -133,8 +133,8 @@ describe('Localisation', () => {
   });
 
   it('should support Spanish', () => {
-    var counter = new Counter();
-    var library = Yadda.localisation.Spanish.library()
+    const counter = new Counter();
+    const library = Yadda.localisation.Spanish.library()
       .sea('some text 1', counter.count)
       .sean('some text 2', counter.count)
       .dado('some text 3', counter.count)
@@ -156,8 +156,8 @@ describe('Localisation', () => {
   });
 
   it('should support Russian', () => {
-    var counter = new Counter();
-    var library = Yadda.localisation.Russian.library().given('some text 1', counter.count).when('some text 2', counter.count).then('some text 4', counter.count);
+    const counter = new Counter();
+    const library = Yadda.localisation.Russian.library().given('some text 1', counter.count).when('some text 2', counter.count).then('some text 4', counter.count);
 
     new Interpreter(library).interpret(['допустим some text 1', 'если some text 2', 'то some text 4']);
 
@@ -165,9 +165,9 @@ describe('Localisation', () => {
   });
 
   it('should support Portuguese', () => {
-    var counter = new Counter();
+    const counter = new Counter();
 
-    var library = Yadda.localisation.Portuguese.library()
+    const library = Yadda.localisation.Portuguese.library()
       .seja('some text 1', counter.count)
       .sejam('some text 2', counter.count)
       .dado('some text 3', counter.count)

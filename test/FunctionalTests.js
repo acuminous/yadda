@@ -1,14 +1,14 @@
-var nodeTest = require('node:test');
-var describe = nodeTest.describe;
-var it = nodeTest.it;
-var beforeEach = nodeTest.beforeEach;
-var Yadda = require('../lib/index').Yadda;
+const nodeTest = require('node:test');
+const describe = nodeTest.describe;
+const it = nodeTest.it;
+const beforeEach = nodeTest.beforeEach;
+const Yadda = require('../lib/index').Yadda;
 
 describe('Hospital', () => {
-  var yadda;
+  let yadda;
 
   beforeEach(() => {
-    var library = require('./lib/hospital-steps').init();
+    const library = require('./lib/hospital-steps').init();
     yadda = new Yadda(library);
   });
 
