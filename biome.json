@@ -22,13 +22,11 @@
         "noArguments": "off"
       },
       "correctness": {
-        "noInvalidUseBeforeDeclaration": "off",
         "noUnusedFunctionParameters": "off"
       },
       "suspicious": {
         "noAssignInExpressions": "off",
         "noControlCharactersInRegex": "off",
-        "noRedeclare": "off",
         "noThenProperty": "off"
       }
     }
@@ -39,7 +37,21 @@
       "linter": {
         "rules": {
           "correctness": {
+            "noInvalidUseBeforeDeclaration": "off",
             "noUnusedVariables": "off"
+          },
+          "suspicious": {
+            "noRedeclare": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["test/**"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noInnerDeclarations": "off"
           }
         }
       }
