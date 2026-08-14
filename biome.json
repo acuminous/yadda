@@ -24,8 +24,7 @@
       "correctness": {
         "noInnerDeclarations": "off",
         "noInvalidUseBeforeDeclaration": "off",
-        "noUnusedFunctionParameters": "off",
-        "noUnusedVariables": "off"
+        "noUnusedFunctionParameters": "off"
       },
       "suspicious": {
         "noAssignInExpressions": "off",
@@ -34,5 +33,17 @@
         "noThenProperty": "off"
       }
     }
-  }
+  },
+  "overrides": [
+    {
+      "includes": ["lib/parsers/FeatureParser.js"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUnusedVariables": "off"
+          }
+        }
+      }
+    }
+  ]
 }
