@@ -19,8 +19,7 @@
     "rules": {
       "preset": "recommended",
       "complexity": {
-        "noArguments": "off",
-        "useOptionalChain": "off"
+        "noArguments": "off"
       },
       "correctness": {
         "noInnerDeclarations": "off",
