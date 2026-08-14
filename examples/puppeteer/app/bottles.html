@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Green Bottles</title>
+  </head>
+  <body>
+    <h1>Green Bottles</h1>
+
+    <form id="wall">
+      <label>
+        Bottles standing on the wall
+        <input name="bottles" type="number" value="" />
+      </label>
+      <label>
+        Bottles that accidentally fall
+        <input name="fallen" type="number" value="" />
+      </label>
+      <button type="submit">Update the wall</button>
+    </form>
+
+    <p id="remaining"></p>
+
+    <script>
+      const form = document.getElementById('wall');
+      const remaining = document.getElementById('remaining');
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const bottles = Number(form.elements.bottles.value);
+        const fallen = Number(form.elements.fallen.value);
+        remaining.textContent = `${bottles - fallen} green bottles standing on the wall`;
+      });
+    </script>
+  </body>
+</html>
