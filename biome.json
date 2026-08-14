@@ -17,9 +17,28 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "preset": "none",
+      "preset": "recommended",
+      "complexity": {
+        "noArguments": "off",
+        "useOptionalChain": "off"
+      },
+      "correctness": {
+        "noInnerDeclarations": "off",
+        "noInvalidUseBeforeDeclaration": "off",
+        "noUnusedFunctionParameters": "off",
+        "noUnusedVariables": "off",
+        "useParseIntRadix": "off"
+      },
+      "style": {
+        "useNodejsImportProtocol": "off",
+        "useTemplate": "off"
+      },
       "suspicious": {
-        "noControlCharactersInRegex": "off"
+        "noAssignInExpressions": "off",
+        "noControlCharactersInRegex": "off",
+        "noGlobalIsNan": "off",
+        "noRedeclare": "off",
+        "noThenProperty": "off"
       }
     }
   }

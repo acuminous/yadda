@@ -4,9 +4,9 @@ var it = nodeTest.it;
 var assert = require('assert');
 var convert = require('../../lib/converters/integer-converter');
 
-describe('Integer Converter', function () {
-  it('Should convert strings to integers', function (t, done) {
-    convert('1', function (err, value) {
+describe('Integer Converter', () => {
+  it('Should convert strings to integers', (t, done) => {
+    convert('1', (err, value) => {
       assert.ifError(err);
       assert.equal(value, 1);
       assert.equal(typeof value, 'number');
@@ -14,8 +14,8 @@ describe('Integer Converter', function () {
     });
   });
 
-  it('Should error on NaN', function (t, done) {
-    convert('a', function (err, value) {
+  it('Should error on NaN', (t, done) => {
+    convert('a', (err, value) => {
       assert(err);
       assert.equal(err.message, 'Cannot convert [a] to an integer');
       done();

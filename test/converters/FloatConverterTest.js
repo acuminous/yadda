@@ -4,9 +4,9 @@ var it = nodeTest.it;
 var assert = require('assert');
 var convert = require('../../lib/converters/float-converter');
 
-describe('Float Converter', function () {
-  it('Should convert strings to float', function (t, done) {
-    convert('1.1', function (err, value) {
+describe('Float Converter', () => {
+  it('Should convert strings to float', (t, done) => {
+    convert('1.1', (err, value) => {
       assert.ifError(err);
       assert.equal(value, 1.1);
       assert.equal(typeof value, 'number');
@@ -14,8 +14,8 @@ describe('Float Converter', function () {
     });
   });
 
-  it('Should error on NaN', function (t, done) {
-    convert('a', function (err, value) {
+  it('Should error on NaN', (t, done) => {
+    convert('a', (err, value) => {
       assert(err);
       assert.equal(err.message, 'Cannot convert [a] to a float');
       done();

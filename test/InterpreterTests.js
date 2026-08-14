@@ -10,8 +10,8 @@ var Dictionary = Yadda.Dictionary;
 var Context = Yadda.Context;
 var Counter = require('./Counter');
 
-describe('Interpreter', function () {
-  it('should interpret a single line script', function () {
+describe('Interpreter', () => {
+  it('should interpret a single line script', () => {
     var counter = new Counter();
     var library = new Library().define('Blah blah blah', counter.count);
 
@@ -20,7 +20,7 @@ describe('Interpreter', function () {
     assert.equal(counter.total(), 1);
   });
 
-  it('should interpret a multiline script', function () {
+  it('should interpret a multiline script', () => {
     var counter = new Counter();
     var library = new Library().define('Blah blah blah', counter.count);
 
@@ -29,25 +29,25 @@ describe('Interpreter', function () {
     assert.equal(counter.total(), 2);
   });
 
-  it('should validate scenarios', function () {
+  it('should validate scenarios', () => {
     var library = new Library()
       .define('This is defined')
       .define(/[Tt]his is ambiguous/)
       .define(/[tT]his is ambiguous/);
 
-    assert.throws(function () {
+    assert.throws(() => {
       new Interpreter(library).validate(['This is defined', 'This is undefined', 'This is ambiguous']);
     }, /Scenario cannot be interpreted\nThis is defined\nThis is undefined <-- Undefined Step\nThis is ambiguous <-- Ambiguous Step/);
   });
 
-  it('should favour ambiguous steps from the same library as the previous step', function () {
+  it('should favour ambiguous steps from the same library as the previous step', () => {
     var library1 = new Library().define('Library 1').define(/[Tt]his is ambiguous/);
     var library2 = new Library().define('Library 2').define(/[tT]his is ambiguous/);
 
     new Interpreter([library1, library2]).validate(['Library 2', 'This is ambiguous']);
   });
 
-  it('should utilise macros from different libraries', function () {
+  it('should utilise macros from different libraries', () => {
     var counter = new Counter();
     var library_1 = new Library().define('Blah blah blah', counter.count);
     var library_2 = new Library().define('Whatever', counter.count);
@@ -57,16 +57,16 @@ describe('Interpreter', function () {
     assert.equal(counter.total(), 2);
   });
 
-  it('should expanded terms to discern macros', function () {
+  it('should expanded terms to discern macros', () => {
     var patient_name;
 
     var dictionary = new Dictionary().define('gender', '(male|female)').define('speciality', '(cardio|elderly care)');
 
     var library = new Library(dictionary)
-      .define('Given a $gender patient called $name', function (gender, name) {
+      .define('Given a $gender patient called $name', (gender, name) => {
         patient_name = name;
       })
-      .define('Given a $speciality patient called $name', function (speciality, name) {
+      .define('Given a $speciality patient called $name', (speciality, name) => {
         patient_name = name;
       });
 
@@ -77,26 +77,26 @@ describe('Interpreter', function () {
     assert.equal('Bobby', patient_name);
   });
 
-  it('should report undefined steps', function () {
+  it('should report undefined steps', () => {
     var library = new Library();
     var interpreter = new Interpreter(library);
 
-    assert.throws(function () {
+    assert.throws(() => {
       interpreter.interpret('Blah blah blah');
     }, /Undefined Step: \[Blah blah blah\]/);
   });
 
-  it('should interpret steps asynchronously', function (t, done) {
+  it('should interpret steps asynchronously', (t, done) => {
     var counter = new Counter();
     var library = new Library().define('Blah blah blah', counter.count);
 
-    new Interpreter(library).interpret(['Blah blah blah', 'Blah blah blah'], {}, function () {
+    new Interpreter(library).interpret(['Blah blah blah', 'Blah blah blah'], {}, () => {
       assert.equal(counter.total(), 2);
       done();
     });
   });
 
-  it('should support variadic asynchronous steps', function (t, done) {
+  it('should support variadic asynchronous steps', (t, done) => {
     var counter = new Counter();
     var library = new Library().define(
       ['Blah (blah)', 'Blah (blah) (blah)'],
@@ -108,13 +108,13 @@ describe('Interpreter', function () {
       { mode: 'async' },
     );
 
-    new Interpreter(library).interpret(['Blah blah', 'Blah blah blah'], {}, function () {
+    new Interpreter(library).interpret(['Blah blah', 'Blah blah blah'], {}, () => {
       assert.equal(counter.total(), 2);
       done();
     });
   });
 
-  it('should bind the context to the macro', function (t, done) {
+  it('should bind the context to the macro', (t, done) => {
     var context = new Context({ foo: 'bar' });
     var library = new Library().define('Blah blah blah', function (next) {
       assert.equal(this.foo, 'bar');
@@ -124,7 +124,7 @@ describe('Interpreter', function () {
     new Interpreter(library).interpret(['Blah blah blah', 'Blah blah blah'], context, done);
   });
 
-  it('should notify listeners of interpreter events', function (t, done) {
+  it('should notify listeners of interpreter events', (t, done) => {
     var library = new Library().define('Blah blah blah');
     var interpreter = new Interpreter(library);
     var listener = new Listener();
@@ -153,22 +153,21 @@ describe('Interpreter', function () {
     done();
   });
 
-  it('should catch errors thrown by asynchronous steps where possible', function () {
-    var library = new Library().define('Blah blah blah', function (next) {
+  it('should catch errors thrown by asynchronous steps where possible', () => {
+    var library = new Library().define('Blah blah blah', (next) => {
       throw new Error('Oh Noes!');
     });
 
-    new Interpreter(library).interpret('Blah blah blah', {}, function (err) {
+    new Interpreter(library).interpret('Blah blah blah', {}, (err) => {
       assert.ok(err);
       assert.equal(err.message, 'Oh Noes!');
     });
   });
 
   function Listener() {
-    var _this = this;
     this.events = [];
-    this.listen = function (event) {
-      _this.events.push(event);
+    this.listen = (event) => {
+      this.events.push(event);
     };
   }
 

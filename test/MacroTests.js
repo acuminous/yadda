@@ -9,8 +9,8 @@ var Dictionary = require('../lib/Dictionary');
 var $ = require('../lib/Array');
 var fn = require('../lib/fn');
 
-describe('Macro', function () {
-  it('should interpret a synchronous step synchronously', function () {
+describe('Macro', () => {
+  it('should interpret a synchronous step synchronously', () => {
     var execution = new Execution();
 
     new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.fn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }));
@@ -21,7 +21,7 @@ describe('Macro', function () {
     assert.deepEqual(execution.ctx, { a: 1, b: 2, step: 'Easy as 1, 2, 3' });
   });
 
-  it('should tolerate too many step arguments for synchronous steps', function () {
+  it('should tolerate too many step arguments for synchronous steps', () => {
     var execution = new Execution();
 
     new Macro('Easy', parsed_signature(/Easy as 1, 2, 3/), execution.fn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }));
@@ -30,7 +30,7 @@ describe('Macro', function () {
     assert.equal(execution.args.length, 0);
   });
 
-  it('should tolerate too few step arguments for synchronous steps', function () {
+  it('should tolerate too few step arguments for synchronous steps', () => {
     var execution = new Execution();
 
     new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d), (\d)/), execution.fn, { a: 1 }).interpret('Easy as 1, 2, 3, 4', new Context({ b: 2 }));
@@ -39,10 +39,10 @@ describe('Macro', function () {
     assert.equal(execution.args.length, 4);
   });
 
-  it('should interpret a synchronous step asynchronously', function (t, done) {
+  it('should interpret a synchronous step asynchronously', (t, done) => {
     var execution = new Execution();
 
-    new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.fn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }), function () {
+    new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.fn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }), () => {
       assert.ok(execution.executed, 'The step was not executed');
       assert.equal(execution.args.length, 3);
       assert.deepEqual(execution.args, [1, 2, 3]);
@@ -51,10 +51,10 @@ describe('Macro', function () {
     });
   });
 
-  it('should interpret an asynchronous step', function (t, done) {
+  it('should interpret an asynchronous step', (t, done) => {
     var execution = new Execution();
 
-    new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.afn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }), function () {
+    new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.afn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }), () => {
       assert.ok(execution.executed, 'The step was not executed');
       assert.equal(execution.args.length, 4);
       assert.deepEqual(execution.args.splice(0, 3), [1, 2, 3]);
@@ -63,28 +63,28 @@ describe('Macro', function () {
     });
   });
 
-  it('should fail when too few step arguments for asynchronous steps', function (t, done) {
+  it('should fail when too few step arguments for asynchronous steps', (t, done) => {
     var execution = new Execution();
 
-    new Macro('Easy', parsed_signature(/Easy as (\d), (\d), 3/), execution.afn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }), function (err) {
+    new Macro('Easy', parsed_signature(/Easy as (\d), (\d), 3/), execution.afn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }), (err) => {
       assert.ok(err);
       done();
     });
   });
 
-  it('should fail when too many step arguments for asynchronous steps', function (t, done) {
+  it('should fail when too many step arguments for asynchronous steps', (t, done) => {
     var execution = new Execution();
 
-    new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d), (\d)/), execution.afn, { a: 1 }).interpret('Easy as 1, 2, 3, 4', new Context({ b: 2 }), function (err) {
+    new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d), (\d)/), execution.afn, { a: 1 }).interpret('Easy as 1, 2, 3, 4', new Context({ b: 2 }), (err) => {
       assert.ok(err);
       done();
     });
   });
 
-  it('should support variadic async functions', function (t, done) {
+  it('should support variadic async functions', (t, done) => {
     var execution = new Execution();
 
-    new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d), (\d)/), execution.vafn, { a: 1 }, undefined, { mode: 'async' }).interpret('Easy as 1, 2, 3, 4', new Context({ b: 2 }), function () {
+    new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d), (\d)/), execution.vafn, { a: 1 }, undefined, { mode: 'async' }).interpret('Easy as 1, 2, 3, 4', new Context({ b: 2 }), () => {
       assert.ok(execution.executed, 'The step was not executed');
       assert.equal(execution.args.length, 5);
       assert.deepEqual(execution.args.splice(0, 4), [1, 2, 3, 4]);
@@ -93,10 +93,10 @@ describe('Macro', function () {
     });
   });
 
-  it('should execute a promisified step', function (t, done) {
+  it('should execute a promisified step', (t, done) => {
     var execution = new Execution();
 
-    new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.promise, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }), function () {
+    new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.promise, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }), () => {
       assert.ok(execution.executed, 'The step was not executed');
       assert.equal(execution.args.length, 3);
       assert.deepEqual(execution.args, [1, 2, 3]);
@@ -105,7 +105,7 @@ describe('Macro', function () {
     });
   });
 
-  it('should include step name in the context', function () {
+  it('should include step name in the context', () => {
     var execution = new Execution();
 
     new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.fn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2 }), fn.noop);
@@ -113,7 +113,7 @@ describe('Macro', function () {
     assert.equal(execution.ctx.step, 'Easy as 1, 2, 3');
   });
 
-  it('should not override step name in the context if explicitly set', function () {
+  it('should not override step name in the context if explicitly set', () => {
     var execution = new Execution();
 
     new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), execution.fn, { a: 1 }).interpret('Easy as 1, 2, 3', new Context({ b: 2, step: 'Do not override' }), fn.noop);
@@ -121,19 +121,19 @@ describe('Macro', function () {
     assert.equal(execution.ctx.step, 'Do not override');
   });
 
-  it('should provide a signature that can be used to compare levenshtein distance', function () {
-    $([/the quick brown fox/, /the quick.* brown.* fox/, /the quick(.*) brown(?:.*) fox/, /the quick[xyz] brown[^xyz] fox/, /the quick{0,1} brown{1} fox/, /the quick\d brown\W fox/]).each(function (pattern) {
+  it('should provide a signature that can be used to compare levenshtein distance', () => {
+    $([/the quick brown fox/, /the quick.* brown.* fox/, /the quick(.*) brown(?:.*) fox/, /the quick[xyz] brown[^xyz] fox/, /the quick{0,1} brown{1} fox/, /the quick\d brown\W fox/]).each((pattern) => {
       assert.equal(new Macro('Quick brown fox', parsed_signature(pattern)).levenshtein_signature(), 'the quick brown fox');
     });
   });
 
-  it('should default to a no operation function', function (t, done) {
-    new Macro('blah $a', parsed_signature(/blah (.*)/)).interpret('blah 1', {}, function () {
+  it('should default to a no operation function', (t, done) => {
+    new Macro('blah $a', parsed_signature(/blah (.*)/)).interpret('blah 1', {}, () => {
       done();
     });
   });
 
-  it('should notify listeners of execute events', function (t, done) {
+  it('should notify listeners of execute events', (t, done) => {
     var listener = new Listener();
 
     EventBus.instance().on(/EXECUTE/, listener.listen);
@@ -150,7 +150,7 @@ describe('Macro', function () {
     done();
   });
 
-  it('should notify listeners of define events', function (t, done) {
+  it('should notify listeners of define events', (t, done) => {
     var listener = new Listener();
 
     EventBus.instance().on(/DEFINE/, listener.listen);
@@ -165,7 +165,7 @@ describe('Macro', function () {
     done();
   });
 
-  it('should interpret a multiline', function () {
+  it('should interpret a multiline', () => {
     var execution = new Execution();
 
     new Macro('Easy', parsed_signature(/Easy as ([^\u0000]*)/), execution.fn, { a: 1 }).interpret('Easy as 1\n2\n3', new Context({ b: 2 }), fn.noop);
@@ -175,7 +175,7 @@ describe('Macro', function () {
     assert.deepEqual(execution.ctx, { a: 1, b: 2, step: 'Easy as 1\n2\n3' });
   });
 
-  it('should convert parameters', function () {
+  it('should convert parameters', () => {
     var execution = new Execution();
 
     new Macro(
@@ -183,13 +183,13 @@ describe('Macro', function () {
       {
         pattern: /Easy as (\d), (\d), (\d)/,
         converters: [
-          function (value, cb) {
+          (value, cb) => {
             cb(null, value * 2);
           },
-          function (value, cb) {
+          (value, cb) => {
             cb(null, value * 3);
           },
-          function (value, cb) {
+          (value, cb) => {
             cb(null, value * 4);
           },
         ],
@@ -202,7 +202,7 @@ describe('Macro', function () {
     assert.deepEqual(execution.args.splice(0, 3), [2, 6, 12]);
   });
 
-  it('should convert parameters with multi-arg converters', function () {
+  it('should convert parameters with multi-arg converters', () => {
     var execution = new Execution();
 
     new Macro(
@@ -210,13 +210,13 @@ describe('Macro', function () {
       {
         pattern: /Easy as (\d), (\d), (\d), (\d)/,
         converters: [
-          function (value, cb) {
+          (value, cb) => {
             cb(null, value * 2);
           },
-          function (value1, value2, cb) {
+          (value1, value2, cb) => {
             cb(null, parseInt(value1) + parseInt(value2));
           },
-          function (value, cb) {
+          (value, cb) => {
             cb(null, value * 3);
           },
         ],
@@ -229,7 +229,7 @@ describe('Macro', function () {
     assert.deepEqual(execution.args.splice(0, 3), [2, 5, 12]);
   });
 
-  it('should convert parameters with multi-result converters', function () {
+  it('should convert parameters with multi-result converters', () => {
     var execution = new Execution();
 
     new Macro(
@@ -237,13 +237,13 @@ describe('Macro', function () {
       {
         pattern: /Easy as (\d), (\d), (\d), (\d)/,
         converters: [
-          function (value, cb) {
+          (value, cb) => {
             cb(null, value * 2);
           },
-          function (value1, value2, cb) {
+          (value1, value2, cb) => {
             cb(null, parseInt(value1), parseInt(value2), parseInt(value1));
           },
-          function (value, cb) {
+          (value, cb) => {
             cb(null, value * 3);
           },
         ],
@@ -256,18 +256,18 @@ describe('Macro', function () {
     assert.deepEqual(execution.args.splice(0, 5), [2, 2, 3, 2, 12]);
   });
 
-  it('should yield errors when called asynchronously', function () {
-    new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), function (a, b, c, cb) {
+  it('should yield errors when called asynchronously', () => {
+    new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), (a, b, c, cb) => {
       throw new Error('Oh Noes!');
-    }).interpret('Easy as 1, 2, 3', {}, function (err) {
+    }).interpret('Easy as 1, 2, 3', {}, (err) => {
       assert.ok(err);
       assert.equal(err.message, 'Oh Noes!');
     });
   });
 
-  it('should throw errors when called synchronously', function () {
-    assert.throws(function () {
-      new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), function (a, b, c) {
+  it('should throw errors when called synchronously', () => {
+    assert.throws(() => {
+      new Macro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), (a, b, c) => {
         throw new Error('Oh Noes!');
       }).interpret('Easy as 1, 2, 3', {});
     }, /Oh Noes!/);
@@ -305,10 +305,10 @@ describe('Macro', function () {
       _this.captureArguments(arguments);
       _this.ctx = this;
       return {
-        then: function (cb) {
+        then: (cb) => {
           cb();
           return {
-            catch: function (cb) {
+            catch: (cb) => {
               _this.caught = true;
             },
           };
@@ -318,16 +318,13 @@ describe('Macro', function () {
     this.captureArguments = function (args) {
       _this.args = this.toArray(args);
     };
-    this.toArray = function (obj) {
-      return [].slice.call(obj, 0);
-    };
+    this.toArray = (obj) => [].slice.call(obj, 0);
   }
 
   function Listener() {
-    var _this = this;
     this.events = [];
-    this.listen = function (event) {
-      _this.events.push(event);
+    this.listen = (event) => {
+      this.events.push(event);
     };
   }
 });

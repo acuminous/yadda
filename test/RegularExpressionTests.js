@@ -4,15 +4,15 @@ var it = nodeTest.it;
 var assert = require('assert');
 var RegularExpression = require('../lib/RegularExpression');
 
-describe('RegularExpression', function () {
-  it('should base equality on underlying RegExp source', function () {
+describe('RegularExpression', () => {
+  it('should base equality on underlying RegExp source', () => {
     assert.ok(new RegularExpression(/abc/).equals(new RegularExpression(/abc/)));
     assert.ok(new RegularExpression('abc').equals(new RegularExpression('abc')));
     assert.ok(new RegularExpression(/abc/).equals(new RegularExpression('abc')));
     assert.ok(new RegularExpression('abc').equals(new RegularExpression(/abc/)));
   });
 
-  it('should provide matching groups', function () {
+  it('should provide matching groups', () => {
     var words = new RegularExpression(/(\d+) (\w+)/g);
     var groups = words.groups('1 the 2 quick 3 brown 4 fox');
     assert.equal(groups.length, 8);
@@ -21,7 +21,7 @@ describe('RegularExpression', function () {
     assert.equal(groups[3], 'quick');
   });
 
-  it('should provide multiline', function () {
+  it('should provide multiline', () => {
     var words = new RegularExpression(/text: ([^\u0000]*)/);
     var groups = words.groups('text: 1\n2\n3');
     assert.equal(groups.length, 1);

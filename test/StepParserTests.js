@@ -4,8 +4,8 @@ var it = nodeTest.it;
 var assert = require('assert');
 var StepParser = require('../lib/index').parsers.StepParser;
 
-describe('StepParser', function () {
-  it('should parse steps', function () {
+describe('StepParser', () => {
+  it('should parse steps', () => {
     var parser = new StepParser();
     var text = ['Given A', '', '   When B   ', '   ', 'Then C'].join('\n');
     var steps = parser.parse(text);

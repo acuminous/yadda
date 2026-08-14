@@ -11,6 +11,7 @@ Yadda 3.0 is a breaking modernization that makes Yadda **Node-only** and removes
 - Removed `lib/shims/` and its `shims` export from `lib/index.js`. Node's `fs`/`path`/`process` are required directly. See https://github.com/acuminous/yadda/issues/322
 - Removed the CasperJS plugin (`lib/plugins/casper`). CasperJS is abandoned and depended on the removed PhantomJS/browser support.
 - Removed the version string from `String(yadda)`. The version's source of truth is now `package.json`. See https://github.com/acuminous/yadda/issues/323
+- The localised `library` factory (e.g. `English.library()`) is now a plain function, not a constructor. Call it without `new` — `new English.library()` no longer works. See https://github.com/acuminous/yadda/issues/332
 
 ### Changed
 
