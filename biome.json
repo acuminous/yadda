@@ -17,10 +17,38 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "preset": "none",
+      "preset": "recommended",
+      "complexity": {
+        "noArguments": "off"
+      },
       "suspicious": {
-        "noControlCharactersInRegex": "off"
+        "noThenProperty": "off"
       }
     }
-  }
+  },
+  "overrides": [
+    {
+      "includes": ["lib/parsers/FeatureParser.js", "lib/parsers/feature/**"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUnusedFunctionParameters": "off"
+          },
+          "suspicious": {
+            "noAssignInExpressions": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["test/**"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noControlCharactersInRegex": "off"
+          }
+        }
+      }
+    }
+  ]
 }

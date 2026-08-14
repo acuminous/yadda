@@ -1,129 +1,126 @@
-var nodeTest = require('node:test');
-var describe = nodeTest.describe;
-var it = nodeTest.it;
-var assert = require('assert');
-var Library = require('../lib/index').Library;
-var Yadda = require('../lib/index').Yadda;
+const { describe, it } = require('node:test');
+const { equal: eq, ifError } = require('node:assert');
+const { Library, Yadda } = require('../lib/index');
 
-describe('Yadda', function () {
-  it('should interpret synchronous scenarios', function () {
-    var executions = 0;
-    var library = new Library().define('foo', function () {
+describe('Yadda', () => {
+  it('should interpret synchronous scenarios', () => {
+    let executions = 0;
+    const library = new Library().define('foo', () => {
       executions++;
     });
     new Yadda(library).yadda('foo');
-    assert.equal(executions, 1);
+    eq(executions, 1);
   });
 
-  it('should interpret asynchronous scenarios', function (t, done) {
-    var executions = 0;
-    var library = new Library().define('foo', function (next) {
+  it('should interpret asynchronous scenarios', (_t, done) => {
+    let executions = 0;
+    const library = new Library().define('foo', (next) => {
       executions++;
       next();
     });
-    new Yadda(library).yadda('foo', function (err) {
-      assert.ifError(err);
-      assert.equal(executions, 1);
+    new Yadda(library).yadda('foo', (err) => {
+      ifError(err);
+      eq(executions, 1);
       done();
     });
   });
 
-  it('should interpret a mix of asynchronous and synchronous scenarios', function (t, done) {
-    var executions = 0;
-    var library = new Library()
-      .define('foo', function (next) {
+  it('should interpret a mix of asynchronous and synchronous scenarios', (_t, done) => {
+    let executions = 0;
+    const library = new Library()
+      .define('foo', (next) => {
         executions++;
         next();
       })
-      .define('bar', function () {
+      .define('bar', () => {
         executions++;
       });
-    new Yadda(library).yadda(['foo', 'bar'], function (err) {
-      assert.ifError(err);
-      assert.equal(executions, 2);
+    new Yadda(library).yadda(['foo', 'bar'], (err) => {
+      ifError(err);
+      eq(executions, 2);
       done();
     });
   });
 
-  it('should interpret asynchronous returning promises', function (t, done) {
-    var executions = 0;
-    var library = new Library().define('foo', function () {
+  it('should interpret asynchronous returning promises', (_t, done) => {
+    let executions = 0;
+    const library = new Library().define('foo', () => {
       executions++;
       return {
-        then: function (cb) {
+        then: (cb) => {
           cb();
           return {
-            catch: function () {},
+            catch: () => {},
           };
         },
       };
     });
-    new Yadda(library).yadda('foo', function (err) {
-      assert.ifError(err);
-      assert.equal(executions, 1);
+    new Yadda(library).yadda('foo', (err) => {
+      ifError(err);
+      eq(executions, 1);
       done();
     });
   });
 
-  it('should interpret asynchronous returning promises', function (t, done) {
-    var executions = 0;
-    var library = new Library().define('foo', function () {
+  it('should interpret asynchronous returning promises', (_t, done) => {
+    let executions = 0;
+    const library = new Library().define('foo', () => {
       executions++;
       return {
-        then: function (cb) {
+        then: (cb) => {
           cb();
           return {
-            catch: function () {},
+            catch: () => {},
           };
         },
       };
     });
-    new Yadda(library).yadda('foo', function (err) {
-      assert.ifError(err);
-      assert.equal(executions, 1);
+    new Yadda(library).yadda('foo', (err) => {
+      ifError(err);
+      eq(executions, 1);
       done();
     });
   });
 
-  it('should cater for people who dont find the recursive api amusing', function () {
-    var Yadda = require('../lib/index');
-    var executions = 0;
-    var library = new Yadda.Library().define('foo', function () {
+  it('should cater for people who dont find the recursive api amusing', () => {
+    const Yadda = require('../lib/index');
+    let executions = 0;
+    const library = new Yadda.Library().define('foo', () => {
       executions++;
     });
-    var yadda = Yadda.createInstance(library);
+    const yadda = Yadda.createInstance(library);
     yadda.run('foo');
-    assert.equal(executions, 1);
+    eq(executions, 1);
   });
 
-  it('should interpret asynchronous variadic steps', function (t, done) {
-    var executions = 0;
-    var library = new Library().define(
+  it('should interpret asynchronous variadic steps', (_t, done) => {
+    let executions = 0;
+    const library = new Library().define(
       'foo',
       function () {
-        var next = arguments[arguments.length - 1];
-        assert.equal(typeof next, 'function');
+        const next = arguments[arguments.length - 1];
+        eq(typeof next, 'function');
         executions++;
         next();
       },
       {},
       { mode: 'async' },
     );
-    new Yadda(library).yadda('foo', function (err) {
-      assert.ifError(err);
-      assert.equal(executions, 1);
+    new Yadda(library).yadda('foo', (err) => {
+      ifError(err);
+      eq(executions, 1);
       done();
     });
   });
 
-  it('should interpret asynchronous localised variadic steps', function (t, done) {
-    var executions = 0;
-    var English = require('../lib').localisation.English;
-    var library = new English.library().given(
+  it('should interpret asynchronous localised variadic steps', (_t, done) => {
+    let executions = 0;
+    const { English } = require('../lib').localisation;
+    const library = English.library().given(
       'foo',
       function () {
-        var next = arguments[arguments.length - 1];
-        assert.equal(typeof next, 'function');
+        const next = arguments[arguments.length - 1];
+        eq(typeof next, 'function');
         executions++;
         next();
       },
@@ -131,9 +128,9 @@ describe('Yadda', function () {
       { mode: 'async' },
     );
 
-    new Yadda(library).yadda('Given foo', function (err) {
-      assert.ifError(err);
-      assert.equal(executions, 1);
+    new Yadda(library).yadda('Given foo', (err) => {
+      ifError(err);
+      eq(executions, 1);
       done();
     });
   });

@@ -1,14 +1,12 @@
-var nodeTest = require('node:test');
-var describe = nodeTest.describe;
-var it = nodeTest.it;
-var assert = require('assert');
-var convert = require('../../lib/converters/list-converter');
+const { describe, it } = require('node:test');
+const { deepEqual: deq, ifError } = require('node:assert');
+const convert = require('../../lib/converters/list-converter');
 
-describe('List Converter', function () {
-  it('Should convert strings to lists', function (t, done) {
-    convert('a\nb\nc', function (err, value) {
-      assert.ifError(err);
-      assert.deepEqual(value, ['a', 'b', 'c']);
+describe('List Converter', () => {
+  it('Should convert strings to lists', (_t, done) => {
+    convert('a\nb\nc', (err, value) => {
+      ifError(err);
+      deq(value, ['a', 'b', 'c']);
       done();
     });
   });
