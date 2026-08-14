@@ -30,7 +30,6 @@
       "suspicious": {
         "noAssignInExpressions": "off",
         "noControlCharactersInRegex": "off",
-        "noGlobalIsNan": "off",
         "noRedeclare": "off",
         "noThenProperty": "off"
       }
