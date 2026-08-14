@@ -5,9 +5,12 @@ Dictionaries simplify steps, let you re-use regular expressions, and convert par
 ## Simple Definitions
 
 ```js
+const Yadda = require('yadda');
+const { English } = Yadda.localisation;
+
 const dictionary = new Yadda.Dictionary().define('gender', /(male|female)/);
 
-const library = Yadda.localisation.English.localise(new Yadda.ContextParamLibrary(dictionary))
+const library = English.localise(new Yadda.ContextParamLibrary(dictionary))
   .given('A $gender user', (ctx, gender) => {
     // Code goes here
   });
@@ -23,7 +26,7 @@ const dictionary = new Yadda.Dictionary()
   .define('street', /(\d+ \w+)/)
   .define('postcode', /([A-Z]{1,2}\d{1,2} \d[A-Z]{2})/);
 
-const library = Yadda.localisation.English.localise(new Yadda.ContextParamLibrary(dictionary))
+const library = English.localise(new Yadda.ContextParamLibrary(dictionary))
   .given('An $address', (ctx, street, postcode) => {
     // Code goes here
   });
@@ -36,7 +39,7 @@ A converter turns matched text into a richer value:
 ```js
 const dictionary = new Yadda.Dictionary().define('num', /(\d+)/, Yadda.converters.integer);
 
-const library = Yadda.localisation.English.localise(new Yadda.ContextParamLibrary(dictionary))
+const library = English.localise(new Yadda.ContextParamLibrary(dictionary))
   .given('A whole number $num', (ctx, number) => {
     // `number` is an integer rather than a string
   });
@@ -64,7 +67,7 @@ function quantityConverter(amount, units, cb) {
 
 const dictionary = new Yadda.Dictionary().define('quantity', /(\d+) (\w+)/, quantityConverter);
 
-const library = Yadda.localisation.English.localise(new Yadda.ContextParamLibrary(dictionary))
+const library = English.localise(new Yadda.ContextParamLibrary(dictionary))
   .given('a delay of $quantity', (ctx, quantity) => {
     // `quantity` is an object with `amount` and `units` fields
   });
@@ -81,7 +84,7 @@ function userConverter(id, cb) {
 
 const dictionary = new Yadda.Dictionary().define('user', /(\w+)/, userConverter);
 
-const library = Yadda.localisation.English.localise(new Yadda.ContextParamLibrary(dictionary))
+const library = English.localise(new Yadda.ContextParamLibrary(dictionary))
   .when('$user logs in', (ctx, user) => {
     // `user` is the entity fetched by userConverter, not just its id
   });

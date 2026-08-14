@@ -17,7 +17,8 @@ The node:test plugin's `init()` **returns** the helper functions, so you destruc
 
 ```js
 const Yadda = require('yadda');
-const { featureFile, scenarios, steps } = Yadda.plugins.nodetest.StepLevelPlugin.init();
+const { nodetest } = Yadda.plugins;
+const { featureFile, scenarios, steps } = nodetest.StepLevelPlugin.init();
 
 new Yadda.FeatureFileSearch('./test/features').each((file) => {
   featureFile(file, (feature) => {
@@ -58,7 +59,8 @@ The mocha/jasmine plugin's `init()` installs its helpers as **globals** (`featur
 
 ```js
 const Yadda = require('yadda');
-Yadda.plugins.mocha.StepLevelPlugin.init();
+const { mocha } = Yadda.plugins;
+mocha.StepLevelPlugin.init();
 
 new Yadda.FeatureFileSearch('./test/features').each((file) => {
   featureFile(file, (feature) => {

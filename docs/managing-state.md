@@ -11,7 +11,10 @@ You supply a context object when you run a scenario. Yadda makes it available to
 The context arrives as the **first argument** to each step, so steps can be arrow functions:
 
 ```js
-const library = Yadda.localisation.English.localise(new Yadda.ContextParamLibrary())
+const Yadda = require('yadda');
+const { English } = Yadda.localisation;
+
+const library = English.localise(new Yadda.ContextParamLibrary())
   .given('a user called $name', (ctx, name) => {
     ctx.users[name] = new User(name);
   })
@@ -27,7 +30,7 @@ Yadda.createInstance(library).run(steps, { users: {} });
 The context is bound to `this.ctx`, so steps must be `function` expressions:
 
 ```js
-const library = Yadda.localisation.English.localise(new Yadda.ContextBoundLibrary())
+const library = English.localise(new Yadda.ContextBoundLibrary())
   .given('a user called $name', function (name) {
     this.ctx.users[name] = new User(name);
   })

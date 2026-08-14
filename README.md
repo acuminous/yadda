@@ -82,11 +82,12 @@ Scenario: Should fall from the wall
 ```js
 const assert = require('node:assert');
 const Yadda = require('yadda');
+const { English } = Yadda.localisation;
 const Wall = require('../../lib/wall');
 
 // A ContextParamLibrary passes the scenario context as the first argument to
 // every step, so steps can be plain arrow functions and never need `this`.
-module.exports = Yadda.localisation.English.localise(new Yadda.ContextParamLibrary())
+module.exports = English.localise(new Yadda.ContextParamLibrary())
   .given('$NUM green bottles are standing on the wall', (ctx, number) => {
     ctx.wall = new Wall(Number(number));
   })
@@ -104,7 +105,8 @@ module.exports = Yadda.localisation.English.localise(new Yadda.ContextParamLibra
 
 ```js
 const Yadda = require('yadda');
-const { featureFile, scenarios, steps } = Yadda.plugins.nodetest.StepLevelPlugin.init();
+const { nodetest } = Yadda.plugins;
+const { featureFile, scenarios, steps } = nodetest.StepLevelPlugin.init();
 
 new Yadda.FeatureFileSearch('./test/features').each((file) => {
   featureFile(file, (feature) => {

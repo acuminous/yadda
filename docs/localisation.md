@@ -25,8 +25,9 @@ Wrap any library with a localisation to gain the `given` / `when` / `then` short
 
 ```js
 const Yadda = require('yadda');
+const { French } = Yadda.localisation;
 
-const library = Yadda.localisation.French.localise(new Yadda.ContextParamLibrary())
+const library = French.localise(new Yadda.ContextParamLibrary())
   .given('un utilisateur nommé $name', (ctx, name) => {})
   .when('$name se connecte', (ctx, name) => {})
   .then('$name est connecté', (ctx, name) => {});

@@ -22,7 +22,10 @@ Yadda ships two step-library flavours. They behave identically except for how th
 A `ContextParamLibrary` passes the scenario context as the **first argument** to every step. Because nothing is bound to `this`, steps can be plain arrow functions.
 
 ```js
-const library = Yadda.localisation.English.localise(new Yadda.ContextParamLibrary())
+const Yadda = require('yadda');
+const { English } = Yadda.localisation;
+
+const library = English.localise(new Yadda.ContextParamLibrary())
   .given('a user called $name', (ctx, name) => {
     ctx.users[name] = new User(name);
   });
@@ -33,7 +36,7 @@ const library = Yadda.localisation.English.localise(new Yadda.ContextParamLibrar
 A `ContextBoundLibrary` binds the scenario context to `this`. Steps must therefore be `function` expressions, not arrow functions.
 
 ```js
-const library = Yadda.localisation.English.localise(new Yadda.ContextBoundLibrary())
+const library = English.localise(new Yadda.ContextBoundLibrary())
   .given('a user called $name', function (name) {
     this.ctx.users[name] = new User(name);
   });
@@ -46,7 +49,7 @@ const library = Yadda.localisation.English.localise(new Yadda.ContextBoundLibrar
 You can write whatever steps you like, but because "Given", "When" and "Then" are so common, Yadda provides localised shorthand methods. Wrap a library with a [localisation](localisation.md) to get them:
 
 ```js
-Yadda.localisation.English.localise(new Yadda.ContextParamLibrary())
+English.localise(new Yadda.ContextParamLibrary())
   .given('some precondition', (ctx) => {})
   .when('I do something', (ctx) => {})
   .then('expect some result', (ctx) => {});
@@ -73,14 +76,14 @@ new Yadda.Library().define(/[Ss]etup a new user/, () => {});
 Use matching groups to extract parameters from the step text:
 
 ```js
-Yadda.localisation.English.localise(new Yadda.ContextParamLibrary())
+English.localise(new Yadda.ContextParamLibrary())
   .given('a user called (\\w+)', (ctx, name) => {});
 ```
 
 Or use dictionary _terms_ to make steps friendlier (see [Dictionaries](dictionaries.md)):
 
 ```js
-Yadda.localisation.English.localise(new Yadda.ContextParamLibrary())
+English.localise(new Yadda.ContextParamLibrary())
   .given('a user called $name', (ctx, name) => {});
 ```
 
@@ -102,7 +105,7 @@ Scenario: Some title
 ```js
 const dictionary = new Yadda.Dictionary().define('csv', /([\s\S]*)/, csvConverter);
 
-Yadda.localisation.English.localise(new Yadda.ContextParamLibrary(dictionary))
+English.localise(new Yadda.ContextParamLibrary(dictionary))
   .given('some csv\n$csv', (ctx, csv) => {});
 ```
 
@@ -116,7 +119,7 @@ And Alice has 2 books
 ```
 
 ```js
-Yadda.localisation.English.localise(new Yadda.ContextParamLibrary())
+English.localise(new Yadda.ContextParamLibrary())
   .given(['$name has $num book', '$name has $num books'], (ctx, name, count) => {});
 ```
 

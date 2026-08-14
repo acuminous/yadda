@@ -28,14 +28,17 @@ The following were removed. If you relied on any of them, stay on 2.x or migrate
 2.x steps typically bound the context to `this` (via `Yadda.Library` / `ContextBoundLibrary`), forcing `function` expressions. 3.0 keeps that working, but also offers `ContextParamLibrary`, which passes the context as the first argument so steps can be arrow functions:
 
 ```js
+const Yadda = require('yadda');
+const { English } = Yadda.localisation;
+
 // 2.x style (still supported)
-Yadda.localisation.English.localise(new Yadda.ContextBoundLibrary())
+English.localise(new Yadda.ContextBoundLibrary())
   .given('a user called $name', function (name) {
     this.ctx.users[name] = new User(name);
   });
 
 // 3.0 recommended
-Yadda.localisation.English.localise(new Yadda.ContextParamLibrary())
+English.localise(new Yadda.ContextParamLibrary())
   .given('a user called $name', (ctx, name) => {
     ctx.users[name] = new User(name);
   });
@@ -49,7 +52,7 @@ Yadda.localisation.English.localise(new Yadda.ContextParamLibrary())
 
 ```js
 // 2.x — no longer works
-const library = Yadda.localisation.English.library(dictionary)
+const library = English.library(dictionary)
   .given('a user called $name', function (name) { /* ... */ });
 ```
 
@@ -57,7 +60,7 @@ That `.library([dictionary])` factory has been **removed**. Construct the librar
 
 ```js
 // 3.0
-const library = Yadda.localisation.English.localise(new Yadda.ContextParamLibrary(dictionary))
+const library = English.localise(new Yadda.ContextParamLibrary(dictionary))
   .given('a user called $name', (ctx, name) => { /* ... */ });
 ```
 
