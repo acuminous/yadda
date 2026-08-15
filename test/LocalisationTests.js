@@ -1,5 +1,5 @@
 const { describe, it } = require('node:test');
-const { equal: eq, fail } = require('node:assert');
+const { equal: eq, fail, ok } = require('node:assert');
 const { Interpreter, ContextBoundLibrary, localisation } = require('../lib/index');
 const Counter = require('./Counter');
 
@@ -211,5 +211,28 @@ describe('Localisation', () => {
     ]);
 
     eq(counter.total(), 18);
+  });
+
+  describe('deprecated library() factory', () => {
+    it('should create and localise a context-bound library', () => {
+      const counter = new Counter();
+      const library = localisation.English.library().given('some text 1', counter.count).when('some text 2', counter.count).then('some text 4', counter.count);
+
+      ok(library instanceof ContextBoundLibrary);
+
+      new Interpreter(library).interpret(['given some text 1', 'when some text 2', 'then some text 4']);
+
+      eq(counter.total(), 3);
+    });
+
+    it('should emit a deprecation warning', (_t, done) => {
+      const onWarning = (warning) => {
+        eq(warning.name, 'DeprecationWarning');
+        ok(warning.message.includes('library() is deprecated'));
+        done();
+      };
+      process.once('warning', onWarning);
+      localisation.English.library();
+    });
   });
 });

@@ -47,17 +47,17 @@ English.localise(new ContextParamLibrary())
 
 `Yadda.Library` remains a deprecated alias for `ContextBoundLibrary`, so existing code keeps working. Migrate to `ContextParamLibrary` at your leisure.
 
-## Removed: the localisation `.library()` shorthand
+## Deprecated: the localisation `.library()` shorthand
 
 2.x let you construct and localise a library in a single call:
 
 ```js
-// 2.x — no longer works
+// 2.x — still works, but now emits a DeprecationWarning
 const library = English.library(dictionary)
   .given('a user called $name', function (name) { /* ... */ });
 ```
 
-That `.library([dictionary])` factory has been **removed**. Construct the library yourself and pass it to `localise()`:
+The `.library([dictionary])` factory is **deprecated**. It still works — creating and localising a `ContextBoundLibrary` — but emits a `DeprecationWarning` and will be removed in a future major release. Construct the library yourself and pass it to `localise()`:
 
 ```js
 import Yadda from 'yadda';

@@ -274,6 +274,11 @@ declare namespace Yadda {
   interface Language {
     is_language: true;
     localise<T extends BaseLibrary>(library: T): T;
+    /**
+     * @deprecated Constructs a context-bound library. Prefer
+     * `localise(new ContextParamLibrary(dictionary))` for arrow-friendly steps.
+     */
+    library(dictionary?: Dictionary): ContextBoundLibrary;
     translate(keyword: string): string;
     supports(keyword: string): boolean;
   }

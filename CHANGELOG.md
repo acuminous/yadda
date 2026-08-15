@@ -12,8 +12,7 @@ Yadda 3.0 is a breaking modernization that makes Yadda **Node-only** and removes
 - Removed the CasperJS plugin (`lib/plugins/casper`). CasperJS is abandoned and depended on the removed PhantomJS/browser support.
 - Removed the version string from `String(yadda)`. The version's source of truth is now `package.json`. See https://github.com/acuminous/yadda/issues/323
 - A specification may now begin with `Rule:` or `Background:`, which starts an implicit feature — consistent with how a specification could already begin with `Scenario:`. Previously these threw "Rule/Background is unexpected at this time". See https://github.com/acuminous/yadda/issues/332
-- The localised library factory has been replaced. `English.library(dictionary)` (which created and localised a library) is gone; instead construct the library yourself and localise it: `English.localise(new ContextBoundLibrary(dictionary))`. This lets any library type be localised — including the new `ContextParamLibrary`. See https://github.com/acuminous/yadda/issues/334
-- Renamed the language keyword-lookup method `Language.localise(keyword)` to `Language.translate(keyword)`, freeing `localise` for the library factory above. This only affects code calling the localisation API directly. See https://github.com/acuminous/yadda/issues/334
+- Renamed the language keyword-lookup method `Language.localise(keyword)` to `Language.translate(keyword)`, freeing `localise` for wrapping libraries (`English.localise(library)`). This only affects code calling the localisation API directly. See https://github.com/acuminous/yadda/issues/334
 
 ### Changed
 
@@ -39,6 +38,7 @@ Yadda 3.0 is a breaking modernization that makes Yadda **Node-only** and removes
 ### Deprecated
 
 - `Library` is now a deprecated alias for `ContextBoundLibrary`. It still works but will be removed in a future major release; prefer `ContextBoundLibrary`. See https://github.com/acuminous/yadda/issues/334
+- `Language.library(dictionary)` (e.g. `English.library(dictionary)`) is deprecated and now emits a `DeprecationWarning`. It still creates and localises a `ContextBoundLibrary`, but will be removed in a future major release. Construct the library yourself and localise it instead: `English.localise(new ContextParamLibrary(dictionary))` for arrow-friendly steps, or `English.localise(new ContextBoundLibrary(dictionary))` to keep `this`-bound steps. This also lets any library type be localised. See https://github.com/acuminous/yadda/issues/334
 
 ### Removed
 
