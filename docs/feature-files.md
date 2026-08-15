@@ -1,6 +1,6 @@
 # Feature Files
 
-While Yadda can interpret any array of strings you write steps for, it also ships a Gherkin-like feature-file parser supporting features, rules, backgrounds, annotations, multiline steps, example tables and comments.
+While Yadda can interpret any array of strings you write steps for, it also ships a Gherkin-like feature-file parser supporting features, rules, backgrounds, annotations, multiline steps, example tables and comments. The same specifications can also be written as [GitHub-flavoured markdown](#markdown-feature-files) so they render nicely on GitHub.
 
 A feature parses into a plain object you can iterate over:
 
@@ -279,3 +279,51 @@ multiline comment
 ```
 
 Multiline comments are demarcated by three or more consecutive `#` characters. Comments may appear anywhere in a feature specification.
+
+## Markdown Feature Files
+
+`MarkdownFeatureParser` parses specifications written as [GitHub-flavoured markdown](https://github.github.com/gfm/), so a feature file renders as a well-formatted document on GitHub rather than as plain text. It produces exactly the same parsed object as `FeatureParser` — a markdown feature and its equivalent `.feature` are interchangeable — so everything described above about features, rules, backgrounds, scenarios, example tables and annotations still applies. Only the surface syntax differs:
+
+```markdown
+@issue=1234
+
+# Feature: 100 Green Bottles
+
+## Background:
+
+- Given a 6ft wall
+
+## Scenario: Bottles should fall from the wall
+
+- Given 100 green bottles are standing on the wall
+- When 1 green bottle accidentally falls
+- Then there are 99 green bottles standing on the wall
+```
+
+Parse it with `MarkdownFeatureParser` (or `MarkdownFeatureFileParser` for a file):
+
+```js
+import Yadda from 'yadda';
+
+const { parsers } = Yadda;
+
+const feature = new parsers.MarkdownFeatureParser().parse(specification);
+```
+
+| Construct | Markdown syntax |
+|---|---|
+| Feature, Rule, Scenario, Background | A heading whose text is the keyword line, e.g. `# Feature: Title`, `## Scenario: Title`. The heading level is cosmetic — only the keyword matters. |
+| Steps | List items, e.g. `- Given some step`. Inside a scenario any plain line is also treated as a step (Yadda scenarios have no description), but the list marker reads best and lets feature/rule descriptions stay as ordinary paragraphs. |
+| Descriptions | Ordinary paragraphs beneath a `Feature:` or `Rule:` heading. |
+| Doc-strings (multiline steps) | A [fenced code block](https://github.github.com/gfm/#fenced-code-blocks) following a step. Its content is captured verbatim (no entity decoding), replacing the `---` dashed delimiters used in `.feature` files. |
+| Example tables | [GitHub tables](https://github.github.com/gfm/#tables-extension-). The `\|---\|` separator row is ignored. |
+| Annotations | `@tag` / `@name=value` on their own line above a construct, exactly as in `.feature` files. |
+| Comments | `>` blockquotes are **visible** comments that render as callouts on GitHub; `<!-- -->` blocks are **hidden** comments a viewer does not render. Both free `#` to mean "heading". |
+
+### Entities
+
+Because markdown renderers treat `<` as the start of an HTML tag, authors typically write entities like `&lt;`, `&gt;` and `&amp;` for literal characters. These are decoded back to `<`, `>` and `&` in prose (titles, steps, descriptions and table cells) so your step implementations receive the rendered text, but left **verbatim** inside fenced doc-strings, where content must be preserved exactly.
+
+> **Note:** entities inside inline code spans (`` `&lt;x&gt;` ``) are decoded along with the surrounding prose. If you need a literal entity, put it in a fenced doc-string.
+
+See the runnable [markdown example](../examples/markdown) for a feature exercising every construct.
