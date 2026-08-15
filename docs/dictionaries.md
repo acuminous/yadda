@@ -118,3 +118,5 @@ const dictionary = new Dictionary().define('user', /(\w+)/, userConverter);
 ```
 
 This is why dictionaries reduce step conflicts _and_ keep steps readable: the messy matching and data-loading lives in the dictionary, and the step signature stays clean.
+
+> **Note:** An asynchronous converter must either take a callback or be declared with the `async` keyword. A plain function that returns a promise will not work — Yadda infers each converter's argument count from its signature, and cannot tell a promise-returning converter apart from a synchronous one.
