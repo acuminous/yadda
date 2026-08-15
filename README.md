@@ -16,6 +16,7 @@ Yadda brings _true_ BDD to JavaScript test frameworks such as [node:test](https:
 - **Small, well-factored codebase.** Just over 2,000 lines of source (excluding tests and examples), built from deliberately tiny functions averaging a few lines each — mostly the feature parser and runner plugins, atop a smaller interpreter core. It is easy to read, easy to reason about, and easy to extend.
 - **High test coverage.** Covered by ~200 meaningful tests at ~87% line / ~98% branch coverage, run against current LTS and current Node.js releases.
 - **True BDD.** Steps map to real functions, so your specifications cannot silently drift away from the behaviour they describe.
+- **Markdown feature files.** Write specifications as GitHub-flavoured markdown so they render beautifully on GitHub, with headings for features and scenarios, list items for steps, fenced blocks for doc-strings, and markdown tables for data. See the [markdown example](examples/markdown).
 - **Unopinionated.** Yadda is not a test runner or a test framework — its one job is to map lines of text to function calls. It plugs into the runner you already use.
 
 ## Yadda vs. Cucumber
