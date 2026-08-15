@@ -53,7 +53,7 @@ Yadda 3.0 is **Node-only** and requires **Node.js >= 20**. In-browser bundles we
 .
 ├── test.js
 ├── lib
-│   └── wall.js
+│   └── Wall.js
 └── test
     ├── features
     │   └── bottles.feature
