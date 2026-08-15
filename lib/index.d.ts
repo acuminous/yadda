@@ -25,10 +25,16 @@ declare namespace Yadda {
   }
 
   /**
-   * A dictionary converter. Receives the captured groups followed by a
-   * Node-style callback, and yields the converted value via `cb(err, value)`.
+   * A dictionary converter. Either receives the captured groups followed by a
+   * Node-style callback and yields the converted value via `cb(err, value)`,
+   * or is an `async` function that receives the captured groups and returns
+   * (or resolves to) the converted value.
    */
-  type Converter = (...args: [...groups: string[], cb: ConverterCallback]) => void;
+  type Converter = CallbackConverter | AsyncConverter;
+
+  type CallbackConverter = (...args: [...groups: string[], cb: ConverterCallback]) => void;
+
+  type AsyncConverter = (...groups: string[]) => Promise<unknown>;
 
   type ConverterCallback = (err: unknown, value?: unknown) => void;
 

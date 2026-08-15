@@ -254,6 +254,61 @@ describe('ContextBoundMacro', () => {
     deq(execution.args.splice(0, 5), [2, 2, 3, 2, 12]);
   });
 
+  it('should convert parameters with async converters', (_t, done) => {
+    const execution = new Execution();
+
+    new ContextBoundMacro(
+      'Easy',
+      {
+        pattern: /Easy as (\d), (\d), (\d)/,
+        converters: [async (value) => value * 2, async (value) => value * 3, async (value) => value * 4],
+      },
+      execution.fn,
+      { a: 1 },
+    ).interpret('Easy as 1, 2, 3', {}, () => {
+      ok(execution.executed, 'The step was not executed');
+      deq(execution.args.splice(0, 3), [2, 6, 12]);
+      done();
+    });
+  });
+
+  it('should convert parameters with multi-arg async converters', (_t, done) => {
+    const execution = new Execution();
+
+    new ContextBoundMacro(
+      'Easy',
+      {
+        pattern: /Easy as (\d), (\d), (\d), (\d)/,
+        converters: [async (value) => value * 2, async (value1, value2) => parseInt(value1, 10) + parseInt(value2, 10), async (value) => value * 3],
+      },
+      execution.fn,
+      { a: 1 },
+    ).interpret('Easy as 1, 2, 3, 4', {}, () => {
+      ok(execution.executed, 'The step was not executed');
+      deq(execution.args.splice(0, 3), [2, 5, 12]);
+      done();
+    });
+  });
+
+  it('should yield errors from rejected async converters', (_t, done) => {
+    new ContextBoundMacro(
+      'Easy',
+      {
+        pattern: /Easy as (\d)/,
+        converters: [
+          async () => {
+            throw new Error('Oh Noes!');
+          },
+        ],
+      },
+      fn.noop,
+    ).interpret('Easy as 1', {}, (err) => {
+      ok(err);
+      eq(err.message, 'Oh Noes!');
+      done();
+    });
+  });
+
   it('should yield errors when called asynchronously', () => {
     new ContextBoundMacro('Easy', parsed_signature(/Easy as (\d), (\d), (\d)/), (_a, _b, _c, _cb) => {
       throw new Error('Oh Noes!');

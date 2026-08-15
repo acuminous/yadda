@@ -131,6 +131,28 @@ describe('Dictionary', () => {
     }, /Wrong number of converters for: \[foo\]/);
   });
 
+  it('should support async converters', () => {
+    const async_converter = async (_a) => {};
+
+    const dictionary = new Dictionary().define('foo', '(1)', [async_converter]);
+    assert_converters(dictionary, '$foo', [async_converter]);
+  });
+
+  it('should support multi-arg async converters', () => {
+    const two_arg_async_converter = async (_a, _b) => {};
+
+    const dictionary = new Dictionary().define('foo', '(1) (2)', [two_arg_async_converter]);
+    assert_converters(dictionary, '$foo', [two_arg_async_converter]);
+  });
+
+  it('should report async converters with the wrong number of matching groups', () => {
+    const two_arg_async_converter = async (_a, _b) => {};
+
+    throws(() => {
+      new Dictionary().define('foo', '(1)', [two_arg_async_converter]);
+    }, /Wrong number of converters for: \[foo\]/);
+  });
+
   function assert_pattern(dictionary, pattern, expected) {
     eq(dictionary.expand(pattern).pattern, expected);
   }

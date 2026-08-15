@@ -70,7 +70,7 @@ const dictionary = new Dictionary();
 
 ### Converters (`Yadda.converters`)
 
-`integer`, `float`, `date`, `list`, `table`, `pass_through`. A custom converter is a function `(group1, group2, …, cb)` that calls `cb(err, value)`.
+`integer`, `float`, `date`, `list`, `table`, `pass_through`. A custom converter is either a callback function `(group1, group2, …, cb)` that calls `cb(err, value)`, or an `async` function `(group1, group2, …)` that returns (or resolves to) the value.
 
 ## FeatureFileSearch
 

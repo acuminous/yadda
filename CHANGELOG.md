@@ -34,6 +34,7 @@ Yadda 3.0 is a breaking modernization that makes Yadda **Node-only** and removes
 - A Playwright example (`examples/playwright`), driving a browser form with Yadda from inside Playwright's own runner (one test per scenario, one `test.step` per step). It demonstrates keeping CSS selectors in the step definitions via a parameterised `I specify $count $field` step, so the feature file stays in business language. See https://github.com/acuminous/yadda/issues/338
 - A Puppeteer example (`examples/puppeteer`), driving the same browser form. Puppeteer has no test runner of its own, so this example brings the `nodetest` plugin and owns the browser lifecycle through `node:test` hooks (launch once, a fresh page per scenario). It shares the parameterised-step abstraction with the Playwright example. See https://github.com/acuminous/yadda/issues/337
 - Hand-written TypeScript definitions (`lib/index.d.ts`), advertised via `package.json`'s `types` field and `exports`. They cover the full public API reached through `require('yadda')` and add no runtime dependencies. See https://github.com/acuminous/yadda/issues/333
+- Dictionary converters may now be declared `async` as an alternative to taking a callback. An `async` converter receives one argument per matching group and returns (or resolves to) the converted value; a rejection is surfaced as a step error. Callback-style converters continue to work unchanged. See https://github.com/acuminous/yadda/issues/351
 
 ### Deprecated
 

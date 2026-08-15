@@ -88,7 +88,7 @@ const library = English.localise(new ContextParamLibrary(dictionary))
 
 ## Sourcing Data
 
-Because converters are **asynchronous** (they receive a callback), they can do more than reshape literals — they can _source_ the value. Combined with [multiline steps](feature-files.md#multiline-steps), a converter can parse an entire document (CSV, XML, JSON, a data table), or fetch an entity from a remote system before the step ever runs:
+Because converters are **asynchronous** (they receive a callback, or may be declared `async`), they can do more than reshape literals — they can _source_ the value. Combined with [multiline steps](feature-files.md#multiline-steps), a converter can parse an entire document (CSV, XML, JSON, a data table), or fetch an entity from a remote system before the step ever runs:
 
 ```js
 import Yadda from 'yadda';
@@ -105,6 +105,16 @@ const library = English.localise(new ContextParamLibrary(dictionary))
   .when('$user logs in', (ctx, user) => {
     // `user` is the entity fetched by userConverter, not just its id
   });
+```
+
+Or the same thing with an `async` converter:
+
+```js
+async function userConverter(id) {
+  return db.findUser(id);
+}
+
+const dictionary = new Dictionary().define('user', /(\w+)/, userConverter);
 ```
 
 This is why dictionaries reduce step conflicts _and_ keep steps readable: the messy matching and data-loading lives in the dictionary, and the step signature stays clean.
