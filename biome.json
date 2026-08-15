@@ -39,7 +39,7 @@
       }
     },
     {
-      "includes": ["lib/parsers/FeatureParser.js", "lib/parsers/feature/**"],
+      "includes": ["lib/parsers/BaseFeatureParser.js", "lib/parsers/FeatureParser.js", "lib/parsers/MarkdownFeatureParser.js", "lib/parsers/feature/**"],
       "linter": {
         "rules": {
           "correctness": {
