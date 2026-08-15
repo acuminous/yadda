@@ -45,7 +45,7 @@ npm install --save-dev yadda
 
 Yadda 3.0 is **Node-only** and requires **Node.js >= 20**. In-browser bundles were removed in 3.0 — see [Migrating to 3.0](docs/migrating-to-3.md).
 
-## tl;dr
+## Usage
 
 ### 1. Decide upon a directory structure
 
