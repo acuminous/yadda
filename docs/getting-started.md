@@ -3,15 +3,17 @@
 Yadda's job is to translate arrays of text (usually called _steps_) into function calls.
 
 ```js
-const Yadda = require('yadda');
+import Yadda from 'yadda';
+
+const { ContextParamLibrary, createInstance } = Yadda;
 
 const steps = ['Step 1', 'Step 2', 'Step 3'];
 
-const library = new Yadda.Library().define(/Step (\d+)/, (number) => {
+const library = new ContextParamLibrary().define(/Step (\d+)/, (ctx, number) => {
   console.log('Step', number);
 });
 
-Yadda.createInstance(library).run(steps);
+createInstance(library).run(steps);
 ```
 
 Running the above from a [Node.js](https://nodejs.org/) shell (after installing Yadda) is the minimum it takes to get Yadda working. To get the most out of it, though, you'll usually integrate it with a test runner such as [node:test](https://nodejs.org/api/test.html), [Mocha](https://mochajs.org/) or [Jasmine](https://jasmine.github.io/).
@@ -33,8 +35,12 @@ Yadda is designed to be used programmatically and plugged into your application 
 The interpreter iterates over arrays of strings, executing the function associated with each string, passing it parameters parsed from that string.
 
 ```js
+import Yadda from 'yadda';
+
+const { createInstance } = Yadda;
+
 const steps = ['Step 1', 'Step 2', 'Step 3'];
-Yadda.createInstance(library).run(steps);
+createInstance(library).run(steps);
 ```
 
 ### Step Libraries
@@ -42,7 +48,11 @@ Yadda.createInstance(library).run(steps);
 Step libraries hold the mapping between strings and functions. The mapping key is a regular expression, which can also parse parameters out of the incoming string.
 
 ```js
-const library = new Yadda.Library().define(/Step (\d+)/, (number) => {
+import Yadda from 'yadda';
+
+const { ContextParamLibrary } = Yadda;
+
+const library = new ContextParamLibrary().define(/Step (\d+)/, (ctx, number) => {
   console.log('Step', number);
 });
 ```
@@ -54,9 +64,13 @@ See [Step Libraries](step-libraries.md) for the full story.
 Dictionaries simplify steps, let you re-use regular expressions, and convert parameters to a desired type.
 
 ```js
-const dictionary = new Yadda.Dictionary().define('num', /(\d+)/, Yadda.converters.integer);
+import Yadda from 'yadda';
 
-const library = new Yadda.Library(dictionary).define('Step $num', (number) => {
+const { Dictionary, ContextParamLibrary, converters } = Yadda;
+
+const dictionary = new Dictionary().define('num', /(\d+)/, converters.integer);
+
+const library = new ContextParamLibrary(dictionary).define('Step $num', (ctx, number) => {
   // `number` is a real integer, not a string
 });
 ```
@@ -68,12 +82,14 @@ See [Dictionaries](dictionaries.md) for more.
 Yadda's most frequent use case is BDD testing, where instead of arrays of strings you supply feature specifications. The `FeatureParser` converts a text-based feature specification into a feature object whose scenarios and steps can be iterated over and passed to the interpreter.
 
 ```js
-const fs = require('node:fs');
-const Yadda = require('yadda');
+import fs from 'node:fs';
+import Yadda from 'yadda';
 
-const yadda = Yadda.createInstance(library);
+const { createInstance, parsers } = Yadda;
+
+const yadda = createInstance(library);
 const specification = fs.readFileSync('path/to/example.feature', 'utf8');
-const feature = new Yadda.parsers.FeatureParser().parse(specification);
+const feature = new parsers.FeatureParser().parse(specification);
 
 console.log(feature.title);
 feature.scenarios.forEach((scenario) => {

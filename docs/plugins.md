@@ -16,14 +16,15 @@ Each comes in two levels:
 The node:test plugin's `init()` **returns** the helper functions, so you destructure them rather than relying on globals:
 
 ```js
-const Yadda = require('yadda');
-const { nodetest } = Yadda.plugins;
+import Yadda from 'yadda';
+import library from './test/steps/bottles-library.js';
+
+const { plugins: { nodetest }, FeatureFileSearch, createInstance } = Yadda;
 const { featureFile, scenarios, steps } = nodetest.StepLevelPlugin.init();
 
-new Yadda.FeatureFileSearch('./test/features').each((file) => {
+new FeatureFileSearch('./test/features').each((file) => {
   featureFile(file, (feature) => {
-    const library = require('./test/steps/bottles-library');
-    const yadda = Yadda.createInstance(library);
+    const yadda = createInstance(library);
 
     scenarios(feature.scenarios, (scenario) => {
       const ctx = {};
@@ -43,7 +44,7 @@ node:test's `t.skip()` marks a test skipped without throwing, so on its own it w
 
 ```js
 steps(scenario.steps, function (step, done) {
-  yadda.run(step, { ctx, test: this }, done); // `this` is the node:test runnable
+  yadda.run(step, { ctx, test: this }, done);
 });
 ```
 
@@ -58,14 +59,15 @@ steps(scenario.steps, function (step, done) {
 The mocha/jasmine plugin's `init()` installs its helpers as **globals** (`featureFile`, `scenarios`, `steps`, `rule`, `rules`, …):
 
 ```js
-const Yadda = require('yadda');
-const { mocha } = Yadda.plugins;
+import Yadda from 'yadda';
+import library from './test/steps/bottles-library.js';
+
+const { plugins: { mocha }, FeatureFileSearch, createInstance } = Yadda;
 mocha.StepLevelPlugin.init();
 
-new Yadda.FeatureFileSearch('./test/features').each((file) => {
+new FeatureFileSearch('./test/features').each((file) => {
   featureFile(file, (feature) => {
-    const library = require('./test/steps/bottles-library');
-    const yadda = Yadda.createInstance(library);
+    const yadda = createInstance(library);
 
     scenarios(feature.scenarios, (scenario) => {
       steps(scenario.steps, (step, done) => {
@@ -83,16 +85,24 @@ Pass `{ container }` to `init()` if you'd rather the helpers were attached to an
 Every plugin also exposes `rule`/`rules` helpers so [feature-file rules](feature-files.md#rules) nest as their own group. Iterate `feature.rules` alongside `feature.scenarios`:
 
 ```js
-featureFile(file, (feature) => {
-  const yadda = Yadda.createInstance(library);
+import Yadda from 'yadda';
+import library from './test/steps/bottles-library.js';
 
-  scenarios(feature.scenarios, (scenario) => {
-    steps(scenario.steps, (step, done) => yadda.run(step, done));
-  });
+const { plugins: { nodetest }, FeatureFileSearch, createInstance } = Yadda;
+const { featureFile, scenarios, steps, rules } = nodetest.StepLevelPlugin.init();
 
-  rules(feature.rules, (rule) => {
-    scenarios(rule.scenarios, (scenario) => {
+new FeatureFileSearch('./test/features').each((file) => {
+  featureFile(file, (feature) => {
+    const yadda = createInstance(library);
+
+    scenarios(feature.scenarios, (scenario) => {
       steps(scenario.steps, (step, done) => yadda.run(step, done));
+    });
+
+    rules(feature.rules, (rule) => {
+      scenarios(rule.scenarios, (scenario) => {
+        steps(scenario.steps, (step, done) => yadda.run(step, done));
+      });
     });
   });
 });

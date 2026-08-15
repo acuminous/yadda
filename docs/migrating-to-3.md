@@ -7,7 +7,7 @@ Yadda 3.0 is a **breaking modernization**. It sheds a large amount of dead tooli
 - **In-browser support was removed.** There is no bundler and no `dist/yadda-*.js` build any more. The old `<script src="…/dist/yadda-*.js">` usage is gone. (Historical `dist/` files remain in the git repository for anyone hotlinking old versions, but no new ones are produced.)
 - End-to-end browser testing is still fully supported — you run your test code in Node and drive a browser with [Puppeteer](../examples/puppeteer) or [Playwright](../examples/playwright). See those examples.
 - **Node.js >= 20 is required.** The `engines` field enforces this.
-- **CommonJS only.** Yadda continues to use `require`/`module.exports`; it has not moved to ESM.
+- **Yadda ships as CommonJS.** The package itself still uses `require`/`module.exports` internally — it has not been rewritten as ESM. You can consume it from either module system: `require('yadda')` from CommonJS, or `import Yadda from 'yadda'` from ESM via Node's interop (a default import, then destructure what you need). The examples in these docs use the `import` form.
 
 ## Removed integrations and tooling
 
@@ -28,17 +28,18 @@ The following were removed. If you relied on any of them, stay on 2.x or migrate
 2.x steps typically bound the context to `this` (via `Yadda.Library` / `ContextBoundLibrary`), forcing `function` expressions. 3.0 keeps that working, but also offers `ContextParamLibrary`, which passes the context as the first argument so steps can be arrow functions:
 
 ```js
-const Yadda = require('yadda');
-const { English } = Yadda.localisation;
+import Yadda from 'yadda';
+
+const { ContextBoundLibrary, ContextParamLibrary, localisation: { English } } = Yadda;
 
 // 2.x style (still supported)
-English.localise(new Yadda.ContextBoundLibrary())
+English.localise(new ContextBoundLibrary())
   .given('a user called $name', function (name) {
     this.ctx.users[name] = new User(name);
   });
 
 // 3.0 recommended
-English.localise(new Yadda.ContextParamLibrary())
+English.localise(new ContextParamLibrary())
   .given('a user called $name', (ctx, name) => {
     ctx.users[name] = new User(name);
   });
@@ -59,8 +60,12 @@ const library = English.library(dictionary)
 That `.library([dictionary])` factory has been **removed**. Construct the library yourself and pass it to `localise()`:
 
 ```js
+import Yadda from 'yadda';
+
+const { ContextParamLibrary, localisation: { English } } = Yadda;
+
 // 3.0
-const library = English.localise(new Yadda.ContextParamLibrary(dictionary))
+const library = English.localise(new ContextParamLibrary(dictionary))
   .given('a user called $name', (ctx, name) => { /* ... */ });
 ```
 

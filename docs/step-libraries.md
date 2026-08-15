@@ -3,11 +3,15 @@
 Step libraries map step text to executable functions. Yadda supports synchronous, asynchronous (callback) and promise-based steps.
 
 ```js
-new Yadda.Library()
-  .define('A synchronous step', () => {
+import Yadda from 'yadda';
+
+const { ContextParamLibrary } = Yadda;
+
+new ContextParamLibrary()
+  .define('A synchronous step', (ctx) => {
     // Code goes here
   })
-  .define('An asynchronous step', (next) => {
+  .define('An asynchronous step', (ctx, next) => {
     // Code goes here
     next();
   });
@@ -22,10 +26,11 @@ Yadda ships two step-library flavours. They behave identically except for how th
 A `ContextParamLibrary` passes the scenario context as the **first argument** to every step. Because nothing is bound to `this`, steps can be plain arrow functions.
 
 ```js
-const Yadda = require('yadda');
-const { English } = Yadda.localisation;
+import Yadda from 'yadda';
 
-const library = English.localise(new Yadda.ContextParamLibrary())
+const { ContextParamLibrary, localisation: { English } } = Yadda;
+
+const library = English.localise(new ContextParamLibrary())
   .given('a user called $name', (ctx, name) => {
     ctx.users[name] = new User(name);
   });
@@ -36,7 +41,11 @@ const library = English.localise(new Yadda.ContextParamLibrary())
 A `ContextBoundLibrary` binds the scenario context to `this`. Steps must therefore be `function` expressions, not arrow functions.
 
 ```js
-const library = English.localise(new Yadda.ContextBoundLibrary())
+import Yadda from 'yadda';
+
+const { ContextBoundLibrary, localisation: { English } } = Yadda;
+
+const library = English.localise(new ContextBoundLibrary())
   .given('a user called $name', function (name) {
     this.ctx.users[name] = new User(name);
   });
@@ -49,7 +58,11 @@ const library = English.localise(new Yadda.ContextBoundLibrary())
 You can write whatever steps you like, but because "Given", "When" and "Then" are so common, Yadda provides localised shorthand methods. Wrap a library with a [localisation](localisation.md) to get them:
 
 ```js
-English.localise(new Yadda.ContextParamLibrary())
+import Yadda from 'yadda';
+
+const { ContextParamLibrary, localisation: { English } } = Yadda;
+
+English.localise(new ContextParamLibrary())
   .given('some precondition', (ctx) => {})
   .when('I do something', (ctx) => {})
   .then('expect some result', (ctx) => {});
@@ -62,13 +75,21 @@ Under the hood these are all just `define` with a localised keyword prefixed ont
 Use regular expressions for fuzzy matching:
 
 ```js
-new Yadda.Library().define('[Ss]etup a new user', () => {});
+import Yadda from 'yadda';
+
+const { ContextParamLibrary } = Yadda;
+
+new ContextParamLibrary().define('[Ss]etup a new user', (ctx) => {});
 ```
 
 Use actual `RegExp` objects to avoid escaping backslashes:
 
 ```js
-new Yadda.Library().define(/[Ss]etup a new user/, () => {});
+import Yadda from 'yadda';
+
+const { ContextParamLibrary } = Yadda;
+
+new ContextParamLibrary().define(/[Ss]etup a new user/, (ctx) => {});
 ```
 
 ## Parameterised Steps
@@ -76,14 +97,22 @@ new Yadda.Library().define(/[Ss]etup a new user/, () => {});
 Use matching groups to extract parameters from the step text:
 
 ```js
-English.localise(new Yadda.ContextParamLibrary())
+import Yadda from 'yadda';
+
+const { ContextParamLibrary, localisation: { English } } = Yadda;
+
+English.localise(new ContextParamLibrary())
   .given('a user called (\\w+)', (ctx, name) => {});
 ```
 
 Or use dictionary _terms_ to make steps friendlier (see [Dictionaries](dictionaries.md)):
 
 ```js
-English.localise(new Yadda.ContextParamLibrary())
+import Yadda from 'yadda';
+
+const { ContextParamLibrary, localisation: { English } } = Yadda;
+
+English.localise(new ContextParamLibrary())
   .given('a user called $name', (ctx, name) => {});
 ```
 
@@ -103,9 +132,13 @@ Scenario: Some title
 ```
 
 ```js
-const dictionary = new Yadda.Dictionary().define('csv', /([\s\S]*)/, csvConverter);
+import Yadda from 'yadda';
 
-English.localise(new Yadda.ContextParamLibrary(dictionary))
+const { Dictionary, ContextParamLibrary, localisation: { English } } = Yadda;
+
+const dictionary = new Dictionary().define('csv', /([\s\S]*)/, csvConverter);
+
+English.localise(new ContextParamLibrary(dictionary))
   .given('some csv\n$csv', (ctx, csv) => {});
 ```
 
@@ -119,7 +152,11 @@ And Alice has 2 books
 ```
 
 ```js
-English.localise(new Yadda.ContextParamLibrary())
+import Yadda from 'yadda';
+
+const { ContextParamLibrary, localisation: { English } } = Yadda;
+
+English.localise(new ContextParamLibrary())
   .given(['$name has $num book', '$name has $num books'], (ctx, name, count) => {});
 ```
 
@@ -128,7 +165,11 @@ Use aliases when you want to map several phrasings to the same function without 
 ## Pending Steps
 
 ```js
-new Yadda.Library().define('Some step');
+import Yadda from 'yadda';
+
+const { ContextParamLibrary } = Yadda;
+
+new ContextParamLibrary().define('Some step');
 ```
 
 Steps defined without a function are skipped.
@@ -186,7 +227,11 @@ Occasionally you may want a variadic step, in which case Yadda cannot count argu
 Yadda can run a scenario against several libraries at once, and it will pick the best-matching step from whichever library provides it. This lets the same phrase mean different things in different contexts without conflicting.
 
 ```js
-const yadda = Yadda.createInstance([bottleSteps, vaseSteps, commonSteps]);
+import Yadda from 'yadda';
+
+const { createInstance } = Yadda;
+
+const yadda = createInstance([bottleSteps, vaseSteps, commonSteps]);
 ```
 
 When more than one library can interpret a step, Yadda scores the candidates (favouring, among other things, the library that satisfied the previous step) and picks a clear winner — dramatically reducing step conflicts on large suites. See the [multi-library example](../examples/multi-library).

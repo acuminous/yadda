@@ -3,7 +3,7 @@
 Everything is reached through the single entry point:
 
 ```js
-const Yadda = require('yadda');
+import Yadda from 'yadda';
 ```
 
 ## Top-level
@@ -29,7 +29,11 @@ const Yadda = require('yadda');
 ## Yadda (the interpreter)
 
 ```js
-const yadda = Yadda.createInstance(library);
+import Yadda from 'yadda';
+
+const { createInstance } = Yadda;
+
+const yadda = createInstance(library);
 ```
 
 | Method | Description |
@@ -52,7 +56,11 @@ After wrapping with a [localisation](localisation.md), a library also gains `giv
 ## Dictionary
 
 ```js
-const dictionary = new Yadda.Dictionary();
+import Yadda from 'yadda';
+
+const { Dictionary } = Yadda;
+
+const dictionary = new Dictionary();
 ```
 
 | Method | Description |
@@ -67,7 +75,11 @@ const dictionary = new Yadda.Dictionary();
 ## FeatureFileSearch
 
 ```js
-new Yadda.FeatureFileSearch('./test/features').each((file) => { /* ... */ });
+import Yadda from 'yadda';
+
+const { FeatureFileSearch } = Yadda;
+
+new FeatureFileSearch('./test/features').each((file) => { /* ... */ });
 ```
 
 | Method | Description |
@@ -77,7 +89,11 @@ new Yadda.FeatureFileSearch('./test/features').each((file) => { /* ... */ });
 ## FeatureParser
 
 ```js
-const feature = new Yadda.parsers.FeatureParser([options]).parse(text, [next]);
+import Yadda from 'yadda';
+
+const { parsers } = Yadda;
+
+const feature = new parsers.FeatureParser([options]).parse(text, [next]);
 ```
 
 `options` may be a localisation (or `{ language, leftPlaceholderChar, rightPlaceholderChar }`). `parse` returns — or passes to `next` — a feature object:
@@ -94,7 +110,9 @@ const feature = new Yadda.parsers.FeatureParser([options]).parse(text, [next]);
 ## EventBus
 
 ```js
-const { EventBus } = require('yadda');
+import Yadda from 'yadda';
+
+const { EventBus } = Yadda;
 EventBus.instance().on(EventBus.ON_STEP, (event) => {});
 ```
 

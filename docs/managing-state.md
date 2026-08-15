@@ -11,10 +11,11 @@ You supply a context object when you run a scenario. Yadda makes it available to
 The context arrives as the **first argument** to each step, so steps can be arrow functions:
 
 ```js
-const Yadda = require('yadda');
-const { English } = Yadda.localisation;
+import Yadda from 'yadda';
 
-const library = English.localise(new Yadda.ContextParamLibrary())
+const { ContextParamLibrary, createInstance, localisation: { English } } = Yadda;
+
+const library = English.localise(new ContextParamLibrary())
   .given('a user called $name', (ctx, name) => {
     ctx.users[name] = new User(name);
   })
@@ -22,7 +23,7 @@ const library = English.localise(new Yadda.ContextParamLibrary())
     ctx.users[name].login();
   });
 
-Yadda.createInstance(library).run(steps, { users: {} });
+createInstance(library).run(steps, { users: {} });
 ```
 
 ### With a ContextBoundLibrary
@@ -30,7 +31,11 @@ Yadda.createInstance(library).run(steps, { users: {} });
 The context is bound to `this.ctx`, so steps must be `function` expressions:
 
 ```js
-const library = English.localise(new Yadda.ContextBoundLibrary())
+import Yadda from 'yadda';
+
+const { ContextBoundLibrary, createInstance, localisation: { English } } = Yadda;
+
+const library = English.localise(new ContextBoundLibrary())
   .given('a user called $name', function (name) {
     this.ctx.users[name] = new User(name);
   })
@@ -38,7 +43,7 @@ const library = English.localise(new Yadda.ContextBoundLibrary())
     this.ctx.users[name].login();
   });
 
-Yadda.createInstance(library).run(steps, { ctx: { users: {} } });
+createInstance(library).run(steps, { ctx: { users: {} } });
 ```
 
 ## How the Context Is Assembled
@@ -46,7 +51,11 @@ Yadda.createInstance(library).run(steps, { ctx: { users: {} } });
 `Yadda.createInstance(libraries, interpreterContext)` accepts an optional _interpreter_ context that applies to every scenario. `yadda.run(steps, scenarioContext, done)` accepts a _scenario_ context for that run. The two are merged, with the scenario context taking precedence.
 
 ```js
-const yadda = Yadda.createInstance(library, { config: globalConfig });
+import Yadda from 'yadda';
+
+const { createInstance } = Yadda;
+
+const yadda = createInstance(library, { config: globalConfig });
 
 yadda.run(scenario.steps, { users: {} }, done);
 // Steps see { config: globalConfig, users: {} }

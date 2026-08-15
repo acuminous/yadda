@@ -80,14 +80,14 @@ Scenario: Should fall from the wall
 `test/steps/bottles-library.js`
 
 ```js
-const assert = require('node:assert');
-const Yadda = require('yadda');
-const { English } = Yadda.localisation;
-const Wall = require('../../lib/wall');
+import assert from 'node:assert';
+import Yadda from 'yadda';
+import Wall from '../../lib/Wall.js';
 
-// A ContextParamLibrary passes the scenario context as the first argument to
-// every step, so steps can be plain arrow functions and never need `this`.
-module.exports = English.localise(new Yadda.ContextParamLibrary())
+const { ContextParamLibrary, localisation: { English } } = Yadda;
+const library = English.localise(new ContextParamLibrary());
+
+export default library
   .given('$NUM green bottles are standing on the wall', (ctx, number) => {
     ctx.wall = new Wall(Number(number));
   })
@@ -104,14 +104,15 @@ module.exports = English.localise(new Yadda.ContextParamLibrary())
 `test.js`
 
 ```js
-const Yadda = require('yadda');
-const { nodetest } = Yadda.plugins;
+import Yadda from 'yadda';
+import library from './test/steps/bottles-library.js';
+
+const { plugins: { nodetest }, FeatureFileSearch, createInstance } = Yadda;
 const { featureFile, scenarios, steps } = nodetest.StepLevelPlugin.init();
 
-new Yadda.FeatureFileSearch('./test/features').each((file) => {
+new FeatureFileSearch('./test/features').each((file) => {
   featureFile(file, (feature) => {
-    const library = require('./test/steps/bottles-library');
-    const yadda = Yadda.createInstance(library);
+    const yadda = createInstance(library);
 
     scenarios(feature.scenarios, (scenario) => {
       const ctx = {};
@@ -125,15 +126,18 @@ new Yadda.FeatureFileSearch('./test/features').each((file) => {
 
 ### 5. Write the code under test
 
-`lib/wall.js`
+`lib/Wall.js`
 
 ```js
-module.exports = function (bottles) {
-  this.bottles = bottles;
-  this.fall = function (n) {
+export default class Wall {
+  constructor(bottles) {
+    this.bottles = bottles;
+  }
+
+  fall(n) {
     this.bottles -= n;
-  };
-};
+  }
+}
 ```
 
 ### 6. Run your tests

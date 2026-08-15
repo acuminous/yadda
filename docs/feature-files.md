@@ -181,7 +181,11 @@ Feature: Some title
 Access them programmatically (the parser lowercases annotation names):
 
 ```js
-const feature = new Yadda.parsers.FeatureParser().parse(specification);
+import Yadda from 'yadda';
+
+const { parsers } = Yadda;
+
+const feature = new parsers.FeatureParser().parse(specification);
 if (feature.annotations.pending) {
   // Do stuff
 }

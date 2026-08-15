@@ -24,10 +24,11 @@ Pull requests for more languages are welcome.
 Wrap any library with a localisation to gain the `given` / `when` / `then` shorthand methods in that language:
 
 ```js
-const Yadda = require('yadda');
-const { French } = Yadda.localisation;
+import Yadda from 'yadda';
 
-const library = French.localise(new Yadda.ContextParamLibrary())
+const { ContextParamLibrary, localisation: { French } } = Yadda;
+
+const library = French.localise(new ContextParamLibrary())
   .given('un utilisateur nommé $name', (ctx, name) => {})
   .when('$name se connecte', (ctx, name) => {})
   .then('$name est connecté', (ctx, name) => {});
@@ -40,6 +41,8 @@ const library = French.localise(new Yadda.ContextParamLibrary())
 The feature parser recognises localised keywords (`Feature`, `Scenario`, `Background`, and so on). To change the language it parses, set `Yadda.localisation.default`:
 
 ```js
+import Yadda from 'yadda';
+
 Yadda.localisation.default = Yadda.localisation.French;
 ```
 

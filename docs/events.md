@@ -3,7 +3,9 @@
 Debugging BDD tests is typically harder than debugging unit tests — not least because you can't step through a feature file. You can make life easier by adding event listeners that log each step as it runs.
 
 ```js
-const { EventBus } = require('yadda');
+import Yadda from 'yadda';
+
+const { EventBus } = Yadda;
 
 EventBus.instance().on(EventBus.ON_EXECUTE, (event) => {
   console.log(event.name, event.data);

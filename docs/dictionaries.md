@@ -5,12 +5,13 @@ Dictionaries simplify steps, let you re-use regular expressions, and convert par
 ## Simple Definitions
 
 ```js
-const Yadda = require('yadda');
-const { English } = Yadda.localisation;
+import Yadda from 'yadda';
 
-const dictionary = new Yadda.Dictionary().define('gender', /(male|female)/);
+const { Dictionary, ContextParamLibrary, converters, localisation: { English } } = Yadda;
 
-const library = English.localise(new Yadda.ContextParamLibrary(dictionary))
+const dictionary = new Dictionary().define('gender', /(male|female)/);
+
+const library = English.localise(new ContextParamLibrary(dictionary))
   .given('A $gender user', (ctx, gender) => {
     // Code goes here
   });
@@ -21,12 +22,16 @@ const library = English.localise(new Yadda.ContextParamLibrary(dictionary))
 Terms may refer to other terms, so you can build complex patterns from small, reusable pieces:
 
 ```js
-const dictionary = new Yadda.Dictionary()
+import Yadda from 'yadda';
+
+const { Dictionary, ContextParamLibrary, localisation: { English } } = Yadda;
+
+const dictionary = new Dictionary()
   .define('address', '$street, $postcode')
   .define('street', /(\d+ \w+)/)
   .define('postcode', /([A-Z]{1,2}\d{1,2} \d[A-Z]{2})/);
 
-const library = English.localise(new Yadda.ContextParamLibrary(dictionary))
+const library = English.localise(new ContextParamLibrary(dictionary))
   .given('An $address', (ctx, street, postcode) => {
     // Code goes here
   });
@@ -37,9 +42,13 @@ const library = English.localise(new Yadda.ContextParamLibrary(dictionary))
 A converter turns matched text into a richer value:
 
 ```js
-const dictionary = new Yadda.Dictionary().define('num', /(\d+)/, Yadda.converters.integer);
+import Yadda from 'yadda';
 
-const library = English.localise(new Yadda.ContextParamLibrary(dictionary))
+const { Dictionary, ContextParamLibrary, converters, localisation: { English } } = Yadda;
+
+const dictionary = new Dictionary().define('num', /(\d+)/, converters.integer);
+
+const library = English.localise(new ContextParamLibrary(dictionary))
   .given('A whole number $num', (ctx, number) => {
     // `number` is an integer rather than a string
   });
@@ -61,13 +70,17 @@ Yadda bundles the following converters, available under `Yadda.converters`:
 Writing your own converter is trivial — define a function that takes one argument per matching group, plus a callback:
 
 ```js
+import Yadda from 'yadda';
+
+const { Dictionary, ContextParamLibrary, localisation: { English } } = Yadda;
+
 function quantityConverter(amount, units, cb) {
   cb(null, { amount: Number(amount), units });
 }
 
-const dictionary = new Yadda.Dictionary().define('quantity', /(\d+) (\w+)/, quantityConverter);
+const dictionary = new Dictionary().define('quantity', /(\d+) (\w+)/, quantityConverter);
 
-const library = English.localise(new Yadda.ContextParamLibrary(dictionary))
+const library = English.localise(new ContextParamLibrary(dictionary))
   .given('a delay of $quantity', (ctx, quantity) => {
     // `quantity` is an object with `amount` and `units` fields
   });
@@ -78,13 +91,17 @@ const library = English.localise(new Yadda.ContextParamLibrary(dictionary))
 Because converters are **asynchronous** (they receive a callback), they can do more than reshape literals — they can _source_ the value. Combined with [multiline steps](feature-files.md#multiline-steps), a converter can parse an entire document (CSV, XML, JSON, a data table), or fetch an entity from a remote system before the step ever runs:
 
 ```js
+import Yadda from 'yadda';
+
+const { Dictionary, ContextParamLibrary, localisation: { English } } = Yadda;
+
 function userConverter(id, cb) {
   db.findUser(id, (err, user) => cb(err, user));
 }
 
-const dictionary = new Yadda.Dictionary().define('user', /(\w+)/, userConverter);
+const dictionary = new Dictionary().define('user', /(\w+)/, userConverter);
 
-const library = English.localise(new Yadda.ContextParamLibrary(dictionary))
+const library = English.localise(new ContextParamLibrary(dictionary))
   .when('$user logs in', (ctx, user) => {
     // `user` is the entity fetched by userConverter, not just its id
   });
