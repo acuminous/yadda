@@ -2,7 +2,7 @@ name: Node.js CI
 
 on:
   push:
-    branches: [master, v3]
+    branches: [master]
   pull_request:
 
 permissions:
