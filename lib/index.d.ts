@@ -272,10 +272,24 @@ declare namespace Yadda {
     parse(file: string, next: (feature: ParsedFeature) => void): void;
   }
 
+  class MarkdownFeatureParser {
+    constructor(options?: FeatureParserOptions | Language);
+    parse(text: string): ParsedFeature;
+    parse(text: string, next: (feature: ParsedFeature) => void): void;
+  }
+
+  class MarkdownFeatureFileParser {
+    constructor(options?: FeatureParserOptions | Language);
+    parse(file: string): ParsedFeature;
+    parse(file: string, next: (feature: ParsedFeature) => void): void;
+  }
+
   interface Parsers {
     StepParser: typeof StepParser;
     FeatureParser: typeof FeatureParser;
     FeatureFileParser: typeof FeatureFileParser;
+    MarkdownFeatureParser: typeof MarkdownFeatureParser;
+    MarkdownFeatureFileParser: typeof MarkdownFeatureFileParser;
   }
 
   const parsers: Parsers;

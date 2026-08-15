@@ -1,0 +1,10 @@
+{
+  "name": "markdown",
+  "version": "0.0.1",
+  "description": "Yadda markdown feature parser sample",
+  "scripts": {
+    "postinstall": "npm --loglevel error link yadda",
+    "test": "node --test test.js"
+  },
+  "license": "Apache2"
+}

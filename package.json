@@ -46,7 +46,11 @@
     "Gherkin",
     "Cucumber",
     "Jasmine",
-    "Mocha"
+    "Mocha",
+    "Markdown",
+    "Puppeteer",
+    "Playwright",
+    "TypeScript"
   ],
   "author": "Stephen Cresswell",
   "license": "ISC",
