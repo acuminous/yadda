@@ -93,6 +93,35 @@ describe('Yadda', () => {
     eq(executions, 1);
   });
 
+  it('should interpret a step object by its name', () => {
+    let executed;
+    const library = new ContextBoundLibrary().define('foo', () => {
+      executed = true;
+    });
+    new Yadda(library).run({ name: 'foo', skip: () => {} });
+    eq(executed, true);
+  });
+
+  it('should interpret an array of step objects by their names', (_t, done) => {
+    const executed = [];
+    const library = new ContextBoundLibrary()
+      .define('foo', () => {
+        executed.push('foo');
+      })
+      .define('bar', () => {
+        executed.push('bar');
+      });
+    const steps = [
+      { name: 'foo', skip: () => {} },
+      { name: 'bar', skip: () => {} },
+    ];
+    new Yadda(library).run(steps, (err) => {
+      ifError(err);
+      eq(executed.join(','), 'foo,bar');
+      done();
+    });
+  });
+
   it('should interpret asynchronous variadic steps', (_t, done) => {
     let executions = 0;
     const library = new ContextBoundLibrary().define(

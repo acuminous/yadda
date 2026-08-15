@@ -17,6 +17,12 @@ declare namespace Yadda {
    */
   type Signature = string | RegExp | Array<string | RegExp>;
 
+  /**
+   * A step accepted by `run`/`yadda`: the step text, or the runnable
+   * ({@link PluginStep}) a step-level plugin passes to its `steps` iterator.
+   */
+  type Step = string | PluginStep;
+
   /** How Yadda should treat a step function's return/arguments. */
   type StepMode = 'sync' | 'async' | 'promise';
 
@@ -56,13 +62,13 @@ declare namespace Yadda {
      * Interprets a scenario (an array of steps, or a single step). `context`
      * merges over the interpreter context. Omit `next` for a synchronous run.
      */
-    yadda(scenario: string | string[], context?: Properties, next?: Callback): void;
-    yadda(scenario: string | string[], next: Callback): void;
+    yadda(scenario: Step | Step[], context?: Properties, next?: Callback): void;
+    yadda(scenario: Step | Step[], next: Callback): void;
     yadda(): this;
 
     /** Alias for {@link yadda}. */
-    run(scenario: string | string[], context?: Properties, next?: Callback): void;
-    run(scenario: string | string[], next: Callback): void;
+    run(scenario: Step | Step[], context?: Properties, next?: Callback): void;
+    run(scenario: Step | Step[], next: Callback): void;
     run(): this;
   }
 
@@ -327,6 +333,16 @@ declare namespace Yadda {
    * on the container (defaulting to `global`); node:test returns them for
    * destructuring.
    */
+  /**
+   * The step passed to a step-level plugin's `steps` iterator. Coerces to its
+   * text wherever a step string is expected, and exposes `skip()` to skip the
+   * step (and abort the remaining steps) at runtime.
+   */
+  interface PluginStep {
+    name: string;
+    skip(message?: string): void;
+  }
+
   interface PluginHelpers {
     featureFiles(files: string | string[], iterator: (feature: ParsedFeature) => void): void;
     featureFile(files: string | string[], iterator: (feature: ParsedFeature) => void): void;
@@ -336,7 +352,7 @@ declare namespace Yadda {
     rule(rules: ParsedRule | ParsedRule[], iterator: (rule: ParsedRule) => void): void;
     scenarios(scenarios: ParsedScenario | ParsedScenario[], iterator: (scenario: ParsedScenario, done?: Callback) => void): void;
     scenario(scenarios: ParsedScenario | ParsedScenario[], iterator: (scenario: ParsedScenario, done?: Callback) => void): void;
-    steps?(steps: string[], iterator: (step: string, done?: Callback) => void): void;
+    steps?(steps: string[], iterator: (step: PluginStep, done?: Callback) => void): void;
   }
 
   interface Plugin {

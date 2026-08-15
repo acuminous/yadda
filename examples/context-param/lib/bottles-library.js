@@ -18,9 +18,9 @@ module.exports = Yadda.localisation.English.localise(new Yadda.ContextParamLibra
   })
 
   .given('the bottle supplier is unavailable', (ctx) => {
-    // The node:test runnable is threaded in as ctx.test (see test.js), so an
+    // The runnable is threaded in as ctx.step (see test.js), so an
     // arrow-function step can skip itself at runtime.
-    ctx.test.skip();
+    ctx.step.skip();
   })
 
   .then('the delivery is recorded', () => {

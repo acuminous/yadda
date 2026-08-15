@@ -29,7 +29,7 @@ module.exports = (function () {
     })
 
     .then('this test should be skipped', (ctx) => {
-      ctx.mocha.skip();
+      ctx.step.skip();
     });
 
   const Wall = function (bottles) {

@@ -1,21 +1,21 @@
 const Yadda = require('yadda');
 Yadda.plugins.mocha.StepLevelPlugin.init();
 
-new Yadda.FeatureFileSearch('features').each(function (file) {
-  featureFile(file, function (feature) {
+new Yadda.FeatureFileSearch('features').each((file) => {
+  featureFile(file, (feature) => {
     const library = require('./bottles-library');
     const yadda = Yadda.createInstance(library);
 
-    scenarios(feature.scenarios, function (scenario) {
-      steps(scenario.steps, function (step, done) {
-        yadda.run(step, { mocha: this }, done);
+    scenarios(feature.scenarios, (scenario) => {
+      steps(scenario.steps, (step, done) => {
+        yadda.run(step, { step }, done);
       });
     });
 
-    rules(feature.rules, function (rule) {
-      scenarios(rule.scenarios, function (scenario) {
-        steps(scenario.steps, function (step, done) {
-          yadda.run(step, { mocha: this }, done);
+    rules(feature.rules, (rule) => {
+      scenarios(rule.scenarios, (scenario) => {
+        steps(scenario.steps, (step, done) => {
+          yadda.run(step, { step }, done);
         });
       });
     });

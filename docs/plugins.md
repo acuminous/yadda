@@ -40,17 +40,17 @@ Run it with `node --test`.
 
 ### Skipping steps at runtime
 
-node:test's `t.skip()` marks a test skipped without throwing, so on its own it would not stop the rest of a scenario. Yadda binds a runnable to each step exposing a `skip()` that both skips and aborts the remaining steps. With a `ContextParamLibrary`, thread the runnable through the context so arrow-function steps can reach it:
+node:test's `t.skip()` marks a test skipped without throwing, so on its own it would not stop the rest of a scenario. The step-level plugin passes each step to your callback as a runnable exposing a `skip()` that both skips and aborts the remaining steps. With a `ContextParamLibrary`, thread the step through the context so arrow-function steps can reach it:
 
 ```js
-steps(scenario.steps, function (step, done) {
-  yadda.run(step, { ctx, test: this }, done);
+steps(scenario.steps, (step, done) => {
+  yadda.run(step, { ctx, step }, done);
 });
 ```
 
 ```js
 .given('the supplier is unavailable', (ctx) => {
-  ctx.test.skip();
+  ctx.step.skip();
 });
 ```
 
