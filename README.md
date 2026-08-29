@@ -156,6 +156,7 @@ node --test
 - [Localisation](docs/localisation.md) — writing features in other languages
 - [Events](docs/events.md) — hooking into scenario/step/execute events for debugging
 - [Feature Files](docs/feature-files.md) — the full feature-file syntax reference
+- [Best Practices](docs/best-practices.md) — guidelines for writing expressive specifications and implementing them well
 - [Plugins](docs/plugins.md) — integrating with node:test, Mocha and Jasmine
 - [API Reference](docs/api-reference.md) — the public API surface
 - [Migrating to 3.0](docs/migrating-to-3.md) — breaking changes from 2.x
