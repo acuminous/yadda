@@ -1,7 +1,7 @@
 const { describe, it } = require('node:test');
 const fs = require('node:fs');
 const path = require('node:path');
-const { equal: eq, deepEqual: deq, ok } = require('node:assert');
+const { equal: eq, deepEqual: deq, ok, throws } = require('node:assert');
 const { parsers } = require('../lib/index');
 const { MarkdownFeatureParser, FeatureParser } = parsers;
 
@@ -54,6 +54,41 @@ describe('MarkdownFeatureParser', () => {
     });
   });
 
+  describe('(Step tables)', () => {
+    it('should capture a table into the preceding step', () => {
+      const scenario = new MarkdownFeatureParser().parse('# Feature: A\n\n## Scenario: S\n\n- Given the following users:\n\n  | name | age |\n  |------|-----|\n  | Bob  | 42  |\n\n- Then there is 1 user\n').scenarios[0];
+      deq(scenario.steps, ['Given the following users:\nname | age\nBob  | 42', 'Then there is 1 user']);
+    });
+
+    it('should capture a table that follows its step without a blank line', () => {
+      const scenario = new MarkdownFeatureParser().parse('# Feature: A\n\n## Scenario: S\n\n- Given the following users:\n  | name | age |\n  |------|-----|\n  | Bob  | 42  |\n').scenarios[0];
+      deq(scenario.steps, ['Given the following users:\nname | age\nBob  | 42']);
+    });
+
+    it('should capture a table into the preceding background step', () => {
+      const feature = new MarkdownFeatureParser().parse('# Feature: A\n\n## Background: B\n\n- Given the following users:\n\n  | name |\n  |------|\n  | Bob  |\n\n## Scenario: S\n\n- Then there is 1 user\n');
+      deq(feature.scenarios[0].steps, ['Given the following users:\nname\nBob', 'Then there is 1 user']);
+    });
+
+    it('should keep the table open across html comments', () => {
+      const scenario = new MarkdownFeatureParser().parse('# Feature: A\n\n## Scenario: S\n\n- Given the following users:\n\n  | name |\n  |------|\n  | Bob  |\n  <!-- hidden note -->\n  | Ann  |\n').scenarios[0];
+      deq(scenario.steps, ['Given the following users:\nname\nBob\nAnn']);
+    });
+
+    it('should decode entities in table cells', () => {
+      const scenario = new MarkdownFeatureParser().parse('# Feature: A\n\n## Scenario: S\n\n- Given the following comparisons:\n\n  | expression |\n  |------------|\n  | a &lt; b   |\n').scenarios[0];
+      deq(scenario.steps, ['Given the following comparisons:\nexpression\na < b']);
+    });
+
+    it('should reject a table in a feature description', () => {
+      throws(() => new MarkdownFeatureParser().parse('# Feature: A\n\n| a | b |\n|---|---|\n| 1 | 2 |\n\n## Scenario: S\n\n- Given A\n'), /Dash is unexpected at this time/);
+    });
+
+    it('should reject a table without a preceding step', () => {
+      throws(() => new MarkdownFeatureParser().parse('# Feature: A\n\n## Scenario: S\n\n| a | b |\n|---|---|\n| 1 | 2 |\n'), /Dash is unexpected at this time/);
+    });
+  });
+
   describe('(Comments)', () => {
     it('should ignore html comments', () => {
       const feature = new MarkdownFeatureParser().parse('<!-- hidden -->\n# Feature: A\n\n<!--\nmulti\nline\n-->\n\n## Scenario: S\n\n- Given A\n');
@@ -87,6 +122,13 @@ describe('MarkdownFeatureParser', () => {
       const outlines = scenarios.filter((s) => s.title === 'applying discount codes');
       eq(outlines.length, 3);
       ok(outlines[0].steps.includes('When I apply the discount code "HALFOFF"'));
+    });
+
+    it('should attach annotations between rows to the following row', () => {
+      const feature = new MarkdownFeatureParser().parse('# Feature: A\n\n## Scenario: S [n]\n\n- Given [n] things\n\n### Examples:\n\n| n |\n|---|\n| 1 |\n@wip\n| 2 |\n');
+      eq(feature.scenarios.length, 2);
+      eq(feature.scenarios[0].annotations.wip, undefined);
+      eq(feature.scenarios[1].annotations.wip, true);
     });
   });
 

@@ -1,5 +1,15 @@
 # Change Log
 
+## 3.2.0
+
+### Added
+
+- Markdown step data tables. In markdown feature files a GitHub table following a step now extends that step as multiline content — the markdown equivalent of the dash-delimited blocks in `.feature` files — so tabular step data renders as a real table on GitHub instead of a fenced code block. Rows reach the step implementation as plain text with the separator row dropped and outer pipes stripped. See [docs/feature-files.md](docs/feature-files.md#step-data-tables).
+
+### Changed
+
+- Because markdown tables now delimit multiline content (emitting the same events as `---` lines in `.feature` files), a table in a feature or rule description — previously captured as description text — is now a parse error, matching the classic format's treatment of dashed blocks in descriptions.
+
 ## 3.1.1
 
 ### Added

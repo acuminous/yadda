@@ -39,6 +39,22 @@ Rules group related scenarios. This paragraph is the rule description.
 - When I add "Widget" to my cart
 - Then my cart total should be 9.99
 
+### Scenario: importing a catalogue from a table
+
+> The table below belongs to the step above it: the rows become part of the
+> step text, while still rendering as a real table on GitHub. Indent it two
+> spaces so it nests under the step's list item.
+
+- Given the following catalogue is imported:
+
+  | product   | price |
+  |-----------|-------|
+  | Doohickey | 4.99  |
+  | Gizmo     | 2.50  |
+
+- When I add "Gizmo" to my cart
+- Then my cart total should be 2.50
+
 ### Scenario: importing a product from a JSON doc-string
 
 - Given the following product is imported:

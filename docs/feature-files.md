@@ -316,9 +316,32 @@ const feature = new parsers.MarkdownFeatureParser().parse(specification);
 | Steps | List items, e.g. `- Given some step`. Inside a scenario any plain line is also treated as a step (Yadda scenarios have no description), but the list marker reads best and lets feature/rule descriptions stay as ordinary paragraphs. |
 | Descriptions | Ordinary paragraphs beneath a `Feature:` or `Rule:` heading. |
 | Doc-strings (multiline steps) | A [fenced code block](https://github.github.com/gfm/#fenced-code-blocks) following a step. Its content is captured verbatim (no entity decoding), replacing the `---` dashed delimiters used in `.feature` files. |
-| Example tables | [GitHub tables](https://github.github.com/gfm/#tables-extension-). The `\|---\|` separator row is ignored. |
+| Step data tables | A [GitHub table](https://github.github.com/gfm/#tables-extension-) following a step. Each row is appended to the step as [multiline content](#structured-multiline-steps) with the outer pipes stripped, exactly as if the rows sat between dashed delimiters in a `.feature` file. Indent the table two spaces so it nests under the step's list item when rendered. |
+| Example tables | [GitHub tables](https://github.github.com/gfm/#tables-extension-) beneath an `Examples:` heading. The `\|---\|` separator row is ignored. |
 | Annotations | `@tag` / `@name=value` on their own line above a construct, exactly as in `.feature` files. |
 | Comments | `>` blockquotes are **visible** comments that render as callouts on GitHub; `<!-- -->` blocks are **hidden** comments a viewer does not render. Both free `#` to mean "heading". |
+
+### Step data tables
+
+A table following a step renders as a real table on GitHub *and* reaches your step implementation as plain multiline text — one line per row, with the separator row dropped and each row trimmed of its outer pipes and padding (interior padding is preserved):
+
+```markdown
+- Given the following catalogue is imported:
+
+  | product   | price |
+  |-----------|-------|
+  | Doohickey | 4.99  |
+```
+
+parses to the step:
+
+```
+Given the following catalogue is imported:
+product   | price
+Doohickey | 4.99
+```
+
+Like dashed blocks in `.feature` files, tables are structural, so they may not appear in feature or rule descriptions. The parser is line-based rather than a full markdown renderer, so a table indented deeply enough that GitHub would render it as an indented code block still parses as a table.
 
 ### Entities
 

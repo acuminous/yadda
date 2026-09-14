@@ -22,6 +22,17 @@ Given the catalogue contains "Widget" priced at 9.99
 When I add "Widget" to my cart
 Then my cart total should be 9.99
 
+@data-table
+Scenario: restocking products
+
+Given the following stock levels:
+---
+product | stock
+Widget  | 3
+Gadget  | 0
+---
+Then "Widget" should be in stock
+
 Scenario Outline: applying discount codes
 
 Given the catalogue contains "Widget" priced at 100.00
@@ -34,3 +45,10 @@ code    | expected
 HALFOFF | 50.00
 TENOFF  | 90.00
 NONE    | 100.00
+
+@pending
+Scenario: emptying the cart
+
+Given a cart with 3 items
+When I empty my cart
+Then my cart total should be 0.00
