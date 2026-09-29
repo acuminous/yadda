@@ -90,13 +90,13 @@ const library = English.localise(new ContextParamLibrary());
 
 export default library
   .given('$NUM green bottles are standing on the wall', (ctx, number) => {
-    ctx.wall = new Wall(Number(number));
+    ctx.state.wall = new Wall(Number(number));
   })
   .when('$NUM green bottle accidentally falls', (ctx, number) => {
-    ctx.wall.fall(Number(number));
+    ctx.state.wall.fall(Number(number));
   })
   .then('there are $NUM green bottles standing on the wall', (ctx, number) => {
-    assert.equal(Number(number), ctx.wall.bottles);
+    assert.equal(Number(number), ctx.state.wall.bottles);
   });
 ```
 
@@ -116,14 +116,16 @@ new FeatureFileSearch('./test/features').each((file) => {
     const yadda = createInstance(library);
 
     scenarios(feature.scenarios, (scenario) => {
-      const ctx = {};
+      const state = {};
       steps(scenario.steps, (step, done) => {
-        yadda.run(step, ctx, done);
+        yadda.run(step, { state }, done);
       });
     });
   });
 });
 ```
+
+Yadda gives each step a fresh copy of the context, so state shared between steps lives on a nested object (`state`) rather than a top-level key. See [Managing State](docs/managing-state.md#a-gotcha-fresh-context-per-step).
 
 ### 5. Write the code under test
 

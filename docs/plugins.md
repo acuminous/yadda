@@ -27,9 +27,9 @@ new FeatureFileSearch('./test/features').each((file) => {
     const yadda = createInstance(library);
 
     scenarios(feature.scenarios, (scenario) => {
-      const ctx = {};
+      const state = {};
       steps(scenario.steps, (step, done) => {
-        yadda.run(step, ctx, done);
+        yadda.run(step, { state }, done);
       });
     });
   });
@@ -38,13 +38,15 @@ new FeatureFileSearch('./test/features').each((file) => {
 
 Run it with `node --test`.
 
+Yadda gives each step a fresh copy of the context, so state shared between steps lives on a nested object (`state`) rather than a top-level key. See [Managing State](managing-state.md#a-gotcha-fresh-context-per-step).
+
 ### Skipping steps at runtime
 
 node:test's `t.skip()` marks a test skipped without throwing, so on its own it would not stop the rest of a scenario. The step-level plugin passes each step to your callback as a runnable exposing a `skip()` that both skips and aborts the remaining steps. With a `ContextParamLibrary`, thread the step through the context so arrow-function steps can reach it:
 
 ```js
 steps(scenario.steps, (step, done) => {
-  yadda.run(step, { ctx, step }, done);
+  yadda.run(step, { state, step }, done);
 });
 ```
 
@@ -70,8 +72,9 @@ new FeatureFileSearch('./test/features').each((file) => {
     const yadda = createInstance(library);
 
     scenarios(feature.scenarios, (scenario) => {
+      const state = {};
       steps(scenario.steps, (step, done) => {
-        yadda.run(step, done);
+        yadda.run(step, { state }, done);
       });
     });
   });
@@ -96,12 +99,14 @@ new FeatureFileSearch('./test/features').each((file) => {
     const yadda = createInstance(library);
 
     scenarios(feature.scenarios, (scenario) => {
-      steps(scenario.steps, (step, done) => yadda.run(step, done));
+      const state = {};
+      steps(scenario.steps, (step, done) => yadda.run(step, { state }, done));
     });
 
     rules(feature.rules, (rule) => {
       scenarios(rule.scenarios, (scenario) => {
-        steps(scenario.steps, (step, done) => yadda.run(step, done));
+        const state = {};
+        steps(scenario.steps, (step, done) => yadda.run(step, { state }, done));
       });
     });
   });
